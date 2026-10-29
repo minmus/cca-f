@@ -138,7 +138,7 @@ The structure that matters is the **link**, not just the list.
 ## Open check question
 
 **Which Q02 option has the same shape as Q01's option A ("have the report generator query the web search agent to re-locate sources")?**
-*My answer:* (pending)
+*Skipped (moved on to Q03).* Answer: **C**. Both try to recover sources by searching or matching after the fact instead of carrying them as data. See the distractor table in [Q03](../questions/Q03-crash-recovery-state-manifest/question.md#same-distractors-new-costume-q01--q02--q03).
 
 ## Related course lessons
 
