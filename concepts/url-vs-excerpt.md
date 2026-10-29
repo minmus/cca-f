@@ -96,9 +96,33 @@ The quote is a **warning** that whatever you leave out is gone. It isn't a defin
 | Draft only | ✅ | ❌ | none | ❌ too little | ✅ |
 | **B: draft + source index** | ✅ | ✅ | none | ✅ | ✅ |
 
-## Open check question
+## Check question 4: draft + a plain list of URLs
 
 **The coordinator passes the report generator the 3K draft plus a plain list of all 25 source URLs, with no mapping between claims and sources. Is that complete? Why or why not?**
+*My answer:* "No, because of the same reason." 🟡 Partial. The verdict is right, but the reason is **related, not the same**.
+
+**What's different:**
+- **Draft only:** the metadata is **missing**. Fix: add the sources.
+- **Draft + URL list:** the metadata is **present but not linked** to claims. Fix: add the **mapping**.
+
+With 25 URLs and dozens of claims, the report generator has to guess which URL backs which claim. That's the same guesswork as Q02's option C, just moved inside the generator, and it produces the **unsupported citations** from check question 1. A plain list is a bibliography, not citations.
+
+**From the guide:**
+- Lesson 1.3: *"A downstream agent can attribute a claim to a source only if the coordinator passes that metadata **with the claim**."*
+- Lesson 5.6: *"A claim-source mapping links one finding to its source."*
+
+The structure that matters is the **link**, not just the list.
+
+| Option | Content (claims) | Metadata (sources) | Claim → source link | Extra (raw pages) | Complete? | Efficient? |
+|---|---|---|---|---|---|---|
+| A: full context | ✅ | ✅ | buried in 138K | ❌ 120K | ✅ | ❌ too much |
+| Draft only | ✅ | ❌ | ❌ | none | ❌ too little | ✅ |
+| Draft + URL list | ✅ | ✅ | ❌ | none | ❌ unlinked | ✅ |
+| **B: draft + source index** | ✅ | ✅ | ✅ | none | ✅ | ✅ |
+
+## Open check question
+
+**Wrap-up: in one line, what three things must a complete handoff to the report generator contain?**
 *My answer:* (pending)
 
 ## Related course lessons
