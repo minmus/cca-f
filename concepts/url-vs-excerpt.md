@@ -120,9 +120,24 @@ The structure that matters is the **link**, not just the list.
 | Draft + URL list | ✅ | ✅ | ❌ | none | ❌ unlinked | ✅ |
 | **B: draft + source index** | ✅ | ✅ | ✅ | none | ✅ | ✅ |
 
+## Check question 5: wrap-up
+
+**In one line, what three things must a complete handoff to the report generator contain?**
+*My answer:* "Draft + sources plus their index." ✅ All three are there.
+
+| Your words | Part | What it gives the report generator |
+|---|---|---|
+| draft | **Content** | The narrative and its claims |
+| sources | **Metadata** | URL + excerpt for each source |
+| their index | **Link** | Which source backs which claim |
+
+**One precision:** the index has to be keyed **by claim** (claim → sources), not by source. A list of sources is just the bibliography from check question 4. Each entry needs to answer "where does *this claim* come from?"
+
+> **Q02 in one line:** a complete handoff = **content + metadata + the claim → source link**, and nothing else.
+
 ## Open check question
 
-**Wrap-up: in one line, what three things must a complete handoff to the report generator contain?**
+**Which Q02 option has the same shape as Q01's option A ("have the report generator query the web search agent to re-locate sources")?**
 *My answer:* (pending)
 
 ## Related course lessons
