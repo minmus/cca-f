@@ -72,9 +72,33 @@ Your answer is step 3. Steps 1–2 come first, because "it's too much" alone doe
 
 > **Rule:** "Complete" means every finding with its metadata. It doesn't mean every token anyone read.
 
-## Open check question
+## Check question 3: is the draft alone "complete"?
 
 **An exam option says: "Pass only the 3K synthesis draft, since it's the most compact complete version of the findings." Is that "complete" in lesson 1.3's sense? Why or why not?**
+*My answer:* "That is complete, as a subagent receives only what the coordinator writes into the subagent's prompt." ❌ Not this time. The quote is right, but it points the **other way**.
+
+**Why the draft alone is not complete:**
+- A finding = **content + metadata** (check question 2). The draft keeps the content (the claims) but has **dropped the metadata** (URLs, excerpts). That's half of each finding.
+- The quote you used is exactly why that's fatal. The report generator gets **only** what's in its prompt, so if no sources are in the prompt, it has no way to cite. Lesson 1.3: *"A downstream agent can attribute a claim to a source only if the coordinator passes that metadata with the claim."*
+- This is Q02's option **C** without the post-processing. Lesson 1.3's exam expectation: *"When a synthesis agent produces unsourced claims, the exam expects you to identify the context passing failure: missing structured metadata."*
+
+**The distinction to keep:**
+- *"A subagent receives only what the coordinator writes into its prompt"* describes what the subagent **has**.
+- "Complete" is about what it **needs** to do its job.
+
+The quote is a **warning** that whatever you leave out is gone. It isn't a definition of complete.
+
+**Compact ≠ complete.** There are two ways to fail:
+
+| Option | Content (claims) | Metadata (sources) | Extra (raw pages) | Complete? | Efficient? |
+|---|---|---|---|---|---|
+| A: full context | ✅ | ✅ | ❌ 120K | ✅ | ❌ too much |
+| Draft only | ✅ | ❌ | none | ❌ too little | ✅ |
+| **B: draft + source index** | ✅ | ✅ | none | ✅ | ✅ |
+
+## Open check question
+
+**The coordinator passes the report generator the 3K draft plus a plain list of all 25 source URLs, with no mapping between claims and sources. Is that complete? Why or why not?**
 *My answer:* (pending)
 
 ## Related course lessons
