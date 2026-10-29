@@ -47,9 +47,34 @@ The excerpt is the **cheapest evidence that still lets the check happen**: a sen
 
 > **Rule:** A URL proves the source exists. An excerpt shows what it says. To check that a claim is faithful to its source, you need the excerpt next to the claim.
 
-## Open check question
+## Check question 2: does "pass both in full" make option A right?
 
 **Lesson 1.3 says the coordinator "must pass both in full". In one sentence, why doesn't that make option A (pass the full accumulated context) correct?**
+*My answer:* "Because that would overwhelm the report generator." 🟡 Partial. Right about the **consequence**, but it doesn't resolve the conflict with the guide's wording.
+
+**The missing piece: "in full" is about findings, not raw material.**
+- A **finding** = content + its metadata. Lesson 1.3, Rule 2: *"Content is the claim, the fact or the analysis."* *"Metadata says where the content came from: source URL, document name, page number."*
+- **B already passes the findings in full:** every claim (in the draft) together with its source (in the index).
+- **A adds the 120K of raw pages.** Those aren't findings. They're what the search agent *read* in order to produce findings.
+
+**The reasoning order the exam rewards:**
+1. B already satisfies "complete".
+2. Everything A adds on top is non-findings.
+3. Those extras cost something. This is where "overwhelm" comes in.
+
+Your answer is step 3. Steps 1–2 come first, because "it's too much" alone doesn't beat a guide rule that literally says "in full".
+
+**"Overwhelm", made precise (D5 › 5.1):**
+- **Lost in the middle:** *"A model may miss findings in the middle of a long context, or may give them less weight."*
+- **Cost and latency:** ~138K tokens per call instead of a few K.
+- **Drift:** with all the raw material in front of it, the report generator may re-synthesize and depart from the approved draft.
+- A bigger context window doesn't fix any of these. The exam is model-agnostic.
+
+> **Rule:** "Complete" means every finding with its metadata. It doesn't mean every token anyone read.
+
+## Open check question
+
+**An exam option says: "Pass only the 3K synthesis draft, since it's the most compact complete version of the findings." Is that "complete" in lesson 1.3's sense? Why or why not?**
 *My answer:* (pending)
 
 ## Related course lessons
