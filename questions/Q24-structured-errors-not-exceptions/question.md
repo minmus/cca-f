@@ -76,7 +76,15 @@ The three failures in the question map to different categories and different nex
 
 **The question names three failures: (1) API temporarily unavailable, (2) malformed tracking ID, (3) shipment doesn't exist. For each one: which category, is it retryable, and what should the agent do or tell the user?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "1: retryable, retry. 2: non-retryable, ask to provide the correct number. 3: non-retryable, ask to verify the shipment." ✅ **Correct on retryability and actions for all three.** This time each answer says **what happens next**, which is exactly the improvement from Q22/Q23. Two small additions: the **category names** were skipped, and two actions can be sharper.
+
+| # | Failure | Category | `isRetryable` | Agent's action |
+|---|---|---|---|---|
+| 1 | API temporarily unavailable | **transient** | ✅ true | Retry, **capped** (2–3 tries). If still failing: "Tracking is temporarily unavailable, please try again shortly." Never "shipment not found" |
+| 2 | Malformed tracking ID | **validation** | ❌ false | Ask the user to check the number, **with the expected format** ("12 characters, starts with TRK") |
+| 3 | Shipment doesn't exist | **business** (not found) | ❌ false | Ask to verify, **and offer the alternative**: look it up by **order number** (named in the question) |
+
+> **A good structured error lets the agent tell the user *what to fix* or *what else to try*, not just "it failed".** Retryable → retry with a cap. Not retryable → change something (input, approach), don't give up.
 
 ## Glossary
 
