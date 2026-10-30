@@ -134,7 +134,14 @@ C contains exactly those two fields. Each other option touches **at most one** g
 
 **For the other business error, "Item already refunded", which facts should the tool's customer-friendly message include?**
 
-*My answer:* (pending)
+*Skipped (moved on to Q35).* Answer: the facts that tell the customer **where their money is**:
+- **When** the refund was issued (date)
+- **How much** was refunded
+- **Where** it went (e.g. "Visa ending 4242")
+- **When it should arrive** (e.g. "5–10 business days")
+- A **refund reference**, if they need to chase it with their bank
+
+Example: *"This item was already refunded on 12 October: $89.99 to your Visa ending 4242. Refunds usually take 5–10 business days to appear (reference RF-55821)."*
 
 ## Glossary
 
