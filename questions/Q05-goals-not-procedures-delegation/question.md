@@ -89,6 +89,22 @@ This might look like it contradicts the "structure beats instructions" rule from
 
 > **Rule:** be strict about **what comes out** and **what's allowed**, and flexible about **how the agent gets there**.
 
+## Check question
+
+**In what situation would procedural steps still be the right choice for a subagent?**
+*My answer:* "Some scheduled task?" 🟡 Partly right. **When** a task runs doesn't decide it. **Whether the steps themselves are a requirement** does. A scheduled task fits when its output must be **comparable** over time (the reproducibility row).
+
+| Situation | Example | Why fixed steps |
+|---|---|---|
+| **Compliance / regulation** | KYC check: verify ID → sanctions list → risk score, in that order | Auditors require the exact steps |
+| **High-stakes actions** | Refund: verify order → check eligibility → then issue refund | A skipped step costs money (D1 › 1.4) |
+| **Reproducibility** | Monthly report with the same queries, so numbers are comparable month to month | Different methods give incomparable results |
+| **Known, stable path** | Format → validate → upload, the same every time | Nothing to adapt to, so freedom only adds risk |
+
+**Twist from Q01/Q04:** if the steps **must** happen, don't put them only in a prompt. Enforce them in **code**: a fixed **workflow** (D1 › 1.6, *When Workflows Outperform Agents*, Udemy A #8) or **prerequisite gates** (D1 › 1.4, Udemy B #49).
+
+> **Goals + criteria** when you want **adaptability**. **Code-enforced steps** when you need **guarantees**. A procedure written only in a prompt gives you neither.
+
 ## Glossary
 
 - **Procedural instruction:** a prompt that specifies the steps (exact queries, filters, order). It's brittle outside the expected cases.
