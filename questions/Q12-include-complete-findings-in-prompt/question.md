@@ -62,6 +62,22 @@ These don't conflict:
 **D1 › 1.3:** *"A subagent receives only what the coordinator writes into the subagent's prompt."* Prompts must include *"complete findings from prior agents."*
 **D1 › 1.2:** *"All communication routes through the coordinator. Subagents never communicate directly with each other…"*
 
+## Check question
+
+**Q12 says pass the *complete* findings, but Q02 said *don't* pass the full accumulated context (120K tokens). Why don't these contradict each other?**
+*My answer:* "Because findings are not context. Findings are the results of what previous agents have done with their contexts, not the context itself." ✅ **Excellent, exactly the distinction.**
+
+| | **Context** (Q02: don't pass it all) | **Findings** (Q12: pass them all) |
+|---|---|---|
+| What it is | Raw inputs + history: pages, conversation, tool calls | **Outputs**: claims, sources, excerpts, gaps, conflicts |
+| Size | Huge (120K) | Compact (15K → 3K) |
+| Value to the next agent | Mostly noise | Exactly what it needs |
+| Rule | Pass **selectively** (Q02 B) | Pass **completely** (Q12 D) |
+
+**Analogy:** a consultant hands you their **report**, not their browser history. You want all of the report and none of the browsing.
+
+**Nuance:** findings carry **excerpts**, small pieces of context that prove each claim ([url-vs-excerpt](../../concepts/url-vs-excerpt.md)). So a little context travels inside the findings, but only as evidence.
+
 ## Glossary
 
 - **Context inheritance:** the (incorrect) idea that a subagent automatically sees its parent's context. In this architecture it doesn't. It sees only its prompt.
