@@ -105,6 +105,29 @@ This might look like it contradicts the "structure beats instructions" rule from
 
 > **Goals + criteria** when you want **adaptability**. **Code-enforced steps** when you need **guarantees**. A procedure written only in a prompt gives you neither.
 
+### Follow-up check
+
+**A refund agent must always verify eligibility before refunding. Prompt instruction, or something else?**
+*My answer:* "Always verify eligibility before proceeding with refunding." ❌ That's the prompt approach, which is the trap.
+
+Guide D1 › 1.4 uses this exact example: *"The prompt works 92% of the time and fails 8% of the time."* … *"A gate works every time. It is code, not a prompt instruction, so it is deterministic."*
+
+**Right answer: a prerequisite gate in code.** The refund tool itself refuses unless eligibility already passed:
+
+```python
+def issue_refund(order_id, amount):
+    if not session.eligibility_verified.get(order_id):      # gate
+        return {"error": "ELIGIBILITY_NOT_VERIFIED",
+                "action": "call check_eligibility(order_id) first"}
+    return payments.refund(order_id, amount)
+```
+
+- The model **can't** skip the step. If it tries, it gets a structured error telling it what to do (D2 › 2.2).
+- **Keep** the prompt instruction too. It helps the model get it right the first time, but the **gate is the guarantee**.
+- Alternatives: a **hook** that blocks `issue_refund` (D1 › 1.5), or a fixed **workflow** where code calls check → refund in order.
+
+> **Exam signal:** "must **always**" / money / compliance → look for **code: a gate, a hook or a workflow**, not a prompt.
+
 ## Glossary
 
 - **Procedural instruction:** a prompt that specifies the steps (exact queries, filters, order). It's brittle outside the expected cases.
