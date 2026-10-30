@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q20)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q21)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.7 · D2 › 2.3 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -52,6 +52,7 @@ flowchart TB
 | **Q18** | "Ready to post. Confirm?": 98% approved in 2 s, errors slip through | **Show the details**: full text, account, time, platform | Reviewers can't catch what they can't see. Fix content, not friction |
 | **Q19** | `get_neighborhood_info(address)` always needs `get_property_details` first | Tool **accepts `property_id`**, resolves the address internally | Inputs = identifiers the agent has. Deterministic steps go into code |
 | **Q20** | Claude omits `user_id` / wrong structure: what helps it *understand*? | **Clear parameter descriptions** (meaning, format, example, required) | Schema = shape, description = meaning, errors = recovery. "Guarantee structure" would flip to schema |
+| **Q21** | Agent over- AND under-escalates on confidence scores | Tool returns scores + **`request_review` flag from tested thresholds** + **`review_reasons`** | Don't let the model interpret raw numbers. Decision in code, per field, with reasons |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
@@ -72,6 +73,7 @@ flowchart TB
 | Fix rubber-stamp approvals with **friction** (type a phrase, waiting period) or **auto-approve** routine cases | Friction ≠ information; auto-approve = less review. Show the decision-relevant details instead | Q18 A, B, C |
 | Tool chain problem → add a **helper tool** / **retries** / **merge into one mega-tool** | Same chain (A), symptom fix (B), over-fetching + listed trap (D). Change the dependent tool's **input** instead | Q19 A, B, D |
 | For "help Claude **understand**": **schema types only** / **verbose names** (`user_id_string_uuid_format`) / **detailed error responses** | Types = shape not meaning; names aren't docs; errors help only **after** a mistake | Q20 A, B, C |
+| **Raw confidence** + few-shot to interpret · **aggregate** quality score · `verified`/`needs_verification` groups without reasons | Model guesses (trap: *"raw… scores without calibration"*); averages hide the bad field; no decision/why | Q21 A, C, D |
 | Keep **one unified tool** + nested object / **if-then-else schema** / **all-optional + few-shot** | Same ambiguity, hidden deeper. Few-shot *"adds token overhead without addressing the root cause"*. Split instead (but don't **merge** similar tools as a first step: also a trap) | Q17 A, B, D |
 | "Subagents **directly** call / **callbacks** / **shared** store / **subscribe** / **queue**" | Breaks hub-and-spoke | Q03 B/C, Q07 A/B/D, Q12 B/C |
 | "Give the subagent **more tools / access**" | Breaks tool scoping. Route back to the coordinator | Q04, Q06 D |
