@@ -48,6 +48,7 @@ flowchart TB
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
+- Policy must hold (e.g. 30-day refunds): **gate inside the tool** or a **PreToolUse hook** → return a **structured error** with "what to do instead" → the model reasons again and self-corrects
 
 ## Distractor signals ❌
 

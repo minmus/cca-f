@@ -92,6 +92,30 @@ This doesn't contradict B: the loop **mechanism** is model reasoning, and gates 
 - Pre-configured: *"the developer hard-codes which tool runs at which point."* That's C and D.
 - Exception: deterministic compliance → *"programmatic enforcement overrides that flexibility."*
 
+## Check question
+
+**Refund policy is 30 days. The model usually escalates for "45 days," but in testing it sometimes calls `process_refund` anyway. What do you add, and where?**
+*My answer:* "The gate to prevent the agent from doing it." ✅ **Correct: a gate.** I went straight to the code-level fix. The *where*:
+
+**Option 1: inside the `process_refund` tool** (most common answer)
+```python
+def process_refund(order_id, amount):
+    order = orders.get(order_id)
+    if order.days_since_purchase > 30:                       # gate
+        return {"error": "REFUND_WINDOW_EXCEEDED",
+                "days": order.days_since_purchase,
+                "action": "call escalate_to_human with the order details"}
+    return payments.refund(order_id, amount)
+```
+
+**Option 2: a PreToolUse hook** (D1 › 1.5) that intercepts every `process_refund` call before it runs and blocks it when the policy fails. Useful for keeping policy checks central, outside the tool code.
+
+**Two details that make it complete:**
+1. **Return a structured error, not just "no".** It tells the model what to do instead. The model reads the `tool_result`, reasons again, and calls `escalate_to_human`, so the **loop corrects itself** (Q13 mechanism + D2 › 2.2).
+2. **Keep the policy in the prompt too.** It helps the model choose right most of the time. The **gate guarantees** it every time.
+
+> **Model decides → gate guarantees → structured error steers the loop back.**
+
 ## Glossary
 
 - **Agentic loop:** a repeating cycle of model request → tool call → tool result appended → model request, until `stop_reason == "end_turn"`.
