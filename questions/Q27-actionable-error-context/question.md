@@ -72,7 +72,23 @@ The audience of an error result is the **model**, and through it the **user**. W
 
 **Option C sets `is_error: false` and says the command is "pending". What will the user experience, and which earlier question had the same kind of trap?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "It will just imitate success and the user will not know what the true situation is." ✅ **Correct on the experience.** The second part (which earlier question) wasn't answered; added below, plus a concrete scenario.
+
+**Made concrete:** smart home makes it serious.
+
+| User asks | Agent says (with C) | Reality | Consequence |
+|---|---|---|---|
+| "Lock the front door" | "Done, command sent ✓" | Lock never responded | User leaves home with the door **unlocked** |
+| "Turn off the oven" | "Done ✓" | Oven still on | Safety risk |
+| "Turn on the lamp" | "Done ✓" | Lamp off | User tries again, confused, loses trust |
+
+And because the result says **success**, the agent won't retry, won't troubleshoot and won't warn. **Nobody** knows something failed.
+
+**Earlier questions with the same trap:**
+- **[Q22](../Q22-empty-result-is-not-error/question.md)**, the "opposite trap": *"Silently returning empty results as success"*, where a failure is disguised as success, so nobody *"can tell 'found nothing' from 'could not search'."*
+- **[Q26](../Q26-timeout-unknown-status-no-retry/question.md)**: the result must be **truthful** about an unknown outcome. Q26's tool falsely said "failed"; C falsely says "success". Both are wrong for the same reason.
+
+> **Never report an unconfirmed action as success.** A false success is worse than an error: the error at least gets handled.
 
 ## Glossary
 
