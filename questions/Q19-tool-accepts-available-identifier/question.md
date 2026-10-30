@@ -82,7 +82,20 @@ That's **two model round-trips**, an **extra failure point**, and an extra reaso
 
 **With C, the tool still looks up the address internally, so it still depends on the property data. Hasn't the failure coupling just moved? Why is C still better?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Because it is done within a single call." 🟡 **True, but that's half the reason.** One call fixes the **latency**. The bigger gain is **who** handles the dependency.
+
+**Honest part first:** yes, the dependency still exists. C doesn't remove it; it moves it **from the model into code**, and that changes everything:
+
+| | **Before** (model handles the chain) | **After C** (code handles it) |
+|---|---|---|
+| Who extracts the address | The **model** reads the property data and copies the address (probabilistic: could pick the wrong field or mistype) | **Code**: `address = db.get_address(id)` (deterministic) |
+| What's fetched | Full property details (big response in the context) | Just the address, internally. Nothing extra in the context |
+| Round-trips | 2 model calls | 1 model call |
+| If the lookup fails | Model gets a raw failure, has to reason about it | Tool can retry internally, use a cache, or return **one structured error** (2.2) |
+
+**Why it's better in one line:** deterministic steps (id → address) belong in **code**, not in the model's reasoning. Same rule as extract-first and the gates in Q13.
+
+> **C doesn't remove the dependency. It moves it from probabilistic model reasoning into deterministic code inside the tool.**
 
 ## Glossary
 
