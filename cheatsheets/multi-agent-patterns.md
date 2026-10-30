@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q15)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q16)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.7 · D2 › 2.3 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -47,6 +47,7 @@ flowchart TB
 | **Q13** | After `lookup_order`, refund or escalate? | Tool result **appended to the conversation**, and the **model reasons** about the next action | Code runs tools + checks `stop_reason`. The model chooses. Gates in tools enforce must-hold rules |
 | **Q14** | Escalate a $847 refund; human can't see the transcript | **Structured summary**: customer ID, root cause, amount, recommended action (+ what was tried) | Self-contained, decision-ready. Conclusions, not raw history |
 | **Q15** | Mid-process: promo pricing error needs manager approval | **Compile a structured handoff** (customer, order, issue) **before** `escalate_to_human` | Stop at the authority limit. Package what you already found. Don't try the action anyway |
+| **Q16** | Which escalation trigger is most reliable? | **Instruct**: human requested · policy exception/gap · no meaningful progress | The 3 valid triggers (5.2). Judgment calls → model; computable limits → gate |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
@@ -62,6 +63,8 @@ flowchart TB
 | Handoff with **only** diagnosis + amount, or **only** raw excerpts / **only the original message** | Not self-contained: no ID / root cause / recommended action, so the human re-investigates | Q14 B, C · Q15 C |
 | "**Persist** full history to a DB, pass a **reference ID**" | Raw, not decision-ready. The human has to dig. Fine for audit **in addition**, not instead | Q15 B (cf. Q12 C) |
 | "**Attempt the action anyway**, escalate only if the system **rejects** it" | Acts beyond authority on purpose. A gate is a safety net, not a strategy, and it may not catch this case | Q15 D |
+| Escalate on **sentiment / frustration score** or **self-reported confidence** | *"Frustration does not correlate with case complexity."* Confidence is *"poorly calibrated"* | Q16 A |
+| Escalate after **N failed attempts** / **rules engine** by category, "removing model judgment" | Arbitrary proxies. Miss policy gaps and explicit human requests. A count is a safety cap, not the trigger | Q16 B, D |
 | "Subagents **directly** call / **callbacks** / **shared** store / **subscribe** / **queue**" | Breaks hub-and-spoke | Q03 B/C, Q07 A/B/D, Q12 B/C |
 | "Give the subagent **more tools / access**" | Breaks tool scoping. Route back to the coordinator | Q04, Q06 D |
 | "**Remove all detail**: 'research X thoroughly'" | Overcorrection. Loses quality criteria | Q05 C |
