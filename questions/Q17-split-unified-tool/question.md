@@ -82,7 +82,18 @@ This is **"structure beats instructions"** applied to tool design: make the wron
 
 **Option B *also* uses structure (JSON Schema enforces the rules deterministically). Your cheat sheet says "structure beats instructions". So why is B still worse than C?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "It is not the tool requesting parameters, it is the caller that is supposed to provide the right fields." ✅ **Correct core idea.** With B the model (the caller) still has to **work out** which fields go with which operation. The schema only checks the result.
+
+Sharpened into the exam wording: **B detects errors, C prevents them.**
+
+| | **B** (if-then-else schema) | **C** (three tools) |
+|---|---|---|
+| What the model sees | One tool, all fields, plus conditional rules to follow | Only the fields for the chosen operation |
+| What the model must figure out | "Type = refund → amount + reason required, address not allowed…" | Nothing: every field listed is required |
+| When errors are caught | **After** the call: rejected → error → retry | **Never made:** irrelevant fields don't exist |
+| Effect on accuracy | Same mistakes, just caught later (extra round-trips) | Mistakes are impossible to express |
+
+> **Good structure makes the right call obvious, not just the wrong call rejected.** Validation is a safety net (like a gate in Q15); it isn't the fix for the design.
 
 ## Glossary
 
