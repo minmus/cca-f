@@ -130,6 +130,32 @@ So the agent's **playbook is fine**. What it lacks is the **signal** to choose b
 
 **Option C lists three categories, but the guide has a fourth: business. Give an example of a business error for this support agent, and say whether it's retryable and what the agent should do.**
 
+*My answer:* "E.g. 'Policy violation', `isRetryable: false`, try an alternative workflow." 🟡 **Two of three.** `isRetryable: false` ✅ and "alternative workflow" ✅ match the guide exactly (*"do not retry. The agent needs an alternative workflow"*). But "policy violation" is the **category's definition**, not a concrete **example**. On the exam you have to recognise the category from a concrete case, so practise naming one.
+
+**Concrete business errors for this support agent:**
+
+| Case | Category | `isRetryable` | Alternative workflow |
+|---|---|---|---|
+| Refund of $750 exceeds the **$500 automatic limit** (Q31) | business | ❌ false | **Escalate** to a human, with a self-contained handoff summary (Q14) |
+| Return requested on day 45, outside the **30-day window** (Q13) | business | ❌ false | Explain the policy. If the customer asks for an exception, escalate (Q16: policy exception) |
+
+The first one is the guide's own example: *"a refund above the automatic limit is a business error, so the agent escalates the refund to a person."*
+
+**Business vs. validation** (both are `isRetryable: false`, but the next step differs):
+
+| | What's wrong | Next step |
+|---|---|---|
+| **Validation** | The **input** is bad (wrong ID, bad format) | **Fix the input** and send a corrected call |
+| **Business** | The input is fine, but **policy forbids** the action | **Don't** change the input to get around the rule. Take a **different path** (escalate, explain, offer an alternative) |
+
+Splitting a $750 refund into two $375 refunds would not be an "alternative workflow". It would be circumventing the policy.
+
+> **Validation → fix the input and resend. Business → the request is valid but not allowed, so change the path, not the input.**
+
+### Follow-up check question
+
+**Classify each error (transient / validation / business / permission) and say whether it's retryable: (1) the API returns 429 rate limit, (2) refunds are blocked because the customer's account is suspended, (3) the date was sent as "30/10/2026" but the API expects "2026-10-30", (4) the agent's API key has expired.**
+
 *My answer:* (pending)
 
 ## Glossary
