@@ -99,6 +99,7 @@ flowchart TB
 |---|---|
 | Must **always** happen (money, compliance) | **Prerequisite gate** in the tool / **hook** / fixed **workflow** in code |
 | Confidence threshold for review? (Q21) | **Per field**, **tested** on a validation set (known answers), **stricter where mistakes are costly** (amount > vendor). Never one made-up number for all |
+| Tool result types (Q22, 2.2) | 0 matches → `success: true, results: []` · **transient** (timeout) → `isError`, `isRetryable: true`, capped retry · **validation** → fix input · **business** → explain/alternative/escalate · **permission** → escalate. Never report a failure as "no results" |
 | Schema vs description vs code check? (Q20) | **Valid ≠ correct.** Schema → valid shape · description → correct meaning (likely) · code check (e.g. ID belongs to session) → guaranteed |
 | Is a review / confirmation step working? (Q18) | Measure **outcomes** (incidents, errors caught, rejections/edits), not **behaviour** (approval rate, seconds). High approval is fine if the items are correct |
 | Instruct or gate? (Q16) | Condition is **plain data** (`amount > 500`, `days > 30`) → **gate**. Needs **understanding** (policy gap, progress, "wants a human") → **instruct** with clear criteria. ❌ Circular gate: `if escalation_required` |

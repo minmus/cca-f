@@ -85,7 +85,35 @@ The guide also lists the **opposite** trap: *"Silently returning empty results a
 
 **The API times out (no response). What should the tool return now, and what should the agent do?** (Use the fields from D and the guide's error categories.)
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Transient error." 🟡 **Correct category, but only one of the three parts** (what the tool returns, what the agent does, what happens if it keeps failing).
+
+**1. What the tool returns:**
+```json
+{
+  "isError": true,
+  "category": "transient",
+  "isRetryable": true,
+  "message": "Catalog API timed out after 10s"
+}
+```
+
+**2. What the agent does:**
+- `isError: true` → the model knows the search **didn't run** (not "no products").
+- `isRetryable: true` → **retry the same search**, with a limit (e.g. 2–3 tries, with a short wait between).
+
+**3. If it keeps failing:**
+- Stop retrying. Tell the user the catalog is **temporarily unavailable**, or escalate / report it upstream.
+- ❌ **Never** tell the user "we have no matching products". That would turn a failure into a false answer (the *"silently returning empty results as success"* trap).
+
+| Situation | Category | `isRetryable` | Agent's move |
+|---|---|---|---|
+| 0 matches (Q22) | not an error | — | Report "no matches" or try a **different** query |
+| Timeout / 503 | **transient** | ✅ true | Retry the **same** request, capped |
+| Bad input (e.g. invalid filter) | validation | ❌ false | **Fix** the input, then call again |
+| Policy says no | business | ❌ false | Explain / offer an alternative / escalate |
+| Not allowed | permission | ❌ false | Escalate or ask for access |
+
+> **Category tells the agent *why*; `isRetryable` tells it *whether the same call can work*; a retry cap stops it looping.** `false` doesn't mean give up: *"None of the three non-retryable categories means abandon the task."*
 
 ## Glossary
 
