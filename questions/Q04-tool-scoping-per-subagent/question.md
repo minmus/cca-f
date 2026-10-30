@@ -75,6 +75,28 @@ This is the same structural-beats-instructions theme as Q01: removing access is 
 - *"Each agent gets only the tools that its defined role needs."*
 - The 18 vs 4–5 figure is *"an illustration, not a hard limit."* The lesson notes that current docs place the degradation point at **30–50 tools**. For the exam, use the guide's 18 vs 4–5 framing.
 
+## Check question
+
+**The synthesis agent genuinely needs to confirm a fact about once per report. Which design is better?**
+1. Full `web_search` tool + system prompt "only search to verify facts."
+2. Narrow `verify_fact(claim)` tool, and route anything more complex back to the coordinator.
+
+*My answer:* "Give it a narrow `verify_fact(claim)` tool, and route anything more complex back to the coordinator." ✅
+
+**Why option 2 wins:**
+
+| | Option 1: full `web_search` + prompt | Option 2: narrow `verify_fact` + route to coordinator |
+|---|---|---|
+| **What limits misuse** | An instruction, which is **probabilistic** | The tool's design, which is **deterministic** |
+| **What the agent can do** | Any search, any time | Only check one claim |
+| **Selection reliability** | Broad tool, easy to over-use | Narrow purpose, hard to misuse |
+| **Complex cases** | Synthesis agent goes off researching | **Coordinator** decides; roles stay clean |
+
+Three principles in one answer:
+1. **Least privilege:** the tool *"does exactly what the agent needs and nothing more"* (D2 › 2.3).
+2. **Structure beats instructions:** the limit is in the tool, not the prompt (Q01, D1 › 1.4).
+3. **The coordinator owns the routing:** anything outside the agent's role goes back up (D1 › 1.2).
+
 ## Exam-adjacent: `tool_choice` (same lesson)
 
 | Value | Behaviour | Use for |
