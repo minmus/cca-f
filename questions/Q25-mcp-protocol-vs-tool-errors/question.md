@@ -84,7 +84,21 @@ In the 2025-11-25 spec, **input validation errors** (e.g. *"date in wrong format
 
 **Why does MCP send errors 2 and 3 back as tool results (`isError`) rather than protocol errors? Think about who reads each kind of error and what they can do with it.**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Because to produce errors 2 and 3 the tool actually ran, while for error 1 it couldn't even start." 🟡 **That's the correct *rule* (how to sort them), but the question asked *why* MCP is designed that way.** The "why" is about **who reads the error and what they can do with it**:
+
+| | **Protocol error** (error 1) | **`isError` tool result** (errors 2, 3) |
+|---|---|---|
+| Who handles it | The **client / application code** (plumbing) | The **model**: it's a normal result in the conversation |
+| Spec | Clients *"MAY"* pass it to the model; *"less likely to result in successful recovery"* | Clients *"SHOULD provide tool execution errors to language models to enable self-correction"* |
+| What can be done | Fix the integration / the call structure | The model **reasons and acts** |
+
+What the model can do with errors 2 and 3, because it **sees** them:
+- **404 (user not in calendar):** tell the user *"I can't find anna@… in the calendar. Is the email correct?"* (business/not-found, not retryable)
+- **503 (service down):** retry a few times, then *"The calendar is temporarily unavailable"* (transient, retryable)
+
+If these were protocol errors, the model might never see them, and we're back to Q24's *"I'm having trouble with that request."*
+
+> **`isError` exists so the model can see the failure and recover.** Problems the model can act on → `isError`. Broken plumbing → protocol error.
 
 ## Glossary
 
