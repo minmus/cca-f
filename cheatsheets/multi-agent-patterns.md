@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns (Q01–Q07)
+# Cheat sheet: Multi-agent patterns (Q01–Q08)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.7 · D2 › 2.3 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -34,6 +34,7 @@ flowchart TB
 | **Q05** | Subagent gives up, misses new angles | **Goals + quality criteria**, not steps | Delegate the *what* and *how good*, not the *how* |
 | **Q06** | Synthesis flags gaps, coordinator ignores them | Coordinator **evaluates → re-delegates targeted → re-synthesizes** | Closed loop with a cap. After the cap: report gaps / escalate |
 | **Q07** | How search → doc analysis info flows | Coordinator **includes findings in the next prompt** | Hub-and-spoke. If it's not in the prompt, the subagent doesn't know it |
+| **Q08** | Conflicting estimates: false certainty or vague hedging | Report sections for **established vs contested**, preserving each source's value + method | Annotate conflicts. Don't pick, average or filter |
 
 ## Distractor signals ❌
 
@@ -50,6 +51,8 @@ flowchart TB
 | "**Post-process** / re-locate sources afterwards" | Fixes too late. Metadata is already lost | Q01 A, Q02 C |
 | "**Broader** queries up front" | Open loop. Guessing instead of feedback | Q06 B |
 | "**Semantic / vector search** to restore exact state" | Approximate retrieval ≠ exact state | Q03 B |
+| "**Average** / normalize to **one score** / **pick** the best source" (for conflicts) | Destroys information, creates false certainty | Q08 D |
+| "**Filter** to high-confidence / require **≥2 sources**" | Drops valid findings before anyone can judge. Corroboration is a **label**, not a filter | Q08 A, B |
 
 ## Decision cheats
 
@@ -64,6 +67,7 @@ flowchart TB
 | Results incomplete | Coordinator gap loop (depth gap) · fix **decomposition** (scope gap) |
 | Loop can't converge | **Cap** iterations → structured gap note → escalate if critical |
 | Resume after crash | Structured **state manifest**, loaded by the coordinator |
+| Sources disagree | **Annotate**: both values + source + method + uncertainty, in a **contested** section |
 
 ## Handoff prompt template (Q01 + Q02 + Q05 + Q07)
 
