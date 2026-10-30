@@ -113,6 +113,27 @@ Each wrong option breaks the signal in a different way:
 
 **Walk through option C during a temporary database failure: what would the agent tell the customer, and why is that worse than the agent saying "something went wrong"?**
 
+*My answer:* "In C, errors seem like a false answer." 🟡 **Right core, but the two parts weren't answered.** "False answer" is the key idea, but the question asked (1) *what* the agent would say, and (2) *why* that's worse than an honest error.
+
+**(1) What the agent says:** *"I couldn't find an order with number 12345. Could you double-check it?"* The order **exists**. The database was just down for a moment.
+
+**(2) Why that's worse than "something went wrong":**
+
+| | Honest error: "something went wrong, please try again" | C's false answer: "no order found" |
+|---|---|---|
+| Is it true? | ✅ | ❌ |
+| Does the agent retry? | Yes, if it's transient (Q32) | **No.** "No data" isn't a failure, so there's nothing to retry |
+| What the customer does | Tries again shortly | Re-checks a correct number, thinks the order is lost, may re-order or dispute the charge |
+| Can anyone notice? | Yes: `isError` shows up in logs and metrics | **No.** It looks like a normal successful lookup (silent failure) |
+
+> **A wrong answer that looks right is worse than an honest error.** An error invites recovery. A false answer gets acted on.
+
+Same lesson as Q24's check answer (for a transient failure: *never* say "shipment not found") and Q26 (correct meaning beats a confident wrong one).
+
+### Follow-up check question
+
+**True or false: "Log the error server-side **and** return it to the model with `isError: true`" is a good pattern.**
+
 *My answer:* (pending)
 
 ## Glossary
