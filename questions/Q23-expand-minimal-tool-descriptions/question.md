@@ -83,7 +83,22 @@ In production you'd do **both**: A makes the right choice likely; C makes the wr
 
 **Company policy *requires* archiving backups. Our cheat sheet says "must always hold → gate in code". So why is A the answer and not C? And would you still add C?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Because C says it's server-side logic, not the agent." ❌ **Not the reason.** Being server-side isn't a weakness. Gates are **supposed** to live outside the agent: in the tool, the MCP server, or a hook (Q13). Server-side is exactly where a guarantee belongs.
+
+**The real reason is the question's verb: *"most directly improves tool **selection**."***
+
+| | **A** (descriptions) | **C** (server-side rejection) |
+|---|---|---|
+| When does it act? | **Before** the choice: the model reads it and picks `archive_file` | **After** the wrong choice: `delete_file` is called, then rejected |
+| Does the model choose better? | ✅ Yes | ❌ No, it still picks `delete_file` first, then retries |
+| Guarantees backups are never deleted? | ❌ No (probabilistic) | ✅ Yes (deterministic) |
+| Answers… | "improve **selection**" | "**guarantee** compliance" |
+
+**Would you still add C? Yes.** The policy *requires* archiving, so a deterministic guard is worth having:
+- **A** = the model **usually** picks right (fixes the cause).
+- **C** = deletion of a backup is **impossible** even when it doesn't (safety net), and its error steers the model to `archive_file` (Q13 pattern).
+
+> **Read the verb.** "Improve selection / help the model choose" → descriptions. "Guarantee / ensure / 100%" → code check. Production → both.
 
 ## Glossary
 
