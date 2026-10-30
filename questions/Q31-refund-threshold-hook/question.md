@@ -128,6 +128,28 @@ The rule has **two halves**, and both have to be guaranteed:
 
 **Q28's winning answer also put the $500 rule inside the tool. Why does the tool option (A) lose here?**
 
+*My answer:* "Because A still leaves the decision to the model." ✅ **Right core.** One precision: *which* decision. The **refund** decision is already taken away from the model, because the code blocks it. What A leaves to the model is the **escalation**.
+
+**The Q28 contrast, made explicit:**
+
+| | Blocks the action? | Performs the required follow-up? | Left to the model |
+|---|---|---|---|
+| **Q28 A** (tool, ✅) | ✅ the tool won't disburse > $500 | ✅ the tool **itself creates the approval request** | Nothing (it just reports "pending") |
+| **Q31 A** (tool, ❌) | ✅ the tool won't refund > $500 | ❌ it only **returns an error** saying "please escalate" | **Whether to escalate** |
+| **Q31 C** (hook, ✅) | ✅ the hook blocks the call | ✅ the hook **invokes escalation** | Nothing |
+
+So **tool vs. hook isn't what decides it.** What decides it is whether the **whole rule** runs in code. Q28's tool did both halves, and Q31's tool does only one.
+
+The wording tells you which half matters:
+- Q28: *"tamper-proof regardless of how the agent is prompted"*, so the rule goes closest to the action (inside the tool).
+- Q31: *"must **automatically** escalate … cannot be left to model discretion"*, so the escalation itself must be done by code.
+
+> **Rule:** a "must not" rule is enforced by blocking. A "must do" rule is enforced only when code performs the action. An error message asking the model to do it is still a prompt.
+
+### Follow-up check question
+
+**A colleague proposes a PostToolUse hook that checks for refunds over $500 and escalates them to a human. Does that satisfy the rule? Why or why not?**
+
 *My answer:* (pending)
 
 ## Glossary
