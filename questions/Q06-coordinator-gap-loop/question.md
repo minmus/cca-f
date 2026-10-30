@@ -83,6 +83,27 @@ A loop needs a **stop condition**, e.g. max 2 re-delegation rounds. If gaps rema
 | [Q05](../Q05-goals-not-procedures-delegation/question.md) | Delegate goals + criteria | The **targeted** re-delegation should state the gap as a goal: "find evidence on subtopic X; criteria …" |
 | [Q01](../Q01-source-attribution-multi-agent/question.md) | Structured data between agents | Gaps are easiest to evaluate when synthesis returns them as a **structured field** (`unanswered_questions: [...]`), not buried in prose |
 
+## Check question
+
+**After 2 re-delegation rounds, one research question still has no answer. What should the system do, and why not keep looping?**
+*My answer:* "Report generator should mark the gaps after those attempts." ✅ This is option A used correctly: as the **fallback after the loop**, not instead of it.
+
+**Why not keep looping:**
+1. **Cost and latency:** every round means more agent calls and tokens, and the user waits.
+2. **Diminishing returns:** if two targeted searches found nothing, a third rarely will.
+3. **"Nothing found" can be the real answer:** the information may not exist publicly. That's a finding, not a failure.
+4. **Infinite-loop risk:** every agent loop needs a stop condition (D1 › 1.1 loop control).
+
+**Two refinements for full marks:**
+1. **Make the gap note specific, and structured.** It separates "searched, nothing exists" from "search tool failed" (D5 › 5.3; Udemy A #118 *The Silent Bug*, Udemy B #44 *Customer Messages and Empty Results*):
+   ```json
+   { "question": "Market share in APAC 2026",
+     "status": "unanswered",
+     "attempts": ["web: 'APAC X market share 2026'", "docs: Q3-report.pdf, Q4-report.pdf"],
+     "reason": "no_sources_found" }
+   ```
+2. **Escalate if the gap is critical.** If the report can't make its recommendation without the answer, flag it for a human instead of only noting it (D5 › 5.2).
+
 ## Glossary
 
 - **Hub-and-spoke:** a topology where every message goes through a central coordinator (hub) and subagents (spokes) never talk directly.
