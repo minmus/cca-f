@@ -73,7 +73,22 @@ A schema can say `user_id` is a required **string**. Only the description can sa
 
 **Option A (strict schema) can guarantee that `user_id` is present and is a string. What can it never guarantee, and why does that make D the answer?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "A does not guarantee the model understands its meaning." ✅ **Correct.** Made concrete below: what does "doesn't understand the meaning" look like in a real call?
+
+A schema checks **shape**, so all of these **pass** `user_id: string, required`:
+
+| Value Claude sends | Passes schema? | Right? |
+|---|---|---|
+| `"3f2a9c1e-7b4d-…"` (the user's UUID) | ✅ | ✅ |
+| `"anna@example.com"` (email) | ✅ | ❌ wrong identifier type |
+| `"anna"` (username) | ✅ | ❌ wrong identifier type |
+| `"8c1d…"` (another user's UUID) | ✅ | ❌ wrong user: worst case, silently updates someone else |
+
+**Schema guarantees a *valid* value. Only the description makes a *correct* value likely.** That's why D is "most critical for helping Claude **understand**".
+
+(And for the "wrong user" row, neither schema nor description is enough. That calls for a check **in code**, e.g. the tool verifies the user ID belongs to the current session.)
+
+> **Valid ≠ correct.** Schema → valid shape. Description → correct meaning. Code check → guaranteed when it really matters.
 
 ## Glossary
 
