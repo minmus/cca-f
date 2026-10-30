@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q29)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q30)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.7 · D2 › 2.3 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -61,6 +61,7 @@ flowchart TB
 | **Q27** | Device timeout → agent only says "not responding" | Error with **likely cause + troubleshooting steps** to offer the user | Write errors for the model/user, not a debugger. In-result, not via another tool |
 | **Q28** | $500 reimbursement threshold must be tamper-proof | **Tool enforces it internally**: <$500 pay, >$500 create approval request + "pending" | Rule lives in the code that moves money, on real data. No agent-set flags |
 | **Q29** | 18+ sequential calls; selection needs editorial judgment over all candidates | **`discover_and_analyze`** composite returning all candidates + scores; `add_to_collection` separate | Combine the mechanical steps; keep the judgment and the action with the model |
+| **Q30** | Generic `analyze_document(doc, instruction)` returns wrong output types; 35% re-requests | **Split**: `extract_data_points`, `summarize_content`, `verify_claim_against_source`, each with I/O contracts | The guide's own 2.1 example. Tool choice = task; contract = output shape |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
@@ -90,6 +91,7 @@ flowchart TB
 | Unhelpful error replies → **raw debug data** / **separate troubleshooting tool** / **`is_error: false` "pending"** | Engineers' data, not actionable; extra hop often skipped; fake success | Q27 A, B, C |
 | "Tamper-proof" via **agent-set approval boolean** + audit / **prompt routing** + **PostToolUse** log / hook that only **adds a flag** | Self-attestation; probabilistic; Post = too late (trap); split enforcement relies on hook config | Q28 B, C, D |
 | Too many calls + judgment needed → **caching** / **mega-tool with thresholds** / **preview + approve predefined rules** | Same call count; thresholds/rules replace judgment about the *set* | Q29 A, B, D |
+| Generic tool → **coordinator pre-classifies** / **mode enum** on one tool / **more examples** in description | Routing classifier = listed trap; one tool = one loose output contract; prose doesn't fix the contract | Q30 A, B, C |
 | Keep **one unified tool** + nested object / **if-then-else schema** / **all-optional + few-shot** | Same ambiguity, hidden deeper. Few-shot *"adds token overhead without addressing the root cause"*. Split instead (but don't **merge** similar tools as a first step: also a trap) | Q17 A, B, D |
 | "Subagents **directly** call / **callbacks** / **shared** store / **subscribe** / **queue**" | Breaks hub-and-spoke | Q03 B/C, Q07 A/B/D, Q12 B/C |
 | "Give the subagent **more tools / access**" | Breaks tool scoping. Route back to the coordinator | Q04, Q06 D |
