@@ -1,6 +1,6 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q30)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q31)
 
-**Domains:** D1 › 1.2, 1.3, 1.4, 1.7 · D2 › 2.3 · D5 › 5.1, 5.4, 5.6
+**Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.3 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
 
 ## The reference system
@@ -62,16 +62,17 @@ flowchart TB
 | **Q28** | $500 reimbursement threshold must be tamper-proof | **Tool enforces it internally**: <$500 pay, >$500 create approval request + "pending" | Rule lives in the code that moves money, on real data. No agent-set flags |
 | **Q29** | 18+ sequential calls; selection needs editorial judgment over all candidates | **`discover_and_analyze`** composite returning all candidates + scores; `add_to_collection` separate | Combine the mechanical steps; keep the judgment and the action with the model |
 | **Q30** | Generic `analyze_document(doc, instruction)` returns wrong output types; 35% re-requests | **Split**: `extract_data_points`, `summarize_content`, `verify_claim_against_source`, each with I/O contracts | The guide's own 2.1 example. Tool choice = task; contract = output shape |
+| **Q31** | Refunds > $500 must **automatically** escalate; a clear prompt still fails 3% | **PreToolUse hook**: intercept `process_refund`, block > $500, **invoke escalation** | 100% requirement → hook (1.5, the guide's own example). Enforce the whole rule: block **and** route |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
-- Policy must hold (e.g. 30-day refunds): **gate inside the tool** or a **PreToolUse hook** → return a **structured error** with "what to do instead" → the model reasons again and self-corrects
+- Policy must hold (e.g. 30-day refunds): **gate inside the tool** or a **PreToolUse hook** → return a **structured error** with "what to do instead" → the model reasons again and self-corrects. **But** if the rule says the follow-up must happen **automatically** (e.g. escalate), code has to do it too, not an error asking the model to (Q31)
 
 ## Distractor signals ❌
 
 | If the option says… | It's usually wrong because… | Seen in |
 |---|---|---|
-| "**Instruct** the agent to…" (for must-have behaviour) | Probabilistic. Look for schema / gate / code | Q01 D, Q05 follow-up |
+| "**Instruct** the agent to…" / **emphatic CAPS** ("CRITICAL", "NEVER") / **few-shot** examples (for must-have behaviour) | Probabilistic. Louder or more examples ≠ guaranteed. Look for schema / gate / code | Q01 D, Q05 follow-up, Q31 B, D |
 | "Use a **bigger / better model**" | Exam is model-agnostic. Fix the design | concept: extract-first |
 | "Pass the **full / raw / all** context" / **complete transcript** | Floods context. Complete ≠ everything | Q01 C, Q02 A, Q14 D |
 | Handoff with **only** diagnosis + amount, or **only** raw excerpts / **only the original message** | Not self-contained: no ID / root cause / recommended action, so the human re-investigates | Q14 B, C · Q15 C |
@@ -90,6 +91,7 @@ flowchart TB
 | Unknown-outcome timeout on a **side-effecting** action → `retry_safe: true` / "please retry" / echo the content | Causes duplicates (double send / double charge). Say "outcome unknown, don't resend"; check status or escalate | Q26 A, C, D |
 | Unhelpful error replies → **raw debug data** / **separate troubleshooting tool** / **`is_error: false` "pending"** | Engineers' data, not actionable; extra hop often skipped; fake success | Q27 A, B, C |
 | "Tamper-proof" via **agent-set approval boolean** + audit / **prompt routing** + **PostToolUse** log / hook that only **adds a flag** | Self-attestation; probabilistic; Post = too late (trap); split enforcement relies on hook config | Q28 B, C, D |
+| Tool **returns an error telling the model to escalate** (when the rule says escalate **automatically**) | Half-enforced: the action is blocked, but the required escalation is still the model's choice | Q31 A |
 | Too many calls + judgment needed → **caching** / **mega-tool with thresholds** / **preview + approve predefined rules** | Same call count; thresholds/rules replace judgment about the *set* | Q29 A, B, D |
 | Generic tool → **coordinator pre-classifies** / **mode enum** on one tool / **more examples** in description | Routing classifier = listed trap; one tool = one loose output contract; prose doesn't fix the contract | Q30 A, B, C |
 | Keep **one unified tool** + nested object / **if-then-else schema** / **all-optional + few-shot** | Same ambiguity, hidden deeper. Few-shot *"adds token overhead without addressing the root cause"*. Split instead (but don't **merge** similar tools as a first step: also a trap) | Q17 A, B, D |
@@ -117,7 +119,7 @@ flowchart TB
 | Confidence threshold for review? (Q21) | **Per field**, **tested** on a validation set (known answers), **stricter where mistakes are costly** (amount > vendor). Never one made-up number for all |
 | Tool result types (Q22, 2.2) | 0 matches → `success: true, results: []` · **transient** (timeout) → `isError`, `isRetryable: true`, capped retry · **validation** → fix input · **business** → explain/alternative/escalate · **permission** → escalate. Never report a failure as "no results" |
 | Threshold in code or model judgment? (Q21 vs Q29) | **One item vs a number** (calibrated score, amount) → code. **How items fit together** (cohesion, balance, duplicates) → model. Per-item thresholds can't judge a set |
-| Where to enforce a must-hold rule? (Q28) | **Closest to the action, on the real data** (inside the tool). Hook that blocks = OK; hook that only adds a flag the tool trusts = gap (no hook → no rule) |
+| Where to enforce a must-hold rule? (Q28) | **Closest to the action, on the real data** (inside the tool). Hook that blocks = OK; hook that only adds a flag the tool trusts = gap (no hook → no rule). If the rule also **requires an action** (escalate, create an approval request), code must **perform** it (Q31) |
 | Structured option vs prose option? (Q26) | Judge in order: **1. true? 2. leads to the right action? 3. structured?** Structure is a tiebreaker; a wrong structured field is followed *reliably wrong* |
 | Schema vs description vs code check? (Q20) | **Valid ≠ correct.** Schema → valid shape · description → correct meaning (likely) · code check (e.g. ID belongs to session) → guaranteed |
 | Is a review / confirmation step working? (Q18) | Measure **outcomes** (incidents, errors caught, rejections/edits), not **behaviour** (approval rate, seconds). High approval is fine if the items are correct |

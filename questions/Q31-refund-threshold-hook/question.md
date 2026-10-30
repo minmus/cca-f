@@ -1,7 +1,8 @@
-# Q04 — Guaranteed compliance: refunds over $500 must escalate
+# Q31 — Guaranteed compliance: refunds over $500 must escalate
 
 **Domain / lesson:** D1 › 1.5 Agent SDK Hooks
 **Also touches:** D1 › 1.4 Workflow Enforcement and Handoff · D5 › 5.2 Escalation & Ambiguity Resolution
+**Follows:** [Q28](../Q28-tamper-proof-threshold-in-tool/question.md) (same $500 rule, in-tool answer) · [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (gate in `process_refund`) · [Q16](../Q16-escalation-triggers/question.md) ("gate the numbers") · [Q14](../Q14-escalation-handoff-summary/question.md) (handoff summary)
 
 ## Question
 
@@ -83,21 +84,13 @@ The rule has **two halves**, and both have to be guaranteed:
 
 | Option | Why not |
 |---|---|
-| **A** Refund tool returns an error | **Half-enforced.** The block is in code, but the **escalation is left to the model**: it has to read "please escalate" and choose to do it. That's exactly the model discretion the question rules out. The model might tell the customer it can't help, suggest a smaller amount, or end the conversation. It's the most tempting distractor, because it looks like lesson 1.4's tool gate. But that gate only has to *prevent* an action. This rule also requires an action (escalation) to *happen*. |
+| **A** Refund tool returns an error | **Half-enforced.** The block is in code, but the **escalation is left to the model**: it has to read "please escalate" and choose to do it. That's exactly the model discretion the question rules out. The model might tell the customer it can't help, suggest a smaller amount, or end the conversation. It's the most tempting distractor, because it looks like lesson 1.4's tool gate and like Q28's winning answer. But that gate only has to *prevent* an action. This rule also requires an action (escalation) to *happen*. |
 | **B** Few-shot examples at $400 / $500 / $600 | Still a prompt technique, so still **probabilistic**. It may lower the 3% but can't make it 0%. Lesson 1.4 lists "stronger system prompts or few-shot examples" for high-stakes failures as an exam trap. Few-shot examples teach format and judgment. They don't enforce anything. |
 | **D** Emphatic language ("CRITICAL", "MUST", "NEVER") | The same instruction, louder. The question says the instructions were **already clear**, so the problem isn't misunderstanding. It's that the model is probabilistic, and capital letters don't change that. Lesson 1.5 lists "enhanced prompt instructions for 100% compliance" as an exam trap. |
 
 ## Pattern to remember
 
 > **Money, security or compliance + "guaranteed" → code, not prompts. For tool actions, use a PreToolUse hook that blocks the call and routes it to the required workflow. Enforce the whole rule, not just the prohibition.**
-
-### Same distractors, new costume (Q01 → Q04)
-
-| Distractor shape | Q01 | Q02 | Q03 | Q04 | Why it fails |
-|---|---|---|---|---|---|
-| Instruction-only fix | D (instruct inline citations) | | | B (few-shot), D (emphatic prompt) | Instructions are probabilistic |
-| Half of the right answer | | | C (exports, no coordinator) | A (block, no escalation) | Misses one required part |
-| **Structure / code enforces it** | **B ✅** | **B ✅** | **A ✅** | **C ✅** | **Deterministic** |
 
 ### Where this comes from in the guide
 
@@ -120,6 +113,22 @@ The rule has **two halves**, and both have to be guaranteed:
 - *"A billing subagent might have a PreToolUse hook that blocks refunds above a threshold."*
 - Exam trap (paraphrased): choosing stronger system prompts or few-shot examples as the fix for high-stakes failures. They improve the odds but don't eliminate errors. This is why **B** and **D** fail.
 - *"The handoff summary is the only information they receive, so it must be self-contained."*
+
+## How this connects to earlier questions
+
+| Question | Link |
+|---|---|
+| [Q28](../Q28-tamper-proof-threshold-in-tool/question.md) | The same $500 rule, but there the in-tool option won. Why the difference? See the check question below |
+| [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) | The model decides, code enforces: a gate in `process_refund` |
+| [Q16](../Q16-escalation-triggers/question.md) | "Instruct the judgment, gate the numbers." `amount > 500` is a number, so it goes in code |
+| [Q14](../Q14-escalation-handoff-summary/question.md) / [Q15](../Q15-mid-process-escalation-handoff/question.md) | What the escalation must carry: a self-contained handoff summary with the exact amount |
+| [Q23](../Q23-expand-minimal-tool-descriptions/question.md) | "Guarantee" in the question means a code check, not better prompting |
+
+## Check question
+
+**Q28's winning answer also put the $500 rule inside the tool. Why does the tool option (A) lose here?**
+
+*My answer:* (pending)
 
 ## Glossary
 
