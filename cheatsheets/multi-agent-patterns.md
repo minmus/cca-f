@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q22)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q23)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.7 · D2 › 2.3 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -54,6 +54,7 @@ flowchart TB
 | **Q20** | Claude omits `user_id` / wrong structure: what helps it *understand*? | **Clear parameter descriptions** (meaning, format, example, required) | Schema = shape, description = meaning, errors = recovery. "Guarantee structure" would flip to schema |
 | **Q21** | Agent over- AND under-escalates on confidence scores | Tool returns scores + **`request_review` flag from tested thresholds** + **`review_reasons`** | Don't let the model interpret raw numbers. Decision in code, per field, with reasons |
 | **Q22** | Agent retries after 0 results (HTTP 200, `[]`) | **`success: true` + `results: []`**; `isError` only for real execution failures | Empty ≠ error. "Found nothing" vs "could not search" must be distinguishable |
+| **Q23** | "Remove old backups" → `delete_file`; descriptions are one-liners | **Expand descriptions**: when to use / NOT use, which tool instead | Descriptions = primary selection mechanism. "Improve selection" → A; "guarantee" → server-side check |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
@@ -76,6 +77,7 @@ flowchart TB
 | For "help Claude **understand**": **schema types only** / **verbose names** (`user_id_string_uuid_format`) / **detailed error responses** | Types = shape not meaning; names aren't docs; errors help only **after** a mistake | Q20 A, B, C |
 | **Raw confidence** + few-shot to interpret · **aggregate** quality score · `verified`/`needs_verification` groups without reasons | Model guesses (trap: *"raw… scores without calibration"*); averages hide the bad field; no decision/why | Q21 A, C, D |
 | Empty result → **`isError: true`** / **prose** message / **suggestions** field | Flags success as failure → retries (trap); prose re-interpreted; add-on doesn't fix the signal. Opposite trap: failure returned as silent empty success | Q22 A, B, C |
+| Misrouting with minimal descriptions → **few-shot** / **routing classifier** / **"type CONFIRM"** / server **rejects after** | Few-shot + classifier are listed traps; confirm = friction; rejection = guarantee, not selection | Q23 B, C, D |
 | Keep **one unified tool** + nested object / **if-then-else schema** / **all-optional + few-shot** | Same ambiguity, hidden deeper. Few-shot *"adds token overhead without addressing the root cause"*. Split instead (but don't **merge** similar tools as a first step: also a trap) | Q17 A, B, D |
 | "Subagents **directly** call / **callbacks** / **shared** store / **subscribe** / **queue**" | Breaks hub-and-spoke | Q03 B/C, Q07 A/B/D, Q12 B/C |
 | "Give the subagent **more tools / access**" | Breaks tool scoping. Route back to the coordinator | Q04, Q06 D |
