@@ -113,6 +113,27 @@ C contains exactly those two fields. Each other option touches **at most one** g
 
 **Why should the tool write the customer-friendly explanation, instead of letting Claude compose one from the plain-text error ("Order exceeds 30 day return window")?**
 
+*My answer:* "Because Claude might misinterpret the meaning of errors." 🟡 **Right direction, but not the main reason.** Misinterpretation is one risk. The bigger one is that **Claude doesn't have the facts.** Even if it reads "Order exceeds 30 day return window" perfectly, that's all it knows.
+
+**What each side can write:**
+
+| | Claude, from the plain text | The tool, which has the data |
+|---|---|---|
+| Message | *"I'm sorry, this order is outside our 30-day return window."* | *"This order was delivered on 18 September, 42 days ago. Refunds are available within 30 days of delivery."* |
+| Specifics (dates, days) | ❌ Not in the text, so it's generic | ✅ It has them |
+| Risk | Fills gaps by **inventing** details (a wrong date, an alternative that doesn't exist) | Facts come straight from the system |
+
+**Three reasons, in order of weight:**
+1. **Facts:** the tool has the delivery date, days elapsed and refund history. Claude only sees what's returned.
+2. **Accuracy:** to sound helpful, Claude may fill the gaps with made-up details. Your "misinterpret" is part of this.
+3. **Consistency:** the same policy-approved wording every time, with no internal codes leaking out.
+
+> **Whoever has the facts writes the explanation. The model can only rephrase what it's given.** This is the same idea as Q02: *"The synthesis agent cannot cite a source it was not given."* Likewise, Claude can't explain a fact it wasn't given.
+
+### Follow-up check question
+
+**For the other business error, "Item already refunded", which facts should the tool's customer-friendly message include?**
+
 *My answer:* (pending)
 
 ## Glossary
