@@ -80,7 +80,24 @@ The agent no longer interprets numbers. It **follows a flag**. Same principle as
 
 **B says the threshold is "tested". What does "tested" mean here, and what would go wrong if you just picked 0.8 for every field?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "'Tested' means the number above which you can trust field values as being accurate enough, and below which practice shows it is worth reviewing." ✅ **Correct: "practice shows" is the key idea.** The threshold comes from **evidence**, not a guess. Two pieces to add:
+
+**1. How you test it (calibration with a validation set):**
+1. Take a few hundred invoices where you **already know the right answers** (checked by people).
+2. Run the extractor and record each field's score **and** whether it was actually right.
+3. Look at the results per field, e.g. *"amount fields scoring 0.80–0.85 were right only 78% of the time."*
+4. Pick the threshold where accuracy is good enough **for that field**.
+
+**2. Why one 0.8 for every field is wrong (the second half of the question):**
+
+| Reason | Example |
+|---|---|
+| **Different cost of a mistake** | Wrong **amount** = paying the wrong money. Wrong **vendor** spelling = a small fix. So amount needs a **stricter** threshold |
+| **Scores mean different things per field** | The model's "0.8" on **dates** might be 98% right in practice, but "0.8" on **amounts** only 75% right. The same number ≠ the same reliability |
+
+So tested thresholds are usually **different per field**, e.g. amount 0.92, date 0.80, vendor 0.75.
+
+> **Tested threshold = per field, chosen from real accuracy on known answers, and strict where mistakes are costly.** A threshold you made up is consistent, but consistently wrong.
 
 ## Glossary
 
