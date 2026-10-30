@@ -1,6 +1,6 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q31)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q32)
 
-**Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.3 · D5 › 5.1, 5.4, 5.6
+**Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.1, 2.2, 2.3, 2.4 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
 
 ## The reference system
@@ -63,6 +63,7 @@ flowchart TB
 | **Q29** | 18+ sequential calls; selection needs editorial judgment over all candidates | **`discover_and_analyze`** composite returning all candidates + scores; `add_to_collection` separate | Combine the mechanical steps; keep the judgment and the action with the model |
 | **Q30** | Generic `analyze_document(doc, instruction)` returns wrong output types; 35% re-requests | **Split**: `extract_data_points`, `summarize_content`, `verify_claim_against_source`, each with I/O contracts | The guide's own 2.1 example. Tool choice = task; contract = output shape |
 | **Q31** | Refunds > $500 must **automatically** escalate; a clear prompt still fails 3% | **PreToolUse hook**: intercept `process_refund`, block > $500, **invoke escalation** | 100% requirement → hook (1.5, the guide's own example). Enforce the whole rule: block **and** route |
+| **Q32** | `lookup_order` errors all say "Operation failed" → agent retries / escalates / asks the user at random | Errors carry **`errorCategory`** + **`isRetryable`** + **description** | Each behaviour was right for a *different* error. Missing signal, not bad reasoning. Fix it at the source |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
@@ -86,7 +87,7 @@ flowchart TB
 | **Raw confidence** + few-shot to interpret · **aggregate** quality score · `verified`/`needs_verification` groups without reasons | Model guesses (trap: *"raw… scores without calibration"*); averages hide the bad field; no decision/why | Q21 A, C, D |
 | Empty result → **`isError: true`** / **prose** message / **suggestions** field | Flags success as failure → retries (trap); prose re-interpreted; add-on doesn't fix the signal. Opposite trap: failure returned as silent empty success | Q22 A, B, C |
 | Misrouting with minimal descriptions → **few-shot** / **routing classifier** / **"type CONFIRM"** / server **rejects after** | Few-shot + classifier are listed traps; confirm = friction; rejection = guarantee, not selection | Q23 B, C, D |
-| Tool errors → **generic `lookup_failed`** / extra **recovery tools** / **retry-only** inside the tool | Hides *why*; tools don't fix the signal; retry helps only transient errors | Q24 A, C, D |
+| Tool errors → **generic `lookup_failed`** / extra **recovery tools** or an **`analyze_error`** tool / **few-shot** to read error text / **retry everything** inside the tool | Hides *why*; extra tools have nothing to analyze; examples can't read missing info; retry helps only transient errors | Q24 A, C, D · Q32 A, B, D |
 | External API **404 / 503** reported as a **JSON-RPC protocol error** | Those happen **after** the tool ran = API failures → `isError: true`. HTTP codes from the API ≠ MCP request errors | Q25 B, D |
 | Unknown-outcome timeout on a **side-effecting** action → `retry_safe: true` / "please retry" / echo the content | Causes duplicates (double send / double charge). Say "outcome unknown, don't resend"; check status or escalate | Q26 A, C, D |
 | Unhelpful error replies → **raw debug data** / **separate troubleshooting tool** / **`is_error: false` "pending"** | Engineers' data, not actionable; extra hop often skipped; fake success | Q27 A, B, C |
@@ -117,7 +118,7 @@ flowchart TB
 |---|---|
 | Must **always** happen (money, compliance) | **Prerequisite gate** in the tool / **hook** / fixed **workflow** in code |
 | Confidence threshold for review? (Q21) | **Per field**, **tested** on a validation set (known answers), **stricter where mistakes are costly** (amount > vendor). Never one made-up number for all |
-| Tool result types (Q22, 2.2) | 0 matches → `success: true, results: []` · **transient** (timeout) → `isError`, `isRetryable: true`, capped retry · **validation** → fix input · **business** → explain/alternative/escalate · **permission** → escalate. Never report a failure as "no results" |
+| Tool result types (Q22, Q32, 2.2) | 0 matches → `success: true, results: []` · **transient** (timeout) → `isError`, `isRetryable: true`, capped retry · **validation** → fix input · **business** → explain/alternative/escalate · **permission** → escalate. Never report a failure as "no results" |
 | Threshold in code or model judgment? (Q21 vs Q29) | **One item vs a number** (calibrated score, amount) → code. **How items fit together** (cohesion, balance, duplicates) → model. Per-item thresholds can't judge a set |
 | Where to enforce a must-hold rule? (Q28) | **Closest to the action, on the real data** (inside the tool). Hook that blocks = OK; hook that only adds a flag the tool trusts = gap (no hook → no rule). If the rule also **requires an action** (escalate, create an approval request), code must **perform** it (Q31) |
 | Structured option vs prose option? (Q26) | Judge in order: **1. true? 2. leads to the right action? 3. structured?** Structure is a tiebreaker; a wrong structured field is followed *reliably wrong* |

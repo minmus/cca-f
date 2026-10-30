@@ -150,7 +150,7 @@ The wording tells you which half matters:
 
 **A colleague proposes a PostToolUse hook that checks for refunds over $500 and escalates them to a human. Does that satisfy the rule? Why or why not?**
 
-*My answer:* (pending)
+*Skipped (moved on to Q32).* Answer: **No.** PostToolUse runs **after** the tool, so the refund has already been paid out directly. That breaks the "don't process" half, even though escalation then happens. Guide 1.5: *"By the time PostToolUse fires, the tool has already run."* *"A block at that point stops the loop but does not undo the side effect."* Blocking needs **Pre**ToolUse.
 
 ## Glossary
 
