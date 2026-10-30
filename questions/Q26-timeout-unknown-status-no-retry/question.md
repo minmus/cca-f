@@ -94,7 +94,17 @@ And/or an **idempotency key** so the messaging API ignores a duplicate send.
 
 **We keep saying "structure beats prose". So why does B (a text message) beat A (a structured field)?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Because A is factually wrong." ✅ **Exactly right, and short for the right reason.** Correctness comes before format.
+
+| Check, in this order | **A** `retry_safe: true` | **B** "status unknown… avoid retry" |
+|---|---|---|
+| 1. Is it **true**? | ❌ Retrying is **not** safe | ✅ Outcome really is unknown |
+| 2. Does it lead to the **right action**? | ❌ Drives the agent to resend → duplicates | ✅ Agent holds off, checks / informs / escalates |
+| 3. Is it **structured**? | ✅ | ❌ (prose) |
+
+Structure only matters once 1 and 2 pass. A structured field is **more** dangerous when it's wrong, because the agent trusts it **more reliably**: a wrong field is followed every time.
+
+> **Order of judging an option: true → leads to the right action → structured.** "Structure beats prose" is a tiebreaker between **correct** options.
 
 ## Glossary
 
