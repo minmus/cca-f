@@ -145,7 +145,7 @@ The only path to the money goes through that `if`, which is Q28's point.
 
 **Apply the test: a system prompt says "never refund more than $500", and `process_refund` has no amount check. Deterministic or not, and why?**
 
-*My answer:* (pending)
+*Skipped (moved on to Q36).* Answer: **Not deterministic.** The rule lives only in the prompt, so the model's choice **can** break it: it can call `process_refund` with $600, and nothing stops it (Q31's 3% failure rate). To make it deterministic, put the check in code: inside `process_refund` (Q28) or in a PreToolUse hook (Q31).
 
 ## Glossary
 

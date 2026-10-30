@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q35)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q36)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.1, 2.2, 2.3, 2.4 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -39,6 +39,7 @@ flowchart TB
 | **Q10** | Synthesis says "no findings were provided" | Coordinator **didn't include** prior outputs in the prompt | API is stateless, subagents isolated. Context exists only if written into the prompt |
 | **Q11** | Analysis spots gaps, strict pipeline can't act | Analysis **reports gaps explicitly** → coordinator: targeted search → **re-analysis** → until sufficient | Explicit signal + complete loop (beats inferred signal + half loop) |
 | **Q12** | How to give synthesis what it needs | **Complete findings** from both subagents **directly in its prompt** | No inheritance, no callbacks, no shared-store lookups |
+| **Q36** | Coordinator says "I'll ask the web search agent…", but no subagent **ever** runs; no errors | **`"Task"` missing from the coordinator's `allowedTools`** | Saying ≠ doing. No tool → no `tool_use` → nothing runs, nothing fails. Exam name "Task" (current Claude Code: "Agent") |
 
 ### Agentic loop & support agent (single agent)
 
@@ -110,8 +111,8 @@ flowchart TB
 | "**Post-process** / re-locate / **reconstruct** sources afterwards (logs, similarity matching)" | Fixes too late. Metadata is already lost, and guessing is approximate | Q01 A, Q02 C, Q09 B/C |
 | "Embed source **markers / prefixes / inline citations** in the text" | Still prose. Rewriting drops or misplaces them | Q01 D, Q09 D |
 | "Orchestration layer **routes automatically** / tool **sequence planned up front** / pre-configured **decision tree**" (for *how an agentic loop* picks the next tool) | That's a workflow. In an agentic loop the **model reasons** over the appended tool result | Q13 A/C/D |
-| "Shared **API connection** / **automatic** context sharing / context **inheritance**" | No such mechanism. The API is stateless and subagents are isolated | Q10 A, Q12 A |
-| An option that explains a **different symptom** (e.g. "context window too small" when the agent says "nothing provided") | **Symptom mismatch.** Pick the cause that produces *exactly* the observed behaviour | Q04 B, Q04 D, Q10 D |
+| "Shared **API connection** / **automatic** context sharing / context **inheritance**" / "configure **explicit context forwarding** in ClaudeAgentOptions" | No such mechanism. The API is stateless and subagents are isolated. Context goes in the Task prompt | Q10 A, Q12 A, Q36 D |
+| An option that explains a **different symptom** (e.g. "context window too small" when the agent says "nothing provided") | **Symptom mismatch.** Pick the cause that produces *exactly* the observed behaviour | Q04 B, Q04 D, Q10 D, Q36 A, C, D |
 | "**Broader** queries / **plan or decompose more** up front" (for depth gaps found later) | Open loop. Guessing instead of feedback | Q06 B, Q11 A |
 | A loop where the coordinator **infers** problems from prose, or that **skips a step** (re-search without re-analysis, no stop condition) | Inferred signal + incomplete loop. Prefer an explicit report + full loop | Q11 C |
 | "**Semantic / vector search** to restore exact state" | Approximate retrieval ≠ exact state | Q03 B |
@@ -142,6 +143,7 @@ flowchart TB
 | "Pass complete findings" vs "don't pass everything"? | **Findings** (outputs: claims + sources + excerpts) → pass **all**. **Context** (raw inputs, history) → pass **selectively** (Q02 + Q12) |
 | Sources disagree | **Annotate**: both values + source + method + uncertainty, in a **contested** section |
 | Next agent could get empty or broken input | **Handoff gate** in the coordinator: validate non-empty + required fields **before** invoking (Q10) |
+| Subagent **never runs** vs **runs without info**? | Never runs, coordinator only *talks* about it, no errors → **`Task` not in `allowedTools`** (Q36). Runs but "nothing provided" → context not **written into the Task prompt** (Q10) |
 
 ## Human escalation handoff: the 5 fields (Q14, guide 1.4)
 
