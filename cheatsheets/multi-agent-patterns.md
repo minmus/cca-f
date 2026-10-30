@@ -92,6 +92,10 @@ flowchart TB
 | Sources disagree | **Annotate**: both values + source + method + uncertainty, in a **contested** section |
 | Next agent could get empty or broken input | **Handoff gate** in the coordinator: validate non-empty + required fields **before** invoking (Q10) |
 
+## Human escalation handoff: the 5 fields (Q14, guide 1.4)
+
+1. **Customer ID** · 2. **Conversation summary** (what they asked + what was tried) · 3. **Root cause** · 4. **Exact amount** · 5. **Recommended action**. Self-contained, because the human has no transcript.
+
 ## Handoff prompt template (Q01 + Q02 + Q05 + Q07)
 
 ```

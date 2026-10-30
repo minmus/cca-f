@@ -77,6 +77,22 @@ The human gets the agent's **25 turns of work in seconds**: the conclusions, not
 | [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) | The $500 limit should be a **gate** in the refund tool: >$500 → structured error → the model calls `escalate_to_human` |
 | [extract-first concept](../../concepts/extract-first-summarize-second.md) | Customer ID, amounts, transaction IDs should come from the **verbatim fact block**, not be re-typed from memory after 25 turns |
 
+## Check question
+
+**The guide lists five handoff fields, but option A names only four. Which one is missing, and what could go wrong without it?**
+*My answer:* "Missing: 'Conversation summary'. Without it some important nuance might be missed." ✅ **Correct field.** Made specific below. The guide defines it as *"what the customer asked for and what the agent has attempted."*
+
+| Missing piece | What goes wrong |
+|---|---|
+| **What the customer asked for** | They may have wanted the refund **and** a credit, or had a second issue (multi-concern, Udemy B #51). The human fixes only part |
+| **What the agent already tried** | The human **repeats steps** (re-checks gateway logs, re-verifies transactions) |
+| **What the customer was told** | Promises like "refund within 24h" are unknown to the human, so communication becomes inconsistent |
+| **Overall** | The human asks the customer to repeat everything: *"a poor experience"* |
+
+**Why A is still the answer:** it's the **closest** to the five fields. The others miss **more** (no ID, no recommendation, no structure).
+
+> **Exam tip:** an option doesn't need to be perfect. It needs to be **better than the others**. Compare what each one is missing.
+
 ## Glossary
 
 - **Handoff payload:** the structured data an agent passes when transferring a case to a human (or another agent).
