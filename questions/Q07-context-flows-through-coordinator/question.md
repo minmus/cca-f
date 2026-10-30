@@ -78,6 +78,38 @@ Combining Q01 and Q05:
 | [Q06](../Q06-coordinator-gap-loop/question.md) | **Why** routing through the coordinator matters: it can evaluate and re-delegate |
 | **Q07** | **Where** information flows: always through the coordinator |
 
+## Check question
+
+**The coordinator invokes doc analysis with "Analyze the sources the search agent found earlier." What goes wrong, and how would you fix the prompt?**
+*My answer:* "Document analysis agent is not aware of search agent findings. The coordinator must supply the context." ✅ The subagent has **isolated context**, so "found earlier" refers to something it has never seen.
+
+**What actually goes wrong in practice:** the subagent won't simply stop. It usually:
+- **Makes up sources** that sound plausible. Worst case, and the Q01 problem again.
+- **Searches on its own**, if it has tools for that. Q04's role confusion.
+- **Returns "no sources provided."** A wasted round trip that the coordinator may misread as "nothing found" (Q06 ambiguity).
+
+**The fixed prompt:**
+```
+Goal: Assess the reliability and key claims of the sources below
+for the question "What drives X's market growth in 2026?"
+
+Sources (from web search):
+<sources>
+  <source id="S1" url="https://example.com/report" retrieved="2026-10-29">
+    excerpt: "..."
+  </source>
+  <source id="S2" doc="Q4-analysis.pdf" page="7">
+    excerpt: "..."
+  </source>
+</sources>
+
+Quality criteria: for each source, list its main claims with the source id;
+flag conflicts between sources; note anything outdated (> 12 months).
+Return: structured JSON {claims: [{text, source_id}], conflicts: [...]}
+```
+
+It brings together Q01–Q07: **the context itself**, sources with metadata (Q07 + Q01) · **goal + criteria** (Q05) · **structured return** with `source_id` (Q01), easy to check for gaps (Q06).
+
 ## Glossary
 
 - **Hub-and-spoke:** the coordinator (hub) is the only connection point. Subagents (spokes) never talk directly.
