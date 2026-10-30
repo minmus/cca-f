@@ -120,6 +120,24 @@ Guide 1.3: the requirement is **yes or no**. Without `Task`, *"the coordinator c
 
 **Different symptom: the web search subagent *does* run, but replies "No topic or search criteria were provided." Which cause does that point to, and how is it different from Q36's?**
 
+*My answer:* "Coordinator formulates no task." ✅ **Right cause: context passing (Q10).** Two additions:
+1. **Precision:** it's not that there's *no task*. The coordinator **did** call Task, since the subagent ran, but the **prompt it wrote** left out the topic and criteria. ("No task" could also describe Q36, where there was no Task call at all.)
+2. **The contrast with Q36** (the second half of the question):
+
+| | Q36 | This symptom (Q10 family) |
+|---|---|---|
+| Did the coordinator call Task? | ❌ No. It couldn't (Task not allowed) | ✅ Yes |
+| Did the subagent run? | ❌ Never | ✅ Yes |
+| What's missing? | The **ability** to call: `Task` not in `allowedTools` | The **content**: the Task prompt lacks the topic/criteria |
+| Fix | Add `"Task"` to `allowedTools` (configuration) | The coordinator writes the full context into the Task prompt, plus a handoff gate that checks it's non-empty (Q10) |
+| Where you see it in the logs | No `tool_use` blocks named `Task`/`Agent` | A `Task` call exists, but its `prompt` input is thin or empty |
+
+> **Never runs → it *can't call* (permissions). Runs but clueless → it *didn't tell* (context).**
+
+### Follow-up check question
+
+**A third symptom: all subagents run and get the right context, but one at a time, so the research takes about 4× longer than it should. What's the cause, and the fix?**
+
 *My answer:* (pending)
 
 ## Glossary
