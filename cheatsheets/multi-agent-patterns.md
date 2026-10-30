@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q26)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q27)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.7 · D2 › 2.3 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -58,6 +58,7 @@ flowchart TB
 | **Q24** | Tool raises exceptions → agent says "I'm having trouble" | **Structured error as tool output**: type, retryable, actionable context | The model can only recover from what it can see. Different failures → different next steps |
 | **Q25** | MCP: missing required param · API 404 · API 503 | Missing param = **JSON-RPC protocol error**; 404 + 503 = **tool result `isError: true`** | Did the tool run? No → protocol error. Yes but failed → `isError` (model sees it) |
 | **Q26** | `send_notification` times out, agent retries → duplicates | Error says **"status unknown, may have been sent, avoid retry"** | Side-effecting + not idempotent → transient ≠ retry-safe. Correct meaning beats structure with wrong meaning |
+| **Q27** | Device timeout → agent only says "not responding" | Error with **likely cause + troubleshooting steps** to offer the user | Write errors for the model/user, not a debugger. In-result, not via another tool |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
@@ -84,6 +85,7 @@ flowchart TB
 | Tool errors → **generic `lookup_failed`** / extra **recovery tools** / **retry-only** inside the tool | Hides *why*; tools don't fix the signal; retry helps only transient errors | Q24 A, C, D |
 | External API **404 / 503** reported as a **JSON-RPC protocol error** | Those happen **after** the tool ran = API failures → `isError: true`. HTTP codes from the API ≠ MCP request errors | Q25 B, D |
 | Unknown-outcome timeout on a **side-effecting** action → `retry_safe: true` / "please retry" / echo the content | Causes duplicates (double send / double charge). Say "outcome unknown, don't resend"; check status or escalate | Q26 A, C, D |
+| Unhelpful error replies → **raw debug data** / **separate troubleshooting tool** / **`is_error: false` "pending"** | Engineers' data, not actionable; extra hop often skipped; fake success | Q27 A, B, C |
 | Keep **one unified tool** + nested object / **if-then-else schema** / **all-optional + few-shot** | Same ambiguity, hidden deeper. Few-shot *"adds token overhead without addressing the root cause"*. Split instead (but don't **merge** similar tools as a first step: also a trap) | Q17 A, B, D |
 | "Subagents **directly** call / **callbacks** / **shared** store / **subscribe** / **queue**" | Breaks hub-and-spoke | Q03 B/C, Q07 A/B/D, Q12 B/C |
 | "Give the subagent **more tools / access**" | Breaks tool scoping. Route back to the coordinator | Q04, Q06 D |
