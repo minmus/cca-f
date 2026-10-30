@@ -83,7 +83,17 @@ In earlier questions, "instruct the agent to…" lost to a gate/schema/code. Her
 
 **C says "instruct the agent to…". In earlier questions "instruct" was usually the wrong answer and a gate in code was right. Why is "instruct" correct here, and which escalation-related rule *should* still be enforced in code?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer (part 1):* "Because this is the situation where judgement is required, not a binary logic." ✅ **Correct, that's exactly the reason.**
+
+| Trigger | Can code compute it? | So… |
+|---|---|---|
+| "Is this a policy **gap** or a policy **violation**?" | ❌ Needs reading the situation against the policy | Model judgment (instruct) |
+| "Am I making **meaningful** progress?" | ❌ "Meaningful" isn't a field | Model judgment |
+| "Did the customer ask for a human?" | ❌ "Can I talk to someone real?", "get me your manager", … many phrasings | Model judgment (honoured immediately) |
+
+**Rule of thumb:** *if you could write it as an `if` statement on data, put it in code. If you need to understand the conversation, instruct the model with clear criteria.*
+
+*Part 2 (which rule still belongs in code):* not answered yet. Asked again.
 
 ## Glossary
 
