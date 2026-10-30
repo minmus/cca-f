@@ -12,6 +12,7 @@ This repo is study material for the **Claude Certified Architect – Foundations
 ## File conventions
 - **Questions:** `questions/QNN-short-slug/question.md` with these sections: title, domain/lesson, question + options, answer, diagram (Mermaid), concept, why-others-wrong table, pattern to remember (+ guide quotes), glossary (new terms), **Related course lessons** (at the end).
 - **Concept notes** (for follow-up explanations): `concepts/<slug>.md`. Include my answers to check questions and the feedback on them.
+- **Cheat sheets** (revision summaries across several questions): `cheatsheets/<topic>.md`. Update the relevant one when a new question adds a pattern or distractor.
 - Anything you recommend in chat (e.g. a watch order) must **also be written to the .md**.
 - After every write or edit, re-read the file from disk and show the relevant section.
 
