@@ -87,6 +87,23 @@ Good catch. The rule from Q01/Q04/Q05 is about **guarantees**. Here the problem 
 - *"The difference may reflect different reporting periods and methodological approaches."*
 - *"A finding that three independent sources support differs from a finding that is based on a single report."* So corroboration is a **label**, not a filter.
 
+## Check question
+
+**Why is D's weighted average (~$42B) worse than the vague "$35–50B depending on factors"?**
+*My answer:* "Because it creates an impression of certainty which is false." ✅ That's the main point. Two details complete it.
+
+| | "$35–50B depending on factors" | D: "~$42B" |
+|---|---|---|
+| Signals that sources **disagree** | ✅ Yes, the range shows it | ❌ Hidden |
+| Keeps both **real values** | ✅ Both endpoints are actual source figures | ❌ Neither appears |
+| Can be **cited** | 🟡 Partly (both numbers exist in sources) | ❌ **No source says $42B** |
+| Looks precise | No, obviously uncertain | **Yes**, falsely |
+
+1. **It breaks provenance (Q01).** $42B is a made-up number with no `source_id`. A claim-source check ([claim-source-mapping](../../concepts/claim-source-mapping.md), check 1) would flag it as unsupported.
+2. **Precise-looking numbers get trusted more.** Readers treat "$42B" as a measurement, while a vague range at least warns them. So D actively misleads.
+
+> **Rule:** an honest vague answer beats a precise wrong one. A properly annotated answer (C) beats both.
+
 ## Glossary
 
 - **Conflict annotation:** keeping disagreeing findings side by side, each with its source, value, method and uncertainty, instead of resolving them into one statement.
