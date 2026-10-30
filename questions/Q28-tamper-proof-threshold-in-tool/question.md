@@ -83,7 +83,25 @@ Guide (1.4): *"if a single failure would cause financial loss, a security breach
 
 **The guide's own hook example routes big discounts to a manager queue with a PreToolUse hook. So hooks *can* enforce rules. Why is D still weaker than A in this question?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Because D depends on the trustworthy tool." 🟡 **Right area (trust between pieces), but the direction is reversed, and it's vague.** It's the **tool** that depends on **the hook**: the tool trusts a **flag** instead of checking the **amount**.
+
+**Who checks what:**
+
+| | Checks the amount? | What the tool trusts |
+|---|---|---|
+| **A** | ✅ The tool itself, every call | Only the real data (`amount`) |
+| **D** | Only the **hook** | A `requires_approval` **flag** someone else added |
+
+**The concrete gap in D:** the tool's rule is effectively *"pay unless `requires_approval` is true"*. So whenever the flag is **missing**, it pays:
+- the tool is called by **another agent or client** where the hook isn't configured,
+- someone **edits or disables** the hook config,
+- a code path **skips** the hook.
+
+→ $5,000 paid with no approval. In A there's no such path: the `if amount > 500` lives inside the only code that moves money.
+
+**Rule of thumb:** *the safest check is the one closest to the action, on the real data.* Enforcement split across two components is only as strong as the link between them.
+
+> **D: the hook decides, the tool trusts a flag → remove the hook and the rule disappears. A: the tool decides on the real amount → nothing to remove.**
 
 ## Glossary
 
