@@ -102,7 +102,25 @@ So the honest claim is D's: **reliably** extract values, **reducing** errors.
 
 ## Check question
 
-**Options C and D both say structured output improves accuracy. C says the model processes it "deterministically", and D says the agent can "reliably" extract values. Why does that one word make C wrong?**
+**Why can't any input format (JSON included) make the *model's* processing deterministic? And where *does* determinism come from in these systems? (Think back to Q31.)**
+
+*My answer:* "Determinism comes from the tools. Models are statistical, thus their interpretation of extracted values is also probabilistic." ✅ **Correct on both parts.** One precision: determinism comes from **code**, and tool code is only one place it lives.
+
+There's also a subtle trap: a tool is deterministic **once it runs**, but the **model decides** whether to call it, when, and with which arguments.
+
+| Where | Deterministic? | Example |
+|---|---|---|
+| The model **reading** a tool result | ❌ Probabilistic, whatever the format | Reads `total_value` from JSON: very reliable, not guaranteed |
+| The model **choosing** to call a tool, and its arguments | ❌ Probabilistic | May skip `check_refund_eligibility` (Q34 D) |
+| **Tool code**, once it runs | ✅ | `process_refund` rejects a 45-day-old order (Q13, Q28) |
+| A **hook** around every tool call | ✅ | PreToolUse blocks > $500 and escalates (Q31) |
+| **Validation / orchestration code** | ✅ | Schema check, handoff gate (Q10), retrieval-log check (concept: claim-source-mapping) |
+
+> **Determinism lives in code that runs no matter what the model decides: inside the tool, or in a hook around every call. A tool the model has to *remember* to call is only as reliable as the model.**
+
+### Follow-up check question
+
+**Which of these are deterministic? (a) Claude reading `total_value` from JSON, (b) a PreToolUse hook blocking refunds > $500, (c) Claude deciding to call `check_refund_eligibility` first, (d) `process_refund` rejecting a 45-day-old order.**
 
 *My answer:* (pending)
 
