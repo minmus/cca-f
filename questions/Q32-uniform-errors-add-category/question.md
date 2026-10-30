@@ -156,7 +156,16 @@ Splitting a $750 refund into two $375 refunds would not be an "alternative workf
 
 **Classify each error (transient / validation / business / permission) and say whether it's retryable: (1) the API returns 429 rate limit, (2) refunds are blocked because the customer's account is suspended, (3) the date was sent as "30/10/2026" but the API expects "2026-10-30", (4) the agent's API key has expired.**
 
-*My answer:* (pending)
+*Skipped (moved on to Q33).* Answers:
+
+| # | Error | Category | `isRetryable` | Next step |
+|---|---|---|---|---|
+| 1 | 429 rate limit | **transient** | ✅ true | Wait, then retry with backoff (capped) |
+| 2 | Customer's account is suspended, so refunds are blocked | **business** | ❌ false | Explain, or escalate. The request is valid, but policy forbids it |
+| 3 | Date sent as "30/10/2026", API expects "2026-10-30" | **validation** | ❌ false | Fix the format and resend. The agent can do this itself |
+| 4 | The agent's API key has expired | **permission** | ❌ false | Escalate, or use different credentials. The customer can't fix this |
+
+Note on 2 vs 4: both "block" the action. Ask **whose** problem it is. The **customer's** status under policy → business. The **agent's** own access → permission.
 
 ## Glossary
 
