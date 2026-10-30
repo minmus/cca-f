@@ -91,7 +91,22 @@ Guide (2.1), using this exact example: *"Generic tools with broad responsibiliti
 
 **Option B also forces an explicit choice (an enum: extraction / summarization / verification). Why is D still better than B?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "B is complicated to manage on the output side: it can't be everything at once without becoming loose or conditional." ✅ **Correct, that's the key point.** The enum fixes the **input** side (which job), but not the **output** side (what comes back).
+
+**Made concrete: what the synthesis agent receives:**
+
+| | **B** (one tool + enum) | **D** (three tools) |
+|---|---|---|
+| Output schema | One loose schema: `{summary?, data_points?, verdict?, ...}` | Each tool has **its own exact** schema |
+| Can the output still be the wrong shape? | ✅ Yes: mode = extraction, but `summary` filled and `data_points` empty is still schema-valid | ❌ No: `extract_data_points` can **only** return data points |
+| What the consumer must do | Check which fields are filled, handle every combination | Just use the result |
+| Result | Re-requests continue (fewer, but not gone) | Output shape guaranteed by the tool |
+
+**Same pattern as Q17**, mirrored:
+- Q17: one tool, **different inputs** per operation → split.
+- Q30: one tool, **different outputs** per operation → split.
+
+> **An enum chooses the mode; only separate tools give each mode its own guaranteed output.** If different jobs need different input **or** output shapes, they're different tools.
 
 ## Glossary
 
