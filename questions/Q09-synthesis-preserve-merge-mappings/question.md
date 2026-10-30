@@ -67,6 +67,37 @@ Because the mapping is **data**, you can also **validate** it in code: every con
 - *"Synthesis compresses and rewrites prose, so source details embedded in it are lost."* This is why D fails.
 - *"Every finding must contain its provenance."*
 
+## Check question
+
+**Synthesis receives:** `{claim: "Market grew 12% in 2025", source: S1}` · `{claim: "2025 growth was about 12%", source: S3}` · `{claim: "Growth was 8% in 2025", source: S5}`. **What should its output look like?**
+
+*My answer:*
+```
+{"findings": {"2025 Market growth":, {{"12%": sources: [S1, S3]}, {"8%": sources: [S5]} }}}
+```
+✅ **Correct on the logic:** (1) **merged** S1 and S3 into 12% → [S1, S3]; (2) **preserved the conflict**, so 8% → [S5] wasn't averaged or dropped (Q08).
+
+**Refinements for full marks:**
+1. **Mark it as contested** (`status: "contested"`), so the report generator puts it in the contested section and no later step "picks the majority."
+2. **Corroboration is a label, not a verdict.** 12% has 2 sources and 8% has 1. Record it, but that doesn't make 12% the winner (Q08 B). S5 might have the better methodology.
+3. **Keep the original wording** ("**about** 12%"): *"preserving original source characterizations"* (Q08).
+
+*(Minor: the JSON has syntax errors. The exam tests design, not syntax.)*
+
+```json
+{ "findings": [
+  { "topic": "2025 market growth",
+    "status": "contested",
+    "positions": [
+      { "value": "12%", "sources": [
+          { "id": "S1", "as_stated": "Market grew 12% in 2025" },
+          { "id": "S3", "as_stated": "2025 growth was about 12%" } ],
+        "corroboration": 2 },
+      { "value": "8%", "sources": [
+          { "id": "S5", "as_stated": "Growth was 8% in 2025" } ],
+        "corroboration": 1 } ] } ] }
+```
+
 ## Glossary
 
 - **Preserve (mappings):** carry every input's source ID through a processing step unchanged.
