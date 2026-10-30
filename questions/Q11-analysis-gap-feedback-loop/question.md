@@ -86,6 +86,35 @@ Both are coordinator-driven loops, so both respect hub-and-spoke. B wins on **tw
 | [Q09](../Q09-synthesis-preserve-merge-mappings/question.md) | Explicit, structured signal beats reconstructing it later (C infers gaps from prose) |
 | [Q10](../Q10-missing-context-in-subagent-prompt/question.md) | Re-invoked analysis must get the **new sources + earlier analysis** in its prompt |
 
+## Check question
+
+**In B, how should analysis report its gaps so the coordinator can act reliably, and what could the coordinator check in code before triggering the next search?**
+*My answer:* "As a structured gaps field, AND the coordinator would have a gate checking for gaps." ✅ **Both halves: structure + code gate.**
+
+**1. The structured `gaps` field.** Each gap should be specific enough to act on:
+```json
+{ "analysis": { ... },
+  "gaps": [
+    { "topic": "token refresh patterns",
+      "context": "sources cover API auth but not refresh",
+      "suggested_query": "OAuth2 token refresh best practices",
+      "severity": "high" } ] }
+```
+
+**2. What the coordinator's gate checks in code:**
+
+| Check | Why |
+|---|---|
+| `gaps` field **present** and valid (schema) | Missing field ≠ "no gaps". Don't misread a broken output as "done" |
+| `gaps` **non-empty** → trigger a search; empty → proceed to synthesis | The loop's main decision |
+| **Round count < max** (e.g. 2) | Stop condition (Q06). Prevents endless loops |
+| **Gap not already searched** with the same query | Don't repeat a failed search. Mark the gap `unresolved` instead |
+| Each gap has a **topic / query** | Vague gaps can't become targeted searches |
+
+When the cap is reached and gaps remain → **structured unresolved gaps** in the report (Q06 check), or a human if `severity: high` (D5 › 5.2).
+
+> **Structure** makes the signal explicit (Q01/Q09). The **gate** makes the decision deterministic (Q05/Q10).
+
 ## Glossary
 
 - **Strict (linear) pipeline:** each agent runs once, in a fixed order, with no way back. Fast and simple, but it can't act on what later agents discover.
