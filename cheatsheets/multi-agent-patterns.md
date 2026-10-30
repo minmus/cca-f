@@ -114,6 +114,7 @@ flowchart TB
 | Must **always** happen (money, compliance) | **Prerequisite gate** in the tool / **hook** / fixed **workflow** in code |
 | Confidence threshold for review? (Q21) | **Per field**, **tested** on a validation set (known answers), **stricter where mistakes are costly** (amount > vendor). Never one made-up number for all |
 | Tool result types (Q22, 2.2) | 0 matches → `success: true, results: []` · **transient** (timeout) → `isError`, `isRetryable: true`, capped retry · **validation** → fix input · **business** → explain/alternative/escalate · **permission** → escalate. Never report a failure as "no results" |
+| Threshold in code or model judgment? (Q21 vs Q29) | **One item vs a number** (calibrated score, amount) → code. **How items fit together** (cohesion, balance, duplicates) → model. Per-item thresholds can't judge a set |
 | Where to enforce a must-hold rule? (Q28) | **Closest to the action, on the real data** (inside the tool). Hook that blocks = OK; hook that only adds a flag the tool trusts = gap (no hook → no rule) |
 | Structured option vs prose option? (Q26) | Judge in order: **1. true? 2. leads to the right action? 3. structured?** Structure is a tiebreaker; a wrong structured field is followed *reliably wrong* |
 | Schema vs description vs code check? (Q20) | **Valid ≠ correct.** Schema → valid shape · description → correct meaning (likely) · code check (e.g. ID belongs to session) → guaranteed |

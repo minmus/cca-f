@@ -94,7 +94,22 @@ Today the model **babysits the mechanical part**: one call to discover, one per 
 
 **In Q21 we said "put the threshold decision in code". Here B puts thresholds in code and it's *wrong*. What's the difference between the two situations?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Because the question explicitly says judgment must be preserved. There is no judgment in B." 🟡 **True, and reading the stem's constraint is a good exam habit.** But it says *that* B fails, not *why* thresholds work in Q21 and not here. The real difference is **what kind of decision** it is:
+
+| | **Q21** (threshold ✅) | **Q29** (threshold ❌) |
+|---|---|---|
+| Decision is about… | **One field at a time** | **The whole set together** |
+| Question asked | "Is *this* amount's score below 0.85?" | "Do *these* articles form a cohesive, balanced set?" |
+| Can a number capture it? | ✅ Yes, the score **is** the signal (once calibrated) | ❌ No, cohesion depends on how items **relate** (overlap, balance, theme coverage) |
+| Same input → same right answer? | ✅ Yes, so make it deterministic | ❌ Depends on the other candidates, so it needs judgment |
+
+**Example:** three articles all score 0.95 but say the **same thing**. A threshold adds all three (each passes on its own). An editor picks **one** and adds a different angle scoring 0.80. No per-item threshold can do that.
+
+**Rule (extends Q16's "instruct the judgment, gate the numbers"):**
+- Decision on **one item vs a number** → **code** (Q21, Q28)
+- Decision about **how items fit together**, or meaning → **model** (Q29, Q16)
+
+> **Thresholds judge items one by one. Cohesion is a property of the set. That's why it needs the model.**
 
 ## Glossary
 
