@@ -134,7 +134,7 @@ Same lesson as Q24's check answer (for a transient failure: *never* say "shipmen
 
 **True or false: "Log the error server-side **and** return it to the model with `isError: true`" is a good pattern.**
 
-*My answer:* (pending)
+*Skipped (moved on to Q34).* Answer: **True.** Logging is for humans (debugging, monitoring), and the `isError` result is for the model (recovery). They serve different readers, so do both. What's wrong in A and C is logging **instead of** telling the model.
 
 ## Glossary
 

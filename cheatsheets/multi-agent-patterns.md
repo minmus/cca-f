@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q33)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q34)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.1, 2.2, 2.3, 2.4 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -65,6 +65,7 @@ flowchart TB
 | **Q31** | Refunds > $500 must **automatically** escalate; a clear prompt still fails 3% | **PreToolUse hook**: intercept `process_refund`, block > $500, **invoke escalation** | 100% requirement → hook (1.5, the guide's own example). Enforce the whole rule: block **and** route |
 | **Q32** | `lookup_order` errors all say "Operation failed" → agent retries / escalates / asks the user at random | Errors carry **`errorCategory`** + **`isRetryable`** + **description** | Each behaviour was right for a *different* error. Missing signal, not bad reasoning. Fix it at the source |
 | **Q33** | How should `lookup_order` report "Order not found" / DB failures? | Error message in the **tool result** with **`isError: true`** | The tool ran → execution error → the model must see it. Don't hide it (exception), disguise it (empty) or contradict it (success + status) |
+| **Q34** | Agent wastes 3–4 turns retrying **business** errors (12%); plain-text errors; poor customer replies | Structured errors: **`retriable: false`** for business errors + **customer-friendly explanation** | Two goals → the two fields. The tool knows the facts, so it writes the explanation |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
@@ -88,6 +89,7 @@ flowchart TB
 | **Raw confidence** + few-shot to interpret · **aggregate** quality score · `verified`/`needs_verification` groups without reasons | Model guesses (trap: *"raw… scores without calibration"*); averages hide the bad field; no decision/why | Q21 A, C, D |
 | Empty result → **`isError: true`** / **prose** message / **suggestions** field | Flags success as failure → retries (trap); prose re-interpreted; add-on doesn't fix the signal. Opposite trap: failure returned as silent empty success | Q22 A, B, C |
 | Backend error → **throw an exception** "so the framework can log it" / **log + empty result** / **success + "status" field** | Hidden from the model / disguised as "no data" (false answer) / fake success that contradicts `isError`. Logging is fine **in addition**, never instead | Q33 A, C, D |
+| Retries wasted on **permanent** errors → tool **auto-retries transient** errors only / **few-shot** to parse error text / mandatory **pre-check tool** | Fixes the wrong half (business errors still plain text) / brittle guessing / workflow change that leaves the error signal unchanged. None improves customer replies | Q34 A, B, D |
 | Misrouting with minimal descriptions → **few-shot** / **routing classifier** / **"type CONFIRM"** / server **rejects after** | Few-shot + classifier are listed traps; confirm = friction; rejection = guarantee, not selection | Q23 B, C, D |
 | Tool errors → **generic `lookup_failed`** / extra **recovery tools** or an **`analyze_error`** tool / **few-shot** to read error text / **retry everything** inside the tool | Hides *why*; extra tools have nothing to analyze; examples can't read missing info; retry helps only transient errors | Q24 A, C, D · Q32 A, B, D |
 | External API **404 / 503** reported as a **JSON-RPC protocol error** | Those happen **after** the tool ran = API failures → `isError: true`. HTTP codes from the API ≠ MCP request errors | Q25 B, D |
