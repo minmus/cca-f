@@ -122,6 +122,29 @@ There's also a subtle trap: a tool is deterministic **once it runs**, but the **
 
 **Which of these are deterministic? (a) Claude reading `total_value` from JSON, (b) a PreToolUse hook blocking refunds > $500, (c) Claude deciding to call `check_refund_eligibility` first, (d) `process_refund` rejecting a 45-day-old order.**
 
+*My answer:* "(b) A PreToolUse hook blocking refunds over $500." 🟡 **(b) is right, but (d) is missing.** The answer is **(b) and (d)**.
+
+**Why (d) is deterministic too:** the rejection is **code inside the tool**: `if days_since_delivery > 30: reject`. The model decides whether to *call* `process_refund`, but either way the rule holds:
+- The model doesn't call it → no refund happens at all.
+- The model calls it → the check runs and rejects, every time.
+
+The only path to the money goes through that `if`, which is Q28's point.
+
+**The test: can the model's choice make the rule fail?**
+
+| | Can the model's choice break it? | Deterministic? |
+|---|---|---|
+| (a) Reading `total_value` | Yes: it could misread it (rarely) | ❌ |
+| (b) PreToolUse hook | No: it runs on every call, whatever the model does | ✅ |
+| (c) Calling `check_refund_eligibility` first | Yes: the model can skip it | ❌ |
+| (d) `process_refund` rejecting > 30 days | No: the check is inside the only path to the refund | ✅ |
+
+> **(c) and (d) look similar ("a check before refunding"), but in (c) the model has to *remember* the check, and in (d) the check is *built into* the action.**
+
+### Follow-up check question
+
+**Apply the test: a system prompt says "never refund more than $500", and `process_refund` has no amount check. Deterministic or not, and why?**
+
 *My answer:* (pending)
 
 ## Glossary
