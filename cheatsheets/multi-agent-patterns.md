@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns (Q01–Q11)
+# Cheat sheet: Multi-agent patterns (Q01–Q12)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.7 · D2 › 2.3 · D5 › 5.1, 5.4, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -38,6 +38,7 @@ flowchart TB
 | **Q09** | Subagents cite correctly, **synthesis** loses links when combining | Structured claim-source mappings that synthesis must **preserve and merge** | Don't reconstruct provenance. Preserve it |
 | **Q10** | Synthesis says "no findings were provided" | Coordinator **didn't include** prior outputs in the prompt | API is stateless, subagents isolated. Context exists only if written into the prompt |
 | **Q11** | Analysis spots gaps, strict pipeline can't act | Analysis **reports gaps explicitly** → coordinator: targeted search → **re-analysis** → until sufficient | Explicit signal + complete loop (beats inferred signal + half loop) |
+| **Q12** | How to give synthesis what it needs | **Complete findings** from both subagents **directly in its prompt** | No inheritance, no callbacks, no shared-store lookups |
 
 ## Distractor signals ❌
 
@@ -46,14 +47,14 @@ flowchart TB
 | "**Instruct** the agent to…" (for must-have behaviour) | Probabilistic. Look for schema / gate / code | Q01 D, Q05 follow-up |
 | "Use a **bigger / better model**" | Exam is model-agnostic. Fix the design | concept: extract-first |
 | "Pass the **full / raw / all** context" | Floods context. Complete ≠ everything | Q01 C, Q02 A |
-| "Subagents **directly** call / **shared** store / **subscribe** / **queue**" | Breaks hub-and-spoke | Q03 B/C, Q07 A/B/D |
+| "Subagents **directly** call / **callbacks** / **shared** store / **subscribe** / **queue**" | Breaks hub-and-spoke | Q03 B/C, Q07 A/B/D, Q12 B/C |
 | "Give the subagent **more tools / access**" | Breaks tool scoping. Route back to the coordinator | Q04, Q06 D |
 | "**Remove all detail**: 'research X thoroughly'" | Overcorrection. Loses quality criteria | Q05 C |
 | "**Add more fallback rules** to the procedure" | Patches one symptom. Still brittle | Q05 B |
 | "**Note the limitation** in the output" / flag for **manual review** | Documents the problem instead of fixing it (OK as a **fallback**) | Q06 A, Q11 D |
 | "**Post-process** / re-locate / **reconstruct** sources afterwards (logs, similarity matching)" | Fixes too late. Metadata is already lost, and guessing is approximate | Q01 A, Q02 C, Q09 B/C |
 | "Embed source **markers / prefixes / inline citations** in the text" | Still prose. Rewriting drops or misplaces them | Q01 D, Q09 D |
-| "Shared **API connection** / **automatic** context sharing" | No such mechanism. The API is stateless | Q10 A |
+| "Shared **API connection** / **automatic** context sharing / context **inheritance**" | No such mechanism. The API is stateless and subagents are isolated | Q10 A, Q12 A |
 | An option that explains a **different symptom** (e.g. "context window too small" when the agent says "nothing provided") | **Symptom mismatch.** Pick the cause that produces *exactly* the observed behaviour | Q04 B, Q04 D, Q10 D |
 | "**Broader** queries / **plan or decompose more** up front" (for depth gaps found later) | Open loop. Guessing instead of feedback | Q06 B, Q11 A |
 | A loop where the coordinator **infers** problems from prose, or that **skips a step** (re-search without re-analysis, no stop condition) | Inferred signal + incomplete loop. Prefer an explicit report + full loop | Q11 C |
