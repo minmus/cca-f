@@ -86,6 +86,7 @@ flowchart TB
 | Need | Use |
 |---|---|
 | Must **always** happen (money, compliance) | **Prerequisite gate** in the tool / **hook** / fixed **workflow** in code |
+| Instruct or gate? (Q16) | Condition is **plain data** (`amount > 500`, `days > 30`) → **gate**. Needs **understanding** (policy gap, progress, "wants a human") → **instruct** with clear criteria. ❌ Circular gate: `if escalation_required` |
 | Must **adapt** to the unexpected | **Goals + quality criteria** in the delegation prompt |
 | Exact facts must survive summaries | **Extract first** → persistent **fact block** owned by code |
 | Prove a citation is real | Check against the **retrieval log** (code), not "ask Claude" |

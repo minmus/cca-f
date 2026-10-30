@@ -93,7 +93,34 @@ In earlier questions, "instruct the agent to…" lost to a gate/schema/code. Her
 
 **Rule of thumb:** *if you could write it as an `if` statement on data, put it in code. If you need to understand the conversation, instruct the model with clear criteria.*
 
-*Part 2 (which rule still belongs in code):* not answered yet. Asked again.
+*My answer (part 2):* "Something like `if human_escalation_required: handoff_to_human`." 🟡 **Right shape (an `if` in code), but the condition is circular.**
+
+`human_escalation_required` **is** the judgment call from part 1. Code can't compute it, so the `if` just moves the problem. The code half needs a condition that's **plain data**:
+
+| Computable limit | Data it checks | From |
+|---|---|---|
+| **Refund > $500 authorization cap** | `amount` | [Q14](../Q14-escalation-handoff-summary/question.md) ($847) |
+| **Order older than 30 days** | `days_since_purchase` | [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) |
+
+**Where:** inside `process_refund` (or a PreToolUse hook on it), returning a **structured error** that points to escalation:
+
+```python
+def process_refund(order_id, amount):
+    if amount > 500:                                          # gate: authorization cap
+        return {"error": "EXCEEDS_AUTHORIZATION_LIMIT",
+                "limit": 500, "requested": amount,
+                "action": "call escalate_to_human with a structured handoff"}
+    ...
+```
+
+**How the two halves fit together:**
+
+| Layer | Decides | Example |
+|---|---|---|
+| **Model (instructed, Q16 C)** | *Should* this go to a human? | Customer asked for one · policy gap · stuck |
+| **Code (gate, Q13/Q14)** | *Can* the agent do this action at all? | `amount > 500` → blocked → structured error → model escalates |
+
+> **Instruct the judgment. Gate the numbers.** The gate doesn't decide to escalate; it blocks the action and its error steers the model to `escalate_to_human`.
 
 ## Glossary
 
