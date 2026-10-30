@@ -75,7 +75,21 @@ A human review step is only a **safety check** (5.5) if the human **has the info
 
 **The confirmation now shows text, account, time and platform. A few weeks later analytics still show ~95% approval in ~3 seconds. Is the redesign failing? What would you look at to find out?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Add a mandatory waiting period." ❌ **That's option C, the distractor**, and it answers a different question ("how do I slow users down?") instead of "is the redesign failing?".
+
+**Key insight: a high approval rate is not a failure by itself.** Most posts the agent prepares are probably **correct**, so approving ~95% quickly can be exactly right. The old problem wasn't "98% approved"; it was "**errors got approved**".
+
+| Metric | What it measures | Use it? |
+|---|---|---|
+| Approval rate / seconds to approve | User **behaviour** (a proxy) | ❌ Can't tell careful from careless |
+| **Incidents after posting** (wrong account / time / content) | The actual **outcome** | ✅ Did they go down? |
+| **Rejections and edits** at the confirmation step | Are errors being **caught**? | ✅ Rejections where the agent was wrong = the check works |
+
+**How to answer:** compare post-mortem incidents before vs after. If wrong-account / wrong-time incidents dropped and some confirmations are now rejected or edited, the redesign **works** even at 95% approval. If incidents didn't drop, look at **which field** was wrong and whether the confirmation shows it clearly (e.g. account name vs internal ID, time zone on the scheduled time).
+
+**Why a waiting period still doesn't help:** it changes the **time** (the proxy), not what the user can **see**. The trap is optimising the metric instead of the outcome, the same shape as Q16's frustration score.
+
+> **Measure the outcome (errors caught / incidents), not the behaviour (approval rate, seconds).**
 
 ## Glossary
 
