@@ -74,6 +74,8 @@ The agent no longer interprets numbers. It **follows a flag**. Same principle as
 | [Q18](../Q18-meaningful-confirmation/question.md) | `review_reasons` tells the human **where to look**, the same as showing the details in a confirmation |
 | [Q20](../Q20-parameter-descriptions/question.md) | Tool **output** design matters as much as input design |
 
+**Plain-language version:** [concepts/confidence-scores-simple.md](../../concepts/confidence-scores-simple.md) (invoice story + traffic-light analogy, with my answer on why a fixed rule beats agent judgment ✅).
+
 ## Check question
 
 **B says the threshold is "tested". What does "tested" mean here, and what would go wrong if you just picked 0.8 for every field?**
