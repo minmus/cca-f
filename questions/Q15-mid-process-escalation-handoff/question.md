@@ -77,7 +77,23 @@ The work the agent already did is **valuable**: the human shouldn't have to call
 
 **Q13 said: put a gate inside `process_refund`. Option D also relies on the system rejecting the refund. So why is D still wrong?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "The human manager might decide not to approve the refund." 🟡 **Partial: right direction, but the key consequence is missing.**
+
+The manager *might* say no. With D, though, the refund may already have happened **before the manager is asked**:
+
+| Step | With D |
+|---|---|
+| 1 | Agent calls `process_refund` |
+| 2 | The refund tool checks amount / 30-day window. It does **not** know about "promo pricing error needs manager approval" |
+| 3 | ✅ The system **accepts** it, so the money is gone |
+| 4 | There's nothing left to escalate. The manager's decision was **bypassed**, not just ignored |
+
+**Three precise reasons D fails:**
+1. **Acts first, asks later.** Approval must come **before** the action. Afterwards it's too late, and refunds are hard to reverse.
+2. **The gate may not cover this rule.** Q13's gate checks the 30-day window. "Promo pricing error → manager approval" is a different rule, so the system may happily accept the refund.
+3. **A gate is a safety net, not a strategy.** The agent already **knows** it lacks authority. Deliberately trying the action and hoping something blocks it is the wrong design, even when a gate exists.
+
+> **Model recognizes the limit → escalates first. The gate only catches what the model misses.** Never "try and see."
 
 ## Glossary
 
