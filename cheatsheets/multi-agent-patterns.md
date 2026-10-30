@@ -73,6 +73,7 @@ flowchart TB
 | Loop can't converge | **Cap** iterations → structured gap note → escalate if critical |
 | Resume after crash | Structured **state manifest**, loaded by the coordinator |
 | Sources disagree | **Annotate**: both values + source + method + uncertainty, in a **contested** section |
+| Next agent could get empty or broken input | **Handoff gate** in the coordinator: validate non-empty + required fields **before** invoking (Q10) |
 
 ## Handoff prompt template (Q01 + Q02 + Q05 + Q07)
 

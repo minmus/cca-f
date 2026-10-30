@@ -64,6 +64,34 @@ So when synthesis says "no findings were provided," it's **telling the truth**: 
 
 **D1 › 1.2:** *"All communication routes through the coordinator. Subagents never communicate directly with each other…"* This is why B fails.
 
+## Check question
+
+**Synthesis honestly said "no findings provided." What would be worse, and how could the coordinator prevent this in code before invoking synthesis?**
+*My answer:* "Synthesis agent would synthesize from empty input." 🟡 **Half right.** Correct on the worse outcome, but the prevention was missing.
+
+**Part 1: the worse outcome ✅.** The agent **makes up a report from nothing**: plausible claims, numbers, even citations that no agent found. It's worse because:
+- It **looks like a normal, successful report**, so nobody notices.
+- Every claim is **unsupported**, which is Q01/Q08 provenance at its most extreme.
+- An honest error is **loud**. A made-up report fails **silently** (the "silent bug", Udemy A #118).
+
+**Part 2: prevention in code (missing).** Put a **gate in the coordinator** that validates the handoff before invoking synthesis:
+
+```python
+def invoke_synthesis(search_out, analysis_out):
+    findings = search_out.findings + analysis_out.findings
+    if not findings:                                         # gate 1: not empty
+        raise HandoffError("No findings to synthesize: re-run or escalate")
+    if any(not f.source_id for f in findings):               # gate 2: every finding has a source
+        raise HandoffError("Finding without source_id")
+    return synthesis_agent.run(prompt=build_prompt(findings))
+```
+
+- **Don't invoke** on empty or broken input. Re-run the upstream agent, or escalate (Q06 loop and cap).
+- Same idea as Q05's **refund gate**: a prerequisite checked in code.
+- Also add to the synthesis prompt *"if no findings are provided, say so; never invent findings"* as the **probabilistic backup**. The gate is the guarantee.
+
+> **Rule:** validate the handoff **before** the next agent runs. An agent given empty input either fails loudly (good) or invents something (bad). Don't rely on which one you get.
+
 ## Glossary
 
 - **Stateless API:** the server keeps no memory between requests. Each request must carry the full context (conversation history, findings, instructions).
