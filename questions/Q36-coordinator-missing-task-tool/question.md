@@ -168,6 +168,23 @@ Guide 1.3: the requirement is **yes or no**. Without `Task`, *"the coordinator c
 
 **The coordinator needs three subagents: web search, document analysis, and synthesis (which writes the report from the other two's findings). Which can go in the same response, which must wait, and why?**
 
+*My answer:* "Synthesis has to wait." ✅ **Right split.** By implication, web search and document analysis go **together in one response**. The *why* was missing, though:
+
+**Synthesis's input *is* the other two's output.** A subagent gets context only through its Task prompt (Q10), and that prompt is written **when the Task call is made**. If synthesis were spawned in turn 1, the findings wouldn't exist yet, so there would be nothing to write into its prompt. Guide 1.3: *"If it needs web search results and document analysis output, the coordinator must pass both in full."*
+
+| Coordinator turn | Task calls | Why |
+|---|---|---|
+| 1 | `Task(web search)` + `Task(document analysis)` | Independent. Neither needs the other's output, so one response |
+| 2 | `Task(synthesis)`, with both outputs **in full** in its prompt (plus claim→source mapping, Q02) | Dependent. It can only be written once both results are back |
+
+That's **2 rounds instead of 3**: run what's independent in parallel, and only wait where there's a real dependency.
+
+> **Parallel where independent, sequential where dependent. The test: "does this Task prompt need another subagent's output?"**
+
+### Follow-up check question 3
+
+**An exam option says: "Spawn all three subagents in a single response to minimise latency, and instruct the synthesis subagent to wait for the other two to finish." Why is that wrong?**
+
 *My answer:* (pending)
 
 ## Glossary
