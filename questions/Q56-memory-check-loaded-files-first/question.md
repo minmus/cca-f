@@ -88,6 +88,36 @@ flowchart TB
 
 **You run `/memory` (or `/context`) in several sessions, including ones where Claude used generic try/catch. The project CLAUDE.md is listed every time, and no other loaded file mentions error handling. What does that rule out, what explanation is left, and what are your next two steps?**
 
+*My answer:* "That rules out CLAUDE.md not being loaded, and other files overruling it. It might suggest CLAUDE.md is not specific enough, or the usage examples should be enhanced." 🟡 **Both things ruled out are right, and making the instruction more specific is the right first step. One correction and one missing step:**
+
+**Correction: files don't "overrule" each other.** What you ruled out is a **conflict**: two loaded files giving different guidance, so *"Claude may pick one arbitrarily."* No file wins or overrides; they're all concatenated.
+
+**What's left:** the file *is* loaded and nothing contradicts it, yet Claude follows it only sometimes. That's how guidance behaves. Guide 3.1: *"There's no guarantee of strict compliance."* *"Treat CLAUDE.md as guidance that the model usually follows."* "Random across sessions" is exactly what probabilistic compliance looks like.
+
+**Step 1 (your answer): make it specific, with an example.** Docs: *"Make instructions more specific."* Option A becomes the right move **now**, after the diagnosis:
+
+```markdown
+## API error handling (src/api/handlers/**)
+- Throw `ApiError(status, code, message)` from `src/errors/ApiError.ts`.
+- Never `throw new Error("...")`, and never return a plain string message.
+- Example: `throw new ApiError(404, "ORDER_NOT_FOUND", "Order 123 not found");`
+```
+
+Moving it into a path-scoped rule for `src/api/handlers/**` (option D) can also help now: the rule loads right when Claude edits a handler, alongside less unrelated text (Q54). It's still guidance, though.
+
+**Step 2 (missing): if the convention must always hold, enforce it with a check.** Step 1 raises the hit rate but can't make it 100%. Q52 is the proof: "IMPORTANT: MUST" only took violations from 30% to 15%. The docs: *"If the instruction is something that must run at a specific point… write it as a hook instead."*
+- **A lint rule** that flags `throw new Error(...)` in handler files (e.g. ESLint `no-restricted-syntax`).
+- **A PostToolUse hook** that runs the linter on each edited handler file and **exits 2** on failure, so Claude sees the error and fixes it in the same session. (ESLint exits 1, which hooks treat as a non-blocking error that Claude doesn't see. Hooks docs: *"If your hook is meant to enforce a policy, use `exit 2`."*)
+- **CI** runs the same lint rule as the final safety net.
+
+| Layer | What it does | Guarantee |
+|---|---|---|
+| Specific CLAUDE.md / path rule + example | Claude usually writes it right the first time | Probabilistic |
+| Lint rule + PostToolUse hook (exit 2) | Every miss is caught and sent back to Claude to fix | Deterministic |
+| CI | Nothing non-compliant gets merged | Deterministic |
+
+> **Loaded and not contradicted, but still followed only sometimes → it's guidance doing what guidance does. First make it specific with an example; if it must always hold, add a deterministic check (lint + hook, CI).**
+
 ## Glossary
 
 - **`/memory`:** lists your CLAUDE.md, CLAUDE.local.md and auto-memory locations and opens them for editing. The exam treats it as "show which files are loaded".
