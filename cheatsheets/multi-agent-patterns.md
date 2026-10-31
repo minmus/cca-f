@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q44)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q45)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.1, 2.2, 2.3, 2.4 · D4 › 4.1, 4.3 · D5 › 5.1, 5.2, 5.4, 5.5, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -76,6 +76,7 @@ flowchart TB
 | **Q42** | `lookup_order` returns 40+ fields per call; tool outputs are most of the context; two more lookups coming | **Extract only the return-relevant fields** (items, purchase date, return window, status) | Guide 5.1: *"You need 5."* Trim in code, keep the key; from now on trim in a **PostToolUse** hook or the tool itself |
 | **Q43** | "Going back and forth for days… I just want to speak to **someone who can actually help** me"; return is straightforward and eligible | **Acknowledge frustration, say it's resolvable now, offer to complete it or escalate** | Frustration ≠ explicit human request. Customer chooses; repeats "a person" → escalate |
 | **Q44** | "Explained twice… I want to talk to a **real person NOW**"; no tools called yet | **Immediately call `escalate_to_human`** with what's known | Explicit request → escalate in that reply: no investigation, no offer, no question. Q43's twin |
+| **Q45** | Customer returns after 4 h; old session has `PENDING` results; agent quotes stale data **even after fresh calls** | **New session + structured summary** (issue, actions, status) **+ fresh tool calls** before engaging | Guide 1.7: *"The new session has no stale tool results."* Remove stale data, don't argue with it |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
@@ -102,6 +103,7 @@ flowchart TB
 | Tool outputs bloat the context → **vector DB** + semantic retrieval / **carry on unchanged** / model writes **prose summaries** replacing the structured results | Approximate search for a need you already know / listed trap: *"the model might need them later"* / structure → prose loses exact values | Q42 A, B, C |
 | Frustrated customer, straightforward case → **process it silently**, then report / **escalate immediately** / **ask what went wrong before** deciding | Acts over the customer's head without confirming / treats frustration as an explicit human request (queue for a one-reply fix) / more back-and-forth, and the agent keeps the decision | Q43 A, C, D |
 | **Explicit** "real person NOW" → **offer to resolve** first, escalate if repeated / **investigate** (get_customer, lookup_order) first / **one targeted question** first | Q43's answer on the wrong case: *"turns a clear instruction into a negotiation"* / *"No investigation"* / makes the escalation conditional on a third explanation | Q44 B, C, D |
+| Stale tool results in a resumed session → resume but **strip tool_results** / resume + **re-call every tool** / resume + **"prefer the most recent results"** | Assistant turns restated the stale data / fresh results sit **next to** stale ones (the question shows this fails) + *"Full re-exploration is wasteful"* / a prompt can't remove what's in context | Q45 B, C, D |
 | Tool chain problem → add a **helper tool** / **retries** / **merge into one mega-tool** | Same chain (A), symptom fix (B), over-fetching + listed trap (D). Change the dependent tool's **input** instead | Q19 A, B, D |
 | For "help Claude **understand**": **schema types only** / **verbose names** (`user_id_string_uuid_format`) / **detailed error responses** | Types = shape not meaning; names aren't docs; errors help only **after** a mistake | Q20 A, B, C |
 | **Raw confidence** + few-shot to interpret · **aggregate** quality score · `verified`/`needs_verification` groups without reasons | Model guesses (trap: *"raw… scores without calibration"*); averages hide the bad field; no decision/why | Q21 A, C, D |
@@ -162,6 +164,7 @@ flowchart TB
 | Results incomplete | Coordinator gap loop (depth gap) · fix **decomposition** (scope gap) |
 | Loop can't converge | **Cap** iterations → structured gap note → escalate if critical |
 | Resume after crash | Structured **state manifest**, loaded by the coordinator |
+| Resume or start fresh? (Q45, 1.7) | Prior context **still valid** → resume. **Stale tool results** → **new session + structured summary** (IDs, issue, actions; volatile values as "last known, re-check") + fresh calls. Comparing alternatives → fork (still carries stale results) |
 | "Pass complete findings" vs "don't pass everything"? | **Findings** (outputs: claims + sources + excerpts) → pass **all**. **Context** (raw inputs, history) → pass **selectively** (Q02 + Q12) |
 | Sources disagree | **Annotate**: both values + source + method + uncertainty, in a **contested** section |
 | Next agent could get empty or broken input | **Handoff gate** in the coordinator: validate non-empty + required fields **before** invoking (Q10) |
