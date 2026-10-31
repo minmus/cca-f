@@ -96,7 +96,18 @@ Same frustration, different request. **Frustration level never decides. The word
 
 **Classify each message: escalate now, or acknowledge + offer to resolve (with escalation as an option)? (a) "Is there a manager I can talk to?" (b) "Ugh, this is taking forever." (c) "Can a human look at this, please?" (d) "I need someone who actually knows what they're doing."**
 
-*My answer:* (pending)
+*My answer:* "(a) escalate now; (b) offer to resolve (with escalation as an option); (c) escalate now; (d) offer to resolve (with escalation as an option)." ✅ **All four correct.** The reasoning, plus two refinements:
+
+| Message | Asks for | Action |
+|---|---|---|
+| (a) *"Is there a **manager** I can talk to?"* | A **person** (phrased as a question, but still a request) | **Escalate now** |
+| (b) *"Ugh, this is taking forever."* | Nothing: pure frustration | **Acknowledge + get on with resolving it.** No person was mentioned, so offering escalation is optional here, not required |
+| (c) *"Can a **human** look at this, please?"* | A **person** (polite, but explicit) | **Escalate now**. Politeness doesn't make it less explicit |
+| (d) *"I need **someone who actually knows** what they're doing."* | **Competence** (like Q43's "someone who can actually help") | **Acknowledge + offer to resolve, with a person as an option.** Offering the person matters here, because "someone" leans toward one |
+
+**Refinement for (d):** it's an offer *only if the case is within the agent's capability*. If it's a policy gap or the agent can't make progress, that's a trigger on its own (Q16): escalate.
+
+> **Test: does the message ask for a *person* (human, manager, agent, real person)? → escalate now. Does it ask for *help* or just vent? → acknowledge + resolve, offering a person when the wording leans that way.**
 
 ## Glossary
 
