@@ -98,7 +98,32 @@ flowchart LR
 
 **Write the message `lookup_order` should return for a third error type: the customer's account is locked for a fraud review, and the agent must not keep trying to access it. Include what went wrong and what Claude should do next.**
 
-*My answer:* (pending)
+*My answer:* `"is_error": true, "message": "the customer's account is locked for a fraud review. Do not proceed"` 🟡 **The flag and "what went wrong" are right. "Do not proceed" isn't a next step, though.** A customer is still waiting, and "do not proceed" leaves Claude guessing again:
+- Proceed with *what*? This call, other tools, the whole conversation?
+- Retry later? (It doesn't say "not retryable", so failure mode 1 can come back.)
+- Try another way in? Following Q49's own pattern ("not found → try get_customer by phone"), the agent might look the account up **by phone**, which here means **getting around a security lock**.
+- What to tell the customer, and whether to escalate?
+
+**A complete version:**
+
+```json
+{
+  "is_error": true,
+  "errorCategory": "permission",
+  "isRetryable": false,
+  "content": "ACCOUNT_LOCKED: this account is locked pending a fraud review. Do not retry, and do not use other tools (get_customer, lookup by phone or email) to access this account's data. Tell the customer the account is under review, without mentioning fraud, then call escalate_to_human with reason 'account_review'.",
+  "customerMessage": "Your account is currently under review, so I can't access your orders right now. I'm passing this to our specialist team, who will contact you."
+}
+```
+
+| Part | Why it's there |
+|---|---|
+| `isRetryable: false` | Stops the retry loop (failure mode 1) |
+| "Do not use other tools to access…" | Says what **not** to try. Here "alternatives" would mean getting around the lock |
+| "Call escalate_to_human with reason…" | The actual next step. **Here escalation is the right recovery.** Q49's problem was escalating *when an alternative existed*, not escalation itself |
+| "Without mentioning fraud" + `customerMessage` | Customer-facing wording (Q34): don't tip off or alarm; give a clear next step |
+
+> **"Stop" isn't a next step. An error that ends a path must still say what to do instead (tell the customer, escalate) and what *not* to try.**
 
 ## Glossary
 
