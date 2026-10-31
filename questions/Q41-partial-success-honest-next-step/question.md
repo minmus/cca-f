@@ -101,7 +101,23 @@ Example reply under A:
 
 **Before the agent (or anyone) tries `process_refund` again "later", what must be checked first, and why? What would make a retry safe even without that check?**
 
-*My answer:* (pending)
+*My answer:* "As the outcome of process_refund is unknown, it has to be checked first before attempting to refund again, because chances are the refund already succeeded." ✅ **Right on the first half.** One nuance: it's not that it *probably* succeeded, but that you **can't rule it out**. Either way, a blind retry is a gamble. The second half (*what makes a retry safe without the check*) was missing.
+
+**1. The status check:** use the order ID from the case facts layer (Q40) to look up the refund's state, then act on what comes back:
+
+| Status check says | What to do |
+|---|---|
+| The refund went through | **Don't retry.** Tell the customer it's done (amount, date, where it went) |
+| No refund found | Safe to submit it again |
+| Still unclear (the backend is down or the refund is still pending) | Don't resubmit. Check again later, or escalate |
+
+**2. What makes a retry safe without the check: an idempotency key.** The tool sends a unique key with the request, e.g. `refund-8891-dispute-0412`. The backend remembers the keys it has processed. If the same key arrives again, it returns the **original result** instead of refunding a second time. So "did the first one go through?" no longer matters: sending twice has the same effect as sending once.
+
+Two rules for the key:
+- **The same key for every retry of the same refund.** A new key per attempt defeats the purpose.
+- **Code generates and stores it** (e.g. in the case facts layer), not the model. The model might invent a new one on the next attempt.
+
+> **Unknown outcome → check before you repeat, or make repeating harmless (idempotency key). Never resend blind.**
 
 ## Glossary
 
