@@ -135,6 +135,23 @@ paths:
 - **(c)** "Pin Terraform provider versions."
 - **(d)** "All YAML files use 2-space indentation." (Kubernetes manifests **and** the pipeline definitions are YAML.)
 
+*My answer:* "(a) root CLAUDE.md, (b) `.claude/rules/`, (c) root CLAUDE.md, (d) `.claude/rules/`" 🟡 **Three of the four placements are right. (c) is wrong, and none of the answers gave a `paths` pattern.** The pattern is what makes a rule load only for some files. A rule file **without** `paths` loads in every session, just like root CLAUDE.md.
+
+| | Convention | ✅ Home | `paths` | Why |
+|---|---|---|---|---|
+| **(a)** | No hard-coded secrets | **Root CLAUDE.md** ✅ | (none) | A secret can leak into **any** file: Terraform, manifests, pipelines. Applies everywhere, so it belongs in the always-loaded file |
+| **(b)** | Deployments set CPU/memory limits | **`.claude/rules/kubernetes.md`** ✅ | `["kubernetes/**/*"]` | Only matters when editing Kubernetes manifests |
+| **(c)** | Pin Terraform provider versions | **`.claude/rules/terraform.md`** ❌ (you said root) | `["terraform/**/*", "**/*.tf"]` | It only matters when editing Terraform. In root it loads while you edit Kubernetes files, which is **exactly the problem Q54 was fixing**. (A general "pin every dependency" rule *would* belong in root, but this one names Terraform.) |
+| **(d)** | 2-space YAML indentation | **`.claude/rules/yaml.md`** ✅ | `["**/*.{yaml,yml}"]` | **One** rule for a file type across two folders. `**` matches any depth; `{yaml,yml}` covers both extensions. This is where option A fails: you'd copy the rule into `/kubernetes/CLAUDE.md` **and** `/pipelines/CLAUDE.md` |
+
+**The test for each convention:** *"Would it matter whatever file Claude is editing?"* If yes, put it in root. If no, write the files it applies to as the `paths` pattern.
+
+**Two follow-ups from earlier questions:**
+- **(d) is mechanical**, like Q52's Prettier rule. The path rule *guides* Claude, but to **guarantee** 2-space YAML, add a PostToolUse command hook that runs a YAML formatter. Use the rule for the guidance and the hook for the guarantee.
+- **(a) is high-stakes.** In root CLAUDE.md it's still only guidance. To *block* a hard-coded secret, add a secret scanner (a PreToolUse hook, or a CI check).
+
+> **A rule file is only scoped if it has `paths`. Ask "would it matter whatever file Claude is editing?" If yes, put it in root. If no, put it in a rule whose glob matches those files. One glob such as `**/*.{yaml,yml}` covers a file type across every folder.**
+
 ## Glossary
 
 - **Root CLAUDE.md:** the project-level instruction file. Loads in every session, whatever files you work on.
