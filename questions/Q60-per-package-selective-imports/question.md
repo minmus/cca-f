@@ -121,6 +121,38 @@ flowchart LR
 
 **Testing patterns apply to every package, and test files follow a naming convention (`*.test.ts`). Under D, all 15 packages import `testing-patterns.md`. Is there a better home for that one standard? Where, and why?**
 
+*My answer:* "Root CLAUDE.md?" 🟡 **Better than 15 imports, but not the best home.** Root gets you one place and every package covered. But it **loads in every session**, including ones where nobody touches a test (editing a config, fixing docs, changing an API handler).
+
+**Apply Q54's test:** *"Would it matter whatever file Claude is editing?"* Testing patterns apply to every **package**, but only to **test files**. "Every package" isn't "every file".
+
+**And the question hands you a glob: `*.test.ts`.** That's exactly when path rules win (Q54, and guide 3.3's own example: *"`**/*.test.tsx` matches every test file in the codebase, wherever it is"*).
+
+**Best home: a path-scoped rule.**
+
+```markdown
+<!-- .claude/rules/testing-patterns.md -->
+---
+paths:
+  - "**/*.test.ts"
+---
+# Testing patterns
+...the standard's text (move it here so there's still one copy)...
+```
+
+| Home | Loads when | Verdict |
+|---|---|---|
+| Imported by all 15 package CLAUDE.md files (D as written) | Any work in any package | Works, but 15 import lines to keep in sync, and a new package must remember to add it |
+| Root CLAUDE.md | **Every session** | One place, but loads even when no test is involved |
+| **`.claude/rules/` with `paths: ["**/*.test.ts"]`** | **Only when Claude works on a test file** | ✅ One place, loads only when relevant, and **new packages are covered automatically** |
+
+Guide 3.3: *"Path-scoped rules are more token-efficient than root CLAUDE.md because they load only when you edit matching files."*
+
+**So the full answer to Q60 mixes two tools, one per kind of standard:**
+- **Security and API standards**: no pattern, a judgement per package → **per-package `@` imports**, chosen by the maintainer.
+- **Testing standard**: a file pattern exists → **one path-scoped rule**.
+
+> **Put each standard where its selection rule lives: a file pattern → path rule; a per-package judgement → that package's imports; truly every file → root. "Every package" isn't "every file".**
+
 ## Glossary
 
 - **`@path` import:** a line in a CLAUDE.md that inlines another file's content when the CLAUDE.md loads. Relative paths are resolved from the importing file.
