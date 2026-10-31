@@ -102,6 +102,21 @@ A follow-up "summarise what we learned" needs none of these. The coordinator has
 
 **Which of these follow-ups should the coordinator still delegate to the synthesis subagent, and why? (a) "Summarize what we learned about pricing." (b) "Write the final report, with every claim cited to its source." (c) "Which competitor came up most often?"**
 
+*My answer:* "(b)" ✅ **Right pick.** The *why* was missing:
+
+| | (a) Pricing summary | (b) Final cited report | (c) Most-mentioned competitor |
+|---|---|---|---|
+| Size of the job | Small | **Big**: the whole report, every claim mapped to a source | Tiny |
+| Needs something the coordinator lacks? | No | **Yes**: a **fresh, focused context** (the coordinator's is full of orchestration history, and things in the middle get lost) plus the synthesis prompt's citation rules | No |
+| Spawn cost vs. the job | The overhead *is* most of the time | A small part of a big job, paid **once** | The overhead *is* most of the time |
+| Who does it | Coordinator | **Synthesis subagent**, given the complete findings + source index (Q02, Q12) | Coordinator |
+
+> **The spawn cost is worth paying for a big, one-off job that needs a clean context or special rules. It isn't worth paying for quick reads of data the coordinator already holds.**
+
+### Follow-up check question
+
+**For (c), the coordinator answers "Competitor X, 14 mentions", but the real count is 11. What would make the count reliable?**
+
 *My answer:* (pending)
 
 ## Glossary
