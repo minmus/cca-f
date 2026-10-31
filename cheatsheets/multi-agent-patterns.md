@@ -143,7 +143,7 @@ flowchart TB
 | "Pass complete findings" vs "don't pass everything"? | **Findings** (outputs: claims + sources + excerpts) → pass **all**. **Context** (raw inputs, history) → pass **selectively** (Q02 + Q12) |
 | Sources disagree | **Annotate**: both values + source + method + uncertainty, in a **contested** section |
 | Next agent could get empty or broken input | **Handoff gate** in the coordinator: validate non-empty + required fields **before** invoking (Q10) |
-| Subagent **never runs** vs **runs without info**? | Never runs, coordinator only *talks* about it, no errors → **`Task` not in `allowedTools`** (Q36). Runs but "nothing provided" → context not **written into the Task prompt** (Q10) |
+| Subagent **never runs** vs **runs without info**? | Never runs, coordinator only *talks* about it, no errors → **`Task` not in `allowedTools`** (Q36). Runs but "nothing provided" → context not **written into the Task prompt** (Q10). Runs, but **one at a time** → emit **multiple Task calls in a single response** for independent tasks (1.3, Q36 check) |
 
 ## Human escalation handoff: the 5 fields (Q14, guide 1.4)
 

@@ -138,6 +138,36 @@ Guide 1.3: the requirement is **yes or no**. Without `Task`, *"the coordinator c
 
 **A third symptom: all subagents run and get the right context, but one at a time, so the research takes about 4× longer than it should. What's the cause, and the fix?**
 
+*My answer:* "Sequential vs. parallel?" 🟡 **Right diagnosis, but the fix needs the mechanism.** "Sequential instead of parallel" names the problem. The exam asks *how* the coordinator runs subagents in parallel:
+
+- **Cause: sequential spawning.** The coordinator emits **one Task call per turn**. Guide 1.3: *"Sequential spawning means one subagent per coordinator turn. The second subagent cannot start until the first has returned and the coordinator takes another turn."*
+- **Fix: one response with several Task calls.** *"When a coordinator needs several subagents for independent tasks, it should emit multiple Task tool calls in a single response."*
+- **Condition: only for independent tasks.** *"When the tasks are independent, that wait adds latency with no benefit."*
+- **In the logs:** each coordinator response contains just **one** `Task` `tool_use` block. With the fix, a single response contains all of them.
+
+| | Sequential (now) | Parallel (fix) |
+|---|---|---|
+| Coordinator turn 1 | `Task(A)` → waits | `Task(A)`, `Task(B)`, `Task(C)`, `Task(D)` |
+| Turn 2 | `Task(B)` → waits | All four results come back together |
+| Turns 3–4 | `Task(C)`, then `Task(D)` | (coordinator already synthesising) |
+| Wall-clock time | ≈ 4 × one subagent | ≈ the slowest subagent |
+
+**Exam signal:** options that say *"in a single response"* or *"simultaneously"* mean parallel spawning. **Exam trap:** *"Proposing sequential subagent invocation for tasks that can run independently."*
+
+> **Independent → one response, many Task calls. Dependent → wait for the result, then pass it on in full (Q10).**
+
+**All three Q36 symptoms:**
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Never runs | Can't call: `Task` not in `allowedTools` | Configuration |
+| Runs but clueless | Didn't tell: thin Task prompt | Full context in the prompt (Q10) |
+| Runs, but one at a time | Didn't batch: one Task call per turn | Multiple Task calls in one response |
+
+### Follow-up check question 2
+
+**The coordinator needs three subagents: web search, document analysis, and synthesis (which writes the report from the other two's findings). Which can go in the same response, which must wait, and why?**
+
 *My answer:* (pending)
 
 ## Glossary
