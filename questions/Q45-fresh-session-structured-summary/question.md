@@ -96,7 +96,18 @@ flowchart TB
 
 **Two returning customers. (1) Their connection dropped mid-conversation; they're back 5 minutes later, and nothing has happened on their order since. (2) They come back the next morning; a refund was submitted in yesterday's session. Resume or start fresh for each, and why?**
 
-*My answer:* (pending)
+*My answer:* "(1) Resume. (2) Start a new session, because (2) gave enough time for stale info to accumulate." ✅ **Both correct.** One refinement to the *why*: **time is only a proxy. The real test is whether what the old tool results describe has changed, or could have.**
+
+| | Time passed | Could the old results have changed? | Choice |
+|---|---|---|---|
+| (1) Dropped connection | 5 min | **No**: nothing happened on the order | **Resume**: context still valid, and the customer doesn't repeat themselves |
+| (2) Next morning | ~16 h | **Yes**: a refund was submitted, so its status will move | **New session + summary** (order ID, "refund submitted yesterday", last known status *as of*…) **+ fresh lookup** |
+
+Why time alone isn't the test, both ways:
+- **Long gap, nothing changed → resume is fine.** The guide's own example: after a night with no file changes, resume.
+- **Short gap, something in flight → can already be stale.** If the refund had been submitted just before the connection dropped, its status could change within minutes. Then resume, but **re-check the status before stating it** (Q40).
+
+> **Ask "has anything the old results describe changed?", not "how long has it been?"**
 
 ## Glossary
 
