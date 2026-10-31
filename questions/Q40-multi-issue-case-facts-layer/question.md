@@ -110,7 +110,23 @@ Example layer, using the guide's field names (the subscription and payment entri
 
 **At turn 48 the layer says the refund's status is `pending_refund`, written at turn 12. Should the agent just tell the customer "it's still pending"? What should it do, and who updates the layer afterwards?**
 
-*My answer:* (pending)
+*My answer:* "The agent should check the current status before telling the customer." ✅ **Right action.** The third part (*who updates the layer*) was missing. The full picture:
+
+**1. How it checks:** the layer holds the **key**. The agent calls the order tool with `orderId: 8891` from the layer and gets the **current** status (e.g. *"refunded 30 Oct, $247.83 to Visa ending 4242"*). This is option C in its proper role: a **complement** to A. A remembers *what* to check; C says *what's true now*.
+
+**2. Why not just repeat "pending":** the layer records what was known **at turn 12**. Statuses change outside the conversation. Saying "still pending" when it was refunded yesterday is a wrong answer that looks right (Q33): the customer may chase the bank or open a dispute.
+
+| Field in the layer | Changes outside the chat? | Use it straight from the layer? |
+|---|---|---|
+| `orderId`, `customerId` | Never | ✅ Yes: it's the key for every lookup |
+| `refundAmount`, `orderDate` | Rarely | ✅ Yes |
+| `status` | **Yes** | ❌ Re-check before telling the customer |
+
+Design tip: store a timestamp with volatile fields (`"statusAsOf": "2026-10-31T10:12Z"`), so the agent can see how old a status is.
+
+**3. Who updates the layer: code.** When the tool returns, code copies its structured `status` field (plus timestamp) into the layer. The model isn't left to "remember to update it". If it forgot, the layer would stay stale and the agent would repeat the old status at turn 60. Same rule as Q38's follow-up: *the model may find facts, code keeps them.*
+
+> **The layer keeps the keys and what was known. Tools say what's true now. Code writes the update back.**
 
 ## Glossary
 
