@@ -99,7 +99,23 @@ flowchart LR
 
 **B fixes the cause, but it's still probabilistic. What code-level check inside `process_refund` (or a PreToolUse hook) would *guarantee* that an invented or wrong order_id can never trigger a refund? Why isn't D's "the ID exists" enough?**
 
-*My answer:* (pending)
+*My answer:* "lookup_order passes the value to the persistent facts. The 'ID exists' check isn't enough, as it doesn't guarantee that even an existing ID is the right one, or belongs to the right customer." ✅ **Correct on both.** Here's the gate spelled out:
+
+**Code records what `lookup_order` returned.** Each time `lookup_order` runs, code adds the returned order IDs to the session state (the code side, not text in the prompt, Q46). Then the gate in `process_refund` checks:
+
+| Check | Catches |
+|---|---|
+| **1. `order_id` was returned by `lookup_order` in this session** | Invented IDs, even ones that happen to exist |
+| **2. The order belongs to the session's verified customer** (database check) | Someone else's order (privacy, wrong refund) |
+| 3. The order is refundable (status, window, amount limit; Q13, Q31) | Policy violations |
+
+If a check fails → **block**, and return a structured error: *"order_id not from lookup_order: call lookup_order first"* (Q24, Q32). The model self-corrects.
+
+**Why "exists" isn't enough:** existence is a property of the **database**; what matters is the **relationship** to this conversation. A fabricated ID that exists is the worst case: it passes D and refunds a stranger's order.
+
+**What code still can't decide:** *which* of the customer's own orders they meant by *"my recent purchase"*. If `lookup_order` returns several, that's ambiguity about a costly action → **ask or confirm with details** (Q37's grid; 5.2's "never pick one itself"). The gate guarantees the ID is **real and theirs**; the conversation makes sure it's **the one they meant**.
+
+> **Gate on provenance and ownership, not existence: "did this ID come from our lookup, for this customer?"**
 
 ## Glossary
 
