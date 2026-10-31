@@ -124,6 +124,26 @@ Same `/` menu, but a different source and different rules. The biggest differenc
 - **(b)** Incident-response steps that Claude should apply on its own whenever someone describes an outage in plain words.
 - **(c)** A release workflow that must run **only** when a person explicitly starts it, and must be versioned together with this repo's code.
 
+*My answer:* "(a) MCP, (b) skill, (c) MCP" 🟡 **(a) and (b) are right. (c) meets one requirement but misses the other.** (No reasons were given, so here they are.)
+
+| | ✅ Choice | Why |
+|---|---|---|
+| **(a)** Central checklist, 12 repos, live data | **MCP prompt** ✅ | One server serves every repo that connects, and the server **builds the content when you run it**, so it can pull live data from the deployment system. A skill would have to be copied into 12 repos |
+| **(b)** Claude applies it on its own | **Skill** ✅ | Only a skill can be started by **Claude**: it loads it when the conversation matches the skill's `description`. An MCP prompt waits for someone to type the command |
+| **(c)** Only a person starts it + versioned with this repo | **Skill with `disable-model-invocation: true`** ❌ (you said MCP) | "Only a person starts it": an MCP prompt does meet this. But "versioned together with this repo's code" doesn't: the prompt lives **on the server**, versioned with the *server's* code. A skill in `.claude/skills/release/SKILL.md` is committed with the code, so a change to the workflow is reviewed in the same PR as the code it releases, and checking out an old branch gives you the matching workflow. `disable-model-invocation: true` makes it user-only, like an MCP prompt |
+
+```markdown
+<!-- .claude/skills/release/SKILL.md -->
+---
+name: release
+description: Cut a release of this service
+disable-model-invocation: true
+---
+Release version $0: run the tests, update CHANGELOG.md, tag v$0, ...
+```
+
+> **Check every requirement, not just the first one that fits. "Only a person starts it" → MCP prompt *or* a skill with `disable-model-invocation: true`. "Lives with this repo's code" → skill. Both together → the skill.**
+
 ## Glossary
 
 - **MCP prompt:** a reusable message template that an MCP server offers, with optional arguments. User-controlled: in Claude Code you run it as a slash command.
