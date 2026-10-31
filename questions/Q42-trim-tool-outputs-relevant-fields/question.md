@@ -100,7 +100,7 @@ flowchart LR
 
 ## Check question
 
-**After D, where should trimming happen so the next two lookups don't flood the context again? And why is "tell the model to ignore the irrelevant fields" not a substitute?**
+**Two parts: (1) Later, the customer asks which carrier shipped order #2, a field you trimmed. What does the agent do? (2) Why isn't "tell the model in the system prompt to ignore irrelevant fields" a substitute for trimming?**
 
 *My answer:* (pending)
 
