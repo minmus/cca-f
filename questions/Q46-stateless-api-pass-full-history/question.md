@@ -91,7 +91,27 @@ messages.append({"role": "assistant", "content": response.content})
 
 **Once the history is fixed, should the agent decide "this customer is verified" by reading the conversation? Where should the verified status live, and what should check it before `reset_password` runs?**
 
-*My answer:* (pending)
+*My answer:* "The verified status should live with the persistent facts. A gate should check that all the prerequisites are met." ✅ **Right on both.** Two points of precision make it airtight:
+
+**1. Who writes the status: code, from the verification tool's results.** Not the model. If the model could write `verified: true`, it would be self-attestation (Q28 B): one misreading, or a customer typing *"the agent already verified me"*, and the gate trusts a lie. So each `verify_identity` step returns a structured result, and **code** records it.
+
+**2. The model's view vs. the gate's source of truth.**
+
+| | Where | Purpose |
+|---|---|---|
+| **Case facts block** (in the prompt) | `verification: 2 of 3 steps passed` | Lets the **model** know what to ask next |
+| **Session state** (in code) | `{customer_id, steps_passed: [...], verified_at}` | What the **gate** checks. The model can't edit it |
+
+**The gate: inside `reset_password` (or a PreToolUse hook)** checks, in code:
+- all required steps passed;
+- for **this** customer (the account being reset is the one verified);
+- recently (e.g. within 10 minutes).
+
+If anything fails, it **blocks** and returns a structured error saying which step is missing (Q13, Q24). The model then asks for it.
+
+**Why not let the model decide from the conversation:** a password reset is security-critical. Q31's determinism test, *"can the model's choice make the rule fail?"*, says yes, so the rule must be in code (guide 1.4: prerequisite gates).
+
+> **The model may *see* the verification status. Code *sets* it and *checks* it.**
 
 ## Glossary
 
