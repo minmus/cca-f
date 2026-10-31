@@ -101,6 +101,38 @@ So "playlist in `~/.claude.json`" is right whether you pick **local** (test it i
 
 **The venue server needs an API key. A teammate suggests putting `"Authorization": "Bearer sk-live-abc123"` straight into `.mcp.json`, because "the repo is private anyway." What's wrong with that, and what should `.mcp.json` contain instead?**
 
+*My answer:* "`.mcp.json` should contain a placeholder or template variable. The approach is wrong because if the repo becomes public, the key gets exposed." 🟡 **The fix is right. The risk is bigger than "if it becomes public": the key is exposed the moment it's committed.**
+
+**Why "private" doesn't protect it.** Guide 2.4: *"A private repository is not a secret store; every clone and fork carries the token in its history."*
+- **Everyone with repo access has the key**: current staff, contractors, CI systems, anyone given read access later.
+- **Every clone and fork keeps a copy**, on laptops and build servers you don't control.
+- **Git history keeps it forever.** Deleting the line in a later commit doesn't remove it from history. Once committed, the only real fix is to **revoke and rotate** the key.
+- **One shared key for everyone**: you can't tell who used it, or cut off one person without breaking everyone.
+
+Guide exam trap: *"Committing credentials directly in .mcp.json is a security risk the exam penalises."*
+
+**What `.mcp.json` should contain: a variable reference, not the value.**
+
+```json
+{
+  "mcpServers": {
+    "venue-lookup": {
+      "type": "http",
+      "url": "https://venues.internal.example.com/mcp",
+      "headers": { "Authorization": "Bearer ${VENUE_API_KEY}" }
+    }
+  }
+}
+```
+
+- Claude Code replaces `${VENUE_API_KEY}` with the value from the environment when it loads the config. Guide 2.4: *"The file references variable names, not values."* *"This syntax keeps credentials out of version control whilst the server configuration stays shared."*
+- **Each developer sets their own key** locally: *"in a shell profile, a `.env` file or a secrets manager"* (guide 2.4). The variable must be set in the environment Claude Code starts in.
+- `${VAR:-default}` gives a fallback, e.g. for a URL. Don't use it for secrets.
+
+**Watch out: a missing key doesn't fail loudly.** If `VENUE_API_KEY` isn't set, Claude Code shows a missing-variable warning in `claude mcp list` and uses the literal text `${VENUE_API_KEY}`. Guide 2.4: *"Claude Code warns and continues, so do not rely on a missing token to cause a visible failure."*
+
+> **Never commit a secret, not even to a private repo: clones, forks and git history keep it forever. Commit `${VAR}` in `.mcp.json`; each developer sets the value locally. If a key was ever committed, rotate it.**
+
 ## Glossary
 
 - **`.mcp.json`:** the project-scoped MCP configuration file in the repository root. Committed to git and shared with the team.
