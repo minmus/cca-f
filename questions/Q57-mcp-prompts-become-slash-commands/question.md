@@ -111,9 +111,18 @@ sequenceDiagram
 | [Q33](../Q33-mcp-iserror-result/question.md) | Another MCP primitive question: tool results and `isError`. Same server, different primitive |
 | [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) / [Q56](../Q56-memory-check-loaded-files-first/question.md) | "Loaded into every session" is CLAUDE.md's job (option B), with the token cost Q54 was about |
 
+## Follow-up: are MCP prompts slash commands "just like skills"?
+
+Same `/` menu, but a different source and different rules. The biggest difference: **only you** can start an MCP prompt, while a skill can be started by you **or by Claude** (when a request matches its `description`). Full comparison: [concepts/mcp-prompts-vs-skills.md](../../concepts/mcp-prompts-vs-skills.md).
+
 ## Check question
 
-**Your team wants Claude to follow the `incident_response` steps automatically whenever someone describes an outage in plain words, without anyone typing a command. Will the MCP prompt do that? If not, what would you use instead?**
+*(Rewritten: the follow-up above answers the original question, which asked whether the MCP prompt would run on its own.)*
+
+**For each case, would you use an MCP prompt or a skill, and why?**
+- **(a)** The platform team maintains one deploy checklist for 12 repos. It must be filled in with live data from their deployment system.
+- **(b)** Incident-response steps that Claude should apply on its own whenever someone describes an outage in plain words.
+- **(c)** A release workflow that must run **only** when a person explicitly starts it, and must be versioned together with this repo's code.
 
 ## Glossary
 
