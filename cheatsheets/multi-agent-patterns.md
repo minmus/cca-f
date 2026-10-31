@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q49)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q51, no Q50)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.1, 2.2, 2.3, 2.4 · D4 › 4.1, 4.3 · D5 › 5.1, 5.2, 5.4, 5.5, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -81,9 +81,11 @@ flowchart TB
 | **Q47** | 4 → 10 tools, accuracy 88% → 71%; logs: `issue_credit` vs `process_refund`, `check_delivery_status` vs `lookup_order` | **Merge the overlapping tools** (variant becomes a parameter) | "Structurally eliminates" → merge. One tool per purpose: split many-jobs tools (Q17, Q30), merge same-job tools. 2.1's consolidation trap = only as a *first step* |
 | **Q48** | Agent calls `process_refund` with a **fabricated** `order_id` instead of calling `lookup_order` first | **Description states the source**: order_id must come from a prior `lookup_order` call, never assumed or invented | Root cause = the model doesn't know where the value comes from. Validation (D) = safety net, not the cause |
 | **Q49** | `lookup_order` returns `is_error: true` + "Tool execution failed" for everything → agent retries forever **or** escalates at once | **Error-type-specific messages with `is_error: true`**: what went wrong + what to try next | Anthropic docs: *"Write instructive error messages."* Only the tool knows what happened |
+| **Q50** | *Gap: question text not available* (no ExamTopics discussion page; the question list needs a login) | | |
+| **Q51** | Warranty claim, several sequential tool calls: what decides whether the loop continues or stops? | **`stop_reason`**: `"tool_use"` → continue, `"end_turn"` → stop, anything else → check why | Not text presence, not a call cap (safety net only), not `tool_choice: "none"` after a "last expected" call |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
-- ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
+- ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished" (Claude writes text **alongside** `tool_use`) · ❌ `tool_choice: "none"` after a "last expected" call (the path isn't fixed) (Q51) · Any other `stop_reason` (`max_tokens`, `pause_turn`, `refusal`…) = **not finished, check why**
 - Policy must hold (e.g. 30-day refunds): **gate inside the tool** or a **PreToolUse hook** → return a **structured error** with "what to do instead" → the model reasons again and self-corrects. **But** if the rule says the follow-up must happen **automatically** (e.g. escalate), code has to do it too, not an error asking the model to (Q31)
 
 ## Distractor signals ❌
