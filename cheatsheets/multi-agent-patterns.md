@@ -103,7 +103,7 @@ flowchart TB
 | Too many calls + judgment needed → **caching** / **mega-tool with thresholds** / **preview + approve predefined rules** | Same call count; thresholds/rules replace judgment about the *set* | Q29 A, B, D |
 | Generic tool → **coordinator pre-classifies** / **mode enum** on one tool / **more examples** in description | Routing classifier = listed trap; one tool = one loose output contract; prose doesn't fix the contract | Q30 A, B, C |
 | Keep **one unified tool** + nested object / **if-then-else schema** / **all-optional + few-shot** | Same ambiguity, hidden deeper. Few-shot *"adds token overhead without addressing the root cause"*. Split instead (but don't **merge** similar tools as a first step: also a trap) | Q17 A, B, D |
-| "Subagents **directly** call / **callbacks** / **shared** store / **subscribe** / **queue**" | Breaks hub-and-spoke | Q03 B/C, Q07 A/B/D, Q12 B/C |
+| "Subagents **directly** call / **callbacks** / **shared** store / **subscribe** / **queue**" / "spawn all at once and tell the dependent one to **wait** for the others" | Breaks hub-and-spoke. A subagent's prompt is fixed when it's spawned and only the coordinator receives results, so it can't wait for or receive another subagent's output | Q03 B/C, Q07 A/B/D, Q12 B/C, Q36 check 3 |
 | "Give the subagent **more tools / access**" | Breaks tool scoping. Route back to the coordinator | Q04, Q06 D |
 | "**Remove all detail**: 'research X thoroughly'" | Overcorrection. Loses quality criteria | Q05 C |
 | "**Add more fallback rules** to the procedure" | Patches one symptom. Still brittle | Q05 B |

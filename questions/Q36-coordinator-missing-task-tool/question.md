@@ -185,7 +185,21 @@ That's **2 rounds instead of 3**: run what's independent in parallel, and only w
 
 **An exam option says: "Spawn all three subagents in a single response to minimise latency, and instruct the synthesis subagent to wait for the other two to finish." Why is that wrong?**
 
-*My answer:* (pending)
+*My answer:* "Because of the hub-and-spoke topology: agents don't speak to each other directly, the coordinator must [relay]." ✅ **Correct, and that's the core reason** (Q07: *"Subagents never communicate directly with each other, whether for efficiency, convenience or any other reason."*). Here's the full mechanism behind it:
+
+1. **No channel.** The search and analysis results go back to the **coordinator**, not to synthesis. Synthesis has no way to receive them (hub-and-spoke, Q07).
+2. **Prompt fixed at spawn.** Synthesis's only context is the Task prompt written in turn 1, when the findings don't exist yet. It's isolated, so nothing can be added while it runs (Q10).
+3. **So "wait" can't be obeyed.** Synthesis doesn't know when the others finish, and couldn't receive their results anyway. It runs straight away with no findings and either reports "no findings provided" (Q10's symptom) or **makes the report up**.
+
+| | This option | Correct pattern |
+|---|---|---|
+| Turn 1 | Search + analysis + synthesis | Search + analysis |
+| Synthesis's prompt | Written before any findings exist ❌ | Written after both return, with both outputs in full ✅ |
+| Who relays results | Nobody (assumes subagents talk) | The coordinator (hub) |
+
+**Why it's tempting:** *"to minimise latency"* echoes the real 1.3 rule, but parallel spawning applies to **independent** tasks only. And it's an instruction-only fix that asks for something the architecture **can't do**, not just something the model might ignore.
+
+> **A subagent can't wait for anything. It knows only what's in its prompt when it's spawned. The coordinator relays results (hub), and dependent steps start in the next turn.**
 
 ## Glossary
 
