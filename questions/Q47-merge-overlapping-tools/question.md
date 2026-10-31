@@ -105,7 +105,19 @@ Tool selection becomes unambiguous. The remaining decision (refund or credit?) i
 
 **A colleague proposes a third merge: fold `cancel_order` into `process_refund`, "since cancelling usually ends in a refund anyway". Merge or keep separate? Why?**
 
-*My answer:* (pending)
+*My answer:* "Keep separate, as it's not just cancel_order that needs process_refund." ✅ **Right decision, and your reason is real evidence:** refunds happen without a cancellation (a returned item, a billing error), and cancellations happen without a refund (an unpaid order, a switch to store credit). The underlying reason is the **merge test** itself:
+
+| | `issue_credit` vs `process_refund` | `cancel_order` vs `process_refund` |
+|---|---|---|
+| Relationship | **Alternatives**: you do one **OR** the other | **Steps**: you do one **AND THEN** (maybe) the other |
+| Same job? | Yes: compensate the customer | No: stop an order vs. move money |
+| Parameters | Same shape (order, amount, method) | Different (cancel reason, items vs. amount, payment method) |
+| Side effects and rules | Same family | Different: fulfilment and inventory vs. payments (and a $500 escalation hook, Q31) |
+| Verdict | **Merge** (variant = parameter) | **Keep separate** |
+
+Merging them would recreate **Q17's problem**: one tool doing two jobs, with a mix of parameters that only apply to one mode, and gates (like Q31's refund hook) that have to work out which mode was meant. The sequence "cancel, then refund" belongs in the **agentic loop** (the model calls one, sees the result, calls the next, Q13) or in a fixed workflow if it must always happen.
+
+> **Merge alternatives (OR). Keep workflow steps separate (AND THEN). "Often used together" is not the same as "the same job".**
 
 ## Glossary
 
