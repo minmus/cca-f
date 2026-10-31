@@ -4,16 +4,18 @@
 **Also touches:** D2 › 2.1 Tool Interface Design (the "consolidation as a first step" trap, and when it doesn't apply)
 **Scenario:** customer-support agent (Agent SDK): returns, billing disputes, account issues
 **Follows:** [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (first step: better descriptions) · [Q17](../Q17-split-unified-tool/question.md), [Q30](../Q30-split-generic-analyze-document/question.md) (the opposite case: split) · [Q04](../Q04-tool-scoping-per-subagent/question.md) (tool scoping)
-**Source:** ExamTopics, CCA-F Topic 1, Question 47. ⚠️ **The question and options below are paraphrased** (the page couldn't be quoted verbatim). Replace them with the exact text when available.
+**Source:** ExamTopics, CCA-F Topic 1, Question 47 (exact wording supplied by the user).
 
-## Question (paraphrased)
+## Question
 
-You're building a customer support agent with the Claude Agent SDK that handles returns, billing disputes and account issues. After you add six delivery-specific MCP tools, the agent has 10 tools instead of 4, and tool selection accuracy falls from 88% to 71%. Logs show the agent confusing semantically overlapping tools, such as `issue_credit` vs. `process_refund` and `check_delivery_status` vs. `lookup_order`. Which approach structurally eliminates the overlap?
+You are building a customer support resolution agent using the Claude Agent SDK. The agent handles high-ambiguity requests like returns, billing disputes, and account issues. It has access to your backend systems through custom Model Context Protocol (MCP) tools ( get_customer, lookup_order , process_refund , escalate_to_human ). Your target is 80%+ first-contact resolution while knowing when to escalate.
 
-- **A.** Use a tool search tool with deferred loading for the six new tools.
-- **B.** Split the tools across two subagents (financial and delivery), with a coordinator routing between them.
-- **C.** Add few-shot examples to the system prompt showing when to pick each of the overlapping tools.
-- **D.** Merge the overlapping tools: combine `issue_credit` and `process_refund` into one tool (with a parameter for the type), and fold `check_delivery_status` into `lookup_order`.
+After expanding the agent's MCP tools with delivery-specific capabilities ( check_delivery_status , contact_driver , issue_credit , apply_promo_code , update_delivery_address , reschedule delivery ), the total tool count has grown from 4 to 10. Your evaluation suite shows tool selection accuracy has dropped from 88% to 71%. Log analysis reveals the majority of errors involve the agent selecting between semantically overlapping tools — calling issue_credit when process_refund was correct, and calling check_delivery_status when lookup_order already returns the needed data. Which approach structurally eliminates the semantic overlap identified in the logs as the error source?
+
+- **A.** Enable the tool search tool with defer_loading on the six new tools, keeping the original four always loaded, so the agent dynamically discovers specialized tools only when needed.
+- **B.** Split the tools across two sub-agents – a "financial resolution" agent with process_refund , issue_credit ,and apply_promo_code , and a "delivery operations" agent with the remaining delivery tools – with a coordinator routing between them.
+- **C.** Add few-shot examples to the system prompt demonstrating correct selection for each ambiguous tool pair, such as showing when issue_credit applies versus when process_refund is appropriate.
+- **D.** Consolidate semantically overlapping tools – merge issue_credit and process_refund into a single resolve_compensation tool with an action parameter, and fold check_delivery_status into lookup_order with an optional include_tracking flag.
 
 ## Answer: **D**
 
@@ -33,7 +35,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    R1["'Compensate the customer'"] --> T1["compensate_customer(<br/>order_id, amount,<br/>method: refund | store_credit)"]
+    R1["'Compensate the customer'"] --> T1["resolve_compensation(<br/>order_id, amount,<br/>action: refund | credit)"]
     R2["'Where's my order?'"] --> T2["lookup_order(<br/>order_id, include_tracking: true)"]
 ```
 
@@ -41,10 +43,10 @@ flowchart LR
 
 **Diagnose first: count or overlap?** Guide 2.1: *"First, diagnose which case you face."* 10 tools is a workable number (Anthropic's tool search docs put the degradation point at *"30 to 50"* tools). And the logs don't show random errors: they show **two specific pairs** being confused. So the problem is **overlap**, not size.
 
-**Overlap means two tools for one purpose.** `issue_credit` and `process_refund` both *compensate the customer*; they differ only in the form (store credit vs. money back). `check_delivery_status` and `lookup_order` both *report on an order*. Whenever a request fits both tools of a pair, nothing in the tool set tells the model which is right.
+**Overlap means two tools for one purpose.** `issue_credit` and `process_refund` both *compensate the customer*; they differ only in the form (credit vs. money back). `check_delivery_status` and `lookup_order` both *report on an order*, and the logs say it outright: *"lookup_order already returns the needed data."* Whenever a request fits both tools of a pair, nothing in the tool set tells the model which is right.
 
 **D removes the choice instead of helping the model make it.** One tool per purpose, with the variant as a **parameter** (an enum or a flag):
-- `compensate_customer(order_id, amount, method: "refund" | "store_credit")`
+- `resolve_compensation(order_id, amount, action: "refund" | "credit")`
 - `lookup_order(order_id, include_tracking: true)`
 
 Tool selection becomes unambiguous. The remaining decision (refund or credit?) is a clearly described enum value inside the right tool, often set by policy or by the customer's choice. Guide 2.3: when tools *"all do the same kind of work,"* *"combine them into one tool whose parameter names the operation."*
@@ -65,8 +67,8 @@ Tool selection becomes unambiguous. The remaining decision (refund or credit?) i
 
 | Option | Why not |
 |---|---|
-| **A** Tool search with deferred loading for the six new tools | **A fix for size, not overlap.** Deferred loading keeps rarely used tools out of context until a search finds them, which helps with large catalogues (the *"30 to 50"* tools range). With 10 tools that isn't the problem. And when a delivery question comes in, the search loads `check_delivery_status` next to `lookup_order`, so the model faces the same pair. The overlap still exists; it's just loaded later. |
-| **B** Split into financial and delivery subagents, with a coordinator | **The confused pairs end up in the same subagent.** `issue_credit` and `process_refund` are both financial, so the financial agent still has to choose between them. `lookup_order` is needed by both roles, so the delivery pair overlaps across agents too. Guide 2.3: *"Splitting tools by role is the wrong fix when the tools all do the same kind of work."* It also adds a coordinator and routing hops (Q39): *"Coordinator round-trips add 2-3 extra hops per request."* |
+| **A** Tool search with `defer_loading` on the six new tools; the original four always loaded | **A fix for size, not overlap.** Deferred loading keeps tools out of context until a search finds them, which helps with large catalogues (the *"30 to 50"* tools range). With 10 tools that isn't the problem. And when a compensation or delivery question comes in, the search loads `issue_credit` next to the always-loaded `process_refund` (or `check_delivery_status` next to `lookup_order`), so the model faces the same pair. The overlap still exists; it's just loaded later. |
+| **B** "Financial resolution" agent (`process_refund`, `issue_credit`, `apply_promo_code`) + "delivery operations" agent, with a coordinator | **The option itself puts the confused pair in the same subagent.** The financial agent gets **both** `process_refund` and `issue_credit`, so it still has to choose between them. And `check_delivery_status` goes to the delivery agent while `lookup_order` (which already returns that data) sits elsewhere, so the duplicate now becomes a **routing** decision for the coordinator. Guide 2.3: *"Splitting tools by role is the wrong fix when the tools all do the same kind of work."* It also adds coordinator hops (Q39): *"Coordinator round-trips add 2-3 extra hops per request."* |
 | **C** Few-shot examples for choosing between overlapping tools | **Mitigation, not elimination.** Guide 2.1: *"Few-shot examples add token overhead without addressing the root cause."* They make the right choice more likely but leave both near-duplicates in place, so new phrasings that fall between the examples still get confused. Not "structural". |
 
 ## Pattern to remember
@@ -122,7 +124,7 @@ Merging them would recreate **Q17's problem**: one tool doing two jobs, with a m
 ## Glossary
 
 - **Semantic overlap:** two tools whose descriptions both fit the same request, so the model can't tell which is right.
-- **Tool consolidation (merge):** replacing near-duplicate tools with one tool whose parameter selects the variant (`method: refund | store_credit`).
+- **Tool consolidation (merge):** replacing near-duplicate tools with one tool whose parameter selects the variant (`resolve_compensation` with `action: refund | credit`).
 - **Tool search with deferred loading:** keeping tool definitions out of the context until a search tool finds them. For large catalogues (roughly 30–50+ tools), not for overlap.
 - **Tool selection accuracy:** how often the agent picks the right tool for a request (here 88% → 71%).
 
