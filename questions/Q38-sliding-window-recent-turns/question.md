@@ -137,7 +137,16 @@ The block goes **near the top**, because models attend reliably to the start of 
 
 **Who should write the order ID into the case facts block: the model (told "note down important facts as you go") or code? Why?**
 
-*My answer:* (pending)
+*My answer:* "Code, because it's not probabilistic." ✅ **Correct.** It's Q31's test: *can the model's choice make the rule fail?* Yes. It might forget to note the fact, paraphrase it (*"a recent order"*, the summary loss from 5.1), or mistype a digit. If a wrong ID means a refund on the wrong order, the block must be owned by code.
+
+**Precision: where code gets the values from.** Code can't *understand* a chat message, so it depends on the fact's source:
+
+| Where the fact comes from | Who does what |
+|---|---|
+| A **tool result** (`lookup_order` returns `order_id`, `amount`) | Code copies the fields straight into the block. Structured tool output makes this reliable (Q35) |
+| **Typed by the user** ("my order is 8891") | The model **extracts** it into a schema (structured output, 4.3) → code **validates** it (e.g. a lookup confirms the order exists and belongs to this customer, Q20: valid ≠ correct) → code **writes** it |
+
+> **The model may *find* facts. Code *keeps* them.** (Same as [extract-first-summarize-second](../../concepts/extract-first-summarize-second.md): extract into a schema, save as a persistent fact block.)
 
 ## Glossary
 
