@@ -105,6 +105,38 @@ Together they point to the simplest fix: **send only what's actually used**, wit
 
 **Same assistant, but now it handles support: at turn 3 the user gave an order number and a refund amount, and by turn 30 the sliding window has dropped those turns. What would you add to D, and why is "ask the user to re-state it" not good enough here?**
 
+*My answer:* "Critical details such as an order ID should be stored." 🟡 **Right direction, but "stored" isn't enough, and the second half is missing.**
+
+**1. Stored *where*: in every prompt, not just in a database.** The API is stateless, so the model only knows what's in the current request. An order ID saved in a database but not sent is invisible to it. The guide's pattern is the **persistent case facts block**: *"included in every prompt, outside the summarised history"*, and *"the single most important pattern in context window management."*
+
+```text
+[system prompt]
+<case_facts>
+customer_id: C-10442
+order_id: 8891
+refund_amount: $247.83
+status: refund approved, awaiting processing
+</case_facts>
+[last 8–10 turns]
+```
+
+The block goes **near the top**, because models attend reliably to the start of long inputs (lost in the middle). The window can drop turns, but the block never drops facts.
+
+**2. Why "please re-state it" fails here:** Q38's fact (3), *"information the user could easily re-state"*, no longer holds:
+
+| Q38 (chat) | Support case |
+|---|---|
+| Users can easily repeat the information | Users may not remember **exact** values ("#8891"? "$247.83"?) |
+| The user said it | Some facts came **from the system** (a tool computed the refund amount), so the user never knew them |
+| A slightly wrong re-statement is harmless | A wrong ID → **action on the wrong order** (5.2: wrong refund, privacy risk) |
+| Asking feels normal | Asking at turn 30 tells the customer the agent **forgot their case** |
+
+> **Trim the conversation, never the facts.** Conversation → sliding window (can drop). Transactional facts → case facts block (in every prompt).
+
+### Follow-up check question
+
+**Who should write the order ID into the case facts block: the model (told "note down important facts as you go") or code? Why?**
+
 *My answer:* (pending)
 
 ## Glossary
