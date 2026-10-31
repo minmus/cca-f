@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q38)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q39)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.1, 2.2, 2.3, 2.4 · D4 › 4.1, 4.3 · D5 › 5.1, 5.2, 5.4, 5.5, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -40,6 +40,7 @@ flowchart TB
 | **Q11** | Analysis spots gaps, strict pipeline can't act | Analysis **reports gaps explicitly** → coordinator: targeted search → **re-analysis** → until sufficient | Explicit signal + complete loop (beats inferred signal + half loop) |
 | **Q12** | How to give synthesis what it needs | **Complete findings** from both subagents **directly in its prompt** | No inheritance, no callbacks, no shared-store lookups |
 | **Q36** | Coordinator says "I'll ask the web search agent…", but no subagent **ever** runs; no errors | **`"Task"` missing from the coordinator's `allowedTools`** | Saying ≠ doing. No tool → no `tool_use` → nothing runs, nothing fails. Exam name "Task" (current Claude Code: "Agent") |
+| **Q39** | Follow-up "summarize what we learned" takes 40+ s: coordinator spawns synthesis with 80K+ findings it **already has** | **Coordinator answers simple summaries directly**; spawn only for complex work | Remove the unnecessary hop. *"Selects only the subagents it needs"* (1.2), which may be none |
 
 ### Agentic loop & support agent (single agent)
 
@@ -90,6 +91,7 @@ flowchart TB
 | Fix rubber-stamp approvals with **friction** (type a phrase, waiting period) or **auto-approve** routine cases | Friction ≠ information; auto-approve = less review. Show the decision-relevant details instead | Q18 A, B, C |
 | Too many clarifying questions → **one question per turn** / **smaller model scores ambiguity** and routes to a clarification dialog / **default interpretations without stating them** | Same interrogation spread over more turns / still interrogates the ambiguous cases, with an uncalibrated score / hidden guesses the user can't see or correct | Q37 A, B, D |
 | Long conversation slow / incoherent → **prompt caching** + keep the full history / **semantic retrieval** of past turns / **running summary**, "full context in condensed form" | A cost tool for a quality problem (still reads 50K) / heavy, approximate machinery for a rare, easily re-stated case / extra calls, lossy and invisible (*"condensed"* = lossy) | Q38 A, B, C |
+| Unneeded subagent is slow → **prompt caching** on it / **pre-generate** summaries / spawn it **thin, fetch on demand** | Keeps the unnecessary step: *"adds latency and API call overhead, cached or not"* (1.2 trap) / wasted, stale pre-computation / more round trips (no callback channel) | Q39 A, C, D |
 | Tool chain problem → add a **helper tool** / **retries** / **merge into one mega-tool** | Same chain (A), symptom fix (B), over-fetching + listed trap (D). Change the dependent tool's **input** instead | Q19 A, B, D |
 | For "help Claude **understand**": **schema types only** / **verbose names** (`user_id_string_uuid_format`) / **detailed error responses** | Types = shape not meaning; names aren't docs; errors help only **after** a mistake | Q20 A, B, C |
 | **Raw confidence** + few-shot to interpret · **aggregate** quality score · `verified`/`needs_verification` groups without reasons | Model guesses (trap: *"raw… scores without calibration"*); averages hide the bad field; no decision/why | Q21 A, C, D |
@@ -149,6 +151,7 @@ flowchart TB
 | "Pass complete findings" vs "don't pass everything"? | **Findings** (outputs: claims + sources + excerpts) → pass **all**. **Context** (raw inputs, history) → pass **selectively** (Q02 + Q12) |
 | Sources disagree | **Annotate**: both values + source + method + uncertainty, in a **contested** section |
 | Next agent could get empty or broken input | **Handoff gate** in the coordinator: validate non-empty + required fields **before** invoking (Q10) |
+| Delegate or do it directly? (Q39) | Delegate only when a subagent **adds** something: other **tools**, a **fresh context** for a big job (full cited report), or **parallel** work. Simple task + coordinator already has the data → **do it directly** |
 | Subagent **never runs** vs **runs without info**? | Never runs, coordinator only *talks* about it, no errors → **`Task` not in `allowedTools`** (Q36). Runs but "nothing provided" → context not **written into the Task prompt** (Q10). Runs, but **one at a time** → emit **multiple Task calls in a single response** for independent tasks (1.3, Q36 check). A **dependent** step (synthesis) waits for the next turn and gets the earlier outputs **in full** in its prompt |
 
 ## Human escalation handoff: the 5 fields (Q14, guide 1.4)
