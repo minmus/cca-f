@@ -101,7 +101,25 @@ while True:
 
 **Mid-way through the warranty case, a response comes back with `stop_reason: "max_tokens"`. Should the loop treat the case as finished? What happened, and what should the code do?**
 
-*My answer:* (pending)
+*My answer:* "The case is not finished. The coordinator should spin up another agent and hand it over." 🟡 **First half right, remedy wrong.** "Not finished" is exactly the guide's rule (*"not finished, check why"*). But a handoff treats `max_tokens` as if the agent had run out of capacity. It hasn't:
+
+**What happened:** `max_tokens` is the **output limit you set in the request**. Anthropic docs: *"Claude stopped because it reached the `max_tokens` limit specified in your request."* The response was simply **cut off mid-generation**, possibly in the middle of a `tool_use` block, leaving an incomplete tool call. Nothing is wrong with the agent or its context.
+
+**What the code should do** (Anthropic docs, *Handling stop reasons*, checked 2026-10-31): *"Raise `max_tokens` or continue the response."*
+
+| Where it was cut off | Action |
+|---|---|
+| **Inside a `tool_use` block** (incomplete tool call) | **Don't run the half-written call.** *"Retry the request with a higher `max_tokens` value to get the full tool use."* |
+| In text | Continue the response from where it stopped, or retry with a higher limit. If you show it as-is, mark it as truncated |
+
+**Why not hand off to another agent:**
+- There's no coordinator in this loop: it's one agent working through tool calls.
+- A new agent starts **empty** (Q10, Q46). You'd have to pass it everything, which costs far more than one retry.
+- It doesn't fix the cause: the new agent hits the same too-low limit.
+
+**Don't mix it up with:** `model_context_window_exceeded` (the **context window** is full: *"Treat the response as truncated"*, then trim or summarise context, Q38/Q42) or `pause_turn` (a long server-tool turn: send the conversation back to let it continue).
+
+> **`max_tokens` = your output cap cut the response short. Raise the cap (or continue) and retry; never run a truncated tool call.**
 
 ## Glossary
 
