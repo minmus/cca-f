@@ -133,7 +133,23 @@ That's one question, not an interrogation. A's "one question" idea is fine **whe
 
 **Variation: the user has only one subscription and says "Cancel my subscription." There's nothing to clarify now. Should the assistant just cancel it straight away, or is there still something to do first?**
 
-*My answer:* (pending)
+*My answer:* "It might ask for confirmation, stating the consequences." ✅ **Correct, and "stating the consequences" is the key part.** Two points of precision:
+
+1. **This is a confirmation, not a clarifying question.** Nothing is unclear about *what* the user wants. What's at stake is whether they know *what will happen*. A clarifying question asks **"which one?"** (ambiguity). A confirmation asks **"are you sure, given this?"** (irreversibility).
+2. **The confirmation must carry the details** (Q18), or it becomes a rubber stamp. "Are you sure?" alone gets a reflex "yes".
+
+> *"Just to confirm: cancelling Premium ends it on 15 Nov, when your paid period runs out. After that you'll lose ad-free listening and offline downloads, and if you rejoin later the price is $15/month instead of your current $12. Cancel it?"*
+
+**"Might" → "should"** whenever the action is hard to undo. If the business **requires** confirmation every time, enforce it in code (a PreToolUse hook that asks before `cancel_subscription` runs, Q18/Q31) rather than relying on the prompt.
+
+**The full picture across Q37 and its check questions:**
+
+| | Cheap / easy to undo | Costly / hard to undo |
+|---|---|---|
+| **Unclear what the user means** | **Assume + state + offer to adjust** (Q37: "help with the report") | **Ask** one targeted question (two subscriptions; 5.2's John Smiths) |
+| **Clear what the user means** | **Just do it** | **Confirm, showing the consequences** (one subscription; Q18) |
+
+> **Unclear → resolve the meaning (assume or ask, by cost). Costly → make sure the user sees the consequences before acting.**
 
 ## Glossary
 
