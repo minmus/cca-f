@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q45)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q46)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.1, 2.2, 2.3, 2.4 · D4 › 4.1, 4.3 · D5 › 5.1, 5.2, 5.4, 5.5, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -77,6 +77,7 @@ flowchart TB
 | **Q43** | "Going back and forth for days… I just want to speak to **someone who can actually help** me"; return is straightforward and eligible | **Acknowledge frustration, say it's resolvable now, offer to complete it or escalate** | Frustration ≠ explicit human request. Customer chooses; repeats "a person" → escalate |
 | **Q44** | "Explained twice… I want to talk to a **real person NOW**"; no tools called yet | **Immediately call `escalate_to_human`** with what's known | Explicit request → escalate in that reply: no investigation, no offer, no question. Q43's twin |
 | **Q45** | Customer returns after 4 h; old session has `PENDING` results; agent quotes stale data **even after fresh calls** | **New session + structured summary** (issue, actions, status) **+ fresh tool calls** before engaging | Guide 1.7: *"The new session has no stale tool results."* Remove stale data, don't argue with it |
+| **Q46** | After the 3rd verification answer the agent asks for the name again, "as if the earlier exchange never happened" | **Conversation history isn't being passed** in later API requests | The API is stateless: the model knows only what's in the current request. Your code is the memory |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
@@ -129,7 +130,7 @@ flowchart TB
 | "**Post-process** / re-locate / **reconstruct** sources afterwards (logs, similarity matching)" | Fixes too late. Metadata is already lost, and guessing is approximate | Q01 A, Q02 C, Q09 B/C |
 | "Embed source **markers / prefixes / inline citations** in the text" | Still prose. Rewriting drops or misplaces them | Q01 D, Q09 D |
 | "Orchestration layer **routes automatically** / tool **sequence planned up front** / pre-configured **decision tree**" (for *how an agentic loop* picks the next tool) | That's a workflow. In an agentic loop the **model reasons** over the appended tool result | Q13 A/C/D |
-| "Shared **API connection** / **automatic** context sharing / context **inheritance**" / "configure **explicit context forwarding** in ClaudeAgentOptions" | No such mechanism. The API is stateless and subagents are isolated. Context goes in the Task prompt | Q10 A, Q12 A, Q36 D |
+| "Shared **API connection** / **automatic** context sharing / context **inheritance**" / "configure **explicit context forwarding** in ClaudeAgentOptions" / "memory limited to **N turns by default**" / a tool "**clears the agent's internal state**" / "tell Claude to **remember**" | No such mechanism. The API is stateless and subagents are isolated. Context goes in the Task prompt / the `messages` your code re-sends | Q10 A, Q12 A, Q36 D, Q46 A, B, D |
 | An option that explains a **different symptom** (e.g. "context window too small" when the agent says "nothing provided") | **Symptom mismatch.** Pick the cause that produces *exactly* the observed behaviour | Q04 B, Q04 D, Q10 D, Q36 A, C, D |
 | "**Broader** queries / **plan or decompose more** up front" (for depth gaps found later) | Open loop. Guessing instead of feedback | Q06 B, Q11 A |
 | A loop where the coordinator **infers** problems from prose, or that **skips a step** (re-search without re-analysis, no stop condition) | Inferred signal + incomplete loop. Prefer an explicit report + full loop | Q11 C |
@@ -170,6 +171,7 @@ flowchart TB
 | Next agent could get empty or broken input | **Handoff gate** in the coordinator: validate non-empty + required fields **before** invoking (Q10) |
 | Exact count / sum over findings? (Q39 check) | **Code** (a tool) over **structured** records with normalised entities, extracted at analysis time. The model doesn't loop, it estimates. Model interprets and phrases; code counts |
 | Delegate or do it directly? (Q39) | Delegate only when a subagent **adds** something: other **tools**, a **fresh context** for a big job (full cited report), or **parallel** work. Simple task + coordinator already has the data → **do it directly**. Check: "final report with every claim cited" → delegate (big, one-off, needs a clean context); "summarize X" / "which came up most?" → direct |
+| Agent **forgets** earlier turns? (Q46) | Check that your code **re-sends the full `messages` history** every request (stateless API). Not "memory settings", not tool side effects, not a "remember" instruction |
 | Subagent **never runs** vs **runs without info**? | Never runs, coordinator only *talks* about it, no errors → **`Task` not in `allowedTools`** (Q36). Runs but "nothing provided" → context not **written into the Task prompt** (Q10). Runs, but **one at a time** → emit **multiple Task calls in a single response** for independent tasks (1.3, Q36 check). A **dependent** step (synthesis) waits for the next turn and gets the earlier outputs **in full** in its prompt |
 
 ## Human escalation handoff: the 5 fields (Q14, guide 1.4)
