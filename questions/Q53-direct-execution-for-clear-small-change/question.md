@@ -83,7 +83,21 @@ When all three are known, there's no design decision left, so: *"Direct executio
 
 **Same codebase, new task: "Make all date handling time-zone aware." It touches every module that stores or compares dates, and there are several ways to do it (store UTC everywhere, store local time plus zone, use a date library). Plan mode or direct execution? Which phrases in the task tell you?**
 
-*My answer:* (pending)
+*My answer:* "Plan mode, because of 'It touches every module…'" ✅ **Right mode, and that's one of the two signals.** The other one is arguably stronger:
+
+| Phrase | Signal | Guide 3.4 |
+|---|---|---|
+| *"touches every module"*, *"all date handling"* | **Scope**: many files, which must change **consistently** | *"A library migration affecting 45+ files requires a consistent strategy."* |
+| *"several ways to do it"* | **A design decision**: the approach isn't known yet | Plan mode is for when you need to *"evaluate multiple approaches"* |
+
+**Why the second signal matters most:** the guide's rule is *"ambiguity, not difficulty"*. Even if this touched only one file, choosing between "UTC everywhere", "local time plus zone" and "a date library" is a design decision, which on its own calls for planning. Here you have both.
+
+**What plan mode buys you here:**
+- **Pick one approach before touching anything,** then apply it everywhere. Half the modules on UTC and half on local time would be worse than no change.
+- **Find every date usage first.** That's verbose discovery, a job for the **Explore subagent**, which *"keeps verbose discovery output out of the main conversation."*
+- **Avoid late surprises:** *"Direct execution risks costly rework when dependencies are discovered late."* The complexity is stated in the task, so plan upfront (*"Do not wait for surprises"*).
+
+> **Two plan-mode signals: wide scope that must stay consistent ("every module"), and an open design choice ("several ways"). Either one is enough; together they're decisive.**
 
 ## Glossary
 
