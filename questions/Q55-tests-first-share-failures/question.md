@@ -107,6 +107,36 @@ A person reviewing output can't check the last row by eye. A test can.
 
 **Iteration 3: Claude's fix makes `test_cycle` pass, but now `test_disconnected_nodes` and `test_performance_100k` fail, and both passed before. Do you send both failures in one message, or one at a time? Why?**
 
+*My answer:* "One at a time, to make it easier to process and change only one thing at a time." ❌ **Not here.** "One change at a time" is the right rule for **independent** issues. These two aren't independent:
+
+**The clue:** both broke **at the same moment**, **after one fix**, and both **passed before**. So they almost certainly share a cause: the cycle fix. For example, the fix might have:
+- tracked visited nodes in a **list**, so each lookup scans the list. That's O(n²) on 100k nodes, so `test_performance_100k` fails;
+- started the traversal only from the first node, so isolated nodes are never reached and `test_disconnected_nodes` fails.
+
+**What goes wrong one at a time:**
+
+| Round | You send | Claude sees | Result |
+|---|---|---|---|
+| 4 | Disconnected nodes only | One constraint | Fixes it with a loop over all start nodes, which makes the slow list lookups run even more often |
+| 5 | Performance only | One constraint | Rewrites the visited check, and the cycle test breaks again |
+| 6 | Cycle again… | | Ping-pong: each fix undoes another |
+
+**Batched, Claude sees every constraint together** and can make one coherent change: a visited **set** (fast lookups, still stops cycles) **and** an outer loop over every unvisited node (reaches disconnected nodes).
+
+Guide 3.5:
+- *"Single message (batch) when fixes interact with each other."* *"The model needs to see all the interacting constraints at once to produce a coherent fix."*
+- *"Sequential iteration when issues are independent."* *"Batching independent issues can confuse the model about which feedback applies to which part of the code."*
+- Exam trap: sending interacting fixes one at a time. *"Fixes that interact need to be seen together."*
+
+**A good batched message:**
+> *"Your cycle fix made test_cycle pass but broke two tests that passed before: test_disconnected_nodes (expected [A, B, C, X], got [A, B, C]) and test_performance_100k (3.8 s, budget 1 s). Fix both without breaking test_cycle. Run the whole suite and show the output."*
+
+It names **what broke**, **what caused it** and **what must stay green**, and asks for **evidence** (the output).
+
+**When your instinct *is* right:** two unrelated issues, e.g. a wrong error message for an empty graph and a missing docstring. Send those one at a time, so each piece of feedback clearly belongs to one part of the code.
+
+> **Several failures from one cause interact: send them in one message, with what must stay passing. Unrelated issues: one at a time. Clue: did they break together after one change?**
+
 ## Glossary
 
 - **Test-driven iteration:** write tests that define the expected behaviour first, then let Claude implement and refine against the failures.
