@@ -94,7 +94,7 @@ flowchart TB
 
 ## Check question
 
-**When would resuming the old session (instead of starting fresh) be the right choice for a returning customer? Give one example.**
+**Two returning customers. (1) Their connection dropped mid-conversation; they're back 5 minutes later, and nothing has happened on their order since. (2) They come back the next morning; a refund was submitted in yesterday's session. Resume or start fresh for each, and why?**
 
 *My answer:* (pending)
 
