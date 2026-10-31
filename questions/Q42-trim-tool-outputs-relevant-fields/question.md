@@ -102,7 +102,19 @@ flowchart LR
 
 **Two parts: (1) Later, the customer asks which carrier shipped order #2, a field you trimmed. What does the agent do? (2) Why isn't "tell the model in the system prompt to ignore irrelevant fields" a substitute for trimming?**
 
-*My answer:* (pending)
+*My answer:* "It should call the tool again, as the details were trimmed. The prompt does not work all the time."
+
+**(1) ✅ Right: re-fetch, using the order ID that was kept.** One catch: if your PostToolUse hook *always* trims `lookup_order` to the return fields, the carrier gets trimmed out **again** on the re-fetch. So the trim list has to follow the **task**, not just the tool. Options: a `fields` parameter (`lookup_order(orderId, fields=["carrier", "trackingNumber"])`), or a purpose-specific tool such as `get_shipment(orderId)` (the Q17/Q30 idea: one tool per purpose, each with its own output).
+
+**(2) 🟡 True, but not the main reason.** "The prompt doesn't always work" is reason #2. Reason #1 holds even if the model obeyed perfectly: **ignoring isn't removing.** The 40+ fields stay in the history and are **re-sent on every turn**: same slowness, same cost, same march toward the context limit. An instruction can only change how the model **reads** the context, never how **big** it is. Guide 5.1: *"Trimming changes what the model sees."* and *"Once verbose data is in the context, it stays there for every subsequent turn."*
+
+| | "Ignore irrelevant fields" (prompt) | Trimming (code) |
+|---|---|---|
+| Tokens re-sent each turn | All 40+ fields, still | Only ~5 fields |
+| Context limit | Still approaching | Pushed back |
+| Distraction | Probabilistic: may still mix up `statusHistory` with the current status, or a warehouse date with the purchase date | Gone: the fields aren't there |
+
+> **A prompt can change how the model reads the context, never how big it is. Only code can remove tokens.**
 
 ## Glossary
 
