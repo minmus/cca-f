@@ -104,6 +104,35 @@ Reuse their helpers; don't write new ones where these exist.
 
 **A teammate has to build a similar module in a different service of the same codebase, but has no idea which modules show the right transaction, error and logging patterns. Is option C right for them? How should they run it so the search doesn't clutter their main session?**
 
+*My answer:* "Yes. They could ask Claude to explore the codebase and determine the right references." 🟡 **Yes is right, and "determine the right references" is a good instinct: the search should end in a short list of files to `@`-reference. The second half is missing: how to keep the search out of the main session.**
+
+**Why C is right now:** what decides it is **what you already know**, not the task. The teammate doesn't know where the patterns are, so searching is necessary. Exploring isn't wrong in itself; in Q58 it was wrong because you'd already found the files.
+
+**Keep the search out of the main session: delegate it to a subagent** (in Claude Code, the built-in **Explore** subagent).
+- Exploring produces a lot of output: *"Each exploration step produces verbose output: file contents, search results, directory listings"*, and *"the model loses its grip on earlier findings as the context fills with verbose discovery output"* (guide 5.4).
+- A subagent does the reading in **its own** context and sends back only the findings. Claude Code docs: *"Delegate the exploration so only the findings come back."* *"The subagent reads files in its own context window and reports a summary."* Guide 5.4: subagents' *"main value is context isolation."*
+
+**Two steps: explore in a subagent (C), then `@`-reference what it found (D):**
+
+```text
+1. Use a subagent to find the modules in services/billing that best show our
+   database-transaction, error-handling and audit-logging patterns. For each pattern,
+   return the 1–2 best example files (paths), a 2-line summary, and any legacy modules
+   that do it differently, so I can avoid them. Don't paste file contents.
+
+2. Create services/billing/refunds.py following
+   @services/billing/db/session.py @services/billing/errors.py @services/billing/audit.py
+```
+
+| Step | Where it runs | What stays in the main session |
+|---|---|---|
+| 1. Find the exemplars | Subagent (own context) | A short list: paths, one-line summaries, legacy files to avoid |
+| 2. Build the module | Main session | The three exemplar files (via `@`) and the new code |
+
+**Ask for the right output.** Asking for paths plus a short summary keeps the result small. Asking it to flag legacy variants prevents the "wrong example" risk from Q58's option C.
+
+> **Don't know where the patterns are → explore, but in a subagent that returns only paths and a summary. Then `@`-reference those files. C to find, D to build.**
+
 ## Glossary
 
 - **`@` file reference:** typing `@path/to/file` in a Claude Code prompt includes that file's content in the conversation (up to the Read tool's token limit). `@folder` shows a file listing.
