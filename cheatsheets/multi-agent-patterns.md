@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q51, no Q50)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q52, no Q50)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.1, 2.2, 2.3, 2.4 · D4 › 4.1, 4.3 · D5 › 5.1, 5.2, 5.4, 5.5, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -83,6 +83,7 @@ flowchart TB
 | **Q49** | `lookup_order` returns `is_error: true` + "Tool execution failed" for everything → agent retries forever **or** escalates at once | **Error-type-specific messages with `is_error: true`**: what went wrong + what to try next | Anthropic docs: *"Write instructive error messages."* Only the tool knows what happened |
 | **Q50** | *Gap: question text not available* (no ExamTopics discussion page; the question list needs a login) | | |
 | **Q51** | Warranty claim, several sequential tool calls: what decides whether the loop continues or stops? | **`stop_reason`**: `"tool_use"` → continue, `"end_turn"` → stop, anything else → check why | Not text presence, not a call cap (safety net only), not `tool_choice: "none"` after a "last expected" call |
+| **Q52** | CLAUDE.md "always run Prettier": 30% violations; "IMPORTANT: MUST" → 15% | **PostToolUse hook, `Edit\|Write` matcher, runs Prettier** on each modified file | Hooks = *"certain actions always happen rather than relying on the LLM."* Mechanical rule → command hook |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished" (Claude writes text **alongside** `tool_use`) · ❌ `tool_choice: "none"` after a "last expected" call (the path isn't fixed) (Q51) · Any other `stop_reason` (`max_tokens`, `pause_turn`, `refusal`…) = **not finished, check why**. `max_tokens` = your **output cap** cut the response short → raise `max_tokens` (or continue) and retry; **never run a truncated `tool_use`**. Not a handoff to another agent (Q51 check). `model_context_window_exceeded` = context full → treat as truncated, trim context
@@ -93,6 +94,7 @@ flowchart TB
 | If the option says… | It's usually wrong because… | Seen in |
 |---|---|---|
 | "**Instruct** the agent to…" / **emphatic CAPS** ("CRITICAL", "NEVER") / **few-shot** examples (for must-have behaviour) | Probabilistic. Louder or more examples ≠ guaranteed. Look for schema / gate / code | Q01 D, Q05 follow-up, Q31 B, D |
+| Must-hold **mechanical** rule in Claude Code (formatting) → **path-scoped rules** / a **skill** with examples / **Stop hook with a prompt-based check** | Changes *when* guidance loads, not *whether* it's followed / on-demand guidance / a model judging whitespace, at end of turn, then re-edits. Use a **command** hook that runs the tool | Q52 B, C, D |
 | "Use a **bigger / better model**" | Exam is model-agnostic. Fix the design | concept: extract-first |
 | "Pass the **full / raw / all** context" / **complete transcript** | Floods context. Complete ≠ everything | Q01 C, Q02 A, Q14 D |
 | Handoff with **only** diagnosis + amount, or **only** raw excerpts / **only the original message** | Not self-contained: no ID / root cause / recommended action, so the human re-investigates | Q14 B, C · Q15 C |
@@ -151,6 +153,7 @@ flowchart TB
 | Need | Use |
 |---|---|
 | Must **always** happen (money, compliance) | **Prerequisite gate** in the tool / **hook** / fixed **workflow** in code |
+| Which hook? (Q31, Q42, Q52) | **Block** before an action (refund > $500) → **PreToolUse**. **Fix/transform** after (format the edited file, trim a result) → **PostToolUse**. Mechanical rule → **command** hook (deterministic); judgment → prompt hook |
 | Confidence threshold for review? (Q21) | **Per field**, **tested** on a validation set (known answers), **stricter where mistakes are costly** (amount > vendor). Never one made-up number for all |
 | Tool result types (Q22, Q32, 2.2) | 0 matches → `success: true, results: []` · **transient** (timeout) → `isError`, `isRetryable: true`, capped retry · **validation** → fix input · **business** → explain/alternative/escalate · **permission** → escalate. Never report a failure as "no results" |
 | What should an error message say? (Q49, Anthropic docs) | **What went wrong + what to try next**, per error type, with `is_error: true`, written **in the tool** (the only place that knows). E.g. not found → "try get_customer by phone"; timeout on a read-only call → "transient, retry should succeed" (side-effecting → "outcome unknown, check first", Q26). A "stop" error (account locked for review) still needs a **next step** (tell the customer neutrally, escalate with a reason), `isRetryable: false`, and **what not to try** (no other tools to get around the lock) (Q49 check) |
