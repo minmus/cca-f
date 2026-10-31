@@ -100,7 +100,29 @@ The hook, as given in the Claude Code hooks guide (`.claude/settings.json`):
 
 **Your team adds another rule: "Never edit files in `/migrations`." Would a PostToolUse hook be the right tool for this one too? If not, what would you use, and why?**
 
-*My answer:* (pending)
+*My answer:* "Isn't it better to make the files in /migrations out of scope of the agent?" ✅ **Yes, and it's even simpler than the PreToolUse hook I had in mind.** Making them "out of scope" is exactly what a Claude Code **permission deny rule** does.
+
+**Why not PostToolUse:** it runs **after** the edit. The migration file is already changed; you could revert it, but this is a rule about **preventing** an action, and prevention has to happen **before** (Q31). PostToolUse fixes results (Q52's formatting); it can't stop them.
+
+**How to make `/migrations` out of scope**, in `.claude/settings.json`:
+
+```json
+{ "permissions": { "deny": ["Edit(/migrations/**)"] } }
+```
+
+- **Enforced by Claude Code, not the model.** Permissions docs: *"Permission rules are enforced by Claude Code, not by the model. Instructions in your prompt or `CLAUDE.md` shape what Claude tries to do, but they don't change what Claude Code allows."* Guide 3.2 calls deny rules *"the actual security boundary."*
+- **Deny wins.** *"Rules are evaluated in order: deny, then ask, then allow."* An allow rule can't carve an exception out of it, and a PreToolUse hook's "allow" doesn't override it either.
+- **Gotcha:** use `Edit(...)`, not `Write(...)`. The docs: path rules for `Write` *"never match"*; `Edit(path)` covers file modifications.
+
+**How far it reaches, and what goes further:**
+
+| Mechanism | Blocks |
+|---|---|
+| **Deny rule** `Edit(/migrations/**)` | Claude's file tools, plus Bash file commands Claude Code recognises (`sed`, `tee`, `> file` redirects) |
+| **PreToolUse hook** | Anything you can detect in the tool input with your own logic (e.g. inspect Bash commands) |
+| **Sandbox** (OS level) | *All* processes, including a script that opens files itself. The docs: deny rules *"don't apply to… arbitrary subprocesses that read or write files indirectly, like a Python or Node script"*; *"For OS-level enforcement… enable the sandbox."* |
+
+> **Prevent → before the action (deny rule, PreToolUse). Fix up → after (PostToolUse). The simplest way to keep an agent away from something is to not give it access.** Same idea as tool scoping (Q04): what the agent can't reach, it can't misuse.
 
 ## Glossary
 
