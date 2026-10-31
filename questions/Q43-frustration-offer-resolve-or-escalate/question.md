@@ -91,7 +91,21 @@ Example reply under B:
 
 **The customer replies to B's offer: "No. I want a real person." What does the agent do now, and what must the handoff include so the customer doesn't have to start over?**
 
-*My answer:* (pending)
+*My answer:* "It must escalate immediately, providing persistent details and a summary of the situation in the handoff." ✅ **Correct on both counts.** The preference is now **reiterated** (guide 5.2: *"Now escalate."*), so there's no second offer and no persuasion. Here's what "details + summary" should mean concretely: Q14's five fields, filled in for this case:
+
+| Field (Q14) | For this case |
+|---|---|
+| **1. Customer ID** | `C-10442` |
+| **2. Summary** (asked + tried) | Return for order 8891; customer reports *days* of back and forth; agent offered to process now; customer **asked twice for a person** |
+| **3. Root cause** | None found: the return is straightforward, so the delay was process, not policy |
+| **4. Exact amount** | $89.99, order 8891 |
+| **5. Recommended action** | **Eligibility already verified, within policy: process the refund**, then confirm with the customer |
+
+Two extras that matter here:
+- **Structured, not the transcript** (Q14, Q15): the human should be able to act in one step, without re-reading days of history.
+- **Tell the customer what happens next**, honestly: *"I'm connecting you with a colleague now. They'll have everything we've discussed, so you won't need to repeat anything."* Only say that if the handoff really carries it.
+
+> **Repeated request → escalate now. A good handoff means the customer's "days" end with the human, not restart with them.**
 
 ## Glossary
 

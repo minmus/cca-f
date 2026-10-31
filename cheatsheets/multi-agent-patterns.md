@@ -170,6 +170,7 @@ flowchart TB
 ## Human escalation handoff: the 5 fields (Q14, guide 1.4)
 
 1. **Customer ID** · 2. **Conversation summary** (what they asked + what was tried) · 3. **Root cause** · 4. **Exact amount** · 5. **Recommended action**. Self-contained, because the human has no transcript.
+Q43 check: when a frustrated customer repeats "a person", say what's **already verified** (e.g. eligibility) so the recommended action is one step ("process the refund"), and tell the customer they won't need to repeat themselves (only if true).
 
 ## Handoff prompt template (Q01 + Q02 + Q05 + Q07)
 
