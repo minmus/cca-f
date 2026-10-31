@@ -134,7 +134,7 @@ flowchart TB
 | Schema vs description vs code check? (Q20) | **Valid ≠ correct.** Schema → valid shape · description → correct meaning (likely) · code check (e.g. ID belongs to session) → guaranteed |
 | Is a review / confirmation step working? (Q18) | Measure **outcomes** (incidents, errors caught, rejections/edits), not **behaviour** (approval rate, seconds). High approval is fine if the items are correct |
 | Instruct or gate? (Q16) | Condition is **plain data** (`amount > 500`, `days > 30`) → **gate**. Needs **understanding** (policy gap, progress, "wants a human") → **instruct** with clear criteria. ❌ Circular gate: `if escalation_required` |
-| Ambiguous request: ask or assume? (Q37 vs 5.2) | **Cheap to correct** (which report, what kind of help) → **assume from context + state it + offer to adjust**. **Costly or irreversible** (which customer, which account to refund or cancel) → **ask** for an identifier; never pick (5.2) |
+| Ambiguous request: ask or assume? (Q37 vs 5.2) | **Cheap to correct** (which report, what kind of help) → **assume from context + state it + offer to adjust**. **Costly or irreversible** (which customer, which account to refund or cancel) → **ask** for an identifier; never pick (5.2). Rule: **assume for what you *say*, ask before what you *do*** (an "offer to adjust" after an action is too late). Ask **one targeted question with the details** (Q37 check) |
 | Must **adapt** to the unexpected | **Goals + quality criteria** in the delegation prompt |
 | Exact facts must survive summaries | **Extract first** → persistent **fact block** owned by code |
 | Prove a citation is real | Check against the **retrieval log** (code), not "ask Claude" |

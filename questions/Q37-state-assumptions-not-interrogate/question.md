@@ -109,6 +109,30 @@ Example reply under C:
 
 **Same assistant. A user says "Cancel my subscription", and they have two active subscriptions (Premium and Cloud Storage). Should the assistant assume and state its guess, or ask? Why?**
 
+*My answer:* "Assume, but state the assumption to the user, giving them a chance to correct it." ❌ **Here it should ask.** Keeping the user in control is the right instinct, but this case fails both conditions that made C right:
+
+| | Q37: "help with the report" | "Cancel my subscription" (two of them) |
+|---|---|---|
+| What the guess leads to | **Output** (a review). Nothing changes in the world | **An action**: a subscription is cancelled |
+| Wrong guess costs | One correction message | Premium lost (maybe a price you can't get back), or Cloud Storage files scheduled for deletion |
+| When "offer to adjust" comes | In time: nothing has happened yet | **Too late**: the cancellation already ran |
+| Basis for a "reasonable assumption" | Context points to one report (shared earlier) | **None.** Two equal matches, so any pick is a coin flip |
+
+This is guide 5.2's "three John Smiths" case: several matches for an **action**, so *"It must never pick one itself"*, ask for what tells them apart.
+
+**"State the guess before acting, then wait" isn't the fix either.** *"I'll cancel Premium, OK?"* is a confirmation with a guessed default, and users tend to approve those quickly without noticing it's the wrong one (Q18's 98%-in-2-seconds). Asking which one is just as short and avoids that.
+
+**The right reply: one targeted question, with the details that matter (Q18):**
+> *"Which one would you like to cancel: Premium ($12/month, renews 15 Nov) or Cloud Storage (200 GB; your files are kept for 30 days after cancelling)?"*
+
+That's one question, not an interrogation. A's "one question" idea is fine **when asking is the right move**. In Q37 it was wrong because the assistant didn't need to ask at all.
+
+> **Assume for what you *say*. Ask before what you *do*, when a wrong guess changes something that's hard to undo.**
+
+### Follow-up check question
+
+**Variation: the user has only one subscription and says "Cancel my subscription." There's nothing to clarify now. Should the assistant just cancel it straight away, or is there still something to do first?**
+
 *My answer:* (pending)
 
 ## Glossary
