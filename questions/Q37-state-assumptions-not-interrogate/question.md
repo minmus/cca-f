@@ -151,6 +151,13 @@ That's one question, not an interrogation. A's "one question" idea is fine **whe
 
 > **Unclear → resolve the meaning (assume or ask, by cost). Costly → make sure the user sees the consequences before acting.**
 
+### Follow-up check question 2 (optional)
+
+**A user says "Delete my old drafts." They have 40 drafts, and 12 are over a year old. Which cell of the grid is this, and what should the assistant reply?**
+
+*Skipped (moved on to Q38).* Answer: **Unclear + costly.** "Old" could mean the 12 over a year, or anything older than a month, and deletion is hard to undo. So don't guess and delete. Unlike the two subscriptions (a coin flip), the context *does* suggest a likely reading, so the assistant can propose it **as a question, with the details visible** (Q18), resolving the meaning and confirming in one reply:
+> *"Do you mean these 12 drafts from before Nov 2025? (lists titles and dates) Deleting them is permanent. Delete these 12, or did you mean a different cut-off?"*
+
 ## Glossary
 
 - **Clarifying question:** a question the assistant asks before acting, to resolve what the user meant. Useful when a wrong guess is costly; friction when it isn't.

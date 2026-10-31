@@ -1,4 +1,4 @@
-# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q37)
+# Cheat sheet: Multi-agent patterns & agentic loop (Q01–Q38)
 
 **Domains:** D1 › 1.2, 1.3, 1.4, 1.5, 1.7 · D2 › 2.1, 2.2, 2.3, 2.4 · D4 › 4.1, 4.3 · D5 › 5.1, 5.2, 5.4, 5.5, 5.6
 **Built from:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [Q02](../questions/Q02-context-passing-source-index/question.md) · [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) · [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) · [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) · [Q06](../questions/Q06-coordinator-gap-loop/question.md) · [Q07](../questions/Q07-context-flows-through-coordinator/question.md) · concepts: [claim-source-mapping](../concepts/claim-source-mapping.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md)
@@ -69,6 +69,7 @@ flowchart TB
 | **Q34** | Agent wastes 3–4 turns retrying **business** errors (12%); plain-text errors; poor customer replies | Structured errors: **`retriable: false`** for business errors + **customer-friendly explanation** | Two goals → the two fields. The tool knows the facts, so it writes the explanation |
 | **Q35** | `get_portfolio_value`: JSON fields or formatted text? | Agent **reliably extracts** exact values without parsing prose → fewer errors downstream | Reliability, not determinism. Structure ≠ correctness. Not about tokens |
 | **Q37** | Assistant answers "help me with the report?" with 3 clarifying questions → 40% abandon | **System prompt: assume from context, state the assumptions, offer to adjust** | Help now, with the guess visible and correctable. Ask only when a wrong guess is costly or irreversible (5.2) |
+| **Q38** | 30+ turns: slower, less coherent; 50K tokens; 94% only reference the last 3–5 exchanges; the 6% could easily re-state | **Sliding window**: system prompt + last 8–10 turns; for older references, **acknowledge and ask to re-state** | Let usage data size the context. Capped size → faster; less noise → more coherent; honest about the gap |
 
 - Loop control: `stop_reason == "tool_use"` → run tool, append `tool_result`, call again · `"end_turn"` → stop. *"The only reliable signal."*
 - ❌ Parse "I'm done" text · ❌ iteration cap as **main** stop (OK as a safety limit) · ❌ "has text = finished"
@@ -88,6 +89,7 @@ flowchart TB
 | Escalate after **N failed attempts** / **rules engine** by category, "removing model judgment" | Arbitrary proxies. Miss policy gaps and explicit human requests. A count is a safety cap, not the trigger | Q16 B, D |
 | Fix rubber-stamp approvals with **friction** (type a phrase, waiting period) or **auto-approve** routine cases | Friction ≠ information; auto-approve = less review. Show the decision-relevant details instead | Q18 A, B, C |
 | Too many clarifying questions → **one question per turn** / **smaller model scores ambiguity** and routes to a clarification dialog / **default interpretations without stating them** | Same interrogation spread over more turns / still interrogates the ambiguous cases, with an uncalibrated score / hidden guesses the user can't see or correct | Q37 A, B, D |
+| Long conversation slow / incoherent → **prompt caching** + keep the full history / **semantic retrieval** of past turns / **running summary**, "full context in condensed form" | A cost tool for a quality problem (still reads 50K) / heavy, approximate machinery for a rare, easily re-stated case / extra calls, lossy and invisible (*"condensed"* = lossy) | Q38 A, B, C |
 | Tool chain problem → add a **helper tool** / **retries** / **merge into one mega-tool** | Same chain (A), symptom fix (B), over-fetching + listed trap (D). Change the dependent tool's **input** instead | Q19 A, B, D |
 | For "help Claude **understand**": **schema types only** / **verbose names** (`user_id_string_uuid_format`) / **detailed error responses** | Types = shape not meaning; names aren't docs; errors help only **after** a mistake | Q20 A, B, C |
 | **Raw confidence** + few-shot to interpret · **aggregate** quality score · `verified`/`needs_verification` groups without reasons | Model guesses (trap: *"raw… scores without calibration"*); averages hide the bad field; no decision/why | Q21 A, C, D |
@@ -137,6 +139,7 @@ flowchart TB
 | Ambiguous request: ask or assume? (Q37 vs 5.2) | **Cheap to correct** (which report, what kind of help) → **assume from context + state it + offer to adjust**. **Costly or irreversible** (which customer, which account to refund or cancel) → **ask** for an identifier; never pick (5.2). Rule: **assume for what you *say*, ask before what you *do*** (an "offer to adjust" after an action is too late). Ask **one targeted question with the details** (Q37 check). **Clear but costly** (only one subscription to cancel) → no question needed, but **confirm, showing the consequences** (Q18). Clear and cheap → just do it |
 | Must **adapt** to the unexpected | **Goals + quality criteria** in the delegation prompt |
 | Exact facts must survive summaries | **Extract first** → persistent **fact block** owned by code |
+| Long conversation: how much history to send? (Q38) | **Let usage data decide.** Keep the last N turns that cover what users actually reference (with margin), drop the rest, **acknowledge openly** when something falls outside. Transactional facts (IDs, amounts) → persistent **case facts block** outside the window (5.1) |
 | Prove a citation is real | Check against the **retrieval log** (code), not "ask Claude" |
 | Prove a citation **supports** the claim | **Excerpt** next to the claim + independent model check |
 | Subagent occasionally needs another role's capability | **Narrow, constrained tool** (e.g. `verify_fact`). Complex needs go back to the coordinator |
