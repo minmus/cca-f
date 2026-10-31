@@ -117,7 +117,17 @@ A follow-up "summarise what we learned" needs none of these. The coordinator has
 
 **For (c), the coordinator answers "Competitor X, 14 mentions", but the real count is 11. What would make the count reliable?**
 
-*My answer:* (pending)
+*My answer:* "Code could." ✅ **Right: let code count.** A model "counting" across 80K tokens of prose doesn't loop over items. It estimates, can double-count, and misses mentions in the middle of long context. Exact numbers are deterministic work, so they belong in code. **Precision: code can only count what's structured.** Here's how:
+
+1. **Structure at extraction time** (extract first): each finding is stored as a record with a normalised entity field, e.g. `{claim, source_url, excerpt, competitors: ["competitor_x"]}`. "Acme", "Acme Corp" and "ACME Inc." all map to one ID.
+2. **A tool counts over the records**: e.g. `count_findings(group_by="competitor")` → `{"competitor_x": 11, "competitor_y": 7}`, with the finding IDs as evidence.
+3. **The coordinator calls the tool and phrases the answer**: *"Competitor X came up most often: 11 findings from 6 sources."*
+
+Without step 1, code is stuck matching strings in prose, and it misses aliases ("Acme Corp", "they"). That's the same split as Q38: **the model finds facts (extraction into a schema), code counts and keeps them.**
+
+Note that a tool call isn't a subagent spawn. It's fast and cheap, so it fits Q39's lesson.
+
+> **Exact numbers (counts, sums, dates) → code over structured data. The model interprets and phrases.**
 
 ## Glossary
 
