@@ -116,6 +116,9 @@ Both are committed to git. Guide 3.2: *"Every developer who clones or pulls the 
 - *"Unlike CLAUDE.md content, a skill's body loads only when it's used, so long reference material costs almost nothing until you need it."*
 - *"Custom commands have been merged into skills."* *"Your existing `.claude/commands/` files keep working."*
 
+**Claude Code docs, *Best practices* › Put team procedures in skills** (code.claude.com, checked 2026-11-01):
+- *"A long release procedure sitting in a skill doesn't weigh on your unrelated bug fix the way it would in `CLAUDE.md`."* (**D**)
+
 **Claude Code docs, *Create custom subagents*** (code.claude.com, checked 2026-11-01):
 - Subagents fit when *"The task produces verbose output you don't need in your main context"*, *"You want to enforce specific tool restrictions or permissions"*, *"The work is self-contained and can return a summary"*.
 - *"Consider Skills instead when you want reusable prompts or workflows that run in the main conversation context rather than isolated subagent context."* (**B**)
@@ -135,6 +138,37 @@ Both are committed to git. Guide 3.2: *"Every developer who clones or pulls the 
 ## Check question
 
 **Item 1 of the checklist is "every new or changed endpoint has an entry in `openapi.yaml`". Reviews keep flagging it: Claude writes new endpoints without the entry, and only `/review` catches the gap afterwards. What should change, and does the item stay in `/review`?**
+
+*My answer:* "The requirement should be moved to CLAUDE.md then." 🟡 **The key insight is right: this item is a rule for *writing* code, so Claude needs it while it writes the endpoint, not only at review time. Three refinements: a better place than root CLAUDE.md, "copy" rather than "move", and enforcement if it must always hold.**
+
+**Why your instinct is right.** `/review` loads only when someone runs it, *after* the endpoint is written. A skill's body is *"absent until the skill is invoked"* (guide 3.2). So the rule has to be always-on guidance. Guide 3.2: *"Conventions for every edit belong in CLAUDE.md or .claude/rules/."*
+
+**Refinement 1: a path rule beats root CLAUDE.md.** The rule matters only when Claude edits endpoint code. Use Q54's test, *"would it matter whatever file Claude is editing?"* The answer is no, so use a rule with `paths`. Root CLAUDE.md would work, but it would also load while someone debugs CSS. The Claude Code docs use exactly this rule as their example:
+
+`.claude/rules/api.md` (frontmatter must be the first thing in the file)
+```markdown
+---
+paths:
+  - "src/api/**/*.ts"
+---
+- Every new endpoint needs an entry in openapi.yaml, CI fails without it
+```
+
+Guide 3.2: *"Conventions for one file type, such as test files, fit path-scoped .claude/rules/ best: they load as always-on context alongside matching files."*
+
+**Refinement 2: copy it, don't move it. Keep the item in `/review`.** Guidance isn't guaranteed (Q56): the rule prevents most misses, and the review catches the ones that slip through. Each does a different job.
+
+**Refinement 3: if it must always hold, enforce it.** A CI check that compares the routes in code with `openapi.yaml` and fails the build (*"CI fails without it"*), as in Q56: guidance plus a deterministic check.
+
+| Layer | Job | When it acts |
+|---|---|---|
+| `.claude/rules/api.md` | Claude knows the rule **while writing** endpoints | Every time an API file is edited |
+| `/review` item 1 | **Catches** what slipped through | When someone runs a review |
+| CI check | **Blocks** the merge if an entry is missing | Every PR, whoever wrote the code |
+
+Claude Code docs, *Best practices* › Scope rules to one part of the codebase (code.claude.com, checked 2026-11-01): *"If a rule only matters in one part of the codebase, put it in `.claude/rules/` with a `paths:` filter so it only loads when Claude is actually working there."*
+
+> **A review item that keeps failing is often a coding convention in disguise. Copy it to where Claude writes the code (a path rule for those files), keep it in the review, and add a CI check if it must always hold. Prevent, catch, enforce.**
 
 ## Glossary
 
