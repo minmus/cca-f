@@ -115,6 +115,24 @@ flowchart TB
 
 **The coordinator retries with a narrower query, and that times out too. The report has to ship now, using the other four subagents' findings plus the partial results. What should the final report do about this topic, and why?**
 
+*My answer:* "Having structured error context, the coordinator must be able to explain why the data for this part was not gathered." 🟡 **The core is right, and so is the link: the structured error is exactly what lets the coordinator explain the gap. With option A, it wouldn't even know there was one. The guide calls this a *coverage annotation*. Two things to add: use the partial results, and say *why* the annotation matters.**
+
+**What the report should contain: a coverage annotation.** Guide 5.3: *"When a synthesis agent combines subagent findings, the output should note which topic areas are well supported and which have gaps."* For this report:
+
+| Topic | Coverage | Note |
+|---|---|---|
+| Cathode recovery | Well supported | 6 sources |
+| Policy and regulation | Well supported | 4 sources |
+| Electrolyte recovery | **Limited** | Web search timed out twice (including a narrower query). Based on 1 source retrieved before the timeout. Re-run recommended |
+
+**1. Use the partial results.** The source found before the timeout still goes into the report, marked as limited. Guide: *"Discarding them because the operation failed is wasteful."*
+
+**2. Why it matters:** without the annotation, the reader can't tell "nothing exists on this" from "we couldn't search for it". Guide: *"Without them, a gap looks like an irrelevant topic, not an unavailable source."* Someone might decide that electrolyte recovery isn't an issue, when really the search simply failed. That's silent suppression again, only one level up: in the report instead of in the subagent's result.
+
+**The chain:** the subagent reports honestly (structured error) → the coordinator recovers where it can → the report says honestly what's still missing (coverage annotation). The structured error is the raw material for the annotation: failure type, attempted query and partial results go straight into the note.
+
+> **Can't fill a gap before the deadline → ship with what you have, and annotate coverage: which topics are well supported, which are limited, and why ("limited because web search timed out"). A gap that isn't labelled looks like a topic that doesn't matter.**
+
 ## Glossary
 
 - **Structured error context:** an error returned as data with fixed fields (failure type, attempted action, partial results, alternatives) that the coordinator can act on.
