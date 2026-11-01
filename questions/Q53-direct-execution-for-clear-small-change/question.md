@@ -58,7 +58,7 @@ When all three are known, there's no design decision left, so: *"Direct executio
 
 **Exam signals:**
 - *"One function"*, *"single file"*, *"a conditional"*, *"clear stack trace"*, *"config value"* → **direct execution**.
-- *"45+ files"*, *"migration"*, *"service boundaries"*, *"several approaches"*, *"unfamiliar codebase"* → **plan mode**.
+- *"45+ files"*, *"migration"*, *"service boundaries"*, *"several approaches"*, *"need to map the codebase before you know where to change"* → **plan mode**. Unfamiliar code on its own isn't enough: a clear stack trace into a module you've never seen is still direct execution ([Q66](../Q66-clear-stack-trace-direct-execution/question.md)).
 - Options that add analysis "to be thorough" for a clearly scoped change → over-engineering (same family as Q39's unnecessary subagent).
 
 ### Where this comes from in the guide
