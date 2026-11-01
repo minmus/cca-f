@@ -141,6 +141,7 @@ flowchart TB
 - **Access failure vs valid empty result:** the tool couldn't reach the data (consider retrying) vs it searched and found nothing (that's the answer, don't retry).
 - **Transient failure:** a temporary failure (timeout, rate limit) that may succeed on retry.
 - **Exponential backoff:** waiting longer between each retry (e.g. 1 s, 2 s, 4 s).
+- **Coverage annotation:** a note in the final output saying which topics are well supported and which are limited, and why (e.g. "limited because web search timed out").
 
 ## Related course lessons
 
