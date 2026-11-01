@@ -92,6 +92,38 @@ Guide 2.5: *"Grep searches file contents for patterns. Use it to find function c
 
 **The Grep for `SYNC_CONFLICT` finds just one file: `shared/errors/codes.py`, a shared library that all 12 services use, with the line `SYNC_CONFLICT = ErrorCode("SYNC_CONFLICT", "entity version mismatch detected")`. That's where the error is *defined*, not where it's *raised*. How does the agent find which service actually raised it?**
 
+*My answer:* "Grep for calls of that library?" 🟡 **Right move: Grep again, for where it's used (Q68's lesson). But the search term is too broad. "Calls of that library" would match all 12 services, since they all use it: that's Q69's option D again. Search for the one name that raises *this* error.**
+
+**The clue is in the result: only one file matched.** If any service wrote `SYNC_CONFLICT` in its code, the first Grep would have found it. So no service uses that name directly. They must use it through **something else defined in `codes.py`**, for example:
+
+```python
+# shared/errors/codes.py
+SYNC_CONFLICT = ErrorCode("SYNC_CONFLICT", "entity version mismatch detected")
+
+class VersionConflictError(AppError):
+    code = SYNC_CONFLICT
+```
+
+```python
+# services/inventory/stock.py: never mentions SYNC_CONFLICT
+raise VersionConflictError(entity_id)
+```
+
+This is Q68's wrapper case again: the first name leads to a second name, and the callers use the second.
+
+| Grep for | Matches | Useful? |
+|---|---|---|
+| Imports of `shared/errors` ("calls of that library") | All 12 services | ❌ Too broad: every service uses it |
+| `SYNC_CONFLICT` | Only `codes.py` (the definition) | Shows where it's defined |
+| `VersionConflictError` (found by reading `codes.py`) | The 1–2 places that **raise** it | ✅ The answer |
+
+**Next steps:**
+1. **Read `codes.py` around the match**: which class or helper wraps `SYNC_CONFLICT`?
+2. **Grep that name across all 12 services** to find where it's raised.
+3. **If several services raise it, use the log entry itself.** Production logs usually carry a service name, a trace ID or a stack trace. Checking the full log line first may name the service at once, with no code search at all. *(Practical tip, not guide wording.)*
+
+> **Only the definition matches → the code uses it under another name. Read the definition, find the name that wraps it, and Grep for that. Search for the narrowest term that identifies this error, not for everything that uses the library.**
+
 ## Glossary
 
 - **Grep:** searches the **contents** of files for a text pattern and returns matching files and lines.
