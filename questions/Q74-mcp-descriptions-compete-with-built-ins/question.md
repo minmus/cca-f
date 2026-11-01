@@ -100,6 +100,7 @@ The last row is the one that matters most here. Q23's descriptions had to separa
 - Five elements: what the tool does, *"What inputs it expects"*, *"Example queries it handles well"*, *"Edge cases and limitations"*, *"Explicit boundaries: when to use this tool versus similar tools in the same toolkit"*.
 - Exam trap: *"Implementing a routing classifier as the first step to fix tool selection."* *"It bypasses the LLM's natural language understanding and adds infrastructure."* (**A**)
 - *"The exam consistently favours low-effort fixes with a large effect: better descriptions before routing classifiers…"* (**A**, **C**)
+- *"Keyword-sensitive instructions in system prompts can create unintended tool associations that override well-written descriptions."* Exam trap: *"Ignoring system prompt wording after updating tool descriptions."* *"After any description change, review the system prompt and rephrase wording that matches a tool."* (the check question)
 
 ## How this connects to earlier questions
 
@@ -113,6 +114,26 @@ The last row is the one that matters most here. Q23's descriptions had to separa
 ## Check question
 
 **You rewrite all three descriptions. The agent now uses `extract_function` and `inline_function`, but for renames across several files it still runs `sed -i 's/getUser/fetchUser/g'`. Its system prompt includes the line *"For quick edits across many files, use Bash with sed."* What's going on, and what do you change?**
+
+*My answer:* "System prompt gives an answer what to do for quick edit and that is not looking for tools. System prompt must be modified." ✅ **Correct on both counts. The system prompt line already decides the tool, so the agent doesn't weigh the descriptions, and the fix is to change the system prompt. The guide calls this a "subtle failure mode".**
+
+**Why the system prompt wins.** A rename across several files fits *"quick edits across many files"* exactly, and that line names a tool. A direct instruction that matches the task beats a description, however good. Guide 2.1: *"Keyword-sensitive instructions in system prompts can create unintended tool associations that override well-written descriptions."* The guide's example is the same shape: *"always check customer details before proceeding"* sends every customer-related query to `get_customer`, *"whatever the descriptions say."* That's why only renames still go to sed: `extract_function` and `inline_function` don't match the line.
+
+**What to change.** Guide: *"After any description change, review the system prompt and rephrase wording that matches a tool."* Either delete the line, or narrow it to the job sed is actually good at:
+
+| | System prompt line |
+|---|---|
+| Before | *"For quick edits across many files, use Bash with sed."* |
+| After (option 1) | Delete it: the descriptions now say when each tool fits |
+| After (option 2) | *"For plain-text changes such as comments, strings or config values, Bash with sed is fine. Renaming or restructuring code is a refactoring: use the refactoring tools."* |
+
+Don't swing the other way with *"ALWAYS use rename_variable"*. That's the 2.4 trap (*"Adding a system prompt rule… to make the agent use an MCP tool"*), and it creates a new keyword association of its own. The aim is to remove the conflict so the descriptions can do their job.
+
+**Then measure.** The guide's build exercise: re-run the same test queries and compare which tool is picked before and after. Renames should now go to `rename_variable`.
+
+*(Practical tip, not guide wording: in Claude Code, check CLAUDE.md, rules files, skills and slash commands too. Anything loaded into context can carry the same kind of instruction.)*
+
+> **Descriptions decide tool selection only when nothing louder contradicts them. After changing a description, reread the system prompt for any line that names a tool for a kind of task, and rephrase or remove it.**
 
 ## Glossary
 
