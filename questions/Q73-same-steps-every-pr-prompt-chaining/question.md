@@ -92,6 +92,8 @@ def review(pr):
 - *"In a fixed pipeline, each step takes the previous step's output as input. The sequence does not change based on intermediate results."*
 - *"Fixed pipelines suit predictable, structured tasks with known steps: code reviews, document processing, data extraction pipelines and compliance checks. The same input always follows the same path."* (**B**)
 - *"Attention dilution is a failure mode that occurs when the work is split into too few passes."* (**C**)
+- *"A fixed pipeline cannot adapt to unexpected findings."* Dynamic decomposition *"suits open-ended investigation where the full scope is unknown at the start: exploring legacy systems, security audits, research projects and debugging unfamiliar codebases."* (the check question)
+- *"The jeweller's listing check has known steps and needs a fixed pipeline. The stock mismatch has unknown scope and needs dynamic decomposition."* (one agent, two jobs, two patterns)
 - Exam trap: *"Choosing dynamic adaptive decomposition for a structured task whose steps are known in advance."* *"An adaptive plan makes the runtime and output depend on what each step finds, so it is less predictable and harder to debug. When the steps are known in advance, a fixed pipeline gives consistent, reliable results."* (**D**)
 - Exam trap: *"A question may offer a fixed pipeline for an open-ended investigation task, or dynamic decomposition for a structured processing task. Match the pattern to the task characteristics, not to what sounds more sophisticated."*
 
@@ -113,6 +115,38 @@ def review(pr):
 ## Check question
 
 **Your pipeline is running. On one PR, the security step finds an AWS access key hard-coded in `config/settings.py`. The engineer now wants to know where else that key is used, whether other files or services hold secrets, and how long the key has been in the git history. Nobody knows how far it goes. Should you switch the review assistant to orchestrator-workers (D)? What would you do?**
+
+*My answer:* "It is still achievable with a prompt." 🟡 **Right that you don't switch the review assistant: the review still has the same three steps for every PR. But "a prompt" needs to be more precise. The investigation is a separate task with its own pattern, dynamic decomposition. It's not one more step in the pipeline, and not a single prompt answered in one pass.**
+
+**There are two tasks here, and they have different characteristics.** That's the guide's jeweller example: one agent, two jobs. *"The jeweller's listing check has known steps and needs a fixed pipeline. The stock mismatch has unknown scope and needs dynamic decomposition."*
+
+| Task | Steps known in advance? | Pattern |
+|---|---|---|
+| Review every PR (style, security, docs) | Yes, the same every time | **Fixed pipeline**: keep it as it is |
+| Find how far the leaked key reaches | No: each finding decides the next step | **Dynamic decomposition**, as a separate run |
+
+The guide even names this kind of task: dynamic decomposition *"suits open-ended investigation where the full scope is unknown at the start: exploring legacy systems, security audits, research projects and debugging unfamiliar codebases."*
+
+**When "a prompt" is right.** A prompt works if it goes to an **agent that plans from what it finds**: a loop with Grep, Read and Bash (for the git history), maybe subagents for each service. That *is* dynamic decomposition: the prompt sets the goal, and the agent picks the steps. Give it a goal and criteria, not a procedure (Q05):
+
+```text
+Goal: find out how far the leaked AWS key (found in config/settings.py, PR #482) reaches.
+Find: every place the key is used (code, config, CI, other services you can access),
+any other hard-coded secrets, and when the key first entered the git history.
+Follow new leads as you find them.
+Report: each finding with file or commit, and anything you could not check.
+```
+
+For example: the git history shows the key was first committed 8 months ago in a different service. That changes the plan, so the agent investigates that service next. A fixed pipeline can't do that: *"A fixed pipeline cannot adapt to unexpected findings."*
+
+**What doesn't work:**
+- **Adding the investigation to the security step.** Every PR's review would then depend on what each one finds, so it's no longer predictable or easy to debug.
+- **One prompt expected to answer everything in one pass**, without tools and a loop. It can't search the git history or follow leads.
+- **Switching the whole assistant to D.** The routine review would lose its consistency because of one unusual run. (D's pattern is fine *for the investigation*: the article lists *"Search tasks that involve gathering and analyzing information from multiple sources"* as a fit.)
+
+**What the pipeline does with this PR:** the security step reports the key as a critical finding, the synthesis step puts it at the top of the review (and blocks the merge, if your process allows that), and the investigation starts as its own job. *(Practical tips, not guide wording: rotate the key first, because an investigation doesn't undo the exposure; `git log -S "<key>" --all` finds the commits that added or removed it.)*
+
+> **Two tasks, two patterns. The routine review keeps its fixed pipeline. The open-ended investigation it uncovered runs separately, with an agent that plans from what it finds. Don't change the pattern of a routine task because one run turned up something open-ended.**
 
 ## Glossary
 
