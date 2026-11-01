@@ -78,6 +78,7 @@ Guide 5.4: *"Without this summary, the Phase 2 subagents duplicate Phase 1's exp
 
 | Situation | Fix (guide 5.4) |
 |---|---|
+| Starting a long exploration | **Scratchpad file** from the start: findings recorded outside the context (the primary fix, Q71 check) |
 | The next phase needs a lot of new exploration | **Subagent** + **summary of earlier findings** in its initial context (Q71) |
 | The session might crash or be restarted | **State manifest**, loaded and injected on resume (Q03) |
 | Context filling with output during a long session | **`/compact`**, used proactively |
@@ -112,6 +113,38 @@ Guide 5.4: *"Without this summary, the Phase 2 subagents duplicate Phase 1's exp
 
 **B's summary is written *now*, from a context that is already degraded. What should the agent have done from the start of the 25-minute rendering exploration, so that this summary would have been easy to write and accurate?**
 
+*My answer:* "The whole analysis part might have been implemented as a subagent." 🟡 **A good answer, and the guide backs it: subagents are its second main defence. The main context would have stayed clean. But it only moves the problem: 25 minutes in one subagent degrades *inside* the subagent. The guide's primary answer is a scratchpad file, kept from the start.**
+
+**Why your answer helps.** Guide 5.4: *"Spawning subagents for specific investigation tasks is the second major way to limit context degradation."* The subagent reads shaders, buffers and sync code in its own context and returns a structured summary, so the main conversation never fills up.
+
+**Why it isn't enough on its own.** One subagent doing the whole 25-minute exploration fills *its own* context the same way. It writes its final summary at the end, from that full context, so it can say "typical rendering patterns" too. The degradation has moved, not gone.
+
+**The guide's primary answer: a scratchpad file from the start.** Guide 5.4: *"Scratchpad files are the primary way to limit context degradation. The agent writes important findings to a file and reads that file again for later questions. The file is outside the conversation context, so context degradation does not affect its contents."* And: *"Instruct agents to keep scratchpad files from the start of any extended exploration session. Scratchpad files are a deliberate strategy. They are not an emergency fix to use once answers become vague."*
+
+```markdown
+# Scratchpad: rendering exploration
+## Key classes
+- VulkanPipeline (src/render/vulkan_pipeline.cpp): builds pipelines; debug geometry via createDebugPipeline()
+- FrameGraph (src/render/frame_graph.cpp): passes registered per frame; lighting pass runs before post-processing
+## Frame sync
+- CPU writes vertex buffers only between the fence wait and submit (FrameSync)
+## Open questions
+- Where is per-frame debug data collected?
+```
+
+Each fact is written **when it's found**, while the context is still sharp. B's summary then becomes *read the scratchpad*: easy and accurate.
+
+| Done from the start | Main context | Is B's summary accurate? |
+|---|---|---|
+| Nothing (what happened) | Degraded | ❌ Written from degraded memory |
+| One subagent for all 25 minutes (your answer) | ✅ Clean | ⚠️ The subagent's own context fills; its summary comes at the end |
+| Scratchpad from the start | Still fills, but findings are on file | ✅ Each fact recorded when found |
+| **Both: focused subagents + a scratchpad** | ✅ Clean | ✅ Accurate |
+
+**Best of both:** split the rendering exploration into **focused** subagent tasks (shaders, buffers, frame sync), each short enough to stay sharp, and have the findings written to a scratchpad as they come in. Guide's examples of focused tasks: *"Trace the deposit payment flow from API endpoint to database and list all intermediate services."*
+
+> **Long exploration → keep a scratchpad from the start (the primary defence: findings recorded while they're sharp, outside the context) and give subagents focused tasks (the second: verbose work stays out of the main context). A subagent alone moves the degradation; it doesn't remove it.**
+
 ## Glossary
 
 - **Context degradation:** the model using earlier findings less precisely (e.g. "typical patterns" instead of class names) as verbose output piles up in the context. It's not about running out of tokens.
@@ -130,7 +163,7 @@ Guide 5.4: *"Without this summary, the Phase 2 subagents duplicate Phase 1's exp
 | **122** | **Why Delegate Discovery to a Subagent** | 5C | ⭐ Context isolation: why B moves physics into a subagent *(also in Q68)* |
 | **123** | **Delegation Mechanics — Prompts, Returns, and Failure Modes** | 5C | ⭐ What goes into the subagent's prompt (B vs C) *(also in Q05)* |
 | 124 | Long-Conversation Coherence, Compaction, and Session Memory | 5C | The degradation symptom, and why restarting loses state (D) *(also in Q03, Q45)* |
-| 120 | The Scratchpad Pattern — Persisting Findings Outside the Context | 5C | Another 5.4 technique (useful for the check question) *(also in Q03)* |
+| 120 | The Scratchpad Pattern — Persisting Findings Outside the Context | 5C | The primary 5.4 fix: the check question's answer *(also in Q03)* |
 | Quiz 17 | 5C quiz | | Self-test |
 
 **▶ Watch in this order (~25 min, est.):** #122 → #123 → #124 → #120, then do **Quiz 17**.
