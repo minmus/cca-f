@@ -33,7 +33,7 @@ flowchart TB
 
 ## Concept
 
-**The deciding phrase: *"the same three-step workflow for every PR."*** The steps are known in advance and never change. That's a **fixed sequential pipeline**, also called prompt chaining. Guide 1.6: *"A fixed sequential pipeline, also called prompt chaining, runs predetermined steps in order."* And: *"Fixed pipelines suit predictable, structured tasks with known steps: code reviews, document processing, data extraction pipelines and compliance checks."* The guide's own decision table lists *"Multi-file code review → Fixed pipeline"*.
+**The deciding phrase: *"the same three-step workflow for every PR."*** The steps are known in advance and never change. That's a **fixed sequential pipeline**, also called prompt chaining. Guide 1.6: *"A fixed sequential pipeline, also called prompt chaining, runs predetermined steps in order."* And: *"Fixed pipelines suit predictable, structured tasks with known steps: code reviews, document processing, data extraction pipelines and compliance checks."* The guide's own decision table pairs *"Multi-file code review"* with *"Fixed pipeline"*.
 
 **What you get from it (guide 1.6):**
 
