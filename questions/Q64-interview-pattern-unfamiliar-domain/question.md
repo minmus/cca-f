@@ -103,6 +103,31 @@ flowchart TB
 
 **The interview is done and your answers are written up in SPEC.md (invalidate on price update, fall back to the database if Redis is down, never cache user-specific responses). What should you do next, before Claude writes the caching code? Use what you learned in Q55.**
 
+*My answer:* "Ask for a testing plan?" 🟡 **Right direction: the tests come before the caching code. But a plan is still prose. The Q55 step is to write the tests themselves from SPEC.md, and see them fail before anything is implemented.**
+
+**Why a plan isn't enough.** A test plan says *"we should check the Redis fallback"*. A test fails with *"expected 200, got 500 ConnectionError"*. Only a test comes back pass or fail, so only a test lets Claude check its own work. With just a plan, you're the test suite again (Q55 C). Guide 3.5: *"Write the tests first. The tests define the expected behaviour."*
+
+**Each SPEC.md decision becomes a test:**
+
+| SPEC.md decision | Test (fails until the cache is built correctly) |
+|---|---|
+| Invalidate on price update | GET `/products` (now cached) → update a price → GET again returns the **new** price |
+| Fall back to the database if Redis is down | Redis unavailable → GET `/products` still returns 200 with data from the database |
+| Never cache user-specific responses | Request as user A, then as user B → B never gets A's response; nothing user-specific is written to Redis |
+| 5-minute TTL | The cached entry expires after 300 s; the next request reads from the database |
+
+**The order:**
+1. **Start a fresh session and write only the tests.** Claude can draft them from SPEC.md, but you check that each test matches a decision you made in the interview. Run them: they should **fail**, because there's no cache yet. A test that already passes isn't testing anything.
+2. **Then the implementation:** *"Implement the cache from SPEC.md. Don't change the tests. Run them after each change and keep going until they pass; show me the output."*
+3. **Share the failures** as they come ("Expected X, got Y"). Send the ones that broke together in one message (Q55 check).
+4. Optional: a subagent reviews the diff against SPEC.md. Docs example: *"check every requirement is implemented and the listed edge cases have tests"*.
+
+Claude Code docs, *Best practices* (code.claude.com, checked 2026-11-01):
+- *"Once `SPEC.md` exists, start a fresh session to build from it, so the build begins with a clean context and a written definition of done."*
+- *"Give Claude something it can run that comes back pass or fail. Once it has that, it can keep going on its own and you don't have to watch."*
+
+> **Interview → SPEC.md → a test for each decision, failing first → Claude implements until the tests pass. A test plan is still prose; a failing test is a check Claude can run.**
+
 ## Glossary
 
 - **Interview pattern:** asking Claude to question you about requirements, edge cases and constraints before it implements, so you find the considerations you'd otherwise miss.
