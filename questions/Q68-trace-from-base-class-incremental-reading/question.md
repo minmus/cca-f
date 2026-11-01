@@ -111,6 +111,28 @@ Read: the callers that matter        → where existing triggers live, so the ne
 
 **The agent reads `cache/base.py` and learns that `invalidate(key)` is the method to call. But it also finds that most services never call `invalidate` directly: they use a `@bust_cache("products")` decorator defined in `decorators/cache.py`, which calls `invalidate` inside it. The agent's first Grep was for `invalidate`. What does that mean for finding all the existing invalidation triggers, and what should the agent do next?**
 
+*My answer:* "It means it all points to the decorator." 🟡 **Right instinct: the decorator is the real entry point for most triggers. But the question asks what that means for the *search*. The first Grep missed every service that uses the decorator, and the next step is to Grep for the decorator's name.**
+
+**What the first Grep missed.** A Grep finds only the text you searched for. A service that writes `@bust_cache("products")` never contains the word `invalidate`: that call happens *inside* `decorators/cache.py`. So the first list of triggers was incomplete without anything looking wrong.
+
+| Grep | Finds | Misses |
+|---|---|---|
+| `invalidate` | `base.py`, the line inside `decorators/cache.py`, the few services that call it directly | **Every service that uses `@bust_cache`** |
+| `bust_cache` | Every service that uses the decorator | Services that import it under another name |
+| Each alias or re-export | The rest | — |
+
+Guide 2.5: *"The files you read in step 2 may expose the function under another name. One case is a wrapper."* *"Callers of the new name never mention the original name, so your first Grep never found them. Grep for each new name, across the whole codebase, to get the full list of consumers."* The guide's own example: a Grep for `processOrder` finds only 2 of its 5 consumers, because 3 import it as `submitOrder`.
+
+**And "all" isn't certain.** Some services may still call `invalidate` directly (the first Grep found those). The full list is both results together.
+
+**Next steps:**
+1. **Read `decorators/cache.py`**: what does `@bust_cache("products")` invalidate (one key, or every key with that prefix?), and when (after the function returns, only on success?).
+2. **Grep `bust_cache` across the whole codebase** to find every decorator-based trigger.
+3. **Check for re-exports and aliases** (`import bust_cache as …`, a package `__init__.py` that re-exports it) and Grep those names too.
+4. **Add the new trigger the same way**: most likely `@bust_cache(...)` on the new code path, so it follows the established pattern.
+
+> **A Grep only finds the names you searched for. When reading shows a wrapper (decorator, helper, re-export), Grep for the wrapper's name too, across the whole codebase, and combine the results. Read → find a new name → Grep again.**
+
 ## Glossary
 
 - **Incremental discovery:** reading a few files first and reading more only when the previous step shows they matter.
