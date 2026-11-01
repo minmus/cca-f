@@ -102,6 +102,28 @@ Write a failing test that reproduces it, then fix it. Run the module's tests and
 
 **You follow D. Reading `apply_discount()`, Claude finds that the real cause is upstream: OrderProcessing receives prices from three services that each round differently. A proper fix means deciding where rounding should live, across three services, and production is still failing. What do you do now? And is switching to plan mode at this point the "late switch" trap from guide 3.4?**
 
+*My answer:* "Now it's ambiguity: which service? Plan mode might help here." 🟡 **The core is right: the evidence has created ambiguity, so plan mode now fits. Two parts are missing: is this the late-switch trap (no), and production is still failing (stop the errors first).**
+
+**Why plan mode fits now.** The question has changed from "fix this function" to "where should rounding live?". That's more than *which* service: there are several valid designs (round in each service, in a shared library, or define it in the price contract between services), and the choice affects three services. Guide 3.4 plan-mode criteria: *"Multiple valid approaches exist."* *"Architectural decisions are required. Service boundaries, module dependencies and API contracts have consequences for later work."* Switch with Shift+Tab, or start the prompt with `/plan`.
+
+**Not the late-switch trap.** The trap is ignoring complexity that the task **already stated**:
+
+| | The trap (guide 3.4) | This case |
+|---|---|---|
+| When could you know it was complex? | From the start: it's in the requirements (*"restructure the monolith"*) | Only after reading the code: the evidence showed it |
+| Right move | Plan mode **upfront** | Direct execution first, **switch when the evidence shows** the ambiguity |
+
+Guide 3.4: *"When complexity is already stated in the requirements (e.g., monolith restructuring), plan mode should be chosen upfront. The complexity is known, not speculative."* Here, at the start, it *was* speculative: the trace pointed to one function. This is also what separates it from Q66's option A, which planned a "comprehensive solution" whatever the code showed. Here the switch is triggered by what Claude found.
+
+**Production is still failing: stop the errors first, then plan the proper fix.** *(This is incident practice, not guide wording.)*
+
+| Track | Mode | What |
+|---|---|---|
+| **Now** | Direct execution | If a small, safe fix exists, ship it: e.g. normalise incoming prices to 2 decimals where OrderProcessing receives them, plus the test that reproduces the bug |
+| **Next** | Plan mode | The proper fix: where rounding should live, which services change, in what order, and how to roll it out |
+
+> **Plan mode is for ambiguity, whenever it appears. If the task states it upfront, plan from the start. If the evidence reveals it mid-fix, switch then; that isn't the late-switch trap. With production down, stop the errors with a small fix first, then plan the proper one.**
+
 ## Glossary
 
 - **Stack trace:** the list of function calls that were active when an error happened, from the failing line back to the entry point. It tells you where the error occurred and how execution got there.
