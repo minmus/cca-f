@@ -82,7 +82,7 @@ async for message in query(prompt=prompt, options=options):
 
 **Exam signals:**
 - *"3 of 12 files changed"*, *"balance efficiency and accuracy"* → **resume + inform**.
-- *"The 3 core files most of the analysis relied on changed"* → **fresh session + structured summary** + targeted re-analysis (Q45).
+- *"The 3 core files most of the analysis relied on changed"*, or *"the agent gives contradictory advice after resuming"* → **fresh session + structured summary** + targeted re-analysis (Q45, Q72 check).
 - *"Re-read all"*, *"re-analyse everything"* → wasteful.
 - *"Resume without informing"* → stale context.
 - *"Fork"* for changed files → the fork inherits the stale results.
@@ -97,6 +97,8 @@ async for message in query(prompt=prompt, options=options):
 - *"If the prior context is still valid and you want the full conversation history, resume is more efficient."* (**A**)
 - *"The symptom is contradictory advice about the changed files. The agent recommends changes that were already made, or refers to code that no longer exists."* (**D**)
 - Exam trap: *"Resuming a session when most of its earlier tool results describe files that have since changed."* *"Start fresh with a structured summary instead. If most of the context is still valid, resume and tell the agent which files changed."* (the boundary)
+- *"The obvious fix is to resume and ask the agent to re-read the changed files. This fix is better than nothing, but the stale tool results remain in the conversation history. The model may still refer to old information from earlier in the context. The model is most likely to do this for tangential decisions that do not directly involve the changed files."* (the check question)
+- Exam trap: *"Simply resuming and asking the agent to re-read changed files is not the best answer. The stale results remain in history and can still influence reasoning."* *"A typical question describes a session that was resumed after files changed, and an agent that gives contradictory advice. The right answer is a fresh session with a structured summary, plus targeted re-analysis of the changed files."*
 
 ## How this connects to earlier questions
 
@@ -111,12 +113,49 @@ async for message in query(prompt=prompt, options=options):
 
 **You choose B. The agent re-reads the 3 changed files and updates its analysis. An hour later, while explaining the password-reset flow (in `auth/reset.py`, one of the 9 unchanged files), it says reset tokens *"expire after 30 minutes, as set in `token_service.py`"*. The merge changed that value to 15 minutes, and the agent re-read the new version this morning. Why did this happen, and what do you do now?**
 
+*My answer:* "So an agent stored both, old and new values in his memory. He should be informed there is only one value for that setting." 🟡 **The why is right: both versions are in the context, and the model picked the old one. The fix is the weak part. Telling it "there's only one value" is one more prompt patch on top of the same history. The guide's answer is to switch to a fresh session with a structured summary.**
+
+**Why it happened.** The agent has no memory it can update. It has a conversation history, and that history only grows. Yesterday's read of `token_service.py` (30 minutes) is still in it. This morning's re-read (15 minutes) was **added** to it and replaced nothing. So the context holds both versions, and the model can pick either. Guide 1.7: *"This fix is better than nothing, but the stale tool results remain in the conversation history. The model may still refer to old information from earlier in the context. The model is most likely to do this for tangential decisions that do not directly involve the changed files."* That's this case exactly: the question was about `reset.py`, an unchanged file, not about `token_service.py`.
+
+**Why "there's only one value" isn't enough.**
+- **It fixes only the error you caught.** The other changes in the 3 files can leak in the same way, in answers you don't check.
+- **A correction is a third message.** Both old and new still sit in the history. It's Q42/Q45 again: *a prompt can change how the model reads the context, never what's in it.*
+- **For this one answer, correct it, yes.** As a strategy for the rest of the investigation, it doesn't hold.
+
+**What to do now:** the contradiction means resume + inform has reached its limit. Switch to the guide's four steps: fresh session, injected summary, targeted re-analysis of the 3 changed files, then combine the results.
+
+```markdown
+# Auth module analysis: carried over from yesterday's session
+Codebase state: after the teammate's merge (commit 9f3c2e1)
+
+## Still holds (9 unchanged files)
+- reset.py: reset flow = request → token issued by token_service → email → verify → set password
+- login.py: ...
+- (findings on the other unchanged files)
+
+## Changed in the merge: re-analyse only these
+- auth/token_service.py
+- auth/session_store.py
+- auth/middleware.py
+Don't rely on any earlier conclusion about these 3 files. Read the current versions.
+```
+
+The new session has no copy of yesterday's `token_service.py`, so 30 minutes can't come back. **Write the summary from conclusions, not from yesterday's raw reads, and leave out values taken from the old versions of the 3 changed files.** Otherwise the summary brings the stale value back. *(Practical tip, not guide wording: if you have the old session draft the summary, check it against the current files before you inject it, because it was written from the mixed context.)*
+
+| Situation | Choice |
+|---|---|
+| Resume + name the changed files, and the answers stay consistent | Keep going ✅ |
+| Resumed and informed, but it still quotes an old value, often in an answer about an **unchanged** file | **Fresh session + structured summary** + targeted re-analysis of the 3 files |
+
+> **The re-read adds the new version and doesn't remove the old one. If a resumed session starts mixing old and new values, don't correct it value by value: start fresh with a structured summary, so only one version is in the context.**
+
 ## Glossary
 
 - **Session ID:** the identifier of a stored agent session; passing it to `resume` continues that session with its full history.
 - **Resume (`resume` / `--resume`):** continue an existing session with its whole history, including every earlier tool result.
 - **Stale tool result:** a tool result that described a file correctly when it was read, but the file has changed since.
 - **Stale context problem:** the agent reasons from stale tool results in its history, giving outdated or contradictory advice.
+- **Tangential decision:** an answer about something other than the changed files (here, `reset.py`) that still relies on a value from one of them. That's where stale results are most likely to come back.
 - **Targeted re-analysis:** telling the agent which files changed so it re-reads and re-analyses only those.
 - **Full re-exploration:** re-reading everything because something changed; the guide calls it wasteful.
 - **Fresh start + summary injection:** a new session with a curated summary of the previous one and no old tool results.
