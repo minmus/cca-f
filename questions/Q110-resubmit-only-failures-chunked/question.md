@@ -78,6 +78,7 @@ The guide's retry code names the retries `` `${id}-retry-1` ``. The `-part-n` su
 - *"Increase the max_tokens parameter"* for an input-size error → the wrong limit (output, not input).
 - *"Prompt caching"* → discounts repeated prefixes; doesn't shrink documents.
 - *"A model tier with a larger context window"* → a model change, not a design fix.
+- `expired` results, or server errors → resend unchanged in the retry batch; only requests that are themselves wrong need fixing (check question).
 
 ### Where this comes from
 
@@ -88,6 +89,13 @@ The guide's retry code names the retries `` `${id}-retry-1` ``. The `-part-n` su
 - *"Chunking (splitting into smaller parts) oversized documents that exceeded context limits, such as the broker's longest commercial policy schedules"* (**A**)
 - Retry code: *"increased for oversized docs"* (`max_tokens: 8192`), with *"chunkIfNeeded(originalDoc)"* as the content. (**C**)
 - Build exercise: *"Resubmitting only failures with targeted modifications is the correct batch failure pattern. Resubmitting the entire batch wastes cost on already-successful documents."* (**A**, **B**, **D**)
+- *"A batch that does not finish inside that window returns as expired. Plan the schedule for that worst case, and treat an expired batch as work to resubmit."* (check question)
+- Retry code: *"Treat `expired` as a failure too: that is what an overrun batch returns."* (check question)
+
+**Claude API docs, Batch processing › Retrieving batch results** (check question):
+- `expired`: *"Batch reached its 24-hour expiration before this request could be sent to the model. You will not be billed for these requests."*
+- `errored`: *"Request encountered an error and a message was not created. Possible errors include invalid requests and internal server errors. You will not be billed for these requests."*
+- Example code: *"Request body must be fixed before re-sending request"* (invalid request) vs *"Request can be retried directly"* (server error).
 
 **Claude API docs, Context windows (current docs, not the guide):**
 - *"If the input alone already exceeds the model's context window, the API returns a 400 invalid_request_error ("prompt is too long") on every model."* (**C**)
@@ -105,6 +113,27 @@ The guide's retry code names the retries `` `${id}-retry-1` ``. The `-part-n` su
 
 **The same results file also shows 40 requests with result type `expired`. Do they go into the retry batch, and do you chunk them like the 300?**
 
+*My answer:* "simple re-run on those might be suitable" ✅ **Right: they go into the retry batch unchanged. Nothing was wrong with them. The batch ran out of time before they reached the model.**
+
+**What `expired` means.** Claude API docs: *"Batch reached its 24-hour expiration before this request could be sent to the model. You will not be billed for these requests."* The documents never got as far as the model, so there's no error to fix. The guide says the same: *"A batch that does not finish inside that window returns as expired. Plan the schedule for that worst case, and treat an expired batch as work to resubmit."* Its retry code collects them together with the errored ones: *"Treat `expired` as a failure too: that is what an overrun batch returns."*
+
+**Match the change to the cause:** that's the "with modifications" part of the rule.
+
+| Result type | What happened | Retry |
+|---|---|---|
+| `succeeded` | Done | Don't resend (you'd pay again) |
+| `errored`, input too long | The request itself can't work | **Fix it first**: chunk (the 300) |
+| `errored`, server error | A temporary failure on Anthropic's side | Resend as is |
+| `expired` | Never reached the model; the 24 h ran out | **Resend as is** (the 40) |
+
+The docs' own example splits `errored` the same way: an `invalid_request_error` means *"Request body must be fixed before re-sending request"*, and any other error means *"Request can be retried directly"*.
+
+**Both groups can go in one retry batch** *(my tip)*: the 300 as chunks and the 40 unchanged, each with its own `custom_id`. Chunking the 40 would only add cost and a combine step for documents that never had a problem.
+
+**Watch the clock** *(my reasoning, from the guide's SLA section)*: the 40 have already waited up to 24 hours, and the retry can take up to 24 more. If you promise results within a set time, plan for that, as the guide's 30-hour example does. If expiries keep happening, look at how much you submit and when.
+
+> **Resubmit each failure with the change its cause needs. Too long → chunk it. Expired or a server error → resend it unchanged. Succeeded → leave it alone.**
+
 ## Glossary
 
 - **Message Batches API:** sends many requests in one submission and returns the results later, at half the cost of synchronous calls.
@@ -114,6 +143,7 @@ The guide's retry code names the retries `` `${id}-retry-1` ``. The `-part-n` su
 - **Chunking:** splitting an oversized document into smaller parts that each fit, then combining the results.
 - **Prompt caching:** reusing a repeated prompt prefix (such as the system prompt) at a lower cost. It doesn't shorten the prompt.
 - **`errored` result:** a batch request that failed, for example because the input was too long.
+- **`expired` result:** a batch request the model never reached, because the batch hit its 24-hour limit first. Not billed; resend unchanged.
 
 ## Related course lessons
 
