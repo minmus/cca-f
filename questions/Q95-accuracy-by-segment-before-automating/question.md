@@ -71,6 +71,7 @@ Automating "everything at ≥90%" would send a 64%-accurate amount on a handwrit
 - *"Meets requirements"* checked with the aggregate → still the aggregate.
 - *"Optimal cutoff"* before any segment analysis → a later step, and thresholds are per field and document type.
 - *"Pilot … directly to downstream systems"*, *"monitor error reports"* → errors reach production before anyone checks.
+- "After automating, how do you catch new errors?", "only low-confidence items are reviewed" → stratified random sampling of the automated (high-confidence) items too (check question).
 
 ### Where this comes from
 
@@ -85,6 +86,11 @@ Automating "everything at ≥90%" would send a 64%-accurate amount on a handwrit
 - *"Calibration requires labelled validation sets (ground truth data)."*
 - *"Only then reduce human review on segments that demonstrate consistent, validated accuracy."* (**B**)
 - *"The result for the firm might be that it automates standard invoices while the office staff check the site receipts."*
+- The full order, step 4: *"Implement stratified random sampling for ongoing verification of automated extractions."* (check question)
+- *"Stratified random sampling selects a representative sample from each stratum (document type, confidence band, field type), and humans verify it."* *"Sample high-confidence extractions as well as low-confidence ones."* (check question)
+- *"Without sampling, a systematic error on a new document format stays unnoticed until downstream business processes fail."* (check question)
+- Exam trap: *"Only sampling low-confidence extractions for human review"*. *"High-confidence extractions are automated. If a novel error pattern affects them, only stratified random sampling of high-confidence items will detect it."* (check question)
+- Key concept: *"Validate by document type and field segment, calibrate against labelled validation sets, sample high-confidence extractions and prioritise the highest-uncertainty items."* (**B**; the sampling part is the check question)
 
 ## How this connects to earlier questions
 
@@ -97,6 +103,30 @@ Automating "everything at ≥90%" would send a 64%-accurate amount on a handwrit
 
 **B's analysis comes back much like the table above. You automate standard supplier invoices and keep human review for the other three segments. Four months later, your largest supplier switches to a new invoice layout, and the model starts reading the "Subtotal" line as the total, at 95% confidence. Nobody reviews those invoices any more. How would you find out, and what should you have set up when you automated them?**
 
+*My answer:* "Maybe human should still do random sample review?" ✅ **Yes, that's the guide's answer: humans keep checking a random sample of the *automated* extractions. Two refinements: make it *stratified* (a sample from every segment), and compare each segment's sample with the accuracy it was validated at. That comparison is how you find out.**
+
+**Without it, you find out from downstream.** Nobody looks at those invoices any more, so the first signal is a failure downstream: wrong payments, a ledger that doesn't reconcile, a supplier asking where the rest of the money is. Guide: *"Without sampling, a systematic error on a new document format stays unnoticed until downstream business processes fail."* The guide even uses this case: *"A new supplier's changed invoice layout could give the firm wrong totals at high confidence."*
+
+**What to set up at automation: stratified random sampling.** Guide: *"Stratified random sampling selects a representative sample from each stratum (document type, confidence band, field type), and humans verify it."*
+
+- **Sample the high-confidence items too.** They're the ones nobody else sees. *"Low-confidence items are already routed to human review. High-confidence items are automated, so nobody sees them. If the model develops a novel error pattern that affects high-confidence items, only stratified sampling will detect it."*
+- **Sample every stratum, not just a random slice of everything.** A plain random sample is mostly the big segment, so a small one might get only a handful of checks a month. Stratifying gives each segment enough checks to measure. *(In this case the error is in the biggest segment, so a plain random sample would catch it too. Stratifying matters for the small ones.)*
+- **Compare each stratum with its validated rate, at regular intervals.** The guide gives sampling two jobs: *"It measures accuracy at regular intervals, to confirm that each segment maintains its validated accuracy rate. It also detects novel error patterns, which are failure modes absent from the original validation set."*
+
+**What the alarm looks like** (illustrative):
+
+| Stratum (automated) | Validated accuracy | This month's sample |
+|---|---|---|
+| Standard invoices · date | 99.6% | 99.5% |
+| Standard invoices · amount | 99.1% | **88% ⚠️** (every miss is the large supplier's new layout) |
+| Standard invoices · supplier name | 98.7% | 98.9% |
+
+**Then act** *(my steps, not guide wording)*: route that segment, or that supplier's invoices, back to human review; work out the new error pattern; re-validate before automating it again.
+
+**Why your checks might not catch it** *(my reasoning)*: 4.4's sum check compares *"the model's sum of the line items and the document's stated total"*. Here the line items really do add up to the subtotal, so that check passes. Sampling exists for errors like this, which your checks weren't designed for.
+
+> **Automating a segment doesn't end human review. It turns it into stratified random sampling of the automated items: every segment, high-confidence bands included, compared with its validated accuracy at regular intervals. That's how you hear about a new error pattern before downstream systems fail.**
+
 ## Glossary
 
 - **Aggregate metric:** one number across everything (97% overall). It's weighted by volume, so the biggest segment dominates it.
@@ -104,6 +134,8 @@ Automating "everything at ≥90%" would send a 64%-accurate amount on a handwrit
 - **Labelled validation set / ground truth:** extractions whose right answers are known, for example because a reviewer checked them.
 - **Calibration:** checking what a confidence score really means against known answers (0.90 on dates might be right 94% of the time, on amounts 82%).
 - **Automation threshold:** the confidence above which an extraction skips human review.
+- **Stratified random sampling:** a random sample drawn from each stratum (document type, confidence band, field type) and checked by humans, so every segment gets measured.
+- **Novel error pattern:** a new way of failing that wasn't in the validation set, such as a changed invoice layout.
 
 ## Related course lessons
 
@@ -114,9 +146,10 @@ Automating "everything at ≥90%" would send a 64%-accurate amount on a handwrit
 |---|---|---|---|
 | **127** | **Calibrating with a Validation Set** | 5D | ⭐ Measuring accuracy against known answers before trusting the scores *(also in Q08, Q21)* |
 | 126 | Per-Field Confidence | 5D | Why accuracy is checked per field, not overall *(also in Q08, Q21)* |
+| **128** | **Stratified Sampling** | 5D | ⭐ Ongoing checks on the automated items: the check question *(also in Q21)* |
 | Quiz 18 | 5D quiz | | Self-test |
 
-**▶ Watch in this order (~10 min, est.):** #127 → #126, then do **Quiz 18**.
+**▶ Watch in this order (~15 min, est.):** #127 → #126 → #128, then do **Quiz 18**.
 
 ### Udemy B: Claude Certified Architect Foundations: Complete Course (Voroniuk)
 | # | Lecture | Section | Why |
