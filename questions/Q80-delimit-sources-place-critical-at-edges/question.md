@@ -85,6 +85,7 @@ Now the model can say *"output 7 fails criterion 4 of eval_rubric_v3.md"*, and a
 - *"Regardless of relevance"*, *"every available document"* → no selection (wrong).
 - *"Mix sources"*, *"single block"*, *"synthesize freely"* → attribution lost (wrong).
 - *"Repeat the instruction"* → duplicates, no new information (wrong).
+- *"Tell the model to read everything / pay attention to the middle"* → a prompt fix for a position problem (trap, check question).
 
 ### Where this comes from
 
@@ -93,6 +94,8 @@ Now the model can say *"output 7 fails criterion 4 of eval_rubric_v3.md"*, and a
 - *"Models process information at the beginning and end of long inputs reliably. A model may miss findings in the middle of a long context, or may give them less weight. This effect is well documented in large language models. It guides how you structure aggregated inputs, which combine results from several sources."* (**E**)
 - *"Put the detailed results under explicit section headers."* (**B**)
 - Exam trap: *"Keeping full tool results in context because 'the model might need them later'"* (the same thinking as **A**)
+- *"The fix is a change to the structure of the input, not an instruction in the prompt. Put a summary of the main findings at the start of the aggregated input. Put the detailed results under explicit section headers. A reminder to read everything leaves each finding in the same position."* (check question)
+- Exam trap: *"Assuming the 'lost in the middle' effect is solved by telling the model to pay attention to everything."* *"The fix is structural: place key findings at the beginning of inputs and use explicit section headers. Prompt-based reminders are unreliable for effects caused by where information sits in the input."* (check question)
 
 **Guide D5 › 5.6 Information Provenance:**
 - *"Attribution is lost during summarisation. A synthesis agent that combines findings from several subagents compresses and paraphrases those findings. Without explicit instructions to keep the mappings, the source details are lost."* (**D**)
@@ -116,6 +119,32 @@ Now the model can say *"output 7 fails criterion 4 of eval_rubric_v3.md"*, and a
 ## Check question
 
 **A colleague's evaluation prompt has 40 documents. The model keeps missing a key finding in document 21, in the middle. The colleague adds one line to the instructions: "Read every document carefully, including the ones in the middle." Will that fix it? What would you do instead?**
+
+*My answer:* "Move this document closer to the beginning of the context window." ✅ **That's the fix, and it's the guide's: change where the information sits, not what the prompt says.** The reminder won't work. Guide 5.1: *"The fix is a change to the structure of the input, not an instruction in the prompt."* *"A reminder to read everything leaves each finding in the same position."* It's a listed exam trap: *"Assuming the 'lost in the middle' effect is solved by telling the model to pay attention to everything."* *"Prompt-based reminders are unreliable for effects caused by where information sits in the input."*
+
+**Why the reminder can't work.** Lost in the middle comes from **where** the finding sits. After the new line, document 21 is still document 21 of 40, so the cause is unchanged.
+
+**One step further: the guide's layout.** Moving document 21 works when you know which document matters. Often you don't: the next evaluation item may depend on document 33. And moving one document pushes another into the middle. The guide's structural fix covers that: a **summary of key findings at the start**, then each document under its own header. Trap answer: *"place key findings at the beginning of inputs and use explicit section headers."*
+
+```markdown
+## Key Findings Summary
+- Doc 21 (incident_report_q3.md): the failure rate doubled after the July release
+- Doc 4 (eval_rubric_v3.md): criterion 4 requires a cited policy section
+- ...one line per document that matters
+
+## Documents
+### Doc 1: release_notes_june.md
+...
+### Doc 21: incident_report_q3.md
+...
+
+## Task
+Evaluate ... (the question at the end)
+```
+
+Every key finding now sits at the start, whatever its document's position. The full text stays below for detail, and each header keeps the source clear (B). The question goes last, as Anthropic's docs recommend.
+
+> **Lost in the middle is a position problem, so the fix is a position change: move the critical material, or a summary of it, to the start. An instruction to "read carefully" leaves everything where it was.**
 
 ## Glossary
 
