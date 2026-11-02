@@ -99,6 +99,7 @@ From the guide's table of which technique fixes which problem:
 - "Post-processing pattern matching" → a brittle list that only catches the empty cases.
 - *"Fine-tune"* → a heavy model change; try few-shot first (the exam is model-agnostic).
 - A rule that must *always* hold (policy, threshold) → code, not examples (Q21, Q28, Q31).
+- The model invents a value the source **doesn't have**, and "an instruction not to invent" hasn't helped → make the field optional/nullable (4.3) (check question).
 
 ### Where this comes from
 
@@ -111,6 +112,13 @@ From the guide's table of which technique fixes which problem:
 - *"Cover the failing cases."* (**C**)
 - *"Few-shot examples also reduce hallucination in extraction tasks."* *"From those examples, it learns to handle structural variety without inventing data."* (**C**)
 - Build exercise: *"Identifying the specific failure patterns tells you exactly what your few-shot examples need to demonstrate."* (using the feedback)
+- The technique table, the row held back for the check question: *"Fabricated values for missing fields"* → *"Optional/nullable schema fields"*. (check question)
+- Build exercise: *"Fabrication of missing data should not improve and needs schema changes instead."* (check question)
+
+**Guide D4 › 4.3 Structured Output with Tool Use** (check question):
+- *"Optional/nullable fields. When a source document may lack some information, make the fields for that information optional or nullable. This is the primary defence against fabrication. A required field pressures the model to produce a value even when the source has none. A nullable field lets the model honestly return null."*
+- Exam trap: *"Making all schema fields required to ensure data completeness"*. *"Make the fields a document may lack nullable, so the model can return null, and keep fields that are always present required."*
+- Practice scenario: *"An instruction not to invent values is already in the prompt and has not stopped it."* Answer: *"Make fields optional/nullable when source documents may not contain the information"*.
 
 ## How this connects to earlier questions
 
@@ -125,6 +133,36 @@ From the guide's table of which technique fixes which problem:
 
 **After C, informal amounts come through as written. A new correction pattern appears: some ingredients have no amount in the recipe at all ("Garnish with parsley."), and the model fills in "1 tbsp". Do you add another few-shot example, or change something else first? Why?**
 
+*My answer:* "maybe you could tell in the prompt not to invent any units when none is given" 🟡 **The goal is right: no invented amounts. But the fix is in the wrong layer. The first thing to change is the schema: make `quantity` nullable, so "no amount" has a valid answer. An instruction alone is the fix the guide says doesn't work here.**
+
+**This case is different from "a handful".** There the amount was in the recipe, just informal: a reading problem, so examples fixed it. Here there is no amount at all. The model writes "1 tbsp" because the schema demands *something* in `quantity`. Guide 4.3: *"A required field pressures the model to produce a value even when the source has none. A nullable field lets the model honestly return null."*
+
+| The recipe says | Is the amount there? | Fix |
+|---|---|---|
+| "Add a handful of parsley." | Yes, informal | Few-shot: copy it as written (Q98) |
+| "Garnish with parsley." | No | Schema: `quantity` nullable, return `null` (check) |
+
+**Why the instruction isn't enough.** It asks the model not to fill a field that the schema says must be filled. The schema wins. If `quantity` is a required string, the only "honest" options are hacks like `""` or `"none"`, which downstream systems read as values. The guide's own practice scenario describes your fix as already tried: *"An instruction not to invent values is already in the prompt and has not stopped it."* Its answer: *"Make fields optional/nullable when source documents may not contain the information"*. And from 4.2's build exercise: *"Fabrication of missing data should not improve and needs schema changes instead."* That's also why another few-shot example isn't the first step.
+
+**The change** (in the shape of the guide's own example schema):
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "ingredient": { "type": "string" },
+    "quantity":   { "type": ["string", "null"] }
+  },
+  "required": ["ingredient"]
+}
+```
+
+Keep required only what every recipe line always has, the ingredient. Guide: *"Make the fields a document may lack nullable, so the model can return null, and keep fields that are always present required."*
+
+**Then your instruction helps** *(my suggestion, not guide wording)*: once `null` is a valid answer, an instruction or an example (`"Garnish with parsley."` → `"quantity": null`, reasoning: "the recipe gives no amount, so don't guess") tells the model when to use it. The schema makes the honest answer possible. The prompt points to it.
+
+> **Few-shot fixes how the model reads information that's there. A nullable field fixes invention when the information isn't there. If the model invents a value the source doesn't have, check whether the schema forces the field first.**
+
 ## Glossary
 
 - **Few-shot example:** a worked example in the prompt: an input, the output you want, and the reasoning for it.
@@ -134,6 +172,8 @@ From the guide's table of which technique fixes which problem:
 - **Enum:** a schema field limited to a fixed list of values (`precise` / `informal`).
 - **Fine-tuning:** further training a model on your own examples, which changes the model itself.
 - **Hallucination / fabrication:** output the source doesn't support, such as "30 g" for "a handful".
+- **Required field:** a schema field that must have a value, which pushes the model to produce one even when the source has none.
+- **Nullable field:** a field whose type allows `null` (`["string", "null"]`), so "not in the source" is a valid answer.
 
 ## Related course lessons
 
@@ -144,9 +184,10 @@ From the guide's table of which technique fixes which problem:
 |---|---|---|---|
 | **90** | **Designing High-Quality Few-Shot Examples** | 4B | ⭐ 2–4 targeted examples with reasoning: exactly C |
 | 89 | Why Examples Work | 4B | Why examples beat more instructions for this kind of problem |
-| Quiz 13 | 4B quiz | | Self-test |
+| 98 | Schema Design for Reliable Extraction | 4C | Schema design for extraction: the layer the check question's fix changes *(also in Q35)* |
+| Quiz 13, Quiz 14 | 4B and 4C quizzes | | Self-test |
 
-**▶ Watch in this order (~10 min, est.):** #89 → #90, then do **Quiz 13**.
+**▶ Watch in this order (~15 min, est.):** #89 → #90 → #98, then do **Quiz 13** and **Quiz 14**.
 
 ### Udemy B: Claude Certified Architect Foundations: Complete Course (Voroniuk)
 | # | Lecture | Section | Why |
@@ -154,11 +195,13 @@ From the guide's table of which technique fixes which problem:
 | **22** | **Few-Shot Examples for Extraction** | S3 Prompt Engineering | ⭐ Few-shot in extraction: this question's case |
 | 21 | Few-Shot for Format and Judgment | S3 Prompt Engineering | The judgement-call trigger ("convert, omit or copy?") |
 | 24 | Exam Lens: Example Decisions | S3 Prompt Engineering | When the exam wants examples and when it wants something else |
-| Quiz 3 | Prompt Engineering quiz | S3 | Self-test |
+| 35 | Extraction Case: Valid Fields | S4 Structured Output | Which extraction fields to require: the layer the check question's fix changes |
+| Quiz 3, Quiz 4 | Prompt Engineering and Structured Output quizzes | S3, S4 | Self-test |
 
-**▶ Watch in this order (~15 min, est.):** #21 → #22 → #24, then do **Quiz 3**.
+**▶ Watch in this order (~20 min, est.):** #21 → #22 → #24 → #35, then do **Quiz 3** and **Quiz 4**.
 
 ### CBT Nuggets: CCA-F course
 | Skill | Why |
 |---|---|
 | **17. Design Clear Prompts with Examples** | ⭐ Writing examples that show the target behaviour *(also in Q05, Q31, Q37, Q86)* |
+| 19. Explain Tool Use and Tool Schemas | Tool schemas: the layer the check question's fix changes *(also in Q01, Q04, Q09, Q17, Q19, Q20, Q21, Q30, Q35, Q47, Q48)* |
