@@ -77,6 +77,7 @@ The CLI does the same with `claude --resume <session> --fork-session`. Yesterday
 - *"Sequentially within the same conversation"* for alternatives → each one contaminates the next.
 - *"Fresh session with a summary"* when nothing has changed → throws away a valid history (that's for stale or degraded context).
 - Mixed set-ups (resume for one, recreate for the other) → unequal starting points.
+- *"Fork"* to **continue** one line of work → trap: resume it (check question).
 
 ### Where this comes from
 
@@ -87,6 +88,8 @@ The CLI does the same with `claude --resume <session> --fork-session`. Yesterday
 - Key concept: *"Three session management options serve three distinct purposes: resume for continuation, fork for divergent exploration, and fresh start with summary injection for when prior tool results are stale."*
 - Decision matrix: *"Comparing two refactoring approaches"* → *"fork_session"* → *"Divergent exploration from shared baseline"*; *"Exploring a testing strategy vs a documentation strategy"* → *"fork_session"* → *"Two independent approaches from the same analysis"*.
 - *"Use a fresh start when tool results from the prior session are stale because files have changed, APIs have been updated or dependencies have changed."* *"If the prior context is still valid and you want the full conversation history, resume is more efficient."* (**A**)
+- *"Do not fork when you simply want to continue the same line of investigation. Fork is for divergence. If you are not comparing alternatives, use resume."* (check question)
+- Exam trap: *"Using fork_session to continue a single line of investigation."* *"fork_session starts a new session from a copy of the history and leaves the original unchanged, so one piece of work is split across sessions. Use --resume to continue the same session, and fork_session to compare divergent approaches from it."* (check question)
 
 ## How this connects to earlier questions
 
@@ -100,6 +103,34 @@ The CLI does the same with `claude --resume <session> --fork-session`. Yesterday
 ## Check question
 
 **The engineer reviews both forks and picks refactoring in place. Tomorrow they want to carry on implementing it. Which session should they continue, and how: resume it, or fork it again?**
+
+*My answer:* "Resume the fork he chose." ✅ **Right: the in-place fork, with resume.** The comparison is over, so this is continuation, one line of work. Guide: *"Do not fork when you simply want to continue the same line of investigation. Fork is for divergence. If you are not comparing alternatives, use resume."*
+
+**Why not the other two moves:**
+
+| Move | What goes wrong |
+|---|---|
+| Fork the in-place session again | Guide exam trap: *"Using fork_session to continue a single line of investigation."* *"fork_session starts a new session from a copy of the history and leaves the original unchanged, so one piece of work is split across sessions."* Every day of the implementation would end up in a different session |
+| Resume yesterday's original session | It doesn't contain the in-place proposals: those live only in the fork (*"Changes in one branch do not affect the other"*). The agent would start the design work over |
+
+**The practical part: the fork has its own session ID.** A fork is a new session, so `resume=yesterday_session_id` gets you the original, not the fork. Store the fork's ID when you create it (illustrative):
+
+```python
+# Today: create the fork and keep its ID
+options = ClaudeAgentOptions(resume=yesterday_session_id, fork_session=True)
+async for message in query(prompt=prompt, options=options):
+    if isinstance(message, ResultMessage):
+        in_place_session_id = message.session_id   # the fork's own ID
+
+# Tomorrow: continue that fork; no fork_session this time
+options = ClaudeAgentOptions(resume=in_place_session_id)
+```
+
+In the CLI, name the fork (guide's current-state note: *"mid-session with /rename"*), for example `/rename auth-in-place`, then continue it with `claude --resume auth-in-place`.
+
+**One condition: what happened to the files overnight.** Resume is right if the module is as the fork last saw it. But if the engineer starts implementing today, tomorrow's files differ from what the fork read. Then it's Q72's and Q45's decision again: a few known changes → resume and name the changed files; the core files changed → fresh session + structured summary + targeted re-analysis.
+
+> **Fork to compare, resume to continue. Once you've chosen, the chosen fork becomes the line of work: resume it by its own session ID, and check whether its files have changed since.**
 
 ## Glossary
 
