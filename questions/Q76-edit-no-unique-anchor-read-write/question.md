@@ -83,6 +83,7 @@ The end of one function, the blank lines and the start of the next appear betwee
 - *"replace_all"* when only one place should change → trap: it changes every occurrence.
 - *"Longer old_string to guarantee uniqueness"* when the file repeats itself → trap: no anchor, however long, is unique.
 - *"Append to the end"* when the task names a position → does a different task.
+- *"Read + Write for every modification"* → trap: Edit first, Read + Write is the fallback (check question).
 
 ### Where this comes from
 
@@ -93,6 +94,9 @@ The end of one function, the blank lines and the start of the next appear betwee
 - Key concept: *"on a non-unique match the exam's answer is Read + Write."*
 - The exam guide's own words, quoted in the lesson: *"Using Read to load full file contents followed by Write when Edit cannot find unique anchor text"*.
 - Exam trap: *"Widening old_string or setting replace_all when no anchor, however long, would be unique and only one occurrence should change."* *"Widening needs a unique anchor, and replace_all changes every occurrence. So use Read, then Write."* (**A**, **C**)
+- *"It also spends tokens on the whole file for what was usually a one-line change. For that reason, Read + Write is the fallback, not the default."* (check question)
+- Exam trap: *"Defaulting to Read + Write for every file modification instead of trying Edit first."* *"Edit is faster and uses less context because it only touches the specific text. Read + Write loads the entire file. Try Edit first."* (check question)
+- Current state: *"On the exam, answer Read + Write. In real work, widen old_string first, because it is cheaper."*
 
 ## How this connects to earlier questions
 
@@ -106,6 +110,34 @@ The end of one function, the blank lines and the start of the next appear betwee
 ## Check question
 
 **A teammate sees this and says: "Read + Write worked where Edit failed, and it works every time. Let's make it the agent's standard way to change files and stop using Edit." Do you agree? Why or why not?**
+
+*My answer:* "No: in cases where it is possible to uniquely identify the function, it is more efficient to use Edit, as you do not need to read the whole file." ✅ **Right, and it's the guide's reason.** *"Edit is faster and uses less context because it only touches the specific text. Read + Write loads the entire file."* Read + Write *"spends tokens on the whole file for what was usually a one-line change. For that reason, Read + Write is the fallback, not the default."* The guide lists the teammate's idea as an exam trap: *"Defaulting to Read + Write for every file modification instead of trying Edit first."*
+
+**One more reason: "works every time" also means it never refuses.** Edit's failure is a safety check: *"This failure is a safety mechanism that stops you from changing text that you never meant to change."* If the anchor doesn't match exactly once, Edit changes nothing and says so. Write just saves whatever it's given. *(Practical point, not guide wording: when the model writes 150 lines back, a line it drops or changes goes in without any error. With Edit, everything outside `old_string` stays untouched.)*
+
+**The order of steps, exam vs real work.** The guide's "Current state" box separates them:
+
+| Step | Exam (exam guide v1.0) | Real work (Edit tool docs, checked 6 October 2026) |
+|---|---|---|
+| 1 | Edit | Edit with *"the shortest anchor that is plausibly unique"* |
+| 2 | No unique anchor → **Read + Write** | *"widen old_string until it matches one location, or use replace_all: true if you want every occurrence changed"* |
+| 3 | | *"Use Read + Write as the fallback when neither of those options can identify the text to change"* |
+
+Guide: *"On the exam, answer Read + Write. In real work, widen old_string first, because it is cheaper."*
+
+**Applied to Q76 in real work.** Even when function bodies look the same, a function's `def` line is usually unique. Replace the next function's first line with *the new helper + that line*, and the helper lands right before it:
+
+```text
+Edit utils.py
+  old_string: "def to_float(value, default=None):"
+  new_string: "def to_decimal(value, default=None):\n    ...\n\n\ndef to_float(value, default=None):"
+```
+
+The guide's own example does the same: *"adding the enclosing function's first line to the anchor gives one match."* Q76 ruled this out (*"cannot find unique text"*), which is why its answer is D.
+
+*(Practical tip, not guide wording: in Claude Code, Edit also expects the file to have been Read earlier in the session. So most of the saving is on the output side: Write has to output all 150 lines again, Edit only the text that changes.)*
+
+> **Edit is the default; Read + Write is the fallback when no unique anchor exists. "It works every time" isn't a reason to make it the default: it costs the whole file every time, and it removes Edit's safety check.**
 
 ## Glossary
 
