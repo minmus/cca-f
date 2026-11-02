@@ -78,6 +78,7 @@ The Claude docs say the same about consistency in general: *"Provide examples of
 - *"Set temperature to 0"* → the guide says temperature does less than examples, and 0 isn't fully deterministic.
 - *"More capable model tier"* → the exam is model-agnostic.
 - *"Required instead of optional in the schema to force the model to always extract a value"* → pressures fabrication where the information is absent (Q98 check).
+- "Which examples?" → one per failure type (vague, notation, skipped), not variations of one (check question).
 
 ### Where this comes from
 
@@ -87,6 +88,10 @@ The Claude docs say the same about consistency in general: *"Provide examples of
 - *"Use 2 to 4 targeted examples. Fewer than 2 examples do not establish a pattern. More than 4 examples waste tokens without proportional benefit."* (**A**)
 - *"Each example must show reasoning."* *"The reasoning teaches the model to generalise its judgement to novel patterns, instead of only matching the cases in your examples."* (**A**)
 - The technique table: *"Inconsistent output formatting"* → *"Few-shot examples"*. (**A**)
+- *"Choose examples that cover the specific ambiguous cases that cause problems."* (check question)
+- *"Cover the failing cases. If extraction works on tables but fails on narrative text, show correct extraction from narrative text."* (check question)
+- *"The information is in the document, but in an unexpected format: inside narrative text instead of a structured table, or split across several paragraphs. Few-shot examples that show extraction from varied document structures address this problem."* (check question)
+- Build exercise: *"Create 3 few-shot examples targeting the failing patterns — each must include reasoning explaining why the extraction was done that way"* (check question)
 
 **Guide D4 › 4.3 Structured Output with Tool Use:**
 - *"All three kinds of error pass the schema and appear in the firm's ledger, because the schema guarantees structure, not correctness."* (why the schema alone doesn't help)
@@ -106,6 +111,49 @@ The Claude docs say the same about consistency in general: *"Provide examples of
 ## Check question
 
 **You have room for three examples in the prompt. Which three product descriptions do you pick, and why those three?**
+
+*My answer:* "spaces, dashes and slashes - must be most-often" 🟡 **Basing the choice on real data is a good instinct. But three separator variants are all the same kind of case: a composition written with different punctuation. The guide picks examples by *what fails*, and the question shows three different failures. One example each.**
+
+**The rule:** *"Choose examples that cover the specific ambiguous cases that cause problems."* And: *"Cover the failing cases. If extraction works on tables but fails on narrative text, show correct extraction from narrative text."*
+
+**The three failures in the question, and an example for each** (illustrative):
+
+| Failure | Example to pick |
+|---|---|
+| A vague blend: "cotton blend" | A description that names a material without shares |
+| A mix written another way: "Cotton/Polyester mix" | A composition with an unusual separator or abbreviation |
+| **Skipped**, although the material is in the text | A description that mentions the material only in running text |
+
+```text
+Example 1: a vague blend
+Input:     "Our classic hoodie in a cosy cotton blend."
+Output:    {"materials": [{"name": "cotton", "percent": null}]}
+Reasoning: Only cotton is named, with no shares. List what's named, in the
+           standard format. Don't invent the other fibre or a percentage.
+
+Example 2: a mix written another way
+Input:     "Fabric: Cotton/Polyester mix (65/35)."
+Output:    {"materials": [{"name": "cotton", "percent": 65},
+                          {"name": "polyester", "percent": 35}]}
+Reasoning: Two materials and their shares. Whatever joins them (a slash, a
+           dash, a space, "and"), write each as its plain name with its share.
+
+Example 3: the material only in running text
+Input:     "40 × 30 cm, 0.4 kg. Hand-stitched from full-grain leather in our
+            Florence workshop."
+Output:    {"materials": [{"name": "leather", "percent": null}]}
+Reasoning: There's no "Material:" line, but the sentence names the material.
+           Extract it from the running text. An empty field would lose
+           information the description contains.
+```
+
+**Where your separators fit: in the reasoning of example 2.** One line, "whatever joins them, a slash, a dash, a space", covers all three separators. That leaves the other two slots for the failures that separators don't explain. Three separator examples would leave the *skipped* case with no example, and that's the worst of the three, because the data is lost. Guide 4.2 on that failure: *"The information is in the document, but in an unexpected format: inside narrative text instead of a structured table, or split across several paragraphs. Few-shot examples that show extraction from varied document structures address this problem."*
+
+**"Most often", but among the failures** *(my tip)*: the common formats probably already work, since that's why they're common in the good results. Count frequency in the failed extractions instead, and use it to choose *which* phrasing to show within each failure type. That's your instinct pointed at the right data.
+
+**If there's room for a fourth** (the guide allows 2–4): a product with no material at all ("USB-C cable, 1 m") → `"materials": null`. It shows the model when *not* to fill the field (Q98's check).
+
+> **Pick examples by failure type, not by surface variety: one per kind of mistake, with the reasoning covering the small variations (separators, abbreviations). The case where information is lost (the skipped field) must have an example.**
 
 ## Glossary
 
