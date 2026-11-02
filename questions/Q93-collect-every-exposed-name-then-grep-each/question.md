@@ -87,6 +87,7 @@ flowchart TB
 - *"Then read each file"* after a broad Grep of imports → reads far more than needed.
 - *"Documentation"*, *"intended usage patterns"* → not where the calls are.
 - *"Most reliably identify all callers"* → complete (every name) and targeted (Grep, then Read only what's needed).
+- "Before removing it" → the wrappers, aliases and re-exports are callers too: migrate their users, remove or re-point them, then delete (check question).
 
 ### Where this comes from
 
@@ -99,6 +100,8 @@ flowchart TB
 - The example: *"three of the function's five consumers import submitOrder from utils. A Grep for processOrder finds the definition, the line in the barrel file and the two consumers that import the original name. That Grep cannot find the other three, because the string processOrder never appears in their files."* *"The multi-step trace finds indirect consumers that a single Grep would miss."* (**C**, **D**)
 - *"Read only what you need. Justify each file you read by what you found in the previous step."* (**B**)
 - Exam trap: *"Reading all source files upfront before understanding what is relevant"*. *"Loading every file into context is a large waste of context tokens."* (**B**)
+- *"To find every file that calls a deprecated function and the test files that exercise it, run three steps in order."* *"Grep again for wrapper names. When a caller exposes the function through a wrapper, Grep for the wrapper's name to find tests that cover the function indirectly through that wrapper."* (check question)
+- Build exercise: *"whether the function is imported directly or through a wrapper module."* (check question)
 
 ## How this connects to earlier questions
 
@@ -112,6 +115,29 @@ flowchart TB
 ## Check question
 
 **D's Greps come back: `calculateTax` → 2 direct callers, `calcTax` → 4 files, `computeOrderTax` → 6 files, `invoiceTax` → 3 files. The engineer says: "So 15 files. Once they stop using it, I can delete `calculateTax`." What's missing from that plan?**
+
+*My answer:* "DON'T KNOW MAYBE DEFINITION FILES" 🟡 **Right place. The missing files are the ones that *define* the other names: the two wrapper modules and the alias line in the library. Each of them uses `calculateTax` itself, so they're callers too. Delete `calculateTax` and all three break, and the 13 files that use their names break with them.**
+
+**Where the 15 come from, and what they leave out.** The 15 files call the function through one of its four names. But three of those names are built *on* `calculateTax`, in files the first Grep found:
+
+| File (from the first Grep) | How it uses `calculateTax` | Delete `calculateTax` and… |
+|---|---|---|
+| `core/tax/index.ts:40` | `calcTax = calculateTax` (alias) | `calcTax` breaks → its 4 files |
+| `orders/tax.ts:9` | `computeOrderTax` calls it inside (wrapper) | `computeOrderTax` breaks → its 6 files |
+| `invoices/index.ts:3` | `export { calculateTax as invoiceTax }` (re-export) | `invoiceTax` breaks → its 3 files |
+
+So there are two rings. The **outer ring** is the 15 files that call one of the names. The **inner ring** is the 3 places that turn `calculateTax` into the other names. The engineer's plan covers only the outer ring. Guide 2.5 lists the inner ring among the results of the first Grep: *"A Grep for processOrder finds the definition, the line in the barrel file and the two consumers that import the original name."*
+
+**A removal plan that covers both rings** *(my steps, not guide wording)*:
+1. **Migrate the 15 callers** to the replacement.
+2. **Deal with each wrapper:** delete it once nothing uses its name, or keep the domain name and point it at the replacement (`computeOrderTax = (o) => newTaxEngine(o)`).
+3. **Remove the alias and the re-export line.**
+4. **Delete `calculateTax`.**
+5. **Grep all four names again** (with word boundaries). Expect no hits except a kept wrapper's name and its callers. Then run the build and tests.
+
+**And the tests.** A test for `orders/tax.ts` exercises `calculateTax` through the wrapper and may never mention it. Guide 2.5: *"Grep again for wrapper names. When a caller exposes the function through a wrapper, Grep for the wrapper's name to find tests that cover the function indirectly through that wrapper."* Glob each caller's and wrapper's sibling test file too (Q81 check).
+
+> **Wrappers are callers too.** Finding all callers gives you two rings: the files that use any of the names, and the wrappers, aliases and re-exports that create those names from the original. Removing the function means migrating the outer ring, then removing or re-pointing the inner ring, and only then deleting the function.
 
 ## Glossary
 
