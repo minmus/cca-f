@@ -3,7 +3,7 @@
 **Domain / lesson:** Not a CCA-F guide lesson. The guide teaches this in its **CCAO-F** track (Claude Certified Associate – Foundations): D7 Troubleshooting and Optimisation › 7.3 Optimising Workflows for Efficiency and Effectiveness, with D4 › 4.2 (the optimisation loop). The CCAR-P track has the same rule for systems: D4 › 4.5 *"Rule One: Measure First"*.
 **Closest CCA-F idea:** the build exercises in D4 › 4.1, 4.2 and 4.6 start by establishing a baseline before changing a prompt.
 **Scenario:** None (a standalone question)
-**Follows:** [Q87](../Q87-suspected-hallucination-pinpoint-the-claim/question.md) (also CCAO-F: find the specific problem before acting) · [Q84](../Q84-parallel-subagents-from-the-coordinator/question.md) (the fix targeted the step that took the time)
+**Follows:** [Q84](../Q84-parallel-subagents-from-the-coordinator/question.md) (the fix targeted the step that took the time)
 
 ## Question
 
@@ -94,7 +94,6 @@ B reads this table. The biggest time cost is step 3, and it exists because of th
 
 | Question | Link |
 |---|---|
-| [Q87](../Q87-suspected-hallucination-pinpoint-the-claim/question.md) | The same habit from the same track: find the specific problem (the claim, the step) before acting on the whole thing |
 | [Q84](../Q84-parallel-subagents-from-the-coordinator/question.md) | 3+ minutes came from one step, sequential document analysis, so that's the step the fix changed |
 | [Q55](../Q55-tests-first-share-failures/question.md) | Tests first: a measurable bar before the change, so each round shows whether it helped |
 
@@ -135,6 +134,6 @@ B reads this table. The biggest time cost is step 3, and it exists because of th
 ### CBT Nuggets: CCA-F course
 | Skill | Why |
 |---|---|
-| 15. Evaluate Prompts with Test Datasets | Measuring outputs on fixed cases instead of judging by feel *(also in Q55, Q87)* |
+| 15. Evaluate Prompts with Test Datasets | Measuring outputs on fixed cases instead of judging by feel *(also in Q55)* |
 
 None of the three courses covers workflow optimisation directly. Use the guide's CCAO-F 7.3 and 4.2 lessons.
