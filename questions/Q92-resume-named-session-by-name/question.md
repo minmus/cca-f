@@ -82,13 +82,14 @@ claude --resume auth-deep-dive    # that session, with its full history
 - *"`--session-id`"* → sets a conversation's ID; resuming by ID is `--resume <id>`.
 - *"Start fresh and re-read"* when nothing changed → wastes valid context (resume is the cheaper choice).
 - *"Files changed since"* → after choosing the session, apply Q72 (resume + name the files) or Q45 (fresh + summary).
+- Session **never named**, ID unknown → `claude --resume` with no argument (or `/resume`) opens the picker; then name it (check question).
 
 ### Where this comes from
 
 **Guide D1 › 1.7 Session State and Resumption:**
 - *"Resume continues a specific named session from the point where it stopped. It restores the entire conversation history, including every tool result, analysis and line of reasoning."* (**A**)
 - *"Use it when the prior context is mostly still valid. The files have not changed significantly since the last session, and you want to continue from exactly where you stopped."* (**A**, **C**)
-- *"--resume only resumes sessions that already exist."*
+- *"--resume only resumes sessions that already exist. It accepts a session ID or name, or opens an interactive list where you choose a session, but it never creates a session."* (**D**; the interactive list is the check question)
 - Current state: *"you name a CLI session at start with --name / -n, or mid-session with /rename. You continue it later with claude --resume <name>."* (**A**)
 - *"There is also -c / --continue, which resumes the most recent conversation in the current directory without naming anything."* (**B**)
 - *"If the prior context is still valid and you want the full conversation history, resume is more efficient."* (**C**)
@@ -101,7 +102,11 @@ claude --resume auth-deep-dive    # that session, with its full history
 - `--session-id`: *"Use a specific session ID for the conversation (must be a valid UUID)"* (**D**)
 - `--name`, `-n`: *"You can resume a named session with `claude --resume <name>`."* (**A**)
 
-**Claude Code docs, Manage sessions:** *"Resuming by name resolves across the current repository and its worktrees."* (the practical tip)
+**Claude Code docs, Manage sessions:**
+- *"Resuming by name resolves across the current repository and its worktrees."* (the practical tip)
+- *"Run `/resume` inside a session, or `claude --resume` with no arguments, to open the interactive session picker."* (check question)
+- *"Give sessions descriptive names so they're findable in the session picker and resumable by name."* (check question)
+- *"Claude Code stores transcripts as JSONL at `~/.claude/projects/<project>/<session-id>.jsonl`"* (where the UUID lives, check question)
 
 ## How this connects to earlier questions
 
@@ -117,6 +122,36 @@ claude --resume auth-deep-dive    # that session, with its full history
 
 **Same engineer, but yesterday's session was never named. This morning she already opened a quick Claude Code session in the monolith's folder to ask about a build error. How does she get back to yesterday's auth investigation, and why not `--continue`?**
 
+*My answer:* "--continue chooses by recency, not by investigation, so it might be not the right one. Sessions should have UUID, thus --session-id <uuid> should save her here" 🟡 **The `--continue` half is right. The other half has two problems. `--session-id` is option D from this question, so it's the wrong flag. And the UUID is the one thing she doesn't have. The easy route is `claude --resume` with no argument, which opens the session picker.**
+
+**Why not `--continue`:** it loads *"the most recent conversation in the current directory"*. In the monolith's folder, that's this morning's build-error session, not yesterday's.
+
+**Why not `--session-id <uuid>`:** the flag sets the ID a conversation uses (*"Use a specific session ID for the conversation"*). It doesn't resume anything. Your instinct is right that every session has a UUID and that an ID picks exactly one session. But the flag that takes it is `--resume`: `claude --resume <uuid>`.
+
+**Even with the right flag, the UUID is hard to get.** She didn't note it yesterday, so she'd have to look it up. One place it appears is the transcript's file name: *"Claude Code stores transcripts as JSONL at `~/.claude/projects/<project>/<session-id>.jsonl`"*. That folder has one file per session, this morning's included, and she'd have to work out which file is yesterday's.
+
+**The intended route: let Claude Code list the sessions.** Guide 1.7: *"It accepts a session ID or name, or opens an interactive list where you choose a session, but it never creates a session."*
+
+```bash
+cd ~/code/legacy-monolith
+claude --resume      # no argument → the session picker for this repository
+# ↑/↓ to move · Space to preview · type "auth" to search · Enter to resume
+# Ctrl+R on the row → name it: auth-deep-dive
+```
+
+From inside this morning's session, `/resume` opens the same picker. Docs: *"Run `/resume` inside a session, or `claude --resume` with no arguments, to open the interactive session picker."* She can tell the sessions apart because *"Each row shows the session name if you set one, otherwise the AI-generated session title, conversation summary, or first prompt, along with time since last activity, git branch, and file size."* Yesterday's row is the one a day old, with a title about authentication.
+
+| Route | Works? | Why |
+|---|---|---|
+| `claude --continue` | ❌ | Loads this morning's build-error session, the most recent in this folder |
+| `claude --session-id <uuid>` | ❌ | Sets an ID; not a resume flag (Q92 D) |
+| `claude --resume <uuid>` | ✅ but slow | Needs the UUID, which is only in the transcript's file name |
+| `claude --resume` (no argument) / `/resume` | ✅ easiest | The picker lists the sessions with titles and times; preview before choosing |
+
+**Then name it**, so next time it's Q92's answer: `/rename auth-deep-dive` in the session, or `Ctrl+R` in the picker. Docs: *"Give sessions descriptive names so they're findable in the session picker and resumable by name."* (Fine print from the docs: an unnamed session also gets a generated title, and *"You can pass either title to `claude --resume` or `/resume`, and Claude Code resolves it the same way as a name you set."* That only helps if you know the title, and the picker is where you see it.)
+
+> **You don't know the name or the ID → `claude --resume` with no argument (or `/resume`) opens the session picker. Choose the session, then name it, so next time it's `claude --resume <name>`.**
+
 ## Glossary
 
 - **Session:** one conversation with Claude Code or an agent, saved so you can return to it, with its full history.
@@ -125,7 +160,8 @@ claude --resume auth-deep-dive    # that session, with its full history
 - **`--resume` / `-r`:** resume a specific session by ID or name.
 - **`--continue` / `-c`:** resume the most recent conversation in the current folder.
 - **`--session-id`:** set the ID a conversation uses (a valid UUID). Not a resume flag.
-- **Transcript file:** the `.jsonl` file where Claude Code saves a session's history, under `~/.claude/projects/`.
+- **Transcript file:** the `.jsonl` file where Claude Code saves a session's history, under `~/.claude/projects/`. Its file name is the session ID.
+- **Session picker:** the interactive list `claude --resume` (no argument) or `/resume` opens: one row per session, with a name or generated title, time and branch; search, preview, rename.
 - **UUID:** a long random identifier, such as `550e8400-e29b-41d4-a716-446655440000`.
 
 ## Related course lessons
