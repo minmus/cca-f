@@ -88,6 +88,7 @@ After the update, check all three together. The guide's build exercise: *"observ
 - *"Fix X first, verify, then Y, then Z"* when the scenario says the issues interact → trap, however disciplined it sounds.
 - *"Show an example rather than listing the issues"* → examples fit a known transformation that Claude misreads, not specific known defects.
 - *"Start fresh"* / *"start over"* → throws away the parts that work; refinement takes several rounds.
+- A mixed set of issues → group them by what each fix changes: same mechanism → one message; touches nothing else → its own message (check question).
 
 ### Where this comes from
 
@@ -98,6 +99,7 @@ After the update, check all three together. The guide's build exercise: *"observ
 - *"Single message (batch) when fixes interact with each other."* *"The model needs to see all the interacting constraints at once to produce a coherent fix"* (**C**). The guide's example message starts *"Three changes needed (they interact with each other):"*.
 - In the exam table: *"Multiple issues that affect each other"* → *"Batch feedback (one message)"* (**C**).
 - Exam trap: *"Sending interacting fixes to Claude one message at a time"*. *"Fixes that interact need to be seen together. If you send them apart, one fix targets a state that the next fix changes. Put interacting problems in a single detailed message, and fix independent ones sequentially."* (**B**)
+- *"Sequential iteration when issues are independent."* *"Batching independent issues can confuse the model about which feedback applies to which part of the code."* (check question)
 - Key concept: *"Concrete input/output examples are for when the developer knows the exact transformation but the model interprets it inconsistently."* In the exam table: *"Prose description interpreted differently each time"* → *"Concrete input/output examples"* (**A**).
 - Build exercise: *"Practice batching: give Claude three interdependent issues in one message and observe whether the fix is coherent across all three"*. *"Sequential fixing of interdependent issues causes the model to fix one issue in a way that conflicts with the others."* (**B**, **C**)
 
@@ -112,6 +114,47 @@ After the update, check all three together. The guide's build exercise: *"observ
 ## Check question
 
 **C's update is in, and the columns, dates and page breaks look right. In a 40-page run you spot three new problems: (1) the column headers don't repeat on pages where a table continues, (2) the totals row sometimes lands alone at the top of a new page, and (3) the PDF is saved as `report.pdf` instead of `sales-report-2026-11.pdf`. How do you send these to Claude, and why?**
+
+*My answer:* "One by one, as these are not related issues." 🟡 **Right for (3): the file name doesn't touch the layout, so it gets its own message. But (1) and (2) are related: they look like different symptoms, but both change the same thing, where each page ends. They go together in one message, and (3) goes separately.**
+
+**Why (1) and (2) interact.** Both fixes move page breaks:
+- **(1) Repeating headers** puts a header row at the top of every continuation page. Each of those pages now has less room for data rows, so the breaks move. The break calculation has to reserve the header's height.
+- **(2) An orphaned totals row** is fixed by keeping it with the last few data rows. That pulls rows onto the next page, which moves a break too.
+
+**What happens one at a time** (illustrative):
+
+| Round | You send | What happens |
+|---|---|---|
+| 1 | Totals row only | Breaks adjusted so the totals stay with the last rows. Verified ✅ |
+| 2 | Repeating headers only | Every continuation page loses a row's worth of space. All the breaks shift, and the totals row can land alone again, on a different page |
+| 3 | Totals again… | Ping-pong: each fix targets a state the other one changes |
+
+That's the guide's trap again: *"If you send them apart, one fix targets a state that the next fix changes."*
+
+**Why (3) goes on its own.** Guide 3.5: *"Sequential iteration when issues are independent."* *"Batching independent issues can confuse the model about which feedback applies to which part of the code."* The file name comes from the save step, not the layout code.
+
+**The test isn't "do they look related?"** It's this: **does fixing one change what the other one works on?** Headers and totals look like different problems (one at the top of a page, one at the end of the table), but both fixes change the page breaks.
+
+**The two messages** (illustrative):
+
+```text
+Two page-layout fixes (they interact: both change where pages end):
+1. Repeat the column headers at the top of every page where a table continues.
+   Reserve the header's height when working out page breaks.
+2. Never leave the totals row alone on a page: keep it with at least the last
+   2 data rows.
+Keep the rule from before: never split a row across two pages. From the 200-row
+test set, show me every page where the table continues, and the last page.
+```
+
+```text
+Save the PDF as sales-report-YYYY-MM.pdf, using the report's month
+(e.g. sales-report-2026-11.pdf).
+```
+
+*(Practical tip, not guide wording: the two messages can go in either order, since they're independent. Note the first message restates the page-break rule from C's update: it's a constraint the new fixes must keep, like Q55's "what must stay passing".)*
+
+> **Group feedback by mechanism, not by symptom: fixes that change the same thing (here, where pages end) go in one message; a fix that touches nothing else (the file name) goes on its own.**
 
 ## Glossary
 
