@@ -73,6 +73,7 @@ Anchoring on the package name rather than a full `import … from` line also cat
 - *"Glob for 'auth' in the filename"* when the question is about imports → path vs contents confusion (trap).
 - *"Read package.json / README first, then…"* → reading before searching.
 - *"Bash find -type d"* → directory names, and a built-in tool exists for the job.
+- *"Find the tests for these files"* → **Glob** for sibling test files (a test names its source file); Grep would miss tests that never mention the package (check question).
 
 ### Where this comes from
 
@@ -83,6 +84,9 @@ Anchoring on the package name rather than a full `import … from` line also cat
 - Exam trap: *"Using Glob to find function callers."* *"Glob matches file paths by naming pattern. It cannot search inside files for function calls. Use Grep to search file contents for function names, import statements, or error messages."* (**B**)
 - Exam trap: *"Reading all source files upfront before understanding what is relevant."* (**A**)
 - Current state: *"On the exam, treat Grep and Glob as built-in tools."* (**D**)
+- *"Glob for sibling test files. This path match finds the test file that pairs with each caller by naming convention."* *"A test that reaches the function through its source module may never contain the function's name, so Grep misses it. The test's path follows the source file's name, so Glob finds it."* (check question)
+- *"The correct sequence is Grep, then Glob, then Grep again. Starting with Glob is wrong."* (check question)
+- Exam trap: *"Using Grep to find files by extension or naming pattern."* *"Glob is the purpose-built tool for matching file paths. Use Glob for path patterns such as test files and config files."* (check question)
 
 ## How this connects to earlier questions
 
@@ -96,6 +100,36 @@ Anchoring on the package name rather than a full `import … from` line also cat
 ## Check question
 
 **The Grep finds 23 files that import `@company/auth`. The engineer now asks: "Which tests cover those 23 files?" Which tool do you use now, and why not just Grep the test files for `@company/auth`?**
+
+*My answer:* "Will now read some files now, so possibly, Read?" ❌ **Read comes later, but it can't *find* the test files. Read opens a file you already know; to find tests with Read you'd have to open candidates one by one, which is option A's mistake again. The tool here is Glob: test files are found by their *path*.**
+
+**Three tools, three questions:**
+
+| Tool | The question it answers | Here |
+|---|---|---|
+| Grep | Which files **contain** this text? | Step 1: the 23 files that import `@company/auth` ✅ |
+| **Glob** | Which files have a **path** like this? | **Step 2: the test file next to each of the 23** |
+| Read | What's **in** this file I've already found? | Step 3: open the tests you need to understand |
+
+**Why Glob: a test's name follows its source file's name.** Guide 2.5: *"Glob for sibling test files. This path match finds the test file that pairs with each caller by naming convention. For example, OrderProcessor.ts pairs with OrderProcessor.test.tsx."* For each of the 23 files, e.g. `services/orders/api/checkout.ts` → Glob `**/checkout.test.*` (or `**/checkout.{test,spec}.*` if the repo uses both). Guide: *"Glob matches file paths by naming patterns: name, extension or directory structure. Use it for test files, configuration files, or all TypeScript files in one directory."*
+
+**Why not Grep the tests for `@company/auth`: most tests never mention it.** A test exercises the file it tests, so it imports *that file*:
+
+```typescript
+// services/orders/api/checkout.test.ts
+import { createCheckout } from './checkout';   // no '@company/auth' anywhere
+```
+
+Grep for `@company/auth` misses this test, even though it covers code that uses auth. Guide: *"A test that reaches the function through its source module may never contain the function's name, so Grep misses it. The test's path follows the source file's name, so Glob finds it."* And the exam trap from the other side: *"Using Grep to find files by extension or naming pattern"*: *"Glob is the purpose-built tool for matching file paths."*
+
+**The full sequence the guide teaches** (it uses a deprecated function; the same steps work for a package):
+1. **Grep** for the name: the files that use it (Q81's answer).
+2. **Glob** for each one's sibling test file: the tests that cover them (this check).
+3. **Grep again** for wrapper names: if a file wraps auth in its own helper (say `withAuth()`), Grep for that name too, to find tests that reach auth through it (Q68's check).
+
+Guide: *"The correct sequence is Grep, then Glob, then Grep again. Starting with Glob is wrong."* Then Read only the tests you need.
+
+> **Find by content → Grep. Find by path or name → Glob. Read only what you've already found. To find the tests for a set of files, Glob their sibling test files: a test usually names its source file, not the package the source file uses.**
 
 ## Glossary
 
