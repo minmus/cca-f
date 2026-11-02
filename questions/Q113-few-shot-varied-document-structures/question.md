@@ -81,6 +81,7 @@ The reasoning says *how to recognise* a citation or a methodology in any structu
 - *"Regex-based post-processing layer"* → brittle, and can't recognise meaning.
 - *"Re-sends requests when validation detects empty"* fields → the same prompt gives the same miss.
 - *"Make citations and methodology optional"* when the information is present → hides the miss as "absent".
+- "Retry" in an option → only right with the document, the failed output and the **specific** error, and never for information that isn't in the input (check question).
 
 ### Where this comes from
 
@@ -96,6 +97,13 @@ The reasoning says *how to recognise* a citation or a methodology in any structu
 - *"the schema guarantees structure, not correctness."* (why the strict schema didn't help)
 - *"When a source document may lack some information, make the fields for that information optional or nullable."* (**D**: the information here isn't lacking)
 
+**Guide D4 › 4.4 Validation, Retry & Feedback** (check question):
+- *"The correct retry pattern sends three pieces of information back to the model."* *"The original document, so the model has the source to re-examine"*, *"The failed extraction, so the model can see what it produced"*, *"The specific validation error, so the model knows exactly what went wrong"*
+- *"This works far better than a naive retry, which sends no specific error. Without the specific error, the model has no guidance and usually repeats the mistake."* (**B**)
+- Retries work for *"Misplaced values (data that exists in the document but that the model extracted into the wrong field)"*, among others.
+- Retries don't work for *"Information genuinely absent from the source document"*, *"Data that exists only in an external document not provided to the model"*, *"Fields requiring knowledge the model does not have"*.
+- *"If a value is genuinely absent, no number of retries will produce a correct value. Flag the extraction for human review, or return null if the schema allows null."*
+
 ## How this connects to earlier questions
 
 | Question | Link |
@@ -107,6 +115,40 @@ The reasoning says *how to recognise* a citation or a methodology in any structu
 ## Check question
 
 **After C, the empty-field rate drops from 5% to 0.8%. You add a retry for those 0.8%. What must the retry message contain to have a real chance of working, and for which of the remaining documents would no retry ever help?**
+
+*My answer:* "give some reasoning improvements for examples" 🟡 **The instinct is right: a retry needs new guidance, not the same request again. But guidance in a retry isn't better examples. It's the specific error for *this* document, sent together with the document and the failed extraction. And the second half is missing: some documents no retry can fix.**
+
+**Improving the examples is a prompt change.** It helps every future document, so it's the next round of C, and worth doing. A retry is about one document that already failed. What helps it is being told exactly what went wrong.
+
+**What the retry message must contain** (guide 4.4): *"The original document, so the model has the source to re-examine"*, *"The failed extraction, so the model can see what it produced"*, *"The specific validation error, so the model knows exactly what went wrong"*.
+
+```text
+Original document:
+<the full paper>
+
+Your extraction:
+{"citations": [], "methodology": "Structured questionnaire survey of 1,200 nurses …"}
+
+Validation error: "citations" is empty, but the document contains numbered
+reference markers such as [3] and [12], and a "Sources" list on the last page.
+Please re-extract, collecting every cited source.
+```
+
+Without the third part it's B again. Guide: *"This works far better than a naive retry, which sends no specific error. Without the specific error, the model has no guidance and usually repeats the mistake."*
+
+**Where the specific error comes from** *(my reasoning)*: your validator. A regex that finds `[3]` or "et al." in a document whose `citations` came back empty is a good **detector**. It's a bad filler (option A), but it can say what to look for. The more precisely the error names the problem, the more the retry can do. The guide's example error names both numbers: *"Line items sum to £450 but stated_total is £500."*
+
+**Where no retry helps** (guide 4.4): *"Information genuinely absent from the source document"*, *"Data that exists only in an external document not provided to the model"*, *"Fields requiring knowledge the model does not have"*. In this pipeline *(illustrative)*:
+
+| Remaining document | Retry? | Instead |
+|---|---|---|
+| A paper whose citations are there but were missed again | ✅ With the specific error | — |
+| An editorial with no citations and no study at all | ❌ Genuinely absent | `null`, if the schema allows it (Q98's check) |
+| "Methods: see Supplementary File S1", which isn't in the input | ❌ In an external document | Provide the file, or a person reviews |
+
+Guide: *"If a value is genuinely absent, no number of retries will produce a correct value. Flag the extraction for human review, or return null if the schema allows null."* This is where D's idea belongs. Optional fields and human review are right for documents that really lack the information, and wrong for the 5% that had it.
+
+> **A retry works only with something new to go on: the document, the failed extraction and the specific error. It can fix a miss, never an absence. Absent information → `null` or human review, not a third attempt.**
 
 ## Glossary
 
@@ -126,20 +168,24 @@ The reasoning says *how to recognise* a citation or a methodology in any structu
 |---|---|---|---|
 | **90** | **Designing High-Quality Few-Shot Examples** | 4B | ⭐ Examples for each document structure, with reasoning *(also in Q98, Q112)* |
 | 89 | Why Examples Work | 4B | Why examples fix what a schema and a retry can't *(also in Q98, Q112)* |
-| Quiz 13 | 4B quiz | | Self-test |
+| 102 | Validation Gates and Retry Strategy | 4C | Retrying with the specific error: the check question |
+| 26 | Retry Logic — When to Retry, When to Abort | 1D | When no retry helps: the check question *(also in Q06, Q26, Q32, Q34, Q41)* |
+| Quiz 13, Quiz 14 | 4B and 4C quizzes | | Self-test |
 
-**▶ Watch in this order (~10 min, est.):** #89 → #90, then do **Quiz 13**.
+**▶ Watch in this order (~20 min, est.):** #89 → #90 → #102 → #26, then do **Quiz 13** and **Quiz 14**.
 
 ### Udemy B: Claude Certified Architect Foundations: Complete Course (Voroniuk)
 | # | Lecture | Section | Why |
 |---|---|---|---|
 | **22** | **Few-Shot Examples for Extraction** | S3 Prompt Engineering | ⭐ Exactly this: extraction from varied structures *(also in Q98, Q112)* |
 | 24 | Exam Lens: Example Decisions | S3 Prompt Engineering | Examples vs post-processing, retries or schema changes *(also in Q98, Q112)* |
-| Quiz 3 | Prompt Engineering quiz | S3 | Self-test |
+| 30 | Retry with the Validation Error | S4 Structured Output | What the retry message carries: the check question |
+| Quiz 3, Quiz 4 | Prompt Engineering and Structured Output quizzes | S3, S4 | Self-test |
 
-**▶ Watch in this order (~10 min, est.):** #22 → #24, then do **Quiz 3**.
+**▶ Watch in this order (~15 min, est.):** #22 → #24 → #30, then do **Quiz 3** and **Quiz 4**.
 
 ### CBT Nuggets: CCA-F course
 | Skill | Why |
 |---|---|
 | **17. Design Clear Prompts with Examples** | ⭐ Examples that show the target behaviour *(also in Q05, Q31, Q37, Q86, Q98, Q112)* |
+| 15. Evaluate Prompts with Test Datasets | Mapped to 4.4 in the study map: validation before retrying (check question) *(also in Q55)* |
