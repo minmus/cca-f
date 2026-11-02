@@ -71,6 +71,10 @@ flowchart TB
 - *"1. Dynamic subagent selection. The coordinator analyses what a query requires and selects only the subagents it needs. A simple factual question might need only web search, not the full chain of research, analysis and synthesis. A coordinator that routes every query through every subagent wastes time and resources."* (**D**)
 - Exam trap: *"Routing every query through the full subagent pipeline and caching the unused subagents' results to cut cost."* *"Invoking subagents that a query does not need adds latency and API call overhead, cached or not. Have the coordinator analyse each query and invoke only the subagents it needs, such as web search alone for a simple factual lookup."* (**A**, **D**)
 
+**Anthropic, Agent SDK subagents docs** (check question):
+- `description`: *"Natural language description of when to use this agent"*.
+- *"Claude automatically decides when to invoke subagents based on the task and each subagent's description."* *"Write clear, specific descriptions so Claude can match tasks to the right subagent."*
+
 **Guide D2 › 2.1 Tool Interface Design** (by analogy):
 - *"Routing classifier: wrong. A routing classifier is code that parses the user input before each turn and selects the tool from detected keywords. It is over-engineered as a first step. It bypasses the LLM's natural language understanding and adds infrastructure complexity."* (**B**, **C**)
 
@@ -82,10 +86,56 @@ flowchart TB
 | [Q74](../Q74-mcp-descriptions-compete-with-built-ins/question.md) | The same "routing classifier" distractor, for tools. Both times the fix stays inside the model's own judgement |
 | [Q73](../Q73-same-steps-every-pr-prompt-chaining/question.md), [Q75](../Q75-intermittent-500-dynamic-decomposition/question.md) | Fixed pipeline when every input needs the same steps (Q73); dynamic when they differ. Here queries differ, so a fixed four-step pipeline is the wrong fit |
 | [Q06](../Q06-coordinator-gap-loop/question.md) | Another coordinator job from the same list: evaluate the output and re-delegate for gaps |
+| [Q10](../Q10-missing-context-in-subagent-prompt/question.md), [Q12](../Q12-include-complete-findings-in-prompt/question.md), [Q36](../Q36-coordinator-missing-task-tool/question.md) | The other subagent failures, told apart in the check question: runs but lacks information (Q10, Q12), never runs at all (Q36), never **chosen** for one kind of query (here) |
 
 ## Check question
 
 **D is live. Two weeks later you notice that questions like "What did our 2023 board report say about solar?" get answered from web search only: the coordinator never invokes the document analysis subagent for them. What's the likely cause, and what do you fix?**
+
+*My answer:* "Coordinator is not instructed to pass web search agent results to synthesis agent." ❌ **That's a real failure mode (Q10, Q12: a subagent runs but lacks the information it needs), but not this one. Here the document analysis subagent never runs at all. The board report is internal, and web search can't see it. So passing web results to synthesis wouldn't help: the right content was never retrieved. The problem is the coordinator's *choice* of subagent.**
+
+**Read the symptom precisely:**
+
+| Symptom | Where to look |
+|---|---|
+| A subagent **runs**, but its output is missing things the coordinator knew | What the coordinator put in its prompt (Q10, Q12) |
+| **No** subagent ever runs; the coordinator only talks about them | `Task` missing from `allowedTools` (Q36) |
+| **Other** subagents run, but never **this one** for this kind of query | **How the coordinator chooses**: what it knows about each subagent ← this case |
+
+Web search runs, so delegation works. The coordinator just doesn't see document analysis as the right subagent for "our 2023 board report".
+
+**Likely cause: the subagent's description doesn't tell the coordinator when to use it.** With D, the coordinator chooses from what it knows about each subagent. In the Agent SDK that's mainly the subagent's `description`: *"Natural language description of when to use this agent"*. The SDK docs: *"Claude automatically decides when to invoke subagents based on the task and each subagent's description."* A description like "Analyzes documents" doesn't say that this is the **only** subagent that can read internal reports.
+
+**The fix: rewrite the descriptions so the choice is obvious** (illustrative):
+
+```python
+agents = {
+    "document-analysis": AgentDefinition(
+        description=(
+            "Searches and analyses the company's INTERNAL documents: board reports, "
+            "internal market reviews, strategy papers (2018 to now). Use for any question "
+            "about what our own reports, documents or internal data say, e.g. 'our 2023 "
+            "board report', 'our adoption rate'. Web search cannot see these documents."
+        ),
+        ...
+    ),
+    "web-search": AgentDefinition(
+        description=(
+            "Searches the PUBLIC web for published facts, statistics and news. "
+            "Not for the company's internal documents."
+        ),
+        ...
+    ),
+}
+```
+
+SDK docs: *"Write clear, specific descriptions so Claude can match tasks to the right subagent."* It's the same fix as Q74 and guide 2.1 for tools (*"When weak descriptions cause misrouting, improving them is the first fix"*), now applied to subagents.
+
+**Also check the coordinator's prompt.** A line like "For factual questions, search the web" can override good descriptions. That's guide 2.1's keyword-sensitive instruction problem, and it was Q74's check. Rephrase it, then re-run test queries like "What did our 2023 board report say about solar?" and check the coordinator's log to see which subagents it invoked. (The hub gives you that log: *"Observability: you can log and monitor every message in one place."*)
+
+**Not the fix:** a keyword rule ("if the query says 'board report', call document analysis"). That's B's fixed routing again, and it misses the next phrasing ("our Q3 strategy paper").
+
+> **Wrong subagent chosen (or one never chosen) → fix what the coordinator knows: clear, specific subagent descriptions that say what each covers and when to use it, and no prompt lines that override them. Context passing (Q10) is for subagents that run but lack information.**
 
 ## Glossary
 
