@@ -70,6 +70,7 @@ Example (illustrative): a summary Claude wrote from an attached sales report.
 - *"Notify"*, *"document in the risk register"* → follow-up steps that need a confirmed, specific finding.
 - *"Ask Claude to confirm its claims"* → not verification: no independent information enters the check.
 - Confident, specific detail about something Claude was never shown → the highest-risk claim; check it first.
+- The output **contradicts itself** (prose vs table, two dates for one event) → an **inconsistency**: re-verify the **whole** output; ✗ fix the one contradiction and send the rest (check question).
 
 ### Where this comes from
 
@@ -80,6 +81,9 @@ Example (illustrative): a summary Claude wrote from an attached sales report.
 - *"Verify a hallucination against an authoritative source."*
 - Build exercise: *"Hallucination check: underline every specific that did not come from material you supplied. Specifics are figures, names, references and instructions. Mark each one traceable or unverified"* (**D**)
 - *"Anthropic documents two checks. The first is a re-run that you compare against the first output."* *"Each check gives you a list of items to check against the source."* (**A**)
+- Inconsistency (check question): *"An inconsistency is an output that disagrees with itself."* *"An internal contradiction is a warning about the reliability of the whole output. It is not a single typo to fix. The process that produced one visible failure was just as able to produce invisible ones. So re-verify the whole output against its source, rather than fixing the one mismatch you noticed and sending the rest."*
+- Exam trap (check question): *"Fixing the one contradiction you spotted and sending the rest"*. *"An internal inconsistency is evidence the output's process failed somewhere, so the whole output needs re-verification against its source. Fixing the one visible contradiction keeps a document that has already shown you it cannot be trusted line by line."*
+- Build exercise (check question): *"Inconsistency check: compare every figure, date and conclusion that appears more than once, and where two appearances disagree, flag the whole output for re-verification"*. *"The tested judgement is that a contradiction discredits the process, not just the sentence it appears in."*
 
 **Guide CCAO-F › D2 › 2.3 Fact-Checking and Validation:**
 - *"Validation means checking an output's claims against something that can confirm them."*
@@ -106,6 +110,28 @@ Example (illustrative): a summary Claude wrote from an attached sales report.
 ## Check question
 
 **While pinpointing claims in a sales summary, you notice its prose says revenue rose 14%, but the summary's own table shows 9% for the same period. Do you handle this the same way: pinpoint that one figure, verify it, fix it? Why or why not?**
+
+*My answer:* "I'd ask "where would this have come from?"" ❌ **Not the same way. "Where would this have come from?" is the hallucination test, for a specific with nothing behind it. This is a different failure type, an inconsistency: the output disagrees with itself. The response is to re-verify the whole output against its source, not just the one figure.**
+
+**A different failure type.** CCAO-F 2.2: *"An inconsistency is an output that disagrees with itself."* *"You need no external source to detect an inconsistency. One common form is a number in the prose that contradicts the table."* Here, 14% and 9% may both look traceable: both seem to come from the sales data. The problem is that they can't both be right.
+
+**Why one figure isn't enough:** *"An internal contradiction is a warning about the reliability of the whole output. It is not a single typo to fix. The process that produced one visible failure was just as able to produce invisible ones. So re-verify the whole output against its source, rather than fixing the one mismatch you noticed and sending the rest."* For example (illustrative), if Claude compared against the wrong period to get 14%, the same mistake can sit in figures that appear only once, where nothing contradicts them and you can't see it.
+
+**Your question still helps, but it's not enough.** Tracing 14% and 9% back to the sales report tells you which one is right, or that neither is. It doesn't tell you whether the rest of the summary is right. The guide's own example: *"If the spring sales prose and table give different compost figures, the manager checks the whole summary against the till data."*
+
+**Each failure type has its own response** (CCAO-F 2.2):
+
+| Failure type | How you spot it | Response |
+|---|---|---|
+| **Hallucination** | A specific with nothing behind it: *"where would this have come from?"* | *"Verify a hallucination against an authoritative source."* That claim |
+| **Inconsistency** | The output contradicts itself: prose vs table, two dates for one event | *"When you find an inconsistency, re-verify the whole output."* |
+| **Bias** | A pattern across descriptions of people | *"Rework bias as a pattern across the document."* |
+
+The exam tests exactly this: *"For inconsistency, the tested point is the response: re-verify the whole output. Wrong options match a failure type with an incorrect response. They fix one contradiction, delete one biased word, or ask Claude to confirm its own invented steps."*
+
+**Can you ask Claude which figure is right?** As a first pass, yes. CCAO-F 2.3: *"Self-check is a legitimate first check for slips and contradictions, but claims that matter go to an independent source."* Claude's answer gives you a list to check. The sales report settles it.
+
+> **Hallucination → verify that claim. Inconsistency → re-verify the whole output: one visible contradiction shows the process failed, and it may have failed in places you can't see.**
 
 ## Glossary
 
