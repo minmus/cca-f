@@ -110,6 +110,35 @@ with page references.
 
 **B is live. Precedent 4 went to the first subagent and precedent 9 to the third. Precedent 9 overruled precedent 4, but neither subagent ever saw the other precedent. Where in B's design does that relationship get caught, and what has to be in the subagents' outputs for it to work?**
 
+*My answer:* "At the synthesis subagent." 🟡 **Right place: synthesis is the first step that sees all 12 analyses. The second half is missing: synthesis can only connect what the outputs contain. If subagent 3 doesn't write down *which cases* precedent 9 overruled, nothing links it to precedent 4.**
+
+**Why synthesis is the place.** After the parallel step, the coordinator puts all four results into the synthesis subagent's prompt. That's the first context holding precedent 4 and precedent 9 together. It plays the role of guide 1.6's integration pass (by analogy): *"After all local passes, a cross-item integration pass looks for cross-cutting concerns: data flow issues, inconsistent pattern usage and cross-file dependencies."* Here the cross-cutting concern is one precedent overruling another.
+
+**What the outputs need: each precedent's relationships, as structured data.** A summary like "Precedent 9: held that X" doesn't help. The brief has to ask each subagent for the citations of the cases each precedent **follows, distinguishes or overrules**, and its date (illustrative):
+
+```json
+{
+  "precedent": 9,
+  "citation": "Brown v. Clark (2019)",
+  "decided": "2019-04-02",
+  "holding": "...",
+  "treatmentOfOtherCases": [
+    { "citation": "Smith v. Jones (1998)", "relation": "overrules" }
+  ],
+  "source": { "document": "brown_v_clark.pdf", "page": 14 }
+}
+```
+
+Subagent 1's output for precedent 4 says `"citation": "Smith v. Jones (1998)"`. Synthesis matches the two citations: precedent 4 is no longer good law, and if the landmark case relies on it, the report says so. The dates matter too (Q82): a 2019 decision can overrule a 1998 one, not the reverse.
+
+**Two more pieces make it reliable:**
+- **Tell synthesis to look.** Its prompt should say to check relationships across the precedents, not just summarise each one. Otherwise it may paraphrase 12 independent summaries.
+- **The coordinator closes gaps.** If synthesis finds a possible link it can't confirm (a citation that only nearly matches), the coordinator re-delegates a targeted question, such as "Does precedent 9 overrule precedent 4? Read both." That's coordinator job 3 in guide 1.2: *"The coordinator evaluates the synthesis output for gaps. If it is incomplete, the coordinator re-delegates to the search and analysis subagents with targeted queries."*
+
+*(Practical tip, not guide wording: give every parallel subagent the list of all 12 citations, without their content. It's cheap, and a subagent can then flag "this precedent overrules another one on your list" directly.)*
+
+> **Parallel subagents can't see each other's items, so relationships between items are caught at the step that sees them all (synthesis), and only if each output records them as data: citations, dates, and how each item treats the others.**
+
 ## Glossary
 
 - **Precedent:** an earlier court decision that a case cites as authority.
