@@ -97,6 +97,22 @@ The main agent never reads those files. It holds three short summaries and does 
 
 **A teammate objects to B: "Subagents only pay off when they run in parallel. Here the questions depend on each other: you need the test files and the traced flows before you can say which paths are untested. So they'd run one after another, and B gains nothing over the main agent doing it all itself." Do you agree?**
 
+*My answer:* "No, the problem is context degradation, not parallelization." ✅ **Right, and the guide says it in almost those words:** *"The obvious interpretation is that subagents are for parallelisation, but their main value is context isolation."* Its key concept: *"Subagents isolate verbose exploration."*
+
+**Why the order doesn't matter for this.** Run the subagents one after another and each one still reads its files in **its own** context. The main agent still gets only the summaries. Its context grows by three short summaries instead of 37 files, so it keeps the high-level picture sharp. The teammate's argument is about speed; the problem in Q78 is accuracy.
+
+| | Main agent does it all | Subagents, one after another | Subagents in parallel |
+|---|---|---|---|
+| What enters the main context | 37 more files + every search result | 3 structured summaries | 3 structured summaries |
+| Degradation in the main agent | Gets worse | Avoided | Avoided |
+| Time | Slowest | About the same | Faster |
+
+Parallel only changes the last row. Isolation is what changes the first two.
+
+**The teammate is also partly wrong about the dependencies.** Finding the test files and tracing the flows don't depend on each other, so they *can* run at the same time. Only the last step, *"which paths are untested?"*, needs both results, and that step is the coordinator's job: combining summaries is the high-level work it keeps its context clean for. When one subagent does depend on another's result, the coordinator puts that result into the next subagent's prompt, because a subagent sees only its prompt (1.3, Q36 check).
+
+> **Subagents are for context isolation first and parallelism second. Even run one at a time, they keep the verbose exploration out of the coordinator's context.**
+
 ## Glossary
 
 - **Context degradation:** the model stops using specific earlier findings because newer verbose output fills the context; not the same as running out of tokens.
