@@ -73,6 +73,7 @@ Volt Systems' faster growth follows its March acquisition of a battery-storage s
 - *"Converts everything to bullet points"*, *"loses tabular clarity"*, *"loses narrative flow"* → **content-appropriate rendering** in the synthesis agent.
 - *"Standardize all outputs to prose / JSON / one representation"* → one format for every content type (trap).
 - Financial / numeric / comparisons → table. News / events / cause and effect → prose. Technical specs / categories → list.
+- Two credible values for one figure → **annotate both** with source and date in the output; ✗ most recent, ✗ average, ✗ most authoritative (check question).
 
 ### Where this comes from
 
@@ -84,6 +85,14 @@ Volt Systems' faster growth follows its March acquisition of a battery-storage s
 - In the exam: *"Putting every content type into one format is also wrong."* (**B**, **C**, **D**)
 - Key concept: *"Match the format to the content."*
 
+*Conflict Handling* and *Completing Analysis with Conflicts Intact* (check question):
+- *"The wrong approach is to arbitrarily select one value: the more recent source, the average, or the more authoritative publisher. Each of these choices destroys information and presents a false certainty."*
+- *"The correct approach is to annotate the conflict with both values and full source attribution, and let the consumer, who reads the output, decide."*
+- *"The analysis agent does not resolve the conflict, because the coordinator or the consumer makes that decision."*
+- The guide's example record has this exact pair: `"$4.2M"` (*"Audited financial statements, fiscal year ending December 2023"*) and `"$3.8M"` (*"Preliminary unaudited figures, calendar year 2023"*), with `"possibleExplanation": "Difference may reflect audited vs preliminary figures and fiscal vs calendar year reporting periods"`.
+- *"The coordinator then decides: present both values, investigate further, or escalate to a human analyst."*
+- In the exam: *"When a synthesis agent picks one of two credible values, the right answer annotates both with attribution and dates."*
+
 ## How this connects to earlier questions
 
 | Question | Link |
@@ -91,10 +100,36 @@ Volt Systems' faster growth follows its March acquisition of a battery-storage s
 | [Q82](../Q82-dates-turn-conflicts-into-trends/question.md) | Its check: a trend (18% → 35%) goes in a table with dates and sources. Same rule, one content type |
 | [Q09](../Q09-synthesis-preserve-merge-mappings/question.md), [Q01](../Q01-source-attribution-multi-agent/question.md) | Whatever the format, each claim keeps its source: a table cell needs a citation as much as a sentence does |
 | [Q80](../Q80-delimit-sources-place-critical-at-edges/question.md) | The input side of the same idea: keep sources separate and labelled; mixing them into one block blurs them |
+| [Q08](../Q08-conflicting-findings-annotation/question.md) | A conflict inside a table: both values with sources, annotated, never one picked (check question) |
+| [Q83](../Q83-coordinator-selects-subagents-per-query/question.md) | Its check: the coordinator has to pass each subagent's results to synthesis. That's the first half of this check's answer; the second half is what synthesis writes |
 
 ## Check question
 
 **The briefing now has a revenue table. For one company, the financial API says revenue was $4.2M, but the news agent's summary quotes $3.8M for the same year. What goes in that table cell, and why?**
+
+*My answer:* "The coordinator agent should pass both values, claims and sources, to the synthesis agent so that information is retained." 🟡 **Right instinct: keep both values with their sources so nothing is lost. But that's the *input* to synthesis, and the question asks what the reader sees in the cell. Synthesis can receive both values and still write one number. The cell holds both values, each with its source and context, plus a possible explanation, and the reader decides.**
+
+**Your half: getting both values to synthesis.** That's the hub-and-spoke flow from Q83's check: the coordinator puts each subagent's results into synthesis's prompt, as claim-source data (Q09). Guide 5.6 gives the coordinator a role here too: *"The analysis agent does not resolve the conflict, because the coordinator or the consumer makes that decision."* And: *"The coordinator then decides: present both values, investigate further, or escalate to a human analyst."*
+
+**The missing half: what synthesis writes in the cell.** Guide 5.6, in the exam: *"When a synthesis agent picks one of two credible values, the right answer annotates both with attribution and dates. The wrong options pick the most recent, the average or the most authoritative."* So (illustrative):
+
+| Company | Revenue 2023 |
+|---|---|
+| Company X | **$4.2M** (Annual Report 2023, audited) / **$3.8M** (news summary citing SEC filing Q4 2023, preliminary) ¹ |
+
+¹ *Sources disagree. The difference may reflect audited vs preliminary figures and fiscal vs calendar year reporting periods.*
+
+| Part of the cell | Why |
+|---|---|
+| **Both values** | Picking one *"destroys information and presents a false certainty"*. That includes picking the "more official" API number |
+| **Source and context for each** | *"The consumer sees both values and sources and judges which value better fits their needs."* Audited vs preliminary is exactly what a reader needs to judge |
+| **A possible explanation** | The guide's own record for this pair: *"Difference may reflect audited vs preliminary figures and fiscal vs calendar year reporting periods"*. Check dates and periods first (Q82): it may not be a real conflict |
+
+**Where Q85's rule meets this one:** the table stays a table (content-appropriate rendering); the conflict goes *into* the table. Choosing a format is never a reason to drop a value.
+
+*(Practical tip, not guide wording: keep the cell short, with values and source tags only, and put the explanation in a footnote. For the news value, cite what the article cited, here the SEC filing, not just the news outlet.)*
+
+> **Two credible values for one table cell → both in the cell, each with its source and context, plus a possible explanation; the reader decides. Passing both to synthesis is necessary, but not enough: synthesis's prompt must also say to keep both in the output.**
 
 ## Glossary
 
@@ -112,7 +147,7 @@ Volt Systems' faster growth follows its March acquisition of a battery-storage s
 | # | Lecture | Part | Why |
 |---|---|---|---|
 | **131** | **Claim-to-Source Mappings — Why Every Sentence Needs a Source** | 5D | ⭐ The 5.6 lesson: sources survive whatever format synthesis picks *(also in Q01, Q02, Q08, Q09, Q80, Q82)* |
-| 132 | Conflict Annotation — Surfacing Disagreement in Synthesis | 5D | The rest of the synthesis agent's job *(also in Q01, Q08, Q09, Q82)* |
+| 132 | Conflict Annotation — Surfacing Disagreement in Synthesis | 5D | Two values for one cell: annotate both (check question) *(also in Q01, Q08, Q09, Q82)* |
 | Quiz 18 | 5D quiz | | Self-test |
 
 **▶ Watch in this order (~15 min, est.):** #131 → #132, then do **Quiz 18**.
