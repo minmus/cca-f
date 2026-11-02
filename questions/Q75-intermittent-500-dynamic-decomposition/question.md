@@ -101,6 +101,40 @@ No step could have been planned before the one before it. Step 1 is guide 2.5's 
 
 **The agent finds the cause: `PricingService` takes a database connection for every order line and doesn't release it when an exception is thrown, so large orders under load exhaust the connection pool. The developer now asks: "Check our other 40 endpoints for the same pattern." Do you keep the dynamic approach for this? Which pattern now, and how would you run it?**
 
+*My answer:* "Now the scope is known and you can run 40 agents to check for the pattern." 🟡 **The decision and the reason are right: the scope is now known, so you don't keep the dynamic approach, and one pass per endpoint is the right split. What's missing is the piece the guide says the exam tests: one cross-item integration pass after the 40 checks.**
+
+**Why the pattern changes.** The investigation turned an unknown into a known: there is now a list (40 endpoints) and one check to run on each (does it take a connection and fail to release it on an exception?). The steps are the same for every endpoint, so this is a **fixed pipeline**. Running the 40 checks at the same time is fine; the article calls that *sectioning*, and it's still fixed. It's the same pattern as Q73's review, with endpoints instead of aspects.
+
+**Why one pass per endpoint.** Putting all 40 in one prompt gives attention dilution. Guide 1.6: *"Attention dilution occurs when an agent processes too many items in a single pass."* *"Early items get a disproportionate share, and the model skims later items."*
+
+**The missing piece: the integration pass.** The guide's own example also has 40 items: *"With 40 single-listing passes and one integration pass, the pass for listing 35 catches its wrong price. The integration pass finds that the same missing hallmark was judged in two different ways."* The per-endpoint passes find local problems. The integration pass compares their results, and it finds things no single pass can see:
+
+| The 40 results say | The integration pass sees |
+|---|---|
+| 9 endpoints leak, each reported in its own handler | All 9 call the same `OrderRepository.load_lines()`: **one bug, one fix**, not 9 |
+| `/refund` flagged, `/exchange` passed, but they use the same code | The same code was judged in two different ways: re-check one of them |
+| Some endpoints release connections with `try/finally`, others with a context manager, one does neither | An inconsistent pattern worth one team-wide fix |
+
+The guide's exam trap covers the shortcut: *"Batching files into groups without adding a cross-file integration pass."* *"Without a dedicated cross-file integration pass, data flow issues and pattern inconsistencies across batches go undetected."*
+
+**What each per-endpoint pass gets.** The same instructions every time, with the pattern taken from what the investigation found, and a fixed report format so the integration pass can compare the results:
+
+```text
+Check one endpoint for a database connection leak.
+The pattern (found in PricingService): a connection is taken and is not
+released when an exception is thrown (no try/finally, no context manager).
+Endpoint: POST /orders/{id}/refund  →  handler: RefundController.create
+Follow the calls this handler makes into the code that takes connections.
+Report as JSON: endpoint, file:line where each connection is taken,
+released_on_every_path (yes / no / unsure), shared helper used (if any).
+```
+
+**If one endpoint turns up something different** (say, a cache client that leaks sockets), don't change the sweep. The sweep reports it, and the new problem becomes its own investigation, run the dynamic way. That's the Q73 check again.
+
+*(Practical tips, not guide wording: a Grep first for where connections are taken, such as `get_connection` or `pool.acquire`, can skip the endpoints that never touch the database. It's still a fixed step. Also, 40 agents cost 40 contexts' worth of tokens. Running the passes in parallel is for speed; the guide's fix is the split into per-item passes, not the parallelism.)*
+
+> **Investigate dynamically until the cause is known, then sweep with a fixed pipeline: one pass per item, plus one integration pass that compares them. The first job's finding defines the second job's check.**
+
 ## Glossary
 
 - **Dynamic adaptive decomposition:** the plan is built and changed from what each step finds; subtasks don't exist until the evidence calls for them.
