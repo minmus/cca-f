@@ -92,6 +92,9 @@ Now the synthesis agent can order the values: 2021 → 18%, 2024 → 35%. That's
 - Exam trap: *"Assuming different numbers from different sources are contradictions."* *"Different publication or data collection dates often explain different numbers. Require dates in structured outputs to enable correct temporal interpretation."* (**C**)
 - Exam trap: *"Selecting the most recent source when two credible sources conflict."* *"Arbitrarily selecting one value destroys information."* (**A**, **B**)
 - In the exam: *"Questions test attribution through synthesis, conflicting sources, and the dates that prevent false contradictions."*
+- *"Subagents include the dates. The synthesis agent preserves the dates when it merges findings. The final output shows the dates beside the data."* (check question)
+- *"Financial data goes in tables. Numbers, comparisons and trends read best in a table. In prose, values are harder to compare and patterns are harder to see."* (check question)
+- *"The final output includes inline citations or a structured reference section that traces each claim to its source."* (check question)
 
 ## How this connects to earlier questions
 
@@ -105,6 +108,31 @@ Now the synthesis agent can order the values: 2021 → 18%, 2024 → 35%. That's
 ## Check question
 
 **C is in place. The synthesis agent now receives "18%, data year 2021, Internal Market Review" and "35%, data year 2024, Energy Outlook 2024", and recognises growth. How should the final report present these two numbers to the reader?**
+
+*My answer:* "It should see it as growth over the years, not a contradiction." 🟡 **Right framing, but that's what the synthesis agent already does once C is in place. The question is how the report shows it to the reader. Three things: the dates beside the numbers, a source for each number, and a table for the trend. Add a note if the two sources measure different things.**
+
+**1. The dates appear next to the numbers.** The dates have to survive all the way to the page, not just reach the synthesis agent. Guide: *"Subagents include the dates. The synthesis agent preserves the dates when it merges findings. The final output shows the dates beside the data."* If the report says "adoption grew to 35%" with no years, the reader can't see the trend, or check it.
+
+**2. Each number keeps its source.** Guide: *"The final output includes inline citations or a structured reference section that traces each claim to its source."* The guide's example of what goes wrong without this: *"Investment in renewable energy has grown significantly", with no amount, no source and no date.*
+
+**3. A trend goes in a table.** Guide, content-appropriate rendering: *"Financial data goes in tables. Numbers, comparisons and trends read best in a table. In prose, values are harder to compare and patterns are harder to see."*
+
+**What it looks like** (illustrative):
+
+| Year | Adoption | Source |
+|---|---|---|
+| 2021 | 18% | Internal Market Review 2021 (internal report, published 30 Nov 2021) |
+| 2024 | 35% | Energy Outlook 2024 (published 12 Sep 2024) |
+
+> Adoption roughly doubled between 2021 and 2024. *Note: the 2021 figure covers our own customer base; the 2024 figure comes from a survey of firms. Part of the difference may reflect the different populations measured.*
+
+**About that note.** Two numbers from two different sources aren't automatically comparable. The guide asks reports to keep *"original source characterisations and methodological context"*, and its conflict example closes with *"The difference may reflect different reporting periods and methodological approaches."* Here the dates explain most of the gap, but the reader should still know the two figures come from different kinds of source.
+
+**What not to write:**
+- *"Adoption is 35%"*: the 2021 value is gone, so the trend is gone too. That's option A's mistake, made in the report.
+- *"Adoption has grown significantly"*: no numbers, no dates, no sources. That's the guide's own example of lost attribution.
+
+> **The dates have to reach the reader, not just the synthesis agent: each number with its year and its source, and a trend in a table. Add a note when the sources differ in what they measure.**
 
 ## Glossary
 
