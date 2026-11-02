@@ -85,6 +85,7 @@ async function route(doc) {
 - *"Hourly batches"*, *"expedited handling when batch results return"* → you can't speed up a batch from outside.
 - *"Submit all documents to the real-time Messages API"* → pays full price for work that can wait.
 - *"Minimize API costs while meeting latency requirements"* → route each type by its latency need.
+- "Results within N hours" for batched work → submission interval + 24 h ≤ N, with margin (check question).
 
 ### Where this comes from
 
@@ -98,6 +99,9 @@ async function route(doc) {
 - Exam trap: *"Switching all workflows to batch processing for cost savings"*. *"Only latency-tolerant workflows should use batch."* (**A**)
 - Exam trap: *"Assuming batch results arrive quickly because they often do"*. *"Results often arrive faster than 24 hours, but you cannot design blocking workflows around best-case timing. Design around the 24-hour maximum."* (**B**)
 - *"The matching rule is the single most tested concept in this task statement."*
+- SLA calculation: *"Plan batch schedules for the full 24 hours. The 24 hours is a maximum window, not a delivery guarantee."* (check question)
+- *"30 hours total SLA minus the 24-hour worst case = 6 hours of buffer for collecting requests, validating inputs, or absorbing operational delays"*, *"Submit batches every 4 hours within that buffer window, so that a new batch is always running"*, *"Submitting every 6 hours leaves no margin at all"* (check question)
+- *"A scheduling question may work backwards from an SLA to a submission frequency."* (check question)
 
 ## How this connects to earlier questions
 
@@ -110,6 +114,25 @@ async function route(doc) {
 ## Check question
 
 **The monthly reports now come with a promise: each one must be archived within 36 hours of arriving. They still go through the Batch API. What's the longest you can wait between batch submissions and still keep that promise every time, and why?**
+
+*My answer:* "so as batch will be done within 24 hours, you have 12 hours to submit" ✅ **The arithmetic is right: 36 − 24 = 12 hours. One refinement: 12 hours is the limit with zero margin, so in practice you submit more often than that, as the guide does.**
+
+**Why the interval is what counts.** The worst case is a report that arrives just after a batch was submitted. It waits the whole interval for the next batch, and then that batch can take the full 24 hours. So the interval plus 24 hours must fit inside 36 hours:
+
+```text
+00:00  batch submitted
+00:01  a report arrives (it just missed that batch)
+12:00  next batch submitted, the report included    ← waited 12 h
+36:00  that batch's 24-hour window ends             ← archived exactly at the promise, if nothing else takes any time
+```
+
+Guide 4.5 makes the same point with a 30-hour promise: *"A document that arrives just after a submission waits for the next batch. If you submit every 6 hours, it can wait 6 hours and then take 24 hours to process. That uses all 30 hours."*
+
+**Why not exactly 12.** The buffer also has to cover the work around the batch: collecting the requests, checking the inputs, archiving the results, and delays. The guide's 30-hour example leaves room: *"30 hours total SLA minus the 24-hour worst case = 6 hours of buffer for collecting requests, validating inputs, or absorbing operational delays"*, then *"Submit batches every 4 hours within that buffer window"*, because *"Submitting every 6 hours leaves no margin at all"*. Scaled to 36 hours *(my numbers)*: submitting every 8 hours gives a worst case of 8 + 24 = 32 hours and leaves 4 hours of margin.
+
+**What still breaks the promise** *(my reasoning, linking to Q110's check)*: an `expired` request has already used the full 24 hours, so a retry in another batch can't finish in time. Send expired reports through the real-time API instead, at full price, to keep the promise.
+
+> **Batch schedule from an SLA: the interval between submissions + 24 hours must fit inside the promise, with room to spare. 36 h − 24 h = 12 h is the zero-margin limit; choose a shorter interval (e.g. every 8 h).**
 
 ## Glossary
 
