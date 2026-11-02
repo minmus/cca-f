@@ -100,6 +100,41 @@ Guide: *"Instruct agents to keep scratchpad files from the start of any extended
 
 **Two weeks later an engineer complains: the agent now reads its scratchpad, but its answers about earlier modules are still vague. The scratchpad has entries like "Payments follow a typical service/repository pattern" and "Refunds have some error-handling issues". What's wrong, and how would you fix it?**
 
+*My answer:* "Seems like wrong information goes into the scratchpad. Could be writing happens too late." 🟡 **Both halves point the right way, and "too late" is a sharp guess. To make it complete: say exactly what's wrong with the information (it's vague, not false), and give the fix (a format, and a rule about when to write).**
+
+**What's wrong: the entries are the symptom, written down.** *"A typical service/repository pattern"* is the guide's own example of degradation: *"the agent says "this follows the typical repository pattern""* instead of naming the classes. A scratchpad can only give back what was written into it. Vague notes in, vague answers out.
+
+**Two causes, and the fix for each:**
+
+| Cause | Fix |
+|---|---|
+| **When:** the notes are written late (at the end, or when asked), so they come from a context that has already degraded. Your guess | Write each finding **the moment it's made**, while the context still holds the exact names. Guide: *"Instruct agents to keep scratchpad files from the start of any extended exploration session."* |
+| **What:** no names, paths or chains, just impressions | Guide's build exercise: *"The scratchpad should contain specific class names, file paths, and dependency chains, not summaries."* |
+
+**Before and after** (illustrative; the guide's example entries look like the right-hand column):
+
+| Vague (now) | Specific (what to write) |
+|---|---|
+| Payments follow a typical service/repository pattern | `PaymentService` (src/services/payment.ts) → `PaymentRepository` (src/repos/payment.ts) → PostgreSQL; `findById` caches by paymentId |
+| Refunds have some error-handling issues | `RefundProcessor.issue` (src/services/refund.ts) catches gateway errors but doesn't retry; a Stripe timeout leaves the refund in `PENDING` |
+
+The guide's own entries: *"`OrderRepository` (src/repos/order.ts) — implements Repository<T>, custom findById caching"*, *"RefundProcessor → OrderService → OrderRepository → PostgreSQL"*, *"RefundProcessor has no retry logic for Stripe API failures"*.
+
+**The fix in the agent's instructions** (illustrative; it extends the set-up lines in the concept):
+
+```text
+Write each finding to ./exploration-notes.md as soon as you make it, not at the end.
+Each entry names the class or function and its file path, then what you found:
+- `ClassName` (path/to/file): what it does, what it depends on
+- Dependency chains as A → B → C
+- Issues: where, what happens, under which condition
+Never write "typical" or "standard" pattern; write the actual names.
+```
+
+*(Practical tips, not guide wording: don't trust the vague entries already there; have the agent re-check those modules and replace them. A quick test for any entry: could a teammate who never saw the session act on it?)*
+
+> **A scratchpad is only as good as what goes into it: specific names, paths and chains, written the moment they're found. Vague notes written late just save the degradation to a file.**
+
 ## Glossary
 
 - **Context degradation:** the model stops using specific earlier findings because newer verbose output fills the context; not the same as running out of tokens.
