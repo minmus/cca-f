@@ -89,8 +89,10 @@ Update any data-flow notes that use the old names, then carry on.
 - *"Three session management options serve three distinct purposes: resume for continuation, fork for divergent exploration, and fresh start with summary injection for when prior tool results are stale."*
 - *"Re-reading 50 files because 3 of them changed is wasted time. Targeted re-analysis means telling the agent which files changed and letting it re-analyse only those."*
 - In the exam: *"Resume the session when prior context is mostly valid. Start fresh with an injected summary when prior tool results are stale."*
+- Build exercise (check question): *"A good summary captures conclusions without raw tool output."*
+- Fresh start, the other reason (check question): *"Use a fresh start too when context has degraded over a long session. In that case, too many irrelevant tool results clutter the history."*
 
-**Agent SDK docs, *Subagents in the SDK* › Resume subagents:** *"You can resume a subagent to continue where it left off rather than starting fresh. A resumed subagent retains its full conversation history, including all previous tool calls, results, and reasoning."*
+**Agent SDK docs, *Subagents in the SDK* › Resume subagents:** *"You can resume a subagent to continue where it left off rather than starting fresh. A resumed subagent retains its full conversation history, including all previous tool calls, results, and reasoning."* And (check question): *"The built-in Explore and Plan agents are one-shot and don’t return an agentId, so use a custom agent or general-purpose when you need to resume."*
 
 ## How this connects to earlier questions
 
@@ -99,10 +101,43 @@ Update any data-flow notes that use the old names, then carry on.
 | [Q72](../Q72-resume-and-name-changed-files/question.md) | The same rule: 3 of 12 files changed → resume and name them. Here the change is smaller (two renames), and the session is a subagent's |
 | [Q45](../Q45-fresh-session-structured-summary/question.md) | The other side: when the tool results are stale, a fresh session with a structured summary (option C's technique) is right |
 | [Q77](../Q77-fork-session-compare-two-approaches/question.md) | Fork is for comparing alternatives. Its check: continuing one line of work = resume, without fork |
+| [Q79](../Q79-scratchpad-file-for-long-sessions/question.md) | Findings written to a file as they're found survive an interruption, and give the fresh subagent its summary (check question) |
 
 ## Check question
 
 **Your tool ran this exploration with Claude Code's built-in Explore subagent, and it turns out that subagent can't be resumed. D is off the table. What do you do instead, and what goes into the new subagent's prompt?**
+
+*My answer:* "Launch a fresh subagent and include the prior transcript in the initial prompt for context, and inform it about the renamed functions." 🟡 **Fresh subagent: right. Telling it about the renames: right. The transcript is the weak part. Give it a structured summary of the findings instead, written with the new names, plus the renames to re-check.**
+
+**Why not the transcript, even with the rename note.** The transcript holds every raw tool result from 47 files, including each place the old names appear. A note saying "formatCents() is now formatMinorUnits()" is one message against all of those, so both versions sit in the context and the model can pick either. That's Q72's check again: a correction adds to the context and removes nothing. A fresh start is only worth it because *"The new session has no stale tool results. It has only the curated summary that you provide."* It's also the long, cluttered context the guide gives as the other reason for a fresh start: *"too many irrelevant tool results clutter the history."*
+
+**A summary can be fixed, a transcript can't.** You write the summary, so you write it with the new names, and nothing stale goes in. Guide 1.7: *"A good summary captures conclusions without raw tool output."*
+
+**What goes into the new subagent's prompt** (illustrative):
+
+```markdown
+# Payment-system exploration: carried over from an interrupted run
+Codebase state: after PR #482 (two utility functions renamed, nothing else changed)
+
+## Findings so far (47 files read)
+- Charge flow: CheckoutController → PaymentService.charge() → GatewayClient.post() → LedgerWriter.record()
+- Amounts are formatted by utils/money.ts formatMinorUnits() at 9 call sites (list)
+- Transaction IDs come from utils/ids.ts generateTransactionId()
+- Not traced yet: the refund flow
+
+## Re-check (renamed in PR #482)
+- formatCents() → formatMinorUnits(), newTxnId() → generateTransactionId():
+  grep for the new names to confirm the call sites
+
+## Continue from
+The refund flow: RefundService and its callers
+```
+
+**Where the summary comes from.** The run was interrupted, so the subagent never returned its report. If it wrote its findings to a file as it went (Q79), start from that. If not, extract the conclusions from the old transcript (the flows, call sites and open questions) and leave the raw file contents out.
+
+**Why D was off the table, and how to avoid it next time** (current Agent SDK docs): *"The built-in Explore and Plan agents are one-shot and don’t return an agentId, so use a custom agent or general-purpose when you need to resume."* For long explorations that might be interrupted, use a custom agent, and store the session ID and `agentId` from the first run.
+
+> **Can't resume → fresh subagent + a structured summary written with the current names (conclusions, not raw tool output) + the changes listed for a targeted re-check. Pasting the old transcript brings the stale results back, so a correction note has to compete with them.**
 
 ## Glossary
 
