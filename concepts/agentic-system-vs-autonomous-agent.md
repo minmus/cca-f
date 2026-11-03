@@ -54,6 +54,27 @@ The guide doesn't use "agentic system" and "autonomous agent" as a pair (checked
 
 *In the questions so far, this distinction appears as a choice of pattern, not as a vocabulary question.*
 
+## The autonomy spectrum (Udemy A #3 slide)
+
+The slide says: *"Autonomy exists on a spectrum, from fully supervised to fully autonomous"*. This is Udemy A's framing. The guide doesn't use the word "spectrum" (checked: lessons 1.1, 1.2, 1.4, 1.5, 1.6, 3.4, 3.6, 5.2 and 5.5).
+
+**What it means:** autonomy isn't on or off. It is **how much the agent does before a human checks it**. The further you move toward "fully autonomous", the fewer human checkpoints there are.
+
+*The five levels are my own arrangement, not guide wording. The examples are guide quotes.*
+
+| Level | What the human does | Example |
+|---|---|---|
+| **Fully supervised** | Approves each action before it happens | Claude Code asking before it edits a file or runs a command *(practical example, not guide wording)* |
+| **Approves the plan** | Approves once, before anything changes | Plan mode, guide 3.4: *"Claude then writes nothing to disk until you approve the plan."* |
+| **Takes the exceptions** | Handles only the cases the agent hands over | Support agent, guide 5.2: escalate on *"explicit human request, policy gap, inability to progress"*, otherwise *"resolve autonomously"* |
+| **Reviews afterwards** | Checks part of the finished output | Extraction, guide 5.5: reviewers get the most uncertain fields ([Q114](../questions/Q114-calibrated-field-confidence-routes-review/question.md)) |
+| **Fully autonomous** | Nobody is there during the run | CI, guide 3.6: with `-p`, Claude Code *"processes the prompt, writes the result to stdout and exits, without waiting for user input."* |
+
+**How far to move along it:** only as far as the risk allows and your measurements support.
+- **Trust is measured, not assumed.** Guide 5.5: *"Always validate accuracy by document type and field segment before automating. Never decide what to automate from aggregate metrics alone."* ([Q95](../questions/Q95-accuracy-by-segment-before-automating/question.md))
+- The article says the same: *"you must have some level of trust in its decision-making"*, and *"We recommend extensive testing in sandboxed environments, along with the appropriate guardrails."*
+- **On the exam:** as with workflow vs agent, the most autonomous option isn't automatically right. Pick the level that fits the risk and the evidence.
+
 ## Related course lessons
 
 ### Udemy A (primary): Claude Certified Architect (CCAR-F) - 2026 Exam Prep
