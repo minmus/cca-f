@@ -91,7 +91,19 @@ Human analogy: proof-reading your own essay vs a colleague reading it. You see w
 
 **The developer wants to catch these bugs locally, before committing. Which should they use for the review, and why: (a) `--resume` the same session, (b) fork the session, or (c) a fresh session / subagent given only the diff and review criteria?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "(c)" ✅ **Correct choice.** The "why" was left out; here it is, because (b) is the trap:
+
+| Option | What its context contains | Biased? |
+|---|---|---|
+| **(a)** `--resume` | The **same** session: all the generation reasoning | ❌ Yes: it *is* self-review |
+| **(b)** Fork | A **copy** of the history, so the reasoning comes along too (Q77: fork starts *"from a copy of the history"*) | ❌ Yes: a separate session, but the **same** reasoning. Separate ≠ independent |
+| **(c)** Fresh session / subagent with only the diff + criteria | Only what the review needs | ✅ No: an **independent instance** |
+
+**The test isn't "is it a different session?" but "does its context contain the generator's reasoning?"** Fork passes the first test and fails the second.
+
+**In practice (c) looks like:** a new `claude` session (or `claude -p` with the diff piped in), or a review subagent whose prompt contains only the diff, the relevant files to read, and the review criteria.
+
+> **Independent = no generator reasoning in the context.** Resume and fork both carry it; only a fresh instance doesn't.
 
 ## Glossary
 
