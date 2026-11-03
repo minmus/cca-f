@@ -95,7 +95,26 @@ That's B: **force the first call, then `"auto"`** so the model can call `lookup_
 
 **(1) A also forces `extract_metadata` first. What exactly goes wrong in A on the second call? (2) In B, how does the DOI from call 1 actually reach `lookup_citations` in call 2?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "1) It keeps extracting metadata instead of doing something with it. 2) It is passed back as the tool_result in the first call." Numbered, both parts.
+
+**(1) ✅ Exactly.** Call 2 is forced again, so the model **must** call `extract_metadata` again, even though it already has the metadata. `lookup_citations` and `verify_doi` are never reachable: the user never gets the citation count.
+
+**(2) 🟡 Right mechanism (`tool_result`), wrong call.** The `tool_result` travels in **call 2**, not call 1. The API is stateless (Q46), so your code rebuilds the conversation:
+
+```text
+Call 1 → request:  [user: "extract the metadata and tell me how cited it is"]
+         response: assistant tool_use extract_metadata {title…, doi: "10.1234/abc"}
+
+Call 2 → request:  [user: original request,
+                    assistant: tool_use extract_metadata {… doi: "10.1234/abc"},   ← append the response
+                    user: tool_result for that tool_use_id ("ok" / validated data)] ← add the result
+         tool_choice: "auto"
+         response: tool_use lookup_citations {doi: "10.1234/abc"}  ✅ the model reads the DOI from the history
+```
+
+So the DOI reaches `lookup_citations` because **your code appends the assistant's `tool_use` (which contains the DOI) and a matching `tool_result` to the messages, and sends the whole history in call 2.** Nothing is remembered between calls unless you send it.
+
+> **Call N's output becomes call N+1's input only because your code puts it there.**
 
 ## Glossary
 
