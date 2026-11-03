@@ -104,7 +104,15 @@ Bonus: each prompt can now be **evaluated and tuned independently** on its own p
 
 **(1) In one sentence: why did adding logic examples *lower* API design recall? (2) Why can't that happen after splitting as in B?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Because it diluted the API part that was strong before, as the prompt was instructed to look for both issues in one go. It is less likely to happen after the split as each prompt will look for narrow-scope issues and will be able to tell if those exist with high certainty. A broader prompt would produce less certain findings as there are more criteria to match." ✅ **Both parts answered, mechanism named.** Two refinements:
+
+**(1) ✅ Dilution, made precise:** the logic examples **shifted the shared attention** toward logic, so API design got less of it. One prompt, one pool of attention: whatever you add for one concern is taken from the others.
+
+**(2) Mostly ✅, but frame it as *isolation* and *recall*, not *certainty*:**
+- It's not just "less likely"; this particular see-saw **can't** happen, because the API prompt **no longer contains** the logic examples. Tuning the logic prompt can't change what the API prompt pays attention to. The two are **isolated**.
+- The measured problem was **recall** (bugs **missed**), not low confidence in findings. A focused prompt **finds more** of its category because all its attention goes there. Careful with "higher certainty": that's drifting toward self-reported confidence, which Q122/Q126 showed is unreliable.
+
+> **One prompt = shared attention: adding to one concern takes from another. Separate prompts = isolated attention: each can be tuned without side effects.**
 
 ## Glossary
 
