@@ -99,7 +99,22 @@ Each step is chosen by what the last one revealed, so the agent builds a **map o
 
 **B works, but a long exploration still fills the context with verbose output and the agent starts forgetting early findings. Name the two techniques from guide 5.4 that keep it healthy, and say what each one does.**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "1) Scratchpad files: the agent writes important findings to a file and can access it later. 2) Subagent delegation: the coordinator can spawn more agents when a single one is not enough." 🟡 Both named, numbered (good). (1) ✅; (2) right technique, wrong reason.
+
+**(1) ✅ Scratchpad files.** Add two details from the guide:
+- **From the start, not as a rescue:** *"Instruct agents to keep scratchpad files from the start of any extended exploration session."* *"They are not an emergency fix to use once answers become vague."*
+- **Why it works:** the findings live **outside** the context, so verbose tool output can push the original reads far back without losing the conclusions. The agent re-reads the short scratchpad instead of the 20 files.
+
+**(2) 🟡 Subagents: not "when one isn't enough", but to keep the noise out.** "More agents because one can't cope" is the **capacity / parallelism** reading, and the guide calls that the wrong one: *"The obvious interpretation is that subagents are for parallelisation, but their main value is context isolation."*
+
+| | What happens to the verbose output |
+|---|---|
+| Main agent explores itself | 30 file reads stay in **its** context, pushing early findings back |
+| ✅ Subagent explores | *"Each subagent explores verbosely in its own isolated context, then returns a structured summary."* The main agent gets 15 lines, not 30 files |
+
+So even a **single** subagent, run sequentially, helps: the benefit is a **clean coordinator context**, not more workers.
+
+> **Scratchpad = remember findings outside the context. Subagent = do the noisy work in another context and bring back only the summary.** Both fight degradation, which comes from *"verbose output pushing earlier findings further back"*, not from running out of tokens.
 
 ## Glossary
 
