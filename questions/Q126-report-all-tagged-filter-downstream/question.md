@@ -116,7 +116,23 @@ Downstream thresholds still need **calibration on labelled data** before they're
 
 **In Q122 the right fix was to tell the model what to *skip*. Here the right fix is to report *everything*. Isn't that a contradiction? What's the difference between the two skip rules?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "No, as opposite issues are to be resolved: Q122 is about too much output, which has to be filtered, while Q126 about too little." 🟡 **"Not a contradiction" is right, and the symptoms are right** (too much vs too little). But the symptom alone doesn't tell you the fix:
+
+- If "too little output" were the whole story, **C** (remove all severity instructions) would also fix it, and it's wrong.
+- And Q126's fix **still filters**: just downstream, in code.
+
+**The real difference is what each skip rule is *based on*:**
+
+| | Q122 ✅ | Q126 ❌ |
+|---|---|---|
+| Skip rule | "Skip minor style, local patterns" | "Ignore anything you're uncertain about" |
+| Based on | **Category**: what the finding *is* | **Self-confidence**: how sure the model *feels* |
+| Reliable? | Yes: objective, real bugs explicitly in scope | No: *"often sure about wrong findings and hesitant about right ones"* |
+| Where filtering belongs | In the prompt, as explicit criteria | **Downstream**, in code, on calibrated thresholds |
+
+> **Filter by category in the prompt; never by self-confidence in the prompt.** Confidence is a tag for downstream routing, not a reason to stay silent.
+
+So both questions can be true at once: a good review prompt says *"report bugs and security, skip minor style"* (Q122) **and** *"report every finding in scope, tagged with severity + confidence"* (Q126).
 
 ## Glossary
 
