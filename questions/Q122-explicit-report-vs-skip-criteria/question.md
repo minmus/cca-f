@@ -86,7 +86,22 @@ It also keeps genuine issues: bugs and security are **explicitly in scope**, so 
 
 **The team adds criteria A and dismissals drop. Later they want to add confidence scores too. Where do confidence scores fit after the criteria, and what must happen before a score threshold can be trusted?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "criteria must be clearly defined first only then can calibration happen" 🟡 **Order correct:** *"The order is explicit criteria first, confidence-based routing second."* Two pieces are missing:
+
+**1. Where scores fit: routing, not filtering.** Scores don't decide what gets **posted**; the criteria do. Scores decide **who looks** at a finding: *"Confidence scores are useful for routing low-confidence findings to human review."* A low-confidence finding goes to a human, not to the bin (deleting it could drop a real bug).
+
+**2. What makes a threshold trustworthy: calibration on labelled data** (Q21/Q114). "Calibration happens" is the name; the mechanism is:
+1. Take a **labelled validation set**: past findings where developers marked each one genuine or dismissed.
+2. Compare the model's scores with those labels: what share of findings scored ≥ X were actually genuine?
+3. Set the threshold where that share meets your target, **per category** (security can need a different cut from performance).
+4. Re-check over time as code and conventions change.
+
+```text
+Finding → criteria (report? skip?) → score → ≥ calibrated threshold → post
+                                          → < threshold            → human review
+```
+
+> **Criteria decide *what* is reported; calibrated confidence decides *who checks it*.** A threshold is only trusted once it has been measured against labelled outcomes, never just because the model said "8/10".
 
 ## Glossary
 
