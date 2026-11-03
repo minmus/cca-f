@@ -111,7 +111,31 @@ They combine: the criteria and examples can themselves live in CLAUDE.md.
 
 **One of the three conventions applies only to *some* files: force-unwrapping is fine in test files, not in production code. If you write it in the root CLAUDE.md, what could go wrong? Where else could it go so it applies only to tests? (Hint: Q54.)**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "In the root CLAUDE.md it might apply it equally to all files. Put it into CLAUDE.md under test directory." 🟡
+
+**Part 1 ✅, with the consequence made concrete:** the model could stop flagging force-unwraps in **production** code too. That's a real crash bug going unreported: the fix for false positives creates **false negatives**.
+
+**Part 2 works only if all tests live in one directory.** Guide 3.1 trap: *"Directory-level CLAUDE.md applies to one directory only."* Test files are often **spread across the codebase** (`Sources/Payments/PaymentTests.swift`, `Sources/Auth/AuthTests.swift`, …) or in several `tests/` folders, one per module. You'd need a copy of the CLAUDE.md in each one.
+
+**Better: a path-scoped rule (Q54, guide 3.3)**, which matches by **file pattern**, wherever the files are:
+
+```markdown
+<!-- .claude/rules/testing.md -->
+---
+paths:
+  - "**/*Tests.swift"
+  - "**/tests/**/*"
+---
+Force-unwrapping optionals is accepted in test files (a crash = a failing test). Do not flag it here.
+```
+
+| Option | Applies to | Catch |
+|---|---|---|
+| Root CLAUDE.md | **Every** file | Suppresses real bugs in production code |
+| `tests/CLAUDE.md` | One directory | Misses test files elsewhere |
+| ✅ `.claude/rules/` with `paths:` glob | Every file matching the pattern, anywhere | Only loads when a matching file is touched |
+
+> **One directory → directory CLAUDE.md. A file *type* scattered across directories → path-scoped rule with a glob.**
 
 ## Glossary
 
