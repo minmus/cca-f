@@ -134,6 +134,9 @@ Downstream thresholds still need **calibration on labelled data** before they're
 
 So both questions can be true at once: a good review prompt says *"report bugs and security, skip minor style"* (Q122) **and** *"report every finding in scope, tagged with severity + confidence"* (Q126).
 
+**Follow-up:** *"Skip findings in generated code under `/gen/`": category or confidence rule? OK in the prompt?*
+*My answer:* "category, OK for prompt" ✅ The *why*: it's based on **where the code is** (an objective fact anyone can check), not on how sure the model feels. Bugs in generated code are fixed in the **generator or its input**, not in the output, so a finding there isn't actionable for the PR author. Test for any skip rule: **could two people disagree about whether it applies?** Path, category → no → fine in the prompt. "Uncertain", "not definite" → yes → tag it and filter downstream.
+
 ## Glossary
 
 - **Self-filtering:** the prompt asks the model to decide what to leave out of its own output.
