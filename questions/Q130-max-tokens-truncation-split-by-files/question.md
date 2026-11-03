@@ -124,6 +124,23 @@ files 17–30─┘                         catches cross-file bugs
 
 > **Split for depth and size; add an integration pass for what crosses the split.**
 
+**Follow-up:** *`models.py` (chunk 1) renames column `price` → `price_cents`; `invoice.py` (chunk 2) still reads `price`. Which pass catches it, and what input does it need?*
+*My answer:* "integration pass with per-file findings as an input" 🟡 **Right pass. The input isn't enough on its own.**
+
+Think about what each chunk actually **reports**:
+- Chunk 1 sees a clean rename inside `models.py`: **no finding**.
+- Chunk 2 sees `invoice.py` reading `price`, which looks normal: **no finding**.
+
+So the per-file findings are **empty** for this bug. An integration pass that only sees findings has nothing to connect. It needs **what changed**, not just what was wrong:
+
+| Input | Contains the clue? |
+|---|---|
+| Per-file findings | ❌ Both empty |
+| **Change summary** per chunk: *"`models.py`: column `price` renamed to `price_cents`"* | ✅ The interface changed |
+| **References** to changed names: *"`invoice.py:42` reads `.price`"* (a Grep for the old name) | ✅ Someone still uses the old name |
+
+> **Cross-file bugs are often invisible as findings; they live in the *changes*.** Feed the integration pass the per-chunk **change summaries** (signatures, columns, exports) + where those names are used, together with the findings. That's why the guide says it checks *"data flow between modules, consistent API usage across services."*
+
 ## Glossary
 
 - **`max_tokens`:** the request's cap on output tokens; generation stops when it's reached.
