@@ -75,6 +75,38 @@ The slide says: *"Autonomy exists on a spectrum, from fully supervised to fully 
 - The article says the same: *"you must have some level of trust in its decision-making"*, and *"We recommend extensive testing in sandboxed environments, along with the appropriate guardrails."*
 - **On the exam:** as with workflow vs agent, the most autonomous option isn't automatically right. Pick the level that fits the risk and the evidence.
 
+## The Udemy A #3 slide "Who Decides What Happens Next", in simple words
+
+**The slide uses the words differently from the article at the top of this note.** The idea is the same. Only the labels change.
+
+| Word | In the article (top of this note) | On the Udemy A slide |
+|---|---|---|
+| **Agentic system** | Everything: workflows and agents | Only the kind where the model decides |
+| **Workflow** | One kind of agentic system | The opposite of an agentic system |
+| **Autonomous agent** | The kind where the model decides | An agent that works without a human directing each step |
+
+### A train, a taxi and the passenger
+
+*This picture is my own illustration, not course or guide wording.*
+
+- **Workflow = a train.** The route and the stops were fixed when the line was built. Every train goes the same way, and it can't take a detour.
+- **Agentic system = a taxi.** You give the address. The driver chooses each turn while driving, from what they see on the road, and stops on arrival. For Claude, "what they see" is the tool results, and "arrival" is `stop_reason: "end_turn"`.
+- **Autonomous = how much the passenger checks.** One passenger wants the driver to ask before every turn (supervised). Another gives the address and falls asleep (fully autonomous). It's the same taxi and the same driver. Only the checking changes.
+
+### Two questions to ask about any system
+
+1. **Who picks the next step?** Code written in advance → workflow. The model, while it runs → agentic system.
+2. **How often does a human check?** At every step → supervised. Never during the run → autonomous.
+
+**Two terms from the slide:**
+- **Design time:** when the developer writes the code. A workflow's steps are decided then.
+- **Inference time:** while the model is running. An agentic system's next step is decided then, in each response.
+
+**The slide's definitions:**
+- **Agentic system:** *"An architecture where a language model autonomously pursues a goal by selecting actions, invoking tools, and iterating until a termination condition is met."*
+- **Workflow (deterministic):** *"A fixed, developer-authored sequence of steps that executes predictably. Control flow is set at design time, not at inference time."* (Part of "developer-authored" is hidden behind the play button in the screenshot.)
+- **Autonomous agent:** *"An agent that operates without step-by-step human direction, making its own planning decisions to hit a high-level goal."*
+
 ## Related course lessons
 
 ### Udemy A (primary): Claude Certified Architect (CCAR-F) - 2026 Exam Prep
