@@ -89,13 +89,13 @@ Grep returns every match with its **file and line number**, without reading whol
 
 **(1) ✅ Word boundary `\b` is the right idea.** Two refinements:
 - **Escape the bracket:** Grep takes a **regex**, where `(` opens a group. Use `\beval\(` (an unescaped `(` is an error or matches the wrong thing).
-- **`\b` still matches after a dot:** `model.eval()` (PyTorch!) matches `\beval\(`, because `.` is a boundary. And `eval (` with a space is missed. Tighter: `(?<![.\w])eval\s*\(`: not after a dot or letter, optional spaces.
+- **`\b` still matches after a dot:** `model.eval()` (PyTorch!) matches `\beval\(`, because `.` is a boundary. And `eval (` with a space is missed. Tighter: `(^|[^.\w])eval\s*\(`: start of line or a character that isn't a dot/letter, then optional spaces. (A lookbehind `(?<![.\w])` would read more naturally, but the Grep tool is built on ripgrep, whose default regex engine doesn't support lookbehind.)
 
 | Pattern | `eval(x)` | `eval (x)` | `retrieval(` | `model.eval()` |
 |---|---|---|---|---|
 | `eval(` | ✅ | ❌ miss | ⚠️ false hit | ⚠️ false hit |
 | `\beval\(` | ✅ | ❌ miss | ✅ skipped | ⚠️ false hit |
-| `(?<![.\w])eval\s*\(` | ✅ | ✅ | ✅ skipped | ✅ skipped |
+| `(^\|[^.\w])eval\s*\(` | ✅ | ✅ | ✅ skipped | ✅ skipped |
 
 **(2) ✅ Aliasing is a great example:** `run = eval` … `run(user_input)`: the dangerous call never contains `eval(`. Other misses:
 - **Space before the bracket:** `eval (code)`.
