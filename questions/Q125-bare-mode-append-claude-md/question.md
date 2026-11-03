@@ -100,7 +100,32 @@ gh pr diff "$PR" | claude --bare -p "Review this diff against our standards" \
 
 **`--bare` also skips the *nested* CLAUDE.md files in the monorepo, and B loads only the root one. (1) What could the review lose because of that? (2) Give one way to keep those rules while still using `--bare`.**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "directory-specific settings might be lost. Route-based rules might help" 🟡 Both parts answered (good). Part 1 ✅; part 2 hits the same wall.
+
+**(1) ✅ Directory-specific conventions are lost.** Concretely, in both directions:
+- **Missed findings:** `packages/payments/CLAUDE.md` says "every money amount must be `Decimal`". The review never sees it, so a `float` in payments passes.
+- **New false positives:** `packages/legacy/CLAUDE.md` says "callbacks are accepted here". The review only knows the root rule "use async/await", so it flags them again (the Q123 problem, back).
+
+**(2) Path-scoped rules (`.claude/rules/` with `paths:`) don't escape it.** They're loaded by the **same memory system** that `--bare` turns off: `--bare` *"skips auto-discovery of … CLAUDE.md"*, and `.claude/rules/` files are part of that CLAUDE.md loading (docs: they load at launch or on demand, just like nested CLAUDE.md files). In bare mode, **nothing is discovered**; anything you need must be **passed explicitly**. (The docs don't name `.claude/rules/` in the `--bare` list word for word; this follows from rules being part of the CLAUDE.md system.)
+
+**Ways that do work with `--bare`:**
+
+| Option | How | Trade-off |
+|---|---|---|
+| ✅ **Build the context in the CI script** | Find the changed directories in the diff, concatenate root `CLAUDE.md` + their nested `CLAUDE.md` / matching rules files into one file, pass it with `--append-system-prompt-file` | Fast, deterministic, still one source of truth (the files themselves) |
+| Tell Claude to read them | Prompt: "before reviewing a file, Read the `CLAUDE.md` in its directory" (bare mode keeps the Read tool) | Simple, but relies on the model doing it every time ("instruct" not "guarantee") |
+| **Skip `--bare`** | Accept the 18 s; full discovery | The guide's own choice when the review *"needs its CLAUDE.md"* |
+
+```bash
+CTX=$(mktemp)
+cat CLAUDE.md > "$CTX"
+for d in $(git diff --name-only origin/main | xargs -n1 dirname | sort -u); do
+  [ -f "$d/CLAUDE.md" ] && cat "$d/CLAUDE.md" >> "$CTX"
+done
+gh pr diff "$PR" | claude --bare -p "Review against our standards" --append-system-prompt-file "$CTX"
+```
+
+> **In `--bare`, nothing is discovered: not nested CLAUDE.md, not rules, not hooks. If you need it, pass it explicitly.** Choose deterministic (the script assembles the files) over hoping the model reads them.
 
 ## Glossary
 
