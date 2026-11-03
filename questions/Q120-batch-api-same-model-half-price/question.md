@@ -88,7 +88,23 @@ Only **C** passes all three. The Message Batches API runs the **same requests** 
 
 **The guide says to design around the 24-hour maximum, but here only ~12 hours are acceptable. Is C still safe? What would you add so the release notes are ready in the morning even if the batch is slow?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "C does not guarantee 12 hours every time, but will deliver most of the time if submitted early." 🟡 **Honest diagnosis: no guarantee.** But "most of the time" is exactly the reasoning the guide warns about: trap *"Assuming batch results arrive quickly because they often do."* The second part (**what to add**) needs a mechanism that makes the morning deadline **certain**:
+
+**Fallback with a cutoff, using `custom_id`:**
+1. Submit the batch **as soon as** the release cycle ends (your "submit early": maximises the window).
+2. Set a **cutoff** with buffer before the deadline, e.g. 05:00 for a 08:00 deadline.
+3. At the cutoff, check the batch: collect results that arrived; find the **`custom_id`s with no result** yet.
+4. Send **only those** through the **synchronous** Messages API (same model, same prompt), then cancel the batch (or ignore its late results).
+5. Generate the release notes. Deadline met **every** time.
+
+| Case | Cost |
+|---|---|
+| Batch finishes before cutoff (usual) | Full 50% saving |
+| Batch slow | Saving on what finished + normal price for the rest. Never late |
+
+Same shape as Q111 (budget the worst case, keep a buffer) and Q110 (`custom_id` → act only on the missing/failed items). Alternative: **move submission earlier** so the window is ≥ 24 h (e.g. run the batch when the cycle closes on Friday for notes needed Monday).
+
+> **"Usually fast" is not a plan.** Batch for the saving + a synchronous fallback at a cutoff for whatever hasn't arrived = cheap **and** guaranteed.
 
 ## Glossary
 
