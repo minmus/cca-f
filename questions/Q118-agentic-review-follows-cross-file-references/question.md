@@ -91,7 +91,21 @@ Guide 2.5: *"Grep to find entry points."* *"Read to follow imports and trace flo
 
 **Option A says "turn-limited". (1) Why add a turn limit at all, and what should happen when it's reached? (2) What fact in the question makes this slower, agentic review acceptable?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Why: so that it doesn't cost a fortune and run infinitely. Acceptable because it does not block PRs." ✅ **Both reasons right**, and you answered both parts this time. One piece missing: **what should happen when the limit is reached?**
+
+**When the turn limit hits, don't fail silently and don't pretend the review was complete:**
+
+| ❌ Bad | ✅ Good |
+|---|---|
+| Post nothing (the PR looks "clean") | Post the **verified findings so far** |
+| Post findings as if the review were complete | Add an explicit **coverage note**: *"Checked 5 of 7 callers of `process_order`; `billing/*.py` not verified"* |
+| Retry with no limit | Optionally flag the PR for **human review** if the unchecked part is risky |
+
+That's Q06's rule (after the cap: **report the gaps**) and Q22/Q27's rule (**never report an incomplete result as a full success**).
+
+**Part 2, made precise:** the stem says reviews are *"posted asynchronously and don't block PR creation"*. Nobody waits, so a review taking 3 minutes instead of 30 seconds costs **no developer time**: the same "who waits?" question as Q116.
+
+> **Turn limit = safety cap on cost and runaway loops. When it hits: post what's verified + say what wasn't checked.**
 
 ## Glossary
 
