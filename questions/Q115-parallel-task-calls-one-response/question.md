@@ -98,7 +98,26 @@ Guide 1.3: *"When a coordinator needs several subagents for independent tasks, i
 
 **D says "structure the coordinator to emit both Task calls in one response". In practice you'd achieve that partly through the coordinator's prompt too. So what's the real difference between B and D?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "The Task tool call can be programmatically configured to issue calls to both agents simultaneously." 🟡 **Right instinct (D is about a concrete mechanism), but the mechanism is described wrongly.** There's no setting on the Task tool that makes it call two agents. **One Task call = one subagent.** Parallelism comes from the **coordinator's response** containing **two separate Task `tool_use` blocks**; the SDK then runs both before the next turn.
+
+```text
+Coordinator response (one turn):
+  tool_use: Task(subagent="web_search",   prompt="…")
+  tool_use: Task(subagent="doc_analysis", prompt="…")
+→ SDK runs both → next turn: both results come back together
+```
+
+**The real difference between B and D:**
+
+| | **B** | **D** |
+|---|---|---|
+| What it gives the coordinator | **Why** (performance benefits) + a vague wish ("at the same time") | **How**: the exact mechanism (both Task calls in **one** response, not across turns) |
+| Can you check it? | ❌ "Did it try to be parallel?" | ✅ In the logs: does **one** coordinator response contain **two** Task blocks? |
+| Fixes the cause? | ❌ The cause is one-call-per-turn; B never names it | ✅ Targets exactly that |
+
+So yes, D may be **implemented** partly through the coordinator's instructions, but those instructions name a **specific, verifiable behaviour**, and the design is built around it (independent tasks grouped into one step, synthesis in the next). B only hopes the model figures out how.
+
+> **B = motivation ("parallel is faster, please do it"). D = mechanism ("multiple Task calls in a single response").** Exam answers name the mechanism.
 
 ## Glossary
 
