@@ -85,7 +85,24 @@ Grep returns every match with its **file and line number**, without reading whol
 
 **(1) Grepping for `eval(` also matches `retrieval(` and `my_eval(`. How would you make the pattern match only real `eval` calls? (2) Give one way `eval` could be used in a file that a Grep for `eval(` would still miss.**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "1) Searching with grep `\beval(` instead. 2) In code there could be something like referencing the function from an object, like `my_executor = eval`, or type checks that use no brackets." ✅ Numbered, both parts, **concrete examples**: this is the answer shape to aim for.
+
+**(1) ✅ Word boundary `\b` is the right idea.** Two refinements:
+- **Escape the bracket:** Grep takes a **regex**, where `(` opens a group. Use `\beval\(` (an unescaped `(` is an error or matches the wrong thing).
+- **`\b` still matches after a dot:** `model.eval()` (PyTorch!) matches `\beval\(`, because `.` is a boundary. And `eval (` with a space is missed. Tighter: `(?<![.\w])eval\s*\(`: not after a dot or letter, optional spaces.
+
+| Pattern | `eval(x)` | `eval (x)` | `retrieval(` | `model.eval()` |
+|---|---|---|---|---|
+| `eval(` | ✅ | ❌ miss | ⚠️ false hit | ⚠️ false hit |
+| `\beval\(` | ✅ | ❌ miss | ✅ skipped | ⚠️ false hit |
+| `(?<![.\w])eval\s*\(` | ✅ | ✅ | ✅ skipped | ✅ skipped |
+
+**(2) ✅ Aliasing is a great example:** `run = eval` … `run(user_input)`: the dangerous call never contains `eval(`. Other misses:
+- **Space before the bracket:** `eval (code)`.
+- **Dynamic lookup:** `getattr(builtins, "eval")(code)`, `globals()["eval"](code)`.
+- **Siblings with the same risk:** `exec(`, `compile(`, JS `new Function(`, `setTimeout("string")`.
+
+> **Grep finds text, not meaning.** For a security scan, grep for `eval` **without** the bracket too (to catch aliases), and grep for the sibling functions. A real scanner (AST-based, e.g. Semgrep/Bandit) catches what text search can't.
 
 ## Glossary
 
