@@ -110,7 +110,33 @@ Guide 3.6 lists almost exactly the contents of A:
 
 **Option D filters out any generated test that doesn't increase line coverage. Give one example of a test D would wrongly *delete*, and one it would wrongly *keep*.**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "it might prevent testing of edge cases" 🟡 **The "delete" half is right**, in general terms. The "keep" half is missing, and it's the half that shows D fails **both ways**.
+
+**Wrongly deleted: a valuable edge-case test.**
+
+```python
+def discount(total):
+    return total * 0.9 if total >= 100 else total
+
+# Existing test already runs both lines:
+assert discount(200) == 180
+assert discount(50) == 50
+
+# New test: the boundary. Same lines → coverage +0% → D deletes it.
+assert discount(100) == 90      # catches a `>` vs `>=` bug
+```
+
+**Wrongly kept: a trivial test on new code.**
+
+```python
+def refund(order): ...          # new, 20 lines, not yet covered
+
+def test_refund():
+    refund(make_order())        # no assertion, just "doesn't throw"
+# Runs all 20 lines → coverage +20 lines → D keeps it. It checks nothing.
+```
+
+> **Line coverage measures which lines *ran*, not what was *checked*.** So D deletes tests that check new behaviour on old lines, and keeps tests that run new lines while checking nothing: exactly the "trivial assertions" from the question.
 
 ## Glossary
 
