@@ -99,7 +99,13 @@ Returns: {direct: [...], transitive: [...], cycles: [[a, b, a], ...]}
 
 **(1) In Q17 and Q30 splitting a tool was the right fix. Why is it the wrong fix here? (2) Name one thing `analyze_dependencies` can do that grepping for `import` cannot, and say why that belongs in its description.**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "1) There is nothing to split here, it's just a bad description of the existing tool. 2) Resolving transitive dependencies (or detecting dependency cycles)." Numbered, both addressed. (1) ✅; (2) capability ✅, the *why* missing.
+
+**(1) ✅ Exactly.** `analyze_dependencies` does **one job** with one input (a path) and one output (the graph). Q17/Q30 split tools that did **different jobs with different inputs or outputs**. Here, nothing about the tool is wrong, only its description.
+
+**(2) ✅ Transitive dependencies / cycles: right.** Why it must be **in the description**: the model picks Grep because, from what it can read, **Grep looks good enough** ("dependencies = grep the imports"). Grep only finds **direct** `import` lines in files you search. It can't tell you that A depends on C through B, or that A → B → A is a cycle. Saying so in the description gives the model the **reason to choose differently**: the description must state what the MCP tool does **that the built-in can't**.
+
+> **A description wins selection by showing the difference.** "Analyzes dependency graph" doesn't; "transitive dependencies and cycles, which grepping imports misses" does.
 
 ## Glossary
 
