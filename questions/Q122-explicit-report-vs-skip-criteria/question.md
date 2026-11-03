@@ -103,6 +103,9 @@ Finding → criteria (report? skip?) → score → ≥ calibrated threshold → 
 
 > **Criteria decide *what* is reported; calibrated confidence decides *who checks it*.** A threshold is only trusted once it has been measured against labelled outcomes, never just because the model said "8/10".
 
+**Follow-up:** *A finding passes the criteria (a security bug) but gets calibrated confidence 3/10. What happens?*
+*My answer:* "human must review (provided 3 is below the threshold, which it logically must be)" ✅ It goes to a **human**: not posted automatically, and **not dropped**. The criteria said "this category matters"; the low score only says "a person should confirm it". Good habit to add the "provided it's below the threshold" condition: the threshold is set by calibration, not assumed.
+
 ## Glossary
 
 - **Explicit categorical criteria:** named categories of what to report and what to skip.
