@@ -90,6 +90,8 @@ The questions in this repo were added in the order they were pasted. This file p
 - Agent **forgets** earlier turns? (Q46)
 - Must **adapt** to the unexpected
 
+*Note: Concept note for this stage: [agentic-system-vs-autonomous-agent](../concepts/agentic-system-vs-autonomous-agent.md) (workflow vs agent: who decides the next step).*
+
 ---
 
 ## Stage 2
