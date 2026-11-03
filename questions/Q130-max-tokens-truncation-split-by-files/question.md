@@ -108,7 +108,21 @@ The calls are independent, so they can run **in parallel** (Q115): faster too.
 
 **(1) The API docs' own fix for a truncated tool call is "retry with a higher `max_tokens`". Why isn't that enough here? (2) What kind of bug can A miss by reviewing files in separate chunks, and what would you add to catch it?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "1. Overflow is structural (it scales with PR size), so the fix must be structural too. 2. The bug that spans multiple files." 🟡 Numbered, both parts addressed (good).
+
+**(1) ✅** (wording taken from this file's concept section, which is fine). Concretely: raising `max_tokens` from 8k to the model maximum might fit a 30-file PR, but a 100-file refactor overflows again. A limit that **grows with input** needs a design where each call's output is **bounded**, whatever the input size.
+
+**(2) Half: the bug is named, the fix is missing.** Yes: a **cross-file** bug, e.g. chunk 1 renames `get_user(id)` → `get_user(user_id, tenant)`, while chunk 3 still calls `get_user(id)`. Each chunk looks correct alone.
+
+**What to add: an integration pass** (guide 4.6): *"After the review of every file is complete, a separate pass receives all the per-file findings."* *"This pass catches cross-file issues that no single-file review would identify."* It checks *"data flow between modules, consistent API usage across services, dependency conflicts."* Give it the **per-file findings + a compact summary of the changes** (changed signatures, exports, schemas), not all 30 files again, so it doesn't overflow either.
+
+```text
+files 1–8  ─┐
+files 9–16 ─┼─► per-file findings ─► integration pass (summaries + findings) ─► merge ─► post
+files 17–30─┘                         catches cross-file bugs
+```
+
+> **Split for depth and size; add an integration pass for what crosses the split.**
 
 ## Glossary
 
