@@ -119,7 +119,18 @@ With `--append-system-prompt`, Claude keeps its full default behaviour **and** g
 
 **Q36: a subagent never ran because `Task` wasn't in `allowedTools`. Q117: Read/Grep/Glob never ran either. Why is the fix in Q117 not `--allowedTools`? What clue in the question rules it out?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "`--dangerously-skip-permissions` reveals nothing is blocked." ✅ **Exactly the clue.** That flag = `bypassPermissions` mode: every tool may run without a prompt. So adding `--allowedTools` (*"Tools that run without a permission prompt"*) changes **nothing**; the tools were already permitted.
+
+**The "why" behind it: "not allowed" vs "not chosen":**
+
+| | **Q36** | **Q117** |
+|---|---|---|
+| Can the tool run? | ❌ `Task` not in `allowedTools` | ✅ Everything allowed (`--dangerously-skip-permissions`) |
+| Does the model try to use it? | Wants to, can't | **Never tries**: nothing in its prompt tells it to explore |
+| Layer that's broken | **Permissions** (configuration) | **Instructions** (system prompt replaced) |
+| Fix | Add `Task` to `allowedTools` | `--append-system-prompt` |
+
+> **Permissions decide what the model *may* do; the system prompt shapes what it *chooses* to do.** If everything is allowed and a tool still isn't used, look at the instructions, not the permissions.
 
 ## Glossary
 
