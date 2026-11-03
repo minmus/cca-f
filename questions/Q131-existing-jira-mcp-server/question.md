@@ -89,7 +89,22 @@ Guide 2.4: *"Use community servers for standard integrations"*; *"Jira, GitHub, 
 
 **(1) Give a concrete situation where C (a custom MCP server) *would* be the right answer. (2) The team shares the Jira server config in the repo. Where does the Jira API token go, and why not in the config file?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "1) When the situation requires more (features) than a standard MCP server can offer. 2) The API token should go somewhere secure, like a vault, as it is sensitive information which you do not want leaked." 🟡 Numbered, both parts (good).
+
+**(1) 🟡 That's the rule, not a situation.** The question asked for a concrete case. Examples:
+- **Combining systems in one step:** "Before approving a PR, check that its Jira ticket is in *Ready for QA* **and** the linked feature flag exists in our internal flag service": the community Jira server knows nothing about the internal flag service.
+- **Team-specific fields and rules:** a custom Jira workflow where "acceptance criteria" live in a custom field `customfield_10234` with a team rule like "a ticket is reviewable only if risk ≤ 2"; a generic server returns raw fields but not the team's logic.
+- **An internal system with no server at all** (an in-house ticket tracker).
+
+Test: **can I name the specific thing the community server can't do?** If not, use the community server.
+
+**(2) ✅ Right instinct, now the exact mechanism (guide 2.4 / Q59):**
+- `.mcp.json` (committed) holds only the **variable name**: `"JIRA_API_TOKEN": "${JIRA_API_TOKEN}"`. *"The file references variable names, not values."*
+- Each developer sets the **value locally**: *"in a shell profile, a `.env` file or a secrets manager"* (your vault). In CI, a CI secret.
+- **Why not in the file:** `.mcp.json` is version-controlled, so the token would be in **git history forever**: *"A private repository is not a secret store; every clone and fork carries the token in its history."*
+- Bonus: each person uses **their own** token, so Jira permissions and audit logs stay per person.
+
+> **Config shared in git, secrets per person in the environment.**
 
 ## Glossary
 
