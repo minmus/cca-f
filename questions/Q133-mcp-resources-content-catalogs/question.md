@@ -99,7 +99,21 @@ What to expose (the guide's own list, matching option B word for word):
 
 **(1) In one sentence each: what's the difference between an MCP *resource* and an MCP *tool*? (2) From this scenario, name one thing that must stay a tool and could never be a resource, and say why.**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "1. An MCP resource is something like a catalogue the agent can choose from. An MCP tool, on the other hand, is something the agent can act with upon resources. 2) search_issues, for example, should be a tool to search among resources." 🟡 Numbered, both parts (good). (1) mostly ✅; (2) valid pick, but the *why* is off.
+
+**(1) Mostly ✅, two tweaks:**
+- **Resource** = **read-only content** the server exposes for context (a catalog is the main exam use, but a resource can also be one document or one schema). It's *looked at*, not *called*.
+- **Tool** = an **action** the model calls with arguments, acting on the **system** (the issue tracker, the database), not on the resources. Resources and tools are two views of the same backend, not "tools operate on resources".
+
+**(2) 🟡 `search_issues` must stay a tool, but not because it "searches among resources".** It searches the **live issue tracker** with a query the agent makes up at that moment (`"auth refactor" status:open`). That's the real reason:
+
+| Must stay a tool when… | Example here | Why it can't be a resource |
+|---|---|---|
+| ✅ It **changes something** (side effect) | **`create_comment`** (clearest answer) | Resources are **read-only**: reading one can never write a comment |
+| ✅ It needs **arbitrary input** chosen at call time | `run_query(sql)`, `search_issues(query)` | Infinite possible inputs: you can't pre-publish every query result |
+| Its result is **large or specific** | `get_page(id)` for a full page | The catalog lists pages; fetching one in full stays a call |
+
+> **Resource = "here's what exists" (read-only, prepared in advance). Tool = "do this now, with these arguments" (can take any input, can change state).** If it writes, or its input is open-ended, it's a tool.
 
 ## Glossary
 
