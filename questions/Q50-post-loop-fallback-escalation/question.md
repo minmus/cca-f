@@ -94,7 +94,24 @@ The handoff must be **self-contained**: guide 1.4: *"The human agent does not ha
 
 **(1) D is also code (a hook), so why isn't it a guarantee? Name a way the loop can end that D doesn't cover. (2) The fallback escalation is triggered by code, not by the agent. What must its handoff contain so the human doesn't have to ask the customer to repeat everything?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "It would miss other kinds of loop endings, like errors or timeouts. These could never reach 80% of max_turns and thus the hook would not be involved." 🟡 **Part 1 ✅, part 2 missing.**
+
+**(1) ✅ Right reason:** D only fires on tool calls approaching the cap; any other ending bypasses it. The subtlest one to remember: **`end_turn` with no action**: the agent replies "I've looked into your dispute and will get back to you" and stops. No error, no cap, no escalation, and the customer is left hanging. Only a check **after** the loop sees it.
+
+**(2) What the code-triggered handoff must contain.** The human *"does not have access to the conversation transcript"*, so the summary is all they get (guide 1.4, Q15):
+
+| Field | Example |
+|---|---|
+| **Who** | Customer ID, name, account tier (from `get_customer`) |
+| **What they asked** | "Disputes a double charge of €49.99 on order #8812" |
+| **What was found** | Tool results: order details, both charges, dates (from `lookup_order`) |
+| **What was done / not done** | "No refund issued; no escalation made by the agent" |
+| **Why it was handed off** | "Agent loop ended at `max_turns` before resolution" (the termination reason) |
+| **Recommended action** | "Verify duplicate charge and refund €49.99" (guide: *"Recommended action: what the agent believes the human agent should do."*) |
+
+Note the code has an advantage here: it builds the handoff from **structured data** (tool results, termination reason) it already holds, so it doesn't depend on the agent writing a good summary.
+
+> **Fallback in code + self-contained handoff = the customer never repeats themselves, however the loop ended.**
 
 ## Glossary
 
