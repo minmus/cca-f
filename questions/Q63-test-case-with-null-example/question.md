@@ -92,7 +92,20 @@ Guide 3.5:
 
 **(1) "Handle nulls" can mean several different things. Name two different behaviours a null-handling fix could have, and explain why only the expected output in a test case settles which one is right. (2) When would the interview pattern (Q64) be better than giving a test case?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "1. a) The script replaces null with an explicit fallback value, such as a static default (0, ""), a.k.a. coalescing. b) The script rejects records containing unexpected null values, a.k.a. exclusion. Showing either of them in your examples allows the model to generalise. 2) When null cases are ambiguous, for example values for revenue or age columns in a database might need different representations of null." Numbered, concrete, named techniques.
+
+**(1) ✅ Two clear behaviours: coalesce vs exclude.** Sharpen the *why*: the prose "handle nulls correctly" fits **both**, so Claude has to guess. The expected output **is** the decision: if `{email: null}` → `{email: "unknown@example.com"}`, it's coalescing; if → *record skipped, logged to `rejected.csv`*, it's exclusion. One test, one meaning.
+
+**(2) 🟡 Good example, but the deciding factor is *who knows the answer*.** Per-column rules (revenue vs age) can still be test cases, **if you know them**: one example per column. The interview pattern is for when **you don't know** what the right behaviour is, or what you might be missing. Guide 3.5: *"The interview pattern is for unfamiliar domains, where the developer might miss considerations."*
+
+| You… | Use |
+|---|---|
+| Know the behaviour per column ("revenue null → 0, age null → reject") | **Test cases**, one per rule |
+| Don't know: is null revenue "zero sales" or "not reported"? Do finance reports treat them differently? Are there legal rules for missing age? | **Interview**: Claude asks; you find out; *then* write the tests |
+
+Trap: interviewing when you **already know** the exact transformation: *"here there are none to reveal."*
+
+> **Know the answer → show it (test case). Don't know what you don't know → let Claude interview you, then turn the answers into tests.**
 
 ## Glossary
 
