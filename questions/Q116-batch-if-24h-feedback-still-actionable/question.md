@@ -87,7 +87,19 @@ Design for the **worst case**: *"Results often arrive faster than 24 hours, but 
 
 **The guide lists "Real-time code review feedback" as a *blocking* workflow. Here it's a code review, yet batch may be fine. Why? And describe one change to this team's process that would make you keep security reviews synchronous.**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "When merged code does not go straight to production." ✅ **A sharp, concrete condition, and it answers both parts at once if you flip it.** Made explicit:
+
+**Part 1: why can a code review be batch here?** "Blocking" isn't a property of the **task type** (code review); it's a property of the **workflow**: does someone **wait** for the result? The guide's *"Real-time code review feedback"* means a developer or merge gate waiting. This team chose **non-blocking** reviews, and (your point) merged code **doesn't reach production immediately**, so there's a window in which a finding 24 h later can still be fixed **before users are exposed**.
+
+**Part 2: what change would make you keep it synchronous?** Your condition, flipped:
+
+| Process change | Why batch stops working |
+|---|---|
+| **Continuous deployment**: merge → production within minutes | A SQL injection found 20 h later has been **live** for 20 h. The finding is no longer actionable in time |
+| Security review becomes a **required merge check** | Now the developer **waits** → blocking → synchronous (*"Pre-merge checks in CI/CD"*) |
+| Compliance requires review **before** merge (e.g. payment code) | Same: blocking by policy |
+
+> **Same task, different workflow → different API.** Ask: *who waits, and how long until the risk is real?* If the risk window is shorter than 24 h, batch is the wrong tool.
 
 ## Glossary
 
