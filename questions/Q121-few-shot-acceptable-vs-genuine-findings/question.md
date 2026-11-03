@@ -97,7 +97,17 @@ From pairs like these the model learns *"flag only when untrusted input can reac
 
 **Q23 said few-shot examples were the *wrong* fix (a listed trap). Here they're the *right* one. What's different about the problem in each question?**
 
-*(Your answer and feedback will be recorded here.)*
+*My answer:* "Q23 was a misrouting issue - better description of tools that exist for those cases would solve that. In Q121 however there was no situations like that seen before and we have to teach it to generalize." ✅ **Right distinction.** To make it precise, ask: **what is missing?**
+
+| | Q23 (few-shot = wrong) | Q121 (few-shot = right) |
+|---|---|---|
+| **Root cause** | **Missing information**: the tool descriptions were too thin to tell `archive_file` from `delete_file` | **Missing judgment**: the model has all the facts but draws the line between acceptable and genuine in the wrong place |
+| **Fix at the source** | Write the information where it belongs: **expand the descriptions** | Show where the line is, and why: **annotated contrasting examples** |
+| **What few-shot would do** | Patch the **symptom** for the examples shown; the descriptions stay thin and new requests still misroute | Teach the **principle** ("flag only if untrusted input reaches it"), which transfers to novel code |
+
+> **Few-shot is the fix when the problem is a judgment call that has to generalise. It's the trap when the problem is missing information that belongs somewhere else** (a tool description, a schema, a code check).
+
+One nuance: the false positives in Q121 were **consistent patterns**, so they *had* been seen. The examples are built from those known patterns. Generalisation is the goal for the **next**, unseen ones.
 
 ## Glossary
 
