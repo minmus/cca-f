@@ -1,7 +1,4 @@
-# Q01 — Source attribution lost in a multi-agent pipeline
-
-**Domain / lesson:** D5 › 5.6 Information Provenance & Multi-Source Synthesis
-**Also touches:** D1 › 1.3 Subagent Invocation and Context Passing
+# Q01
 
 ## Question
 
@@ -11,6 +8,13 @@ The synthesis agent receives summarized findings from the web search and documen
 - **B.** Have each agent output structured data separating content summaries from source metadata (URLs, document names, page numbers).
 - **C.** Skip summarization and pass full raw outputs from web search and document analysis directly to the report generator.
 - **D.** Instruct the synthesis agent to embed source references inline within its summary text using a consistent citation format.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Source attribution lost in a multi-agent pipeline
+**Domain / lesson:** D5 › 5.6 Information Provenance & Multi-Source Synthesis
+**Also touches:** D1 › 1.3 Subagent Invocation and Context Passing
 
 ## Answer: **B**
 
@@ -121,3 +125,5 @@ The fix is to make provenance part of the **data contract** between agents. When
 | 24. Compare Web Search and RAG | Web search results carry source URLs |
 | 26. Explain RAG and Document Chunking | Keeping doc/page metadata with each chunk |
 | 30. Apply Image and PDF Inputs | Document analysis, possibly the Citations feature |
+
+</details>
