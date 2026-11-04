@@ -1,9 +1,6 @@
-# Q121 — 35% false positives in consistent patterns: few-shot examples that teach the judgment
+# Q121
 
-**Domain / lesson:** D4 › 4.2 Few-Shot Prompting (reasoning teaches generalisation; code review: what to flag and what to ignore)
-**Also touches:** D4 › 4.1 System Prompts with Explicit Criteria (why "be conservative" fails)
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md)–[Q120](../Q120-batch-api-same-model-half-price/question.md))
-**Follows:** [Q112](../Q112-few-shot-standard-materials-format/question.md), [Q113](../Q113-few-shot-varied-document-structures/question.md) (few-shot for consistent output)
 
 ## Question
 
@@ -17,6 +14,14 @@ Which approach best enables the model to generalize its judgment to novel code p
 - **B.** Implement post-processing that uses keyword matching to filter out findings containing terms like "convention," "context-dependent," or "trade-off."
 - **C.** Include few-shot examples in your prompt showing annotated code snippets that distinguish acceptable patterns from genuine issues in each category.
 - **D.** Add instructions to your system prompt to "be conservative," "only flag definite issues," and "consider that some patterns may be intentional."
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 35% false positives in consistent patterns: few-shot examples that teach the judgment
+**Domain / lesson:** D4 › 4.2 Few-Shot Prompting (reasoning teaches generalisation; code review: what to flag and what to ignore)
+**Also touches:** D4 › 4.1 System Prompts with Explicit Criteria (why "be conservative" fails)
+**Follows:** [Q112](../Q112-few-shot-standard-materials-format/question.md), [Q113](../Q113-few-shot-varied-document-structures/question.md) (few-shot for consistent output)
 
 ## Answer: **C**
 
@@ -145,3 +150,5 @@ One nuance: the false positives in Q121 were **consistent patterns**, so they *h
 | Skill | Why |
 |---|---|
 | **17. Design Clear Prompts with Examples** | ⭐ Writing annotated examples *(also in Q98, Q112)* |
+
+</details>

@@ -1,10 +1,6 @@
-# Q33 — Communicating MCP tool errors back to the agent
+# Q33
 
-**Domain / lesson (closest fit):** D2 › 2.2 Structured Error Responses
-**Also touches:** D2 › 2.4 MCP Server Integration
-**Note:** like [Q25](../Q25-mcp-protocol-vs-tool-errors/question.md), the mechanics come from the **MCP specification**, Tools › Error Handling (versions 2025-06-18 and 2025-11-25 both checked 2026-10-30). The guide's 2.4 page doesn't cover them.
 **Scenario:** customer-support agent, MCP `lookup_order` tool (same as [Q32](../Q32-uniform-errors-add-category/question.md))
-**Follows:** [Q24](../Q24-structured-errors-not-exceptions/question.md) (no exceptions) · [Q22](../Q22-empty-result-is-not-error/question.md) (empty ≠ error) · [Q25](../Q25-mcp-protocol-vs-tool-errors/question.md) (did the tool run?)
 
 ## Question
 
@@ -14,6 +10,15 @@ When implementing your lookup_order MCP tool, the backend sometimes returns erro
 - **B.** Return the error message in the tool result content with the `isError` flag set to true
 - **C.** Log the error server-side and return an empty result to avoid confusing the model
 - **D.** Return a success response with a "status" field indicating the error type
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Communicating MCP tool errors back to the agent
+**Domain / lesson (closest fit):** D2 › 2.2 Structured Error Responses
+**Also touches:** D2 › 2.4 MCP Server Integration
+**Note:** like [Q25](../Q25-mcp-protocol-vs-tool-errors/question.md), the mechanics come from the **MCP specification**, Tools › Error Handling (versions 2025-06-18 and 2025-11-25 both checked 2026-10-30). The guide's 2.4 page doesn't cover them.
+**Follows:** [Q24](../Q24-structured-errors-not-exceptions/question.md) (no exceptions) · [Q22](../Q22-empty-result-is-not-error/question.md) (empty ≠ error) · [Q25](../Q25-mcp-protocol-vs-tool-errors/question.md) (did the tool run?)
 
 ## Answer: **B**
 
@@ -177,3 +182,5 @@ If you've done Q25's list, just rewatch #37 and #116 (~12 min).
 | 35. Test MCP Systems with the Inspector | Seeing exactly what an error result looks like |
 
 *Primary source for this question: the MCP spec, Tools › Error Handling (modelcontextprotocol.io).*
+
+</details>

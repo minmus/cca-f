@@ -1,7 +1,4 @@
-# Q02 — Context passing to the report generator: completeness vs efficiency
-
-**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
-**Also touches:** D5 › 5.6 Information Provenance & Multi-Source Synthesis · D5 › 5.1 Context Window Management
+# Q02
 
 ## Question
 
@@ -11,6 +8,13 @@ After the web search agent finds 25 sources (120K tokens of raw content), the do
 - **B.** Pass the synthesis draft along with a structured source index that maps key claims to their source URLs and relevant excerpts.
 - **C.** Pass only the synthesis draft and have a separate post-processing pipeline match claims to sources and insert citations after the report is generated.
 - **D.** Pass a condensed summary of all prior stages that preserves the main findings and attributes them to sources by name only.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Context passing to the report generator: completeness vs efficiency
+**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
+**Also touches:** D5 › 5.6 Information Provenance & Multi-Source Synthesis · D5 › 5.1 Context Window Management
 
 ## Answer: **B**
 
@@ -172,3 +176,5 @@ If you've just watched Q01's list, you can skip #19 and #131 (~30 min).
 | 26. Explain RAG and Document Chunking | Keeping source metadata with each chunk, the same idea as the excerpt index |
 
 *CBT is only partial on 1.3 (🟡). Use Udemy A or B first.*
+
+</details>

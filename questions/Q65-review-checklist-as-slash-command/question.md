@@ -1,8 +1,6 @@
-# Q65 — A checklist pasted at every review: make it a `/review` slash command
+# Q65
 
-**Domain / lesson:** D3 › 3.2 Custom Slash Commands and Skills
 **Scenario:** Claude Code for a development team (same as [Q52](../Q52-posttooluse-hook-runs-formatter/question.md)–[Q64](../Q64-interview-pattern-unfamiliar-domain/question.md))
-**Follows:** [Q57](../Q57-mcp-prompts-become-slash-commands/question.md) (slash commands, skills vs MCP prompts) · [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (CLAUDE.md loads in every session) · [Q58](../Q58-at-reference-example-files/question.md) (task-specific material doesn't go in CLAUDE.md)
 
 ## Question
 
@@ -14,6 +12,13 @@ Your team wants Claude to follow a detailed code review checklist (8 items cover
 - **B.** Create a dedicated review subagent with the checklist embedded in its configuration.
 - **C.** Configure plan mode as the default for code review sessions.
 - **D.** Add the checklist to the project's CLAUDE.md file under a "Code Review" section.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** A checklist pasted at every review: make it a `/review` slash command
+**Domain / lesson:** D3 › 3.2 Custom Slash Commands and Skills
+**Follows:** [Q57](../Q57-mcp-prompts-become-slash-commands/question.md) (slash commands, skills vs MCP prompts) · [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (CLAUDE.md loads in every session) · [Q58](../Q58-at-reference-example-files/question.md) (task-specific material doesn't go in CLAUDE.md)
 
 ## Answer: **A**
 
@@ -208,3 +213,5 @@ Claude Code docs, *Best practices* › Scope rules to one part of the codebase (
 |---|---|
 | **4. Create Custom Commands for Repeatable Workflows** | ⭐ Exactly option A |
 | 37. Create Reusable Agent Skills | Skills, the canonical form of a command |
+
+</details>

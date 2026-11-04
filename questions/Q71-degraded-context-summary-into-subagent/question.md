@@ -1,11 +1,6 @@
-# Q71 — "Typical rendering patterns": summarise the findings, give them to a fresh subagent
+# Q71
 
-**Domain / lesson:** D5 › 5.4 Codebase Exploration & Context Degradation
-**Also touches:** D1 › 1.3 Subagent Invocation & Context Passing (what a subagent knows at the start)
 **Scenario:** An agent exploring an unfamiliar codebase (a game engine), like the developer productivity scenario of [Q68](../Q68-trace-from-base-class-incremental-reading/question.md)–[Q69](../Q69-grep-distinctive-error-text/question.md)
-**Follows:** [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (exploration fills the context) · [Q03](../Q03-crash-recovery-state-manifest/question.md) (state saved outside the context) · [Q58](../Q58-at-reference-example-files/question.md) check (explore in a subagent, get a summary back)
-
-*Q70 is a gap: question text not available.*
 
 ## Question
 
@@ -17,6 +12,15 @@ What's the most effective approach?
 - **B.** Summarize key rendering findings, then spawn a sub-agent for physics exploration with that summary in its initial context.
 - **C.** Spawn a sub-agent to explore physics independently, then manually synthesize its findings with the rendering knowledge accumulated in the main conversation.
 - **D.** Use /clear to reset context completely, then start fresh with physics exploration using file paths from the project's CLAUDE.md.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** "Typical rendering patterns": summarise the findings, give them to a fresh subagent
+**Domain / lesson:** D5 › 5.4 Codebase Exploration & Context Degradation
+**Also touches:** D1 › 1.3 Subagent Invocation & Context Passing (what a subagent knows at the start)
+**Follows:** [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (exploration fills the context) · [Q03](../Q03-crash-recovery-state-manifest/question.md) (state saved outside the context) · [Q58](../Q58-at-reference-example-files/question.md) check (explore in a subagent, get a summary back)
+*Q70 is a gap: question text not available.*
 
 ## Answer: **B**
 
@@ -180,3 +184,5 @@ Each fact is written **when it's found**, while the context is still sharp. B's 
 
 ### CBT Nuggets: CCA-F course
 CBT has no lesson on codebase exploration or context degradation (5.4). Use the guide lesson and Udemy B #86.
+
+</details>

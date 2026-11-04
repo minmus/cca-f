@@ -1,8 +1,6 @@
-# Q85 — Everything becomes bullet points: synthesis renders each content type in its own format
+# Q85
 
-**Domain / lesson:** D5 › 5.6 Information Provenance & Multi-Source Synthesis (content-appropriate rendering)
 **Scenario:** Multi-agent research system (same system as [Q01](../Q01-source-attribution-multi-agent/question.md)–[Q09](../Q09-synthesis-preserve-merge-mappings/question.md), [Q82](../Q82-dates-turn-conflicts-into-trends/question.md)–[Q84](../Q84-parallel-subagents-from-the-coordinator/question.md))
-**Follows:** [Q82](../Q82-dates-turn-conflicts-into-trends/question.md) (its check: a trend goes in a table) · [Q09](../Q09-synthesis-preserve-merge-mappings/question.md) (synthesis keeps the claim-source mappings)
 
 ## Question
 
@@ -14,6 +12,13 @@ A user is expanding the research system beyond its single web search agent by ad
 - **B.** Standardize all subagent outputs to prose summaries with inline citations
 - **C.** Standardize all subagent outputs to JSON with fields for claim, evidence, source, and confidence
 - **D.** Add a format conversion layer between subagents and synthesis that transforms all outputs to a common intermediate representation
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Everything becomes bullet points: synthesis renders each content type in its own format
+**Domain / lesson:** D5 › 5.6 Information Provenance & Multi-Source Synthesis (content-appropriate rendering)
+**Follows:** [Q82](../Q82-dates-turn-conflicts-into-trends/question.md) (its check: a trend goes in a table) · [Q09](../Q09-synthesis-preserve-merge-mappings/question.md) (synthesis keeps the claim-source mappings)
 
 ## Answer: **A**
 
@@ -166,3 +171,5 @@ Volt Systems' faster growth follows its March acquisition of a battery-storage s
 |---|---|
 | **39. Build an Agentic Multimedia Article System: Part 1** | ⭐ Combining different kinds of content from several agents into one output *(also in Q01, Q02, Q03, Q05, Q06, Q07, Q09, Q11, Q36, Q39, Q78, Q83, Q84)* |
 | 40. Build an Agentic Multimedia Article System: Part 2 | The same system, continued *(also in Q22, Q39, Q41, Q67)* |
+
+</details>

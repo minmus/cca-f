@@ -1,10 +1,6 @@
-# Q41 — Refund tool times out mid-resolution: deliver what worked, be honest, offer a next step
+# Q41
 
-**Domain / lesson (closest fit):** D5 › 5.3 Error Propagation (partial results, honest gaps, proportionate response)
-**Also touches:** D2 › 2.2 Structured Error Responses (timeouts on side-effecting actions, [Q26](../Q26-timeout-unknown-status-no-retry/question.md)) · D5 › 5.2 Escalation & Ambiguity Resolution (when to escalate)
-**Note:** 5.3 is written for multi-agent pipelines (a subagent times out). Its rules (keep partial results, state the gap, don't over-react) carry over directly to a single support agent whose tool times out. I checked 5.3 on 2026-10-31.
 **Scenario:** customer-support agent, billing dispute (`get_customer`, `lookup_order`, `process_refund`)
-**Follows:** [Q26](../Q26-timeout-unknown-status-no-retry/question.md) (timeout = unknown outcome) · [Q33](../Q33-mcp-iserror-result/question.md) (no fake success) · [Q16](../Q16-escalation-triggers/question.md) (valid escalation triggers)
 
 ## Question
 
@@ -14,6 +10,15 @@ During a billing dispute resolution, your agent successfully retrieves customer 
 - **B.** Confirm the refund will be processed and close the conversation, since the system has all necessary information to complete it automatically
 - **C.** Implement automatic retries with exponential backoff for process_refund, keeping the conversation open until the refund is successfully processed
 - **D.** Escalate immediately to a human agent since the refund action cannot be completed
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Refund tool times out mid-resolution: deliver what worked, be honest, offer a next step
+**Domain / lesson (closest fit):** D5 › 5.3 Error Propagation (partial results, honest gaps, proportionate response)
+**Also touches:** D2 › 2.2 Structured Error Responses (timeouts on side-effecting actions, [Q26](../Q26-timeout-unknown-status-no-retry/question.md)) · D5 › 5.2 Escalation & Ambiguity Resolution (when to escalate)
+**Note:** 5.3 is written for multi-agent pipelines (a subagent times out). Its rules (keep partial results, state the gap, don't over-react) carry over directly to a single support agent whose tool times out. I checked 5.3 on 2026-10-31.
+**Follows:** [Q26](../Q26-timeout-unknown-status-no-retry/question.md) (timeout = unknown outcome) · [Q33](../Q33-mcp-iserror-result/question.md) (no fake success) · [Q16](../Q16-escalation-triggers/question.md) (valid escalation triggers)
 
 ## Answer: **A**
 
@@ -162,3 +167,5 @@ Two rules for the key:
 | 20. Handle Tool Calls and Tool Results | Getting the timeout back to the model as an error result |
 
 *CBT covers 5.3 only partially. Use the guide for the partial-results and escalation rules.*
+
+</details>

@@ -1,9 +1,6 @@
-# Q115 — Web search and document analysis run one after the other: emit both Task calls in one response
+# Q115
 
-**Domain / lesson:** D1 › 1.3 Subagent Invocation & Context Passing (parallel spawning)
-**Also touches:** D1 › 1.2 Multi-Agent Orchestration (the coordinator stays the hub) · D1 › 1.1 Agentic Loops (one response = one turn)
 **Scenario:** Multi-agent research system (same system as [Q01](../Q01-source-attribution-multi-agent/question.md)–[Q12](../Q12-include-complete-findings-in-prompt/question.md), [Q36](../Q36-coordinator-missing-task-tool/question.md), [Q84](../Q84-parallel-subagents-from-the-coordinator/question.md))
-**Follows:** [Q36](../Q36-coordinator-missing-task-tool/question.md) (its follow-up check asked exactly this: *"one at a time… what's the fix?"*) · [Q84](../Q84-parallel-subagents-from-the-coordinator/question.md) (parallel subagents for 12 precedents)
 
 ## Question
 
@@ -17,6 +14,14 @@ How should you modify the system to run these subagents concurrently?
 - **B.** Add detailed instructions to the coordinator's system prompt explaining the performance benefits of parallel execution and requesting it invoke both subagents at the same time.
 - **C.** Switch both subagents to use a Haiku-tier model instead of Sonnet to reduce their individual execution time.
 - **D.** Structure the coordinator to emit both Task tool calls (for web search and document analysis) in a single response message rather than across separate conversation turns.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Web search and document analysis run one after the other: emit both Task calls in one response
+**Domain / lesson:** D1 › 1.3 Subagent Invocation & Context Passing (parallel spawning)
+**Also touches:** D1 › 1.2 Multi-Agent Orchestration (the coordinator stays the hub) · D1 › 1.1 Agentic Loops (one response = one turn)
+**Follows:** [Q36](../Q36-coordinator-missing-task-tool/question.md) (its follow-up check asked exactly this: *"one at a time… what's the fix?"*) · [Q84](../Q84-parallel-subagents-from-the-coordinator/question.md) (parallel subagents for 12 precedents)
 
 ## Answer: **D**
 
@@ -155,3 +160,5 @@ So yes, D may be **implemented** partly through the coordinator's instructions, 
 |---|---|
 | **39. Build an Agentic Multimedia Article System: Part 1** | ⭐ A coordinator spawning and collecting subagents *(also in Q36, Q84)* |
 | 36. Design Workflows and Agent Systems | Parallel vs sequential work *(also in Q84)* |
+
+</details>

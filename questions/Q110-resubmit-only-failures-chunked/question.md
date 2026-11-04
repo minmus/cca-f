@@ -1,8 +1,6 @@
-# Q110 — 300 of 10,000 batch documents too long for the context: resubmit only those, chunked
+# Q110
 
-**Domain / lesson:** D4 › 4.5 Batch Processing (Batch Failure Handling)
 **Scenario:** Structured data extraction system (same as [Q95](../Q95-accuracy-by-segment-before-automating/question.md), [Q98](../Q98-few-shot-for-informal-measurements/question.md))
-**Follows:** [Q51](../Q51-stop-reason-controls-loop/question.md) (its check: `max_tokens` is the output cap, so raise it when the *output* was cut off. Here the *input* doesn't fit)
 
 ## Question
 
@@ -16,6 +14,13 @@ What's the most cost-effective approach to process these failures?
 - **B.** Reprocess the entire batch with prompt caching enabled to reduce the cost of retrying requests with identical system prompts
 - **C.** Increase the max_tokens parameter for the 300 failed documents and resubmit them in a new batch
 - **D.** Resubmit the entire 10,000 document batch using a model tier with a larger context window
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 300 of 10,000 batch documents too long for the context: resubmit only those, chunked
+**Domain / lesson:** D4 › 4.5 Batch Processing (Batch Failure Handling)
+**Follows:** [Q51](../Q51-stop-reason-controls-loop/question.md) (its check: `max_tokens` is the output cap, so raise it when the *output* was cut off. Here the *input* doesn't fit)
 
 ## Answer: **A**
 
@@ -169,3 +174,5 @@ The docs' own example splits `errored` the same way: an `invalid_request_error` 
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 4.5 (see the study map). Use the guide's Batch Failure Handling section and Udemy B #34.*
+
+</details>

@@ -1,9 +1,6 @@
-# Q67 — Subagent times out: return structured error context to the coordinator
+# Q67
 
-**Domain / lesson:** D5 › 5.3 Error Propagation in Multi-Agent Systems
-**Also touches:** D2 › 2.2 Structured Error Responses (failure types, retryable) · D1 › 1.2 Multi-Agent Orchestration (the coordinator decides recovery)
 **Scenario:** Multi-agent research system: a coordinator with a web search subagent (as in [Q05](../Q05-goals-not-procedures-delegation/question.md), [Q06](../Q06-coordinator-gap-loop/question.md))
-**Follows:** [Q22](../Q22-empty-result-is-not-error/question.md) (empty result ≠ error, the mirror image of A) · [Q24](../Q24-structured-errors-not-exceptions/question.md) (structured errors, not exceptions) · [Q34](../Q34-business-errors-not-retryable/question.md) (retry transient errors locally) · [Q41](../Q41-partial-success-honest-next-step/question.md) (partial results are still useful)
 
 ## Question
 
@@ -15,6 +12,14 @@ In a coordinator-subagent research system, a web search subagent times out while
 - **D.** Return structured error context to the coordinator, including the failure type, the attempted query, any partial results, and potential alternative approaches.
 
 *(Option A's "[]" appears as "L]" in the source text; it means an empty array.)*
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Subagent times out: return structured error context to the coordinator
+**Domain / lesson:** D5 › 5.3 Error Propagation in Multi-Agent Systems
+**Also touches:** D2 › 2.2 Structured Error Responses (failure types, retryable) · D1 › 1.2 Multi-Agent Orchestration (the coordinator decides recovery)
+**Follows:** [Q22](../Q22-empty-result-is-not-error/question.md) (empty result ≠ error, the mirror image of A) · [Q24](../Q24-structured-errors-not-exceptions/question.md) (structured errors, not exceptions) · [Q34](../Q34-business-errors-not-retryable/question.md) (retry transient errors locally) · [Q41](../Q41-partial-success-honest-next-step/question.md) (partial results are still useful)
 
 ## Answer: **D**
 
@@ -175,3 +180,5 @@ flowchart TB
 | 20. Handle Tool Calls and Tool Results | Getting a failure back as an error result *(also in Q41)* |
 
 *CBT covers 5.3 only partially. Use the guide lesson and Udemy B #66.*
+
+</details>

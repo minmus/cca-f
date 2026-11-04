@@ -1,9 +1,6 @@
-# Q49 — "Tool execution failed": write errors that say what went wrong and what to try next
+# Q49
 
-**Domain / lesson:** D2 › 2.2 Structured Error Responses
-**Also touches:** D5 › 5.3 Error Propagation (local retries) · D2 › 2.4 MCP (`is_error` / `isError`)
 **Scenario:** billing dispute agent, `lookup_order` catches all exceptions
-**Follows:** [Q32](../Q32-uniform-errors-add-category/question.md) (uniform errors → categories) · [Q27](../Q27-actionable-error-context/question.md) (actionable context) · [Q33](../Q33-mcp-iserror-result/question.md) (keep `isError: true`) · [Q34](../Q34-business-errors-not-retryable/question.md) (tool-level retries fix the wrong half)
 
 ## Question
 
@@ -13,6 +10,14 @@ Anthropic's tool use documentation states: "Write instructive error messages. In
 - **B.** Add an error classification step in the agentic loop that intercepts tool errors before Claude sees them, tags each as "retry," "try_alternative," or "escalate," and appends that recommendation to the tool result.
 - **C.** Remove is_error: true and return the error details as normal tool content, so Claude reasons about the response as data rather than treating it as a flagged failure condition that biases retry behavior.
 - **D.** Return error-type-specific messages with is_error: true, e.g., "Order not found-try get_customer to search by phone" for data errors and "Database timeout (transient)-retry should succeed" for infrastructure errors.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** "Tool execution failed": write errors that say what went wrong and what to try next
+**Domain / lesson:** D2 › 2.2 Structured Error Responses
+**Also touches:** D5 › 5.3 Error Propagation (local retries) · D2 › 2.4 MCP (`is_error` / `isError`)
+**Follows:** [Q32](../Q32-uniform-errors-add-category/question.md) (uniform errors → categories) · [Q27](../Q27-actionable-error-context/question.md) (actionable context) · [Q33](../Q33-mcp-iserror-result/question.md) (keep `isError: true`) · [Q34](../Q34-business-errors-not-retryable/question.md) (tool-level retries fix the wrong half)
 
 ## Answer: **D**
 
@@ -160,3 +165,5 @@ If Q32–Q34 are fresh, rewatch #37 and go straight to the quiz.
 | Skill | Why |
 |---|---|
 | **20. Handle Tool Calls and Tool Results** | ⭐ `is_error` results back to the model *(also in Q33, Q34)* |
+
+</details>

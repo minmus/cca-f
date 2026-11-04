@@ -1,7 +1,5 @@
-# Q22 — "No matches found" is not an error
+# Q22
 
-**Domain / lesson:** D2 › 2.2 Structured Error Responses
-**Also touches:** D5 › 5.3 Error Propagation ("found nothing" vs "could not search") · D2 › 2.1 Tool Interface Design (output contract)
 **Scenario:** product search tool over an external catalog API
 
 ## Question
@@ -12,6 +10,13 @@ Your product search tool queries an external catalog API and returns matching it
 - **B.** Return a natural language string describing the outcome, allowing the agent to interpret the result contextually based on the message content.
 - **C.** Return a result object with `isError: true` and a message explaining no products matched.
 - **D.** Return a structured result with a `success` boolean and `results` array, reserving `isError: true` for actual execution failures only.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** "No matches found" is not an error
+**Domain / lesson:** D2 › 2.2 Structured Error Responses
+**Also touches:** D5 › 5.3 Error Propagation ("found nothing" vs "could not search") · D2 › 2.1 Tool Interface Design (output contract)
 
 ## Answer: **D**
 
@@ -153,3 +158,5 @@ The guide also lists the **opposite** trap: *"Silently returning empty results a
 |---|---|
 | **20. Handle Tool Calls and Tool Results** | ⭐ Returning results and errors to Claude |
 | 40. Build an Agentic Multimedia Article System: Part 2 | Failures across agents (5.3) |
+
+</details>

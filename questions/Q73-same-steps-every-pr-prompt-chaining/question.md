@@ -1,9 +1,6 @@
-# Q73 — Same three review steps for every PR: prompt chaining (a fixed pipeline)
+# Q73
 
-**Domain / lesson:** D1 › 1.6 Task Decomposition Strategies
-**Note:** the option names (prompt chaining, routing, orchestrator-workers) come from Anthropic's *Building effective agents* article. The guide calls prompt chaining a **fixed sequential pipeline**, and its closest term for orchestrator-workers is **dynamic adaptive decomposition**.
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (same as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md)–[Q72](../Q72-resume-and-name-changed-files/question.md))
-**Follows:** [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (when the model decides vs when code decides) · [Q11](../Q11-analysis-gap-feedback-loop/question.md) (a strict pipeline can't act on what it finds)
 
 ## Question
 
@@ -15,6 +12,14 @@ Your code review assistant needs to analyze pull requests and provide feedback o
 - **B.** Prompt chaining – break the review into sequential steps where each aspect (style, security, documentation) is analyzed separately, with outputs combined in a final synthesis step.
 - **C.** Single comprehensive prompt – include all instructions in one prompt and let the model handle all three aspects simultaneously.
 - **D.** Orchestrator-workers – have a central LLM analyze each PR to dynamically determine which checks are needed, then delegate to specialized worker LLMs for each identified subtask.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Same three review steps for every PR: prompt chaining (a fixed pipeline)
+**Domain / lesson:** D1 › 1.6 Task Decomposition Strategies
+**Note:** the option names (prompt chaining, routing, orchestrator-workers) come from Anthropic's *Building effective agents* article. The guide calls prompt chaining a **fixed sequential pipeline**, and its closest term for orchestrator-workers is **dynamic adaptive decomposition**.
+**Follows:** [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (when the model decides vs when code decides) · [Q11](../Q11-analysis-gap-feedback-loop/question.md) (a strict pipeline can't act on what it finds)
 
 ## Answer: **B**
 
@@ -186,3 +191,5 @@ For example: the git history shows the key was first committed 8 months ago in a
 | Skill | Why |
 |---|---|
 | **36. Design Workflows and Agent Systems** | ⭐ Fixed workflows vs agent systems *(also in Q01–Q07, Q09–Q13, Q29, Q36, Q39)* |
+
+</details>

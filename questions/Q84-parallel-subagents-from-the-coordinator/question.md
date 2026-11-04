@@ -1,9 +1,6 @@
-# Q84 — 12 precedents analysed one by one: the coordinator spawns parallel subagents
+# Q84
 
-**Domain / lesson:** D1 › 1.3 Subagent Invocation & Context Passing (parallel spawning)
-**Also touches:** D1 › 1.2 Multi-Agent Orchestration (hub-and-spoke: why the coordinator must stay at the centre)
 **Scenario:** Multi-agent research system (same system as [Q01](../Q01-source-attribution-multi-agent/question.md)–[Q09](../Q09-synthesis-preserve-merge-mappings/question.md), [Q82](../Q82-dates-turn-conflicts-into-trends/question.md), [Q83](../Q83-coordinator-selects-subagents-per-query/question.md))
-**Follows:** [Q36](../Q36-coordinator-missing-task-tool/question.md) (its check: several Task calls in one response) · [Q83](../Q83-coordinator-selects-subagents-per-query/question.md) (the coordinator decides which subagents run)
 
 ## Question
 
@@ -15,6 +12,14 @@ When analyzing complex legal cases that cite multiple precedents, the document a
 - **B.** Have the coordinator spawn parallel document analysis subagents, each handling a subset of precedents, then aggregate results before synthesis
 - **C.** Enable the document analysis subagent to spawn its own specialized subagents dynamically when it encounters cases with many citations
 - **D.** Implement a message queue where precedent analysis tasks are processed asynchronously by a pool of worker agents
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 12 precedents analysed one by one: the coordinator spawns parallel subagents
+**Domain / lesson:** D1 › 1.3 Subagent Invocation & Context Passing (parallel spawning)
+**Also touches:** D1 › 1.2 Multi-Agent Orchestration (hub-and-spoke: why the coordinator must stay at the centre)
+**Follows:** [Q36](../Q36-coordinator-missing-task-tool/question.md) (its check: several Task calls in one response) · [Q83](../Q83-coordinator-selects-subagents-per-query/question.md) (the coordinator decides which subagents run)
 
 ## Answer: **B**
 
@@ -178,3 +183,5 @@ Subagent 1's output for precedent 4 says `"citation": "Smith v. Jones (1998)"`. 
 |---|---|
 | **39. Build an Agentic Multimedia Article System: Part 1** | ⭐ A coordinator spawning and collecting subagents *(also in Q01, Q02, Q03, Q05, Q06, Q07, Q09, Q11, Q36, Q39, Q78, Q83)* |
 | 36. Design Workflows and Agent Systems | Parallel vs sequential work *(also in Q01–Q07, Q09–Q13, Q29, Q36, Q39, Q73, Q75, Q83)* |
+
+</details>

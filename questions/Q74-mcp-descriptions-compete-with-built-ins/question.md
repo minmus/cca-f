@@ -1,9 +1,6 @@
-# Q74 — MCP refactoring tools ignored for Write and sed: write descriptions that compete with the built-ins
+# Q74
 
-**Domain / lesson:** D2 › 2.4 MCP Server Integration (detailed MCP tool descriptions)
-**Also touches:** D2 › 2.1 Tool Interface Design (the five elements of a description; the routing-classifier trap)
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (same as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md)–[Q73](../Q73-same-steps-every-pr-prompt-chaining/question.md))
-**Follows:** [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (minimal descriptions → expand them) · [Q04](../Q04-tool-scoping-per-subagent/question.md) (when removing tools *is* right)
 
 ## Question
 
@@ -17,6 +14,14 @@ What's the most effective way to improve adoption of the MCP refactoring tools?
 - **B.** Remove the Write tool from the agent's configuration for refactoring sessions so it must use the MCP tools for code modifications.
 - **C.** Accept this as expected behavior since simpler tools like sed are more predictable than specialized refactoring tools.
 - **D.** Enhance the MCP tool descriptions to explain when each tool is preferable to text manipulation and clarify expected inputs and outputs.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** MCP refactoring tools ignored for Write and sed: write descriptions that compete with the built-ins
+**Domain / lesson:** D2 › 2.4 MCP Server Integration (detailed MCP tool descriptions)
+**Also touches:** D2 › 2.1 Tool Interface Design (the five elements of a description; the routing-classifier trap)
+**Follows:** [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (minimal descriptions → expand them) · [Q04](../Q04-tool-scoping-per-subagent/question.md) (when removing tools *is* right)
 
 ## Answer: **D**
 
@@ -174,3 +179,5 @@ Don't swing the other way with *"ALWAYS use rename_variable"*. That's the 2.4 tr
 |---|---|
 | **34. Build MCP Tools Resources and Prompts** | ⭐ Writing MCP tool definitions and descriptions *(also in Q17, Q19, Q23, Q25, Q33, Q57)* |
 | 22. Route Requests Across Multiple Tools | How the model chooses between tools *(also in Q04, Q17, Q23, Q29, Q30, Q47, Q48)* |
+
+</details>

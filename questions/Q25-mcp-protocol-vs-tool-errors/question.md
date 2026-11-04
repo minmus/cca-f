@@ -1,9 +1,4 @@
-# Q25 — MCP: protocol error or `isError` tool result?
-
-**Domain / lesson (closest fit):** D2 › 2.2 Structured Error Responses
-**Also touches:** D2 › 2.4 MCP Server Integration
-**Note:** the guide's 2.4 page doesn't cover MCP error mechanics (checked 2026-10-30). The answer comes from the **MCP specification**, Tools › Error Handling (versions 2025-06-18 and 2025-11-25 both checked).
-**Follows:** [Q22](../Q22-empty-result-is-not-error/question.md), [Q24](../Q24-structured-errors-not-exceptions/question.md)
+# Q25
 
 ## Question
 
@@ -13,6 +8,15 @@ Your MCP server implements a `check_availability` tool that queries an external 
 - **B.** Report errors 1 and 2 as JSON-RPC protocol errors; report error 3 as a tool result with `isError: true`.
 - **C.** Report error 1 as a JSON-RPC protocol error; report errors 2 and 3 as tool results with `isError: true`.
 - **D.** Report all three as JSON-RPC protocol errors.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** MCP: protocol error or `isError` tool result?
+**Domain / lesson (closest fit):** D2 › 2.2 Structured Error Responses
+**Also touches:** D2 › 2.4 MCP Server Integration
+**Note:** the guide's 2.4 page doesn't cover MCP error mechanics (checked 2026-10-30). The answer comes from the **MCP specification**, Tools › Error Handling (versions 2025-06-18 and 2025-11-25 both checked).
+**Follows:** [Q22](../Q22-empty-result-is-not-error/question.md), [Q24](../Q24-structured-errors-not-exceptions/question.md)
 
 ## Answer: **C**
 
@@ -136,3 +140,5 @@ If these were protocol errors, the model might never see them, and we're back to
 | 20. Handle Tool Calls and Tool Results | Error results back to the model |
 
 *Primary source for this question: the MCP spec, Tools › Error Handling (modelcontextprotocol.io).*
+
+</details>

@@ -1,8 +1,6 @@
-# Q79 — Inconsistent answers after 30+ minutes: a scratchpad file of key findings
+# Q79
 
-**Domain / lesson:** D5 › 5.4 Codebase Exploration & Context Degradation
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (the pasted text leaves out the scenario intro; same set as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md)–[Q78](../Q78-degrading-exploration-focused-subagents/question.md))
-**Follows:** [Q78](../Q78-degrading-exploration-focused-subagents/question.md) (the second defence: subagents) · [Q71](../Q71-degraded-context-summary-into-subagent/question.md) (its check question: a scratchpad from the start)
 
 ## Question
 
@@ -12,6 +10,13 @@ During testing, you observe that in extended exploration sessions (30+ minutes),
 - **B.** Switch to a higher-capacity model tier to provide more context window space for accumulated exploration data.
 - **C.** Create summaries of all source files before exploration begins, loading only these compressed representations into context.
 - **D.** Have the agent maintain a scratchpad file that records key findings, referencing it for subsequent questions.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Inconsistent answers after 30+ minutes: a scratchpad file of key findings
+**Domain / lesson:** D5 › 5.4 Codebase Exploration & Context Degradation
+**Follows:** [Q78](../Q78-degrading-exploration-focused-subagents/question.md) (the second defence: subagents) · [Q71](../Q71-degraded-context-summary-into-subagent/question.md) (its check question: a scratchpad from the start)
 
 ## Answer: **D**
 
@@ -169,3 +174,5 @@ Never write "typical" or "standard" pattern; write the actual names.
 ### CBT Nuggets: CCA-F course
 
 *CBT has no lesson on codebase exploration or context degradation (5.4). Use the guide lesson and Udemy B #86.*
+
+</details>

@@ -1,9 +1,6 @@
-# Q46 — The agent "forgets" earlier answers: the history isn't being sent
+# Q46
 
-**Domain / lesson:** D5 › 5.1 Context Window Management (the API is stateless)
-**Also touches:** D1 › 1.1 Agentic Loops (your code builds the message list) · D1 › 1.4 Workflow Enforcement (verification as a code gate, see the check question)
 **Scenario:** customer-support agent, multi-step identity verification before a password reset
-**Follows:** [Q10](../Q10-missing-context-in-subagent-prompt/question.md) (if it's not in the prompt, the model doesn't know it) · [Q38](../Q38-sliding-window-recent-turns/question.md) (dropping history on purpose vs. by accident) · [Q36](../Q36-coordinator-missing-task-tool/question.md) (no "automatic" context mechanisms)
 
 ## Question
 
@@ -13,6 +10,14 @@ The agent verifies customer identity through a multi-step process before resetti
 - **B.** Claude's memory retention is limited to two conversational turns by default, requiring explicit configuration to extend it.
 - **C.** The conversation history isn't being passed in subsequent API requests.
 - **D.** The prompt lacks instructions telling Claude to remember information across multiple exchanges.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** The agent "forgets" earlier answers: the history isn't being sent
+**Domain / lesson:** D5 › 5.1 Context Window Management (the API is stateless)
+**Also touches:** D1 › 1.1 Agentic Loops (your code builds the message list) · D1 › 1.4 Workflow Enforcement (verification as a code gate, see the check question)
+**Follows:** [Q10](../Q10-missing-context-in-subagent-prompt/question.md) (if it's not in the prompt, the model doesn't know it) · [Q38](../Q38-sliding-window-recent-turns/question.md) (dropping history on purpose vs. by accident) · [Q36](../Q36-coordinator-missing-task-tool/question.md) (no "automatic" context mechanisms)
 
 ## Answer: **C**
 
@@ -147,3 +152,5 @@ If anything fails, it **blocks** and returns a structured error saying which ste
 |---|---|
 | **10. Send Structured Messages to Claude** | ⭐ Building the `messages` list *(also in Q38, Q42)* |
 | **21. Build Multi Turn Tool Conversations** | ⭐ Carrying history across turns |
+
+</details>

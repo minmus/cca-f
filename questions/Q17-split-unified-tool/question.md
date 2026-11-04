@@ -1,7 +1,5 @@
-# Q17 — One unified tool or three specific tools?
+# Q17
 
-**Domain / lesson:** D2 › 2.1 Tool Interface Design
-**Also touches:** D2 › 2.3 Tool Distribution & Tool Choice · D4 › 4.2 Few-Shot (why D fails)
 **Scenario:** customer-support / order management agent
 
 ## Question
@@ -12,6 +10,13 @@ Your order management system requires tools for three distinct operations: issui
 - **B.** Keep one unified tool but add JSON Schema if-then-else conditionals to enforce that parameters like `amount` are required only when the operation type is "refund".
 - **C.** Split into three separate tools (`issue_refund`, `cancel_order`, `request_reshipment`), each defining only the parameters required for that specific operation.
 - **D.** Keep one unified tool with all parameters marked optional, but add detailed few-shot examples in the system prompt showing correct parameter combinations for each operation type.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** One unified tool or three specific tools?
+**Domain / lesson:** D2 › 2.1 Tool Interface Design
+**Also touches:** D2 › 2.3 Tool Distribution & Tool Choice · D4 › 4.2 Few-Shot (why D fails)
 
 ## Answer: **C**
 
@@ -132,3 +137,5 @@ Sharpened into the exam wording: **B detects errors, C prevents them.**
 | **19. Explain Tool Use and Tool Schemas** | ⭐ Defining tool parameters and required fields |
 | 34. Build MCP Tools Resources and Prompts | Designing tools with clear contracts |
 | 22. Route Requests Across Multiple Tools | Selecting between several specific tools |
+
+</details>

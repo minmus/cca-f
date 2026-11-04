@@ -1,8 +1,4 @@
-# Q28 — Tamper-proof $500 approval threshold
-
-**Domain / lesson:** D1 › 1.4 Workflow Enforcement and Handoff
-**Also touches:** D1 › 1.5 Agent SDK Hooks (why D and C are weaker) · D2 › 2.1 Tool Interface Design (the tool owns its rule)
-**Follows:** [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (gate inside the tool), [Q16](../Q16-escalation-triggers/question.md) ("gate the numbers")
+# Q28
 
 ## Question
 
@@ -12,6 +8,14 @@ Your expense reimbursement agent processes employee requests using a `process_re
 - **B.** The `process_reimbursement` tool accepts an `approved_by_manager: boolean` parameter. The system prompt instructs the agent to only set this to true after confirming that a manager has approved the request. A nightly audit script reviews all reimbursements where `approved_by_manager` was set to true.
 - **C.** Provide two tools: `auto_reimburse` (hard-coded limit of $500) and `request_manager_approval`. Include detailed system prompt instructions telling the agent to check the amount and call the appropriate tool. Add a PostToolUse hook that logs which tool was called for auditing.
 - **D.** Implement the threshold check in a PreToolUse hook that inspects the amount parameter before `process_reimbursement` executes. If the amount exceeds $500, the hook modifies the tool call to add a `requires_approval: true` flag, which the tool checks before disbursing.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Tamper-proof $500 approval threshold
+**Domain / lesson:** D1 › 1.4 Workflow Enforcement and Handoff
+**Also touches:** D1 › 1.5 Agent SDK Hooks (why D and C are weaker) · D2 › 2.1 Tool Interface Design (the tool owns its rule)
+**Follows:** [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (gate inside the tool), [Q16](../Q16-escalation-triggers/question.md) ("gate the numbers")
 
 ## Answer: **A**
 
@@ -138,3 +142,5 @@ Guide (1.4): *"if a single failure would cause financial loss, a security breach
 |---|---|
 | **6. Implement Hooks for Safer Automation** | ⭐ Hooks vs in-tool enforcement |
 | 7. Apply Hooks to Block Sensitive Information | PreToolUse blocking |
+
+</details>

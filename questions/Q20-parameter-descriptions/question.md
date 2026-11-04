@@ -1,7 +1,4 @@
-# Q20 — What helps Claude provide the right parameter values?
-
-**Domain / lesson:** D2 › 2.1 Tool Interface Design
-**Also touches:** D2 › 2.2 Structured Error Responses (why C is second-best) · D4 › 4.3 Structured Output with Tool Use (strict schemas)
+# Q20
 
 ## Question
 
@@ -11,6 +8,13 @@ Your `update_user_profile` tool accepts a `user_id` (required) and an optional `
 - **B.** Verbose parameter names encoding format hints, such as `user_id_string_uuid_format`.
 - **C.** Detailed error responses explaining why invalid parameter values were rejected.
 - **D.** Clear parameter descriptions explaining expected format, such as "user_id: UUID of the user to update (required)".
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** What helps Claude provide the right parameter values?
+**Domain / lesson:** D2 › 2.1 Tool Interface Design
+**Also touches:** D2 › 2.2 Structured Error Responses (why C is second-best) · D4 › 4.3 Structured Output with Tool Use (strict schemas)
 
 ## Answer: **D**
 
@@ -126,3 +130,5 @@ A schema checks **shape**, so all of these **pass** `user_id: string, required`:
 |---|---|
 | **19. Explain Tool Use and Tool Schemas** | ⭐ Writing parameter descriptions |
 | 20. Handle Tool Calls and Tool Results | Error results for recovery (C) |
+
+</details>

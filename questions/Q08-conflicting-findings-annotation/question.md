@@ -1,8 +1,4 @@
-# Q08 — Conflicting findings: false certainty vs over-hedging
-
-**Domain / lesson:** D5 › 5.6 Information Provenance & Multi-Source Synthesis
-**Also touches:** D5 › 5.5 Human Review & Confidence Calibration (why D is wrong) · D4 › 4.1 System Prompts with Explicit Criteria
-**Same system as:** [Q01](../Q01-source-attribution-multi-agent/question.md) – [Q07](../Q07-context-flows-through-coordinator/question.md)
+# Q08
 
 ## Question
 
@@ -12,6 +8,14 @@ Production reviews reveal inconsistent handling of uncertainty in final reports.
 - **B.** Add a verification subagent that cross-references findings across sources, only passing claims to synthesis that are corroborated by at least two independent sources.
 - **C.** Instruct the synthesis agent to structure reports with explicit sections distinguishing well-established findings from contested ones, preserving original source characterizations and methodological context.
 - **D.** Implement a confidence calibration layer that normalizes subagent uncertainty expressions to standardized probability scores (0.0-1.0), then weight-average findings by their calibrated confidence.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Conflicting findings: false certainty vs over-hedging
+**Domain / lesson:** D5 › 5.6 Information Provenance & Multi-Source Synthesis
+**Also touches:** D5 › 5.5 Human Review & Confidence Calibration (why D is wrong) · D4 › 4.1 System Prompts with Explicit Criteria
+**Same system as:** [Q01](../Q01-source-attribution-multi-agent/question.md) – [Q07](../Q07-context-flows-through-coordinator/question.md)
 
 ## Answer: **C**
 
@@ -144,3 +148,5 @@ Good catch. The rule from Q01/Q04/Q05 is about **guarantees**. Here the problem 
 | 26. Explain RAG and Document Chunking | Keeping source context with each chunk |
 
 *CBT has no dedicated lesson on conflict handling. Use Udemy A #132 or Udemy B #68.*
+
+</details>

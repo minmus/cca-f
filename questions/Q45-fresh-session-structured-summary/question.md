@@ -1,10 +1,6 @@
-# Q45 — Returning customer, stale tool results: start fresh with a structured summary
+# Q45
 
-**Domain / lesson:** D1 › 1.7 Session State and Resumption
-**Also touches:** D5 › 5.1 Context Window Management (case facts; volatile fields)
-**Note:** the guide's 1.7 examples are about **files** changing between sessions (Claude Code). The rule is the same for **tool results** that describe a changing system, like an order status.
 **Scenario:** customer-support agent, billing dispute, customer returns after 4 hours
-**Follows:** [Q40](../Q40-multi-issue-case-facts-layer/question.md) (status is volatile: re-check it) · [Q42](../Q42-trim-tool-outputs-relevant-fields/question.md) (a prompt can't remove what's in context) · [Q03](../Q03-crash-recovery-state-manifest/question.md) (a structured state summary loaded into a new run)
 
 ## Question
 
@@ -14,6 +10,15 @@ A customer returns 4 hours after the initial session about the same billing disp
 - **B.** Resume with full history but filter out previous tool_result messages before resuming, keeping only the human/assistant turns so the agent must re-fetch needed data.
 - **C.** Resume with full history and configure the agent to automatically re-call all previously-used tools at session start to ensure data freshness.
 - **D.** Resume with full history and add a system prompt instruction telling the agent to always prefer the most recent tool results when multiple calls to the same tool exist in context.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Returning customer, stale tool results: start fresh with a structured summary
+**Domain / lesson:** D1 › 1.7 Session State and Resumption
+**Also touches:** D5 › 5.1 Context Window Management (case facts; volatile fields)
+**Note:** the guide's 1.7 examples are about **files** changing between sessions (Claude Code). The rule is the same for **tool results** that describe a changing system, like an order status.
+**Follows:** [Q40](../Q40-multi-issue-case-facts-layer/question.md) (status is volatile: re-check it) · [Q42](../Q42-trim-tool-outputs-relevant-fields/question.md) (a prompt can't remove what's in context) · [Q03](../Q03-crash-recovery-state-manifest/question.md) (a structured state summary loaded into a new run)
 
 ## Answer: **A**
 
@@ -144,3 +149,5 @@ Why time alone isn't the test, both ways:
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 1.7 (see the study map). Use the guide and the Udemy lectures for session resumption.*
+
+</details>

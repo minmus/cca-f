@@ -1,9 +1,6 @@
-# Q113 — Valid JSON, empty citations and methodology although the paper has them: few-shot examples of the varied structures
+# Q113
 
-**Domain / lesson:** D4 › 4.2 Few-Shot Prompting (empty fields for information the document contains; The Hallucination Reduction Effect)
-**Also touches:** D4 › 4.3 Structured Output (what strict schemas fix: syntax, not content) · D4 › 4.4 Validation, Retry & Feedback (B)
 **Scenario:** Structured data extraction system (same as [Q95](../Q95-accuracy-by-segment-before-automating/question.md), [Q98](../Q98-few-shot-for-informal-measurements/question.md), [Q110](../Q110-resubmit-only-failures-chunked/question.md)–[Q112](../Q112-few-shot-standard-materials-format/question.md))
-**Follows:** [Q112](../Q112-few-shot-standard-materials-format/question.md) (a field skipped although it's in the text → examples) · [Q98](../Q98-few-shot-for-informal-measurements/question.md) (its check: optional/nullable only when the information can be absent)
 
 ## Question
 
@@ -17,6 +14,14 @@ What's the most effective way to address these failures?
 - **B.** Implement retry logic that re-sends requests when validation detects empty required fields.
 - **C.** Add few-shot examples demonstrating extractions from documents with varied structures – showing how to identify citations in different formats and locate methodology details across section types.
 - **D.** Modify your schema to make citations and methodology optional, and flag incomplete records for manual review rather than failing validation.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Valid JSON, empty citations and methodology although the paper has them: few-shot examples of the varied structures
+**Domain / lesson:** D4 › 4.2 Few-Shot Prompting (empty fields for information the document contains; The Hallucination Reduction Effect)
+**Also touches:** D4 › 4.3 Structured Output (what strict schemas fix: syntax, not content) · D4 › 4.4 Validation, Retry & Feedback (B)
+**Follows:** [Q112](../Q112-few-shot-standard-materials-format/question.md) (a field skipped although it's in the text → examples) · [Q98](../Q98-few-shot-for-informal-measurements/question.md) (its check: optional/nullable only when the information can be absent)
 
 ## Answer: **C**
 
@@ -189,3 +194,5 @@ Guide: *"If a value is genuinely absent, no number of retries will produce a cor
 |---|---|
 | **17. Design Clear Prompts with Examples** | ⭐ Examples that show the target behaviour *(also in Q05, Q31, Q37, Q86, Q98, Q112)* |
 | 15. Evaluate Prompts with Test Datasets | Mapped to 4.4 in the study map: validation before retrying (check question) *(also in Q55)* |
+
+</details>

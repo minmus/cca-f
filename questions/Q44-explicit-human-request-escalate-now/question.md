@@ -1,9 +1,6 @@
-# Q44 — "I want to talk to a real person NOW": escalate in that reply
+# Q44
 
-**Domain / lesson:** D5 › 5.2 Escalation & Ambiguity Resolution
-**Also touches:** D1 › 1.4 Workflow Enforcement and Handoff (what goes with the escalation)
 **Scenario:** customer-support agent
-**Follows:** [Q43](../Q43-frustration-offer-resolve-or-escalate/question.md) (the twin: frustration without an explicit request → B there, A here) · [Q16](../Q16-escalation-triggers/question.md) (trigger 1: the customer asks for a human) · [Q14](../Q14-escalation-handoff-summary/question.md) (handoff content)
 
 ## Question
 
@@ -13,6 +10,14 @@ A customer sends: "This is frustrating. I've explained my issue twice and nothin
 - **B.** Briefly explain what the agent can help with and offer to resolve the issue quickly, escalating only if the customer repeats their request.
 - **C.** First call get_customer and lookup_order to gather account context, then escalate to a human agent.
 - **D.** Acknowledge the frustration and ask one targeted question to understand the specific issue before escalating.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** "I want to talk to a real person NOW": escalate in that reply
+**Domain / lesson:** D5 › 5.2 Escalation & Ambiguity Resolution
+**Also touches:** D1 › 1.4 Workflow Enforcement and Handoff (what goes with the escalation)
+**Follows:** [Q43](../Q43-frustration-offer-resolve-or-escalate/question.md) (the twin: frustration without an explicit request → B there, A here) · [Q16](../Q16-escalation-triggers/question.md) (trigger 1: the customer asks for a human) · [Q14](../Q14-escalation-handoff-summary/question.md) (handoff content)
 
 ## Answer: **A**
 
@@ -143,3 +148,5 @@ If Q43's list is fresh, go straight to Quiz 16.
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 5.2 (see the study map). Use the guide and the Udemy lectures for escalation decisions.*
+
+</details>

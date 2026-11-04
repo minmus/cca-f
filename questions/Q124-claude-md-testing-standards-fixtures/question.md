@@ -1,9 +1,6 @@
-# Q124 — 55% low-value generated tests: testing standards, fixtures and examples in CLAUDE.md
+# Q124
 
-**Domain / lesson:** D3 › 3.6 CI/CD Integration (CLAUDE.md context for CI test generation)
-**Also touches:** D4 › 4.1 (explicit criteria for a "valuable test") · D4 › 4.2 (examples: meaningful vs trivial)
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md)–[Q123](../Q123-claude-md-project-conventions-for-ci-review/question.md))
-**Follows:** [Q123](../Q123-claude-md-project-conventions-for-ci-review/question.md) (same fix for review: conventions in CLAUDE.md)
 
 ## Question
 
@@ -17,6 +14,14 @@ How do you reduce the rate of low-value tests being generated in the first place
 - **B.** Restrict test generation to directories where historical quality metrics show higher acceptance rates, disabling it for areas where generated tests consistently require heavy editing.
 - **C.** Implement a two-phase generation where a second Claude call scores each test against quality criteria, filtering out low-scoring tests before presenting results to developers.
 - **D.** Add post-generation coverage analysis that automatically filters out any generated test that doesn't increase line coverage beyond what existing tests provide.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 55% low-value generated tests: testing standards, fixtures and examples in CLAUDE.md
+**Domain / lesson:** D3 › 3.6 CI/CD Integration (CLAUDE.md context for CI test generation)
+**Also touches:** D4 › 4.1 (explicit criteria for a "valuable test") · D4 › 4.2 (examples: meaningful vs trivial)
+**Follows:** [Q123](../Q123-claude-md-project-conventions-for-ci-review/question.md) (same fix for review: conventions in CLAUDE.md)
 
 ## Answer: **A**
 
@@ -175,3 +180,5 @@ def test_refund():
 |---|---|
 | **1. Set Up Claude Code and Configure Projects** | ⭐ CLAUDE.md setup *(also in Q123)* |
 | 17. Design Clear Prompts with Examples | Good-vs-trivial examples |
+
+</details>

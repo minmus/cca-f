@@ -1,9 +1,6 @@
-# Q86 — PDF formatting issues that interact: one detailed message, not one fix at a time
+# Q86
 
-**Domain / lesson:** D3 › 3.5 Iterative Refinement (batch vs sequential feedback)
-**Also touches:** D3 › 3.5 (concrete examples, for option A)
 **Scenario:** Claude Code for a development team (same as [Q52](../Q52-posttooluse-hook-runs-formatter/question.md)–[Q66](../Q66-clear-stack-trace-direct-execution/question.md))
-**Follows:** [Q55](../Q55-tests-first-share-failures/question.md) (its check: failures that broke together go in one message) · [Q58](../Q58-at-reference-example-files/question.md) (what concrete examples are for)
 
 ## Question
 
@@ -17,6 +14,14 @@ What's the most effective approach for iterating toward a working solution?
 - **B.** Address the column width issue first with specific measurements, verify it works, then fix date formatting within the corrected columns, then adjust page breaks – testing after each change.
 - **C.** Provide all three issues in a single detailed message with exact specifications for each, allowing Claude to address them together in one update.
 - **D.** Start fresh with a detailed prompt specifying all formatting requirements upfront.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** PDF formatting issues that interact: one detailed message, not one fix at a time
+**Domain / lesson:** D3 › 3.5 Iterative Refinement (batch vs sequential feedback)
+**Also touches:** D3 › 3.5 (concrete examples, for option A)
+**Follows:** [Q55](../Q55-tests-first-share-failures/question.md) (its check: failures that broke together go in one message) · [Q58](../Q58-at-reference-example-files/question.md) (what concrete examples are for)
 
 ## Answer: **C**
 
@@ -196,3 +201,5 @@ Udemy A only partly covers 3.5. Udemy B #83 is the key lecture for this question
 | 17. Design Clear Prompts with Examples | What examples do well (A), in prompt design (D4) *(also in Q05, Q31, Q37)* |
 
 CBT has no lesson on iterative refinement (3.5). Use the guide lesson and Udemy B #83.
+
+</details>

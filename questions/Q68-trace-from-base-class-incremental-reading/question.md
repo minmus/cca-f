@@ -1,9 +1,6 @@
-# Q68 — 15 caching files, ~8,000 lines: find the base class, read its interface, then trace
+# Q68
 
-**Domain / lesson:** D2 › 2.5 Built-in Tools (incremental codebase understanding)
-**Also touches:** D5 › 5.4 Codebase Exploration & Context Degradation (why reading everything hurts)
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (built-in tools + MCP servers)
-**Follows:** [Q58](../Q58-at-reference-example-files/question.md) (exploring costs context; explore only what you don't know) · [Q66](../Q66-clear-stack-trace-direct-execution/question.md) (a stack trace as a map into unfamiliar code) · [Q03](../Q03-crash-recovery-state-manifest/question.md) (state outside the context)
 
 ## Question
 
@@ -15,6 +12,14 @@ An engineer asks the agent to understand how the caching layer works before addi
 - **B.** Use Glob to find files matching common caching patterns (cache.py, caching/), prioritize the largest files by reading them first, then check smaller files for gaps.
 - **C.** Analyze imports and class hierarchies to identify the base cache class, Read that file to understand the interface, then trace specific invalidation implementations.
 - **D.** Use Grep to search for "invalidate" and "expire" patterns across all files, then Read only those specific line ranges with minimal surrounding context.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 15 caching files, ~8,000 lines: find the base class, read its interface, then trace
+**Domain / lesson:** D2 › 2.5 Built-in Tools (incremental codebase understanding)
+**Also touches:** D5 › 5.4 Codebase Exploration & Context Degradation (why reading everything hurts)
+**Follows:** [Q58](../Q58-at-reference-example-files/question.md) (exploring costs context; explore only what you don't know) · [Q66](../Q66-clear-stack-trace-direct-execution/question.md) (a stack trace as a map into unfamiliar code) · [Q03](../Q03-crash-recovery-state-manifest/question.md) (state outside the context)
 
 ## Answer: **C**
 
@@ -173,3 +178,5 @@ Udemy A has no lecture dedicated to incremental exploration. Udemy B #80 is the 
 | **23. Apply Built In Tools Safely** | ⭐ Using Read, Grep and Glob deliberately |
 
 CBT has no lesson on codebase exploration (5.4). Use the guide lessons and Udemy B #80.
+
+</details>

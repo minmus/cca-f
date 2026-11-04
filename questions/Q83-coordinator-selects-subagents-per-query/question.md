@@ -1,9 +1,6 @@
-# Q83 — Simple facts go through all four subagents: the coordinator selects subagents per query
+# Q83
 
-**Domain / lesson:** D1 › 1.2 Multi-Agent Orchestration
-**Also touches:** D2 › 2.1 Tool Interface Design (why a separate routing classifier is the over-engineered answer)
 **Scenario:** Multi-agent research system (same system as [Q01](../Q01-source-attribution-multi-agent/question.md)–[Q09](../Q09-synthesis-preserve-merge-mappings/question.md), [Q82](../Q82-dates-turn-conflicts-into-trends/question.md); the pasted text leaves out the scenario intro)
-**Follows:** [Q39](../Q39-coordinator-answers-simple-followups/question.md) (don't spawn a subagent you don't need) · [Q73](../Q73-same-steps-every-pr-prompt-chaining/question.md) (fixed pipeline vs dynamic: which fits which input)
 
 ## Question
 
@@ -13,6 +10,14 @@ In production, you observe that simple fact-checking queries (e.g., "What year w
 - **B.** Implement pattern-based routing that categorizes queries by structure (single-fact vs. comparative vs. analytical) and maps each category to a predefined subagent combination.
 - **C.** Train a query complexity classifier on labeled historical data to predict optimal subagent combinations, retraining periodically as query patterns evolve.
 - **D.** Have the coordinator analyze each query and dynamically decide which subagents to invoke based on its assessment of query requirements.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Simple facts go through all four subagents: the coordinator selects subagents per query
+**Domain / lesson:** D1 › 1.2 Multi-Agent Orchestration
+**Also touches:** D2 › 2.1 Tool Interface Design (why a separate routing classifier is the over-engineered answer)
+**Follows:** [Q39](../Q39-coordinator-answers-simple-followups/question.md) (don't spawn a subagent you don't need) · [Q73](../Q73-same-steps-every-pr-prompt-chaining/question.md) (fixed pipeline vs dynamic: which fits which input)
 
 ## Answer: **D**
 
@@ -174,3 +179,5 @@ SDK docs: *"Write clear, specific descriptions so Claude can match tasks to the 
 |---|---|
 | **36. Design Workflows and Agent Systems** | ⭐ When to use (and not use) each agent *(also in Q01–Q07, Q09–Q13, Q29, Q36, Q39, Q73, Q75)* |
 | 39. Build an Agentic Multimedia Article System: Part 1 | A coordinator choosing which subagents to call *(also in Q01, Q02, Q03, Q05, Q06, Q07, Q09, Q11, Q36, Q39, Q78)* |
+
+</details>

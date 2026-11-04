@@ -1,8 +1,6 @@
-# Q59 — MCP server scopes: team server in `.mcp.json`, personal server in `~/.claude.json`
+# Q59
 
-**Domain / lesson:** D2 › 2.4 MCP Server Integration
 **Scenario:** Claude Code for a development team (same as [Q52](../Q52-posttooluse-hook-runs-formatter/question.md)–[Q58](../Q58-at-reference-example-files/question.md))
-**Follows:** [Q56](../Q56-memory-check-loaded-files-first/question.md) (user-level files aren't shared) · [Q57](../Q57-mcp-prompts-become-slash-commands/question.md) (MCP servers in Claude Code) · [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (shared vs personal configuration)
 
 ## Question
 
@@ -14,6 +12,13 @@ Your team is configuring MCP servers in Claude Code. You want to add a shared ve
 - **B.** Add venue server to ~/.claude.json and playlist server to .mcp.json
 - **C.** Add venue server to .mcp.json and playlist server to ~/.claude.json.
 - **D.** Add both servers to the project-level .mcp.json file
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** MCP server scopes: team server in `.mcp.json`, personal server in `~/.claude.json`
+**Domain / lesson:** D2 › 2.4 MCP Server Integration
+**Follows:** [Q56](../Q56-memory-check-loaded-files-first/question.md) (user-level files aren't shared) · [Q57](../Q57-mcp-prompts-become-slash-commands/question.md) (MCP servers in Claude Code) · [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (shared vs personal configuration)
 
 ## Answer: **C**
 
@@ -169,3 +174,5 @@ Guide exam trap: *"Committing credentials directly in .mcp.json is a security ri
 | Skill | Why |
 |---|---|
 | **5. Extend Claude Code with MCP Servers** | ⭐ Adding servers to Claude Code, and where the configuration goes *(also in Q57)* |
+
+</details>

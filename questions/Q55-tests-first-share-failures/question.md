@@ -1,8 +1,6 @@
-# Q55 — Iterating on a complex algorithm: write the tests first, share the failures
+# Q55
 
-**Domain / lesson:** D3 › 3.5 Iterative Refinement
 **Scenario:** Claude Code for a development team (same as [Q52](../Q52-posttooluse-hook-runs-formatter/question.md), [Q53](../Q53-direct-execution-for-clear-small-change/question.md))
-**Follows:** [Q53](../Q53-direct-execution-for-clear-small-change/question.md) (extended thinking isn't the answer to a workflow question) · [Q49](../Q49-instructive-error-messages/question.md) (feedback must say exactly what went wrong) · [Q52](../Q52-posttooluse-hook-runs-formatter/question.md) (a deterministic check beats relying on someone to notice)
 
 ## Question
 
@@ -14,6 +12,13 @@ You're implementing a complex graph traversal algorithm with specific performanc
 - **B.** Provide Claude with a reference implementation from documentation, then ask it to rewrite the code to match your codebase style and add the required edge case handling, comparing outputs against the reference.
 - **C.** Provide Claude with a detailed natural language specification of the algorithm, including all requirements and edge cases. Review each output manually and provide descriptive feedback on what behavior needs to change.
 - **D.** Write a test suite covering expected behavior, edge cases, and performance requirements before implementation. Ask Claude to write code that passes the tests, then iterate by sharing test failures with each refinement request.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Iterating on a complex algorithm: write the tests first, share the failures
+**Domain / lesson:** D3 › 3.5 Iterative Refinement
+**Follows:** [Q53](../Q53-direct-execution-for-clear-small-change/question.md) (extended thinking isn't the answer to a workflow question) · [Q49](../Q49-instructive-error-messages/question.md) (feedback must say exactly what went wrong) · [Q52](../Q52-posttooluse-hook-runs-formatter/question.md) (a deterministic check beats relying on someone to notice)
 
 ## Answer: **D**
 
@@ -174,3 +179,5 @@ Udemy A only partly covers 3.5. Udemy B #82 is the key lecture for this question
 | 15. Evaluate Prompts with Test Datasets | The same idea for prompts (D4): measure each version against fixed test cases |
 
 CBT has no lesson on iterative refinement (3.5). Use the guide lesson and Udemy B #82.
+
+</details>

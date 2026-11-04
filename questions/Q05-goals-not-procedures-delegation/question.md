@@ -1,8 +1,4 @@
-# Q05 — Over-specified subagent instructions kill adaptability
-
-**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
-**Also touches:** D1 › 1.2 Multi-Agent Orchestration · D4 › 4.1 System Prompts with Explicit Criteria
-**Same system as:** [Q01](../Q01-source-attribution-multi-agent/question.md), [Q04](../Q04-tool-scoping-per-subagent/question.md)
+# Q05
 
 ## Question
 
@@ -12,6 +8,14 @@ The coordinator provides detailed step-by-step instructions to the web search su
 - **B.** Add explicit fallback directives to the detailed instructions: "If specified searches yield fewer than N results, attempt alternative query formulations before reporting failure."
 - **C.** Remove procedural details entirely, delegating with simple goals like "research X thoroughly" and relying on the subagent's general capabilities.
 - **D.** Specify research goals and quality criteria (coverage breadth, source diversity, recency) rather than procedural steps, letting the subagent determine its search strategy.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Over-specified subagent instructions kill adaptability
+**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
+**Also touches:** D1 › 1.2 Multi-Agent Orchestration · D4 › 4.1 System Prompts with Explicit Criteria
+**Same system as:** [Q01](../Q01-source-attribution-multi-agent/question.md), [Q04](../Q04-tool-scoping-per-subagent/question.md)
 
 ## Answer: **D**
 
@@ -168,3 +172,5 @@ def issue_refund(order_id, amount):
 | **36. Design Workflows and Agent Systems** | ⭐ Workflows (procedural) vs agents (goal-driven) |
 | 39–40. Build an Agentic Multimedia Article System | Hands-on coordinator → subagent delegation |
 | 17. Design Clear Prompts with Examples | Writing clear goals and criteria |
+
+</details>

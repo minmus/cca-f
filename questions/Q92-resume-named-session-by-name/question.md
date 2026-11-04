@@ -1,9 +1,6 @@
-# Q92 — Continue yesterday's investigation after three other codebases: resume the session by its name
+# Q92
 
-**Domain / lesson:** D1 › 1.7 Session State and Resumption
-**Also touches:** the Claude Code CLI reference (the session flags the guide's 1.7 current-state note points to)
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (same as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md), [Q69](../Q69-grep-distinctive-error-text/question.md), [Q71](../Q71-degraded-context-summary-into-subagent/question.md), [Q72](../Q72-resume-and-name-changed-files/question.md))
-**Follows:** [Q72](../Q72-resume-and-name-changed-files/question.md) (prior context still valid → resume) · [Q77](../Q77-fork-session-compare-two-approaches/question.md) (continuing one line of work = resume, and name the session so you can find it)
 
 ## Question
 
@@ -17,6 +14,14 @@ How should she resume?
 - **B.** Use `--continue` to pick up where the most recent conversation left off
 - **C.** Start fresh and re-read the same files
 - **D.** Use `--session-id` with the UUID from yesterday's session transcript file
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Continue yesterday's investigation after three other codebases: resume the session by its name
+**Domain / lesson:** D1 › 1.7 Session State and Resumption
+**Also touches:** the Claude Code CLI reference (the session flags the guide's 1.7 current-state note points to)
+**Follows:** [Q72](../Q72-resume-and-name-changed-files/question.md) (prior context still valid → resume) · [Q77](../Q77-fork-session-compare-two-approaches/question.md) (continuing one line of work = resume, and name the session so you can find it)
 
 ## Answer: **A**
 
@@ -189,3 +194,5 @@ From inside this morning's session, `/resume` opens the same picker. Docs: *"Run
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 1.7 (see the study map). Use the guide, the Udemy lectures and the Claude Code CLI reference for the session flags.*
+
+</details>

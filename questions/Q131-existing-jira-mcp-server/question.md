@@ -1,9 +1,6 @@
-# Q131 — Agent needs standard Jira ticket data: integrate an existing Jira MCP server
+# Q131
 
-**Domain / lesson:** D2 › 2.4 MCP Server Integration (community servers for standard integrations; build custom only for team-specific workflows)
-**Also touches:** D2 › 2.5 Built-in Tools (why not Bash + curl)
 **Scenario:** Developer productivity tools with the Claude Agent SDK (built-in tools + MCP servers)
-**Follows:** [Q59](../Q59-mcp-scopes-project-vs-user/question.md) (`.mcp.json` project scope, credentials in env vars) · [Q74](../Q74-mcp-descriptions-compete-with-built-ins/question.md) (MCP tool descriptions vs built-ins)
 
 ## Question
 
@@ -17,6 +14,14 @@ What's the most effective approach?
 - **B.** Use the Bash tool with `curl` to call Jira's REST API, including authentication headers and parsing JSON responses inline.
 - **C.** Build a custom MCP server wrapping Jira's API with tools designed specifically for this team's code review workflow.
 - **D.** Export Jira tickets to markdown files in the repository that the agent accesses using the Read tool.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Agent needs standard Jira ticket data: integrate an existing Jira MCP server
+**Domain / lesson:** D2 › 2.4 MCP Server Integration (community servers for standard integrations; build custom only for team-specific workflows)
+**Also touches:** D2 › 2.5 Built-in Tools (why not Bash + curl)
+**Follows:** [Q59](../Q59-mcp-scopes-project-vs-user/question.md) (`.mcp.json` project scope, credentials in env vars) · [Q74](../Q74-mcp-descriptions-compete-with-built-ins/question.md) (MCP tool descriptions vs built-ins)
 
 ## Answer: **A**
 
@@ -143,3 +148,5 @@ Test: **can I name the specific thing the community server can't do?** If not, u
 |---|---|
 | **5. Extend Claude Code with MCP Servers** | ⭐ Adding existing MCP servers |
 | 33. Explain MCP Clients and Servers | How the agent discovers the tools |
+
+</details>

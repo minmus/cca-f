@@ -1,8 +1,4 @@
-# Q12 — How to give the synthesis subagent what it needs
-
-**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
-**Also touches:** D1 › 1.2 Multi-Agent Orchestration (hub-and-spoke)
-**Same principle as:** [Q07](../Q07-context-flows-through-coordinator/question.md) (where info flows) · [Q10](../Q10-missing-context-in-subagent-prompt/question.md) (what happens when it's missing)
+# Q12
 
 ## Question
 
@@ -12,6 +8,14 @@ After the web search and document analysis subagents complete their tasks, the c
 - **B.** Provide the subagent with tool definitions that allow it to request outputs from other subagents via callbacks.
 - **C.** Pass reference identifiers and configure the subagent with read access to a shared memory store where other subagents deposited their results.
 - **D.** Include the complete findings from both subagents directly in the synthesis subagent's prompt.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** How to give the synthesis subagent what it needs
+**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
+**Also touches:** D1 › 1.2 Multi-Agent Orchestration (hub-and-spoke)
+**Same principle as:** [Q07](../Q07-context-flows-through-coordinator/question.md) (where info flows) · [Q10](../Q10-missing-context-in-subagent-prompt/question.md) (what happens when it's missing)
 
 ## Answer: **D**
 
@@ -111,3 +115,5 @@ These don't conflict:
 |---|---|
 | **36. Design Workflows and Agent Systems** | ⭐ Coordinator → subagent handoffs |
 | 10. Send Structured Messages to Claude | Each request carries its own context |
+
+</details>

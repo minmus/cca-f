@@ -1,9 +1,6 @@
-# Q60 — Monorepo standards with no naming pattern: each package `@`-imports only what applies
+# Q60
 
-**Domain / lesson:** D3 › 3.1 CLAUDE.md Hierarchy (`@path` imports, per-package CLAUDE.md)
-**Also touches:** D3 › 3.3 Path-Specific Rules (why globs don't fit here)
 **Scenario:** Claude Code in a monorepo with 15 packages (same team setup as [Q52](../Q52-posttooluse-hook-runs-formatter/question.md)–[Q59](../Q59-mcp-scopes-project-vs-user/question.md))
-**Follows:** [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (path rules when a glob matches the files; imports don't shrink context) · [Q56](../Q56-memory-check-loaded-files-first/question.md) (files don't override each other)
 
 ## Question
 
@@ -15,6 +12,14 @@ Your monorepo contains shared coding standards in /docs/standards/ : security-ru
 - **B.** Put all standards in the root CLAUDE.md with override instructions like "ignore security-rules.md when working in packages that don't handle user data."
 - **C.** Create a shared-stendards.md that uses @imports to combine all three standards, then have each package's CLAUDE.md import that combined file.
 - **D.** Use @imports in each package's CLAUDE.md to reference only the specific standard files relevant to that package, based on the maintainer's domain knowledge.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Monorepo standards with no naming pattern: each package `@`-imports only what applies
+**Domain / lesson:** D3 › 3.1 CLAUDE.md Hierarchy (`@path` imports, per-package CLAUDE.md)
+**Also touches:** D3 › 3.3 Path-Specific Rules (why globs don't fit here)
+**Follows:** [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (path rules when a glob matches the files; imports don't shrink context) · [Q56](../Q56-memory-check-loaded-files-first/question.md) (files don't override each other)
 
 ## Answer: **D**
 
@@ -188,3 +193,5 @@ Guide 3.3: *"Path-scoped rules are more token-efficient than root CLAUDE.md beca
 | Skill | Why |
 |---|---|
 | 1. Set Up Claude Code and Configure Projects | CLAUDE.md files and project setup (3.1) |
+
+</details>

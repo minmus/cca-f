@@ -1,8 +1,6 @@
-# Q134 — Find every `eval()` in a large codebase: Grep searches file contents
+# Q134
 
-**Domain / lesson:** D2 › 2.5 Built-in Tools (Grep = content, Glob = file names)
 **Scenario:** Developer productivity tools with the Claude Agent SDK (same as [Q131](../Q131-existing-jira-mcp-server/question.md)–[Q133](../Q133-mcp-resources-content-catalogs/question.md))
-**Follows:** [Q132](../Q132-grep-entry-points-follow-imports/question.md) (Grep for entry points, then follow imports)
 
 ## Question
 
@@ -16,6 +14,13 @@ When engineers need to locate all occurrences of a dangerous function like eval(
 - **B.** Use Bash to run `ls -R | grep eval` to recursively list files containing eval.
 - **C.** Read the project's main entry file and follow import statements to trace where eval might be used.
 - **D.** Use Grep to search for the pattern "eval(" across all files in the codebase.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Find every `eval()` in a large codebase: Grep searches file contents
+**Domain / lesson:** D2 › 2.5 Built-in Tools (Grep = content, Glob = file names)
+**Follows:** [Q132](../Q132-grep-entry-points-follow-imports/question.md) (Grep for entry points, then follow imports)
 
 ## Answer: **D**
 
@@ -138,3 +143,5 @@ Grep returns every match with its **file and line number**, without reading whol
 | Skill | Why |
 |---|---|
 | **23. Apply Built In Tools Safely** | ⭐ Built-in tools *(also in Q132)* |
+
+</details>

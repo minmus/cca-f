@@ -1,9 +1,6 @@
-# Q80 — Structuring sources in a long context: delimit each source, put critical material at the start or end
+# Q80
 
-**Domain / lesson:** D5 › 5.1 Context Window Management (E, A, C)
-**Also touches:** D5 › 5.6 Information Provenance (B, D: keeping claims tied to their sources) · Anthropic's prompting docs (long-context tips)
 **Scenario:** A standalone context-design question: a knowledge manager preparing source material for a long evaluation task (not one of the developer-tools questions)
-**Follows:** [Q02](../Q02-context-passing-source-index/question.md) (don't pass everything raw) · [Q38](../Q38-sliding-window-recent-turns/question.md) (the case facts block goes near the top) · [Q09](../Q09-synthesis-preserve-merge-mappings/question.md) (keep claim-source links)
 
 ## Question
 
@@ -16,6 +13,14 @@ Which two practices produce a more effective use of the context window? (Choose 
 - **C.** Repeat the same instruction at the start, middle, and end to reinforce it.
 - **D.** Mix sources together in a single block so the model can synthesize them freely.
 - **E.** Place the most reference-critical material near the beginning or end of context.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Structuring sources in a long context: delimit each source, put critical material at the start or end
+**Domain / lesson:** D5 › 5.1 Context Window Management (E, A, C)
+**Also touches:** D5 › 5.6 Information Provenance (B, D: keeping claims tied to their sources) · Anthropic's prompting docs (long-context tips)
+**Follows:** [Q02](../Q02-context-passing-source-index/question.md) (don't pass everything raw) · [Q38](../Q38-sliding-window-recent-turns/question.md) (the case facts block goes near the top) · [Q09](../Q09-synthesis-preserve-merge-mappings/question.md) (keep claim-source links)
 
 ## Answer: **B** and **E**
 
@@ -183,3 +188,5 @@ Every key finding now sits at the start, whatever its document's position. The f
 |---|---|
 | **18. Structure Prompts with XML Tags** | ⭐ Delimiting sources and instructions (B, C) |
 | 26. Explain RAG and Document Chunking | Choosing the relevant chunks instead of everything (A) *(also in Q01, Q02, Q03, Q08, Q38)* |
+
+</details>

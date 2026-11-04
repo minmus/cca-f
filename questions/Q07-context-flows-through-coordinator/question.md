@@ -1,8 +1,4 @@
-# Q07 — How information flows between subagents
-
-**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
-**Also touches:** D1 › 1.2 Multi-Agent Orchestration (hub-and-spoke)
-**Same system as:** [Q01](../Q01-source-attribution-multi-agent/question.md), [Q04](../Q04-tool-scoping-per-subagent/question.md), [Q05](../Q05-goals-not-procedures-delegation/question.md), [Q06](../Q06-coordinator-gap-loop/question.md)
+# Q07
 
 ## Question
 
@@ -12,6 +8,14 @@ The web search agent has gathered several relevant sources for a research topic.
 - **B.** The web search agent directly invokes the document analysis agent, passing the discovered sources as parameters.
 - **C.** The coordinator agent receives the web search agent's output and includes relevant findings in the prompt when invoking the document analysis agent.
 - **D.** Both agents access a shared memory store where the web search agent writes findings and the document analysis agent reads them.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** How information flows between subagents
+**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
+**Also touches:** D1 › 1.2 Multi-Agent Orchestration (hub-and-spoke)
+**Same system as:** [Q01](../Q01-source-attribution-multi-agent/question.md), [Q04](../Q04-tool-scoping-per-subagent/question.md), [Q05](../Q05-goals-not-procedures-delegation/question.md), [Q06](../Q06-coordinator-gap-loop/question.md)
 
 ## Answer: **C**
 
@@ -148,3 +152,5 @@ It brings together Q01–Q07: **the context itself**, sources with metadata (Q07
 | **36. Design Workflows and Agent Systems** | ⭐ Orchestrator patterns |
 | 38. Build a Skill-Aware Agent | Agents invoking capabilities with context |
 | 39–40. Build an Agentic Multimedia Article System | Hands-on: content passed between agents via a coordinator |
+
+</details>

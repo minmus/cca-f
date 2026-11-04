@@ -1,8 +1,4 @@
-# Q29 — Tool composition: combine the mechanical steps, keep the judgment
-
-**Domain / lesson:** D2 › 2.1 Tool Interface Design (tool granularity)
-**Also touches:** D1 › 1.1 Agentic Loops (round-trips) · D1 › 1.4 (what code decides vs what the model decides)
-**Related:** [Q17](../Q17-split-unified-tool/question.md) (split), [Q19](../Q19-tool-accepts-available-identifier/question.md) (resolve internally)
+# Q29
 
 ## Question
 
@@ -12,6 +8,14 @@ Your content curation agent discovers articles, analyzes each for relevance, the
 - **B.** Create a `curate_collection(topic, collection_id)` tool that handles discovery, analysis, and selection internally using configurable quality thresholds.
 - **C.** Create a `discover_and_analyze(topic)` composite tool that returns all candidates with their analysis scores, keeping `add_to_collection` separate for selective calls.
 - **D.** Add a `preview_curation(topic, collection_id)` tool that shows what would be added based on predefined rules, with an `approve_curation()` tool to confirm.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Tool composition: combine the mechanical steps, keep the judgment
+**Domain / lesson:** D2 › 2.1 Tool Interface Design (tool granularity)
+**Also touches:** D1 › 1.1 Agentic Loops (round-trips) · D1 › 1.4 (what code decides vs what the model decides)
+**Related:** [Q17](../Q17-split-unified-tool/question.md) (split), [Q19](../Q19-tool-accepts-available-identifier/question.md) (resolve internally)
 
 ## Answer: **C**
 
@@ -146,3 +150,5 @@ Today the model **babysits the mechanical part**: one call to discover, one per 
 |---|---|
 | **36. Design Workflows and Agent Systems** | ⭐ What code does vs what the agent decides |
 | 22. Route Requests Across Multiple Tools | Tool composition |
+
+</details>

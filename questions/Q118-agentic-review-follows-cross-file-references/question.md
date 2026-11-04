@@ -1,9 +1,6 @@
-# Q118 — Reviews miss cross-file bugs: let the reviewer explore the codebase
+# Q118
 
-**Domain / lesson:** D2 › 2.5 Built-in Tools (Incremental Codebase Understanding)
-**Also touches:** D3 › 3.6 CI/CD Integration · D1 › 1.1 Agentic Loops (turn limit = safety cap) · D5 › 5.4 Codebase Exploration & Context Degradation
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md), [Q117](../Q117-append-system-prompt-keeps-tool-guidance/question.md))
-**Follows:** [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (incremental reading, not everything upfront) · [Q93](../Q93-collect-every-exposed-name-then-grep-each/question.md) (Grep for every name to find all callers)
 
 ## Question
 
@@ -17,6 +14,14 @@ What is the most effective change to your review design?
 - **B.** Run parallel review passes per changed file with direct dependents included in each pass, then aggregate and deduplicate findings using a final summarization call.
 - **C.** Add chain-of-thought instructions asking the model to list all external references in the diff, then reason step-by-step about how each change might affect callers in other files.
 - **D.** Use static analysis to build a dependency graph of changed code, then expand the prompt to include all files within two dependency hops of any changed file.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Reviews miss cross-file bugs: let the reviewer explore the codebase
+**Domain / lesson:** D2 › 2.5 Built-in Tools (Incremental Codebase Understanding)
+**Also touches:** D3 › 3.6 CI/CD Integration · D1 › 1.1 Agentic Loops (turn limit = safety cap) · D5 › 5.4 Codebase Exploration & Context Degradation
+**Follows:** [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (incremental reading, not everything upfront) · [Q93](../Q93-collect-every-exposed-name-then-grep-each/question.md) (Grep for every name to find all callers)
 
 ## Answer: **A**
 
@@ -144,3 +149,5 @@ That's Q06's rule (after the cap: **report the gaps**) and Q22/Q27's rule (**nev
 |---|---|
 | **8. Apply Useful Hooks and Claude Code SDK Basics** | ⭐ Headless Claude Code runs in CI *(also in Q117)* |
 | 21. Build Multi Turn Tool Conversations | Agentic loop with tools |
+
+</details>

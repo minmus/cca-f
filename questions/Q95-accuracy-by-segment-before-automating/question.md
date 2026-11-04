@@ -1,8 +1,6 @@
-# Q95 — 97% accuracy at high confidence: break it down by document type and field before automating
+# Q95
 
-**Domain / lesson:** D5 › 5.5 Human Review & Confidence Calibration (The Aggregate Metrics Trap)
 **Scenario:** Structured data extraction system (extraction from unstructured documents, JSON-schema validation, downstream integration)
-**Follows:** [Q21](../Q21-review-flag-from-calibrated-thresholds/question.md) (per-field thresholds tested against known answers)
 
 ## Question
 
@@ -16,6 +14,13 @@ Before deploying, what validation step is most critical?
 - **B.** Analyze accuracy by document type and field to verify high-confidence extractions perform consistently across all segments, not just in aggregate.
 - **C.** Compare accuracy at different confidence thresholds (85%, 90%, 96%) to find the optimal cutoff that maximizes automation while minimizing errors.
 - **D.** Run a two-week pilot routing 25% of high-confidence extractions directly to downstream systems and monitor error reports.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 97% accuracy at high confidence: break it down by document type and field before automating
+**Domain / lesson:** D5 › 5.5 Human Review & Confidence Calibration (The Aggregate Metrics Trap)
+**Follows:** [Q21](../Q21-review-flag-from-calibrated-thresholds/question.md) (per-field thresholds tested against known answers)
 
 ## Answer: **B**
 
@@ -166,3 +171,5 @@ Automating "everything at ≥90%" would send a 64%-accurate amount on a handwrit
 | 16. Improve Graders with Model Feedback | Review quality and confidence (5.5) *(also in Q18, Q21)* |
 
 *CBT is thin on 5.5. Use the guide's Aggregate Metrics Trap section and the Udemy lectures.*
+
+</details>

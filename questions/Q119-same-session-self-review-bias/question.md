@@ -1,9 +1,6 @@
-# Q119 — Same-session review missed bugs that CI caught: the reviewer kept its own reasoning
+# Q119
 
-**Domain / lesson:** D4 › 4.6 Multi-Instance & Multi-Pass Review (self-review limitation)
-**Also touches:** D3 › 3.6 CI/CD Integration (Session Context Isolation)
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md)–[Q118](../Q118-agentic-review-follows-cross-file-references/question.md))
-**Related:** [Q77](../Q77-fork-session-compare-two-approaches/question.md) (fork copies the session history)
 
 ## Question
 
@@ -17,6 +14,14 @@ What best explains this discrepancy?
 - **B.** The extended session length caused the context window to fill with conversation history, leaving less room for thorough analysis.
 - **C.** The CI environment has access to the full codebase context while the local session only sees the current file.
 - **D.** Claude retains context about its prior reasoning in the session, making it less likely to question its own decisions.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Same-session review missed bugs that CI caught: the reviewer kept its own reasoning
+**Domain / lesson:** D4 › 4.6 Multi-Instance & Multi-Pass Review (self-review limitation)
+**Also touches:** D3 › 3.6 CI/CD Integration (Session Context Isolation)
+**Related:** [Q77](../Q77-fork-session-compare-two-approaches/question.md) (fork copies the session history)
 
 ## Answer: **D**
 
@@ -140,3 +145,5 @@ Human analogy: proof-reading your own essay vs a colleague reading it. You see w
 |---|---|
 | 15. Evaluate Prompts with Test Datasets | Evaluating outputs with separate checks |
 | 16. Improve Graders with Model Feedback | Independent grading of outputs |
+
+</details>

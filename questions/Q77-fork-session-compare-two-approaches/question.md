@@ -1,8 +1,6 @@
-# Q77 — Two refactoring approaches from one analysis: fork the session
+# Q77
 
-**Domain / lesson:** D1 › 1.7 Session State and Resumption
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (the pasted text leaves out the scenario intro; same set as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md)–[Q76](../Q76-edit-no-unique-anchor-read-write/question.md))
-**Follows:** [Q72](../Q72-resume-and-name-changed-files/question.md) (the same legacy auth module; there files had changed, here nothing has) · [Q45](../Q45-fresh-session-structured-summary/question.md) (fresh session + summary: the third option)
 
 ## Question
 
@@ -12,6 +10,13 @@ An engineer used the agent yesterday to analyze a legacy authentication module, 
 - **B.** Resume yesterday's session and explore both approaches sequentially within the same conversation thread.
 - **C.** Resume yesterday's session to explore the first approach, then start a new session for the second, manually recreating the original context.
 - **D.** Use fork_session to create two branches from yesterday's analysis, exploring one approach in each fork.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Two refactoring approaches from one analysis: fork the session
+**Domain / lesson:** D1 › 1.7 Session State and Resumption
+**Follows:** [Q72](../Q72-resume-and-name-changed-files/question.md) (the same legacy auth module; there files had changed, here nothing has) · [Q45](../Q45-fresh-session-structured-summary/question.md) (fresh session + summary: the third option)
 
 ## Answer: **D**
 
@@ -166,3 +171,5 @@ In the CLI, name the fork (guide's current-state note: *"mid-session with /renam
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 1.7 (see the study map). Use the guide and the Udemy lectures for session forking.*
+
+</details>

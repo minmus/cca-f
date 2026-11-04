@@ -1,9 +1,4 @@
-# Q35 — Structured tool output vs. a formatted text string
-
-**Domain / lesson (closest fit):** D2 › 2.1 Tool Interface Design (input **and output** contracts)
-**Also touches:** D4 › 4.3 Structured Output with Tool Use (structure ≠ correctness) · D2 › 2.4 MCP Server Integration (`structuredContent`, `outputSchema`)
-**Note:** the guide's 2.1 page only mentions output contracts briefly (*"with defined input and output contracts"*). The answer rests on lesson 4.3 and the MCP spec, Tools › Output Schema (checked 2026-10-30).
-**Follows:** [Q30](../Q30-split-generic-analyze-document/question.md) (output contracts) · [Q22](../Q22-empty-result-is-not-error/question.md) (structured results) · [Q20](../Q20-parameter-descriptions/question.md) (valid ≠ correct)
+# Q35
 
 ## Question
 
@@ -13,6 +8,15 @@ Your get_portfolio_value tool returns the total value of a user's investment por
 - **B.** Structured JSON consumes significantly fewer tokens than natural language, substantially reducing API costs.
 - **C.** Structured JSON is processed deterministically by the model, significantly improving accuracy when extracting values.
 - **D.** The agent can reliably extract specific values without parsing free-form text, reducing errors in subsequent operations.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Structured tool output vs. a formatted text string
+**Domain / lesson (closest fit):** D2 › 2.1 Tool Interface Design (input **and output** contracts)
+**Also touches:** D4 › 4.3 Structured Output with Tool Use (structure ≠ correctness) · D2 › 2.4 MCP Server Integration (`structuredContent`, `outputSchema`)
+**Note:** the guide's 2.1 page only mentions output contracts briefly (*"with defined input and output contracts"*). The answer rests on lesson 4.3 and the MCP spec, Tools › Output Schema (checked 2026-10-30).
+**Follows:** [Q30](../Q30-split-generic-analyze-document/question.md) (output contracts) · [Q22](../Q22-empty-result-is-not-error/question.md) (structured results) · [Q20](../Q20-parameter-descriptions/question.md) (valid ≠ correct)
 
 ## Answer: **D**
 
@@ -188,3 +192,5 @@ The only path to the money goes through that `if`, which is Q28's point.
 | **19. Explain Tool Use and Tool Schemas** | ⭐ Schemas and structured data |
 | **20. Handle Tool Calls and Tool Results** | ⭐ What the model receives back from a tool |
 | 13. Control Outputs with Prompts and Stops | Structured vs. free-form outputs |
+
+</details>

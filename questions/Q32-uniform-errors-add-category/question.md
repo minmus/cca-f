@@ -1,9 +1,6 @@
-# Q32 — Uniform "Operation failed" errors → inconsistent recovery
+# Q32
 
-**Domain / lesson:** D2 › 2.2 Structured Error Responses
-**Also touches:** D2 › 2.4 MCP Server Integration (`isError` envelope) · D5 › 5.3 Error Propagation (where retries belong)
 **Scenario:** customer-support agent, MCP `lookup_order` tool
-**Follows:** [Q24](../Q24-structured-errors-not-exceptions/question.md) (same answer: structured errors) · [Q22](../Q22-empty-result-is-not-error/question.md) (the four categories) · [Q25](../Q25-mcp-protocol-vs-tool-errors/question.md) (`isError` vs protocol error)
 
 ## Question
 
@@ -13,6 +10,14 @@ Production logs reveal inconsistent error handling: when lookup_order fails, the
 - **B.** Add few-shot examples to the system prompt demonstrating how to interpret error message patterns and select appropriate responses for each.
 - **C.** Enhance error responses with structured metadata: include `errorCategory` (transient/validation/permission), `isRetryable` boolean, and a description of what caused the failure.
 - **D.** Implement retry logic with exponential backoff in your MCP server for all errors, returning to the agent only after retries are exhausted.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Uniform "Operation failed" errors → inconsistent recovery
+**Domain / lesson:** D2 › 2.2 Structured Error Responses
+**Also touches:** D2 › 2.4 MCP Server Integration (`isError` envelope) · D5 › 5.3 Error Propagation (where retries belong)
+**Follows:** [Q24](../Q24-structured-errors-not-exceptions/question.md) (same answer: structured errors) · [Q22](../Q22-empty-result-is-not-error/question.md) (the four categories) · [Q25](../Q25-mcp-protocol-vs-tool-errors/question.md) (`isError` vs protocol error)
 
 ## Answer: **C**
 
@@ -210,3 +215,5 @@ If you've just done Q24's list, skip #37 and #38 (~20 min).
 | **20. Handle Tool Calls and Tool Results** | ⭐ Returning errors as tool results |
 | 33. Explain MCP Clients and Servers | The MCP result envelope (`isError`) |
 | 21. Build Multi Turn Tool Conversations | Recovery over the next turns |
+
+</details>

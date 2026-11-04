@@ -1,9 +1,6 @@
-# Q98 — Reviewers keep fixing "a handful" and "a splash": add few-shot examples that copy them as written
+# Q98
 
-**Domain / lesson:** D4 › 4.2 Few-Shot Prompting
-**Also touches:** D4 › 4.3 Structured Output (what a schema change can and can't fix: A)
 **Scenario:** Structured data extraction system (same as [Q95](../Q95-accuracy-by-segment-before-automating/question.md))
-**Follows:** [Q95](../Q95-accuracy-by-segment-before-automating/question.md) (human-review results as evidence) · [Q17](../Q17-split-unified-tool/question.md), [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (few-shot as the *wrong* answer, and why this case is different)
 
 ## Question
 
@@ -17,6 +14,14 @@ How should you use this feedback to improve extraction accuracy?
 - **B.** Implement a post-processing layer that uses pattern matching to detect informal measurement phrases in source text and automatically populate values when the extraction is empty.
 - **C.** Add few-shot examples to your prompt demonstrating correct handling of informal measurements – extracting them verbatim rather than converting or omitting them.
 - **D.** Fine-tune the model on the 847 corrected extractions.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Reviewers keep fixing "a handful" and "a splash": add few-shot examples that copy them as written
+**Domain / lesson:** D4 › 4.2 Few-Shot Prompting
+**Also touches:** D4 › 4.3 Structured Output (what a schema change can and can't fix: A)
+**Follows:** [Q95](../Q95-accuracy-by-segment-before-automating/question.md) (human-review results as evidence) · [Q17](../Q17-split-unified-tool/question.md), [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (few-shot as the *wrong* answer, and why this case is different)
 
 ## Answer: **C**
 
@@ -205,3 +210,5 @@ Keep required only what every recipe line always has, the ingredient. Guide: *"M
 |---|---|
 | **17. Design Clear Prompts with Examples** | ⭐ Writing examples that show the target behaviour *(also in Q05, Q31, Q37, Q86)* |
 | 19. Explain Tool Use and Tool Schemas | Tool schemas: the layer the check question's fix changes *(also in Q01, Q04, Q09, Q17, Q19, Q20, Q21, Q30, Q35, Q47, Q48)* |
+
+</details>

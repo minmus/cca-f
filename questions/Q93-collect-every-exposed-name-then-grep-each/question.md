@@ -1,9 +1,6 @@
-# Q93 — All callers of a function that wrappers rename: list every exposed name, then Grep each one
+# Q93
 
-**Domain / lesson:** D2 › 2.5 Built-in Tools (Tracing Function Usage Across Wrapper Modules)
-**Also touches:** D5 › 5.4 Codebase Exploration & Context Degradation (why reading every importing file hurts)
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (same set as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md)–[Q81](../Q81-grep-import-statements/question.md), [Q92](../Q92-resume-named-session-by-name/question.md))
-**Follows:** [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (its check: a wrapper hid the original name, so Grep the wrapper's name) · [Q81](../Q81-grep-import-statements/question.md) (Grep for import statements: a content search)
 
 ## Question
 
@@ -17,6 +14,14 @@ What exploration strategy will most reliably identify all callers?
 - **B.** Use Grep to find all files that import from the library or wrapper modules, then read each file to check whether it uses the function.
 - **C.** Use Grep to search for the function's original name across the codebase.
 - **D.** Read the library and wrapper modules to identify all exposed names for the function, then Grep for each name across the codebase.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** All callers of a function that wrappers rename: list every exposed name, then Grep each one
+**Domain / lesson:** D2 › 2.5 Built-in Tools (Tracing Function Usage Across Wrapper Modules)
+**Also touches:** D5 › 5.4 Codebase Exploration & Context Degradation (why reading every importing file hurts)
+**Follows:** [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (its check: a wrapper hid the original name, so Grep the wrapper's name) · [Q81](../Q81-grep-import-statements/question.md) (Grep for import statements: a content search)
 
 ## Answer: **D**
 
@@ -176,3 +181,5 @@ So there are two rings. The **outer ring** is the 15 files that call one of the 
 | Skill | Why |
 |---|---|
 | **23. Apply Built In Tools Safely** | ⭐ Choosing Grep, Glob and Read deliberately *(also in Q68, Q69, Q75, Q76, Q81)* |
+
+</details>

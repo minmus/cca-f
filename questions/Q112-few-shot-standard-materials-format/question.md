@@ -1,9 +1,6 @@
-# Q112 — "cotton blend", "Cotton/Polyester mix", or nothing: show the standard format with few-shot examples
+# Q112
 
-**Domain / lesson:** D4 › 4.2 Few-Shot Prompting (when to deploy few-shot examples)
-**Also touches:** D4 › 4.3 Structured Output (what a schema does and doesn't fix: C)
 **Scenario:** Structured data extraction system (same as [Q95](../Q95-accuracy-by-segment-before-automating/question.md), [Q98](../Q98-few-shot-for-informal-measurements/question.md), [Q110](../Q110-resubmit-only-failures-chunked/question.md), [Q111](../Q111-batch-standard-realtime-urgent/question.md))
-**Follows:** [Q98](../Q98-few-shot-for-informal-measurements/question.md) (few-shot for a judgement call; its check: nullable fields when the information is absent)
 
 ## Question
 
@@ -17,6 +14,14 @@ What's the most effective way to improve extraction consistency?
 - **B.** Switch to a more capable model tier since inconsistent extraction indicates insufficient model capability
 - **C.** Make the "materials" field required instead of optional in the schema to force the model to always extract a value
 - **D.** Set temperature to 0 to eliminate randomness and ensure deterministic outputs
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** "cotton blend", "Cotton/Polyester mix", or nothing: show the standard format with few-shot examples
+**Domain / lesson:** D4 › 4.2 Few-Shot Prompting (when to deploy few-shot examples)
+**Also touches:** D4 › 4.3 Structured Output (what a schema does and doesn't fix: C)
+**Follows:** [Q98](../Q98-few-shot-for-informal-measurements/question.md) (few-shot for a judgement call; its check: nullable fields when the information is absent)
 
 ## Answer: **A**
 
@@ -190,3 +195,5 @@ Reasoning: There's no "Material:" line, but the sentence names the material.
 | Skill | Why |
 |---|---|
 | **17. Design Clear Prompts with Examples** | ⭐ Writing examples that show the target format *(also in Q05, Q31, Q37, Q86, Q98)* |
+
+</details>

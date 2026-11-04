@@ -1,8 +1,6 @@
-# Q66 — Production bug, clear stack trace, unfamiliar module: still direct execution
+# Q66
 
-**Domain / lesson:** D3 › 3.4 Plan Mode vs Direct Execution
 **Scenario:** Claude Code for a development team (same as [Q52](../Q52-posttooluse-hook-runs-formatter/question.md)–[Q65](../Q65-review-checklist-as-slash-command/question.md))
-**Follows:** [Q53](../Q53-direct-execution-for-clear-small-change/question.md) (clear change → direct execution) · [Q64](../Q64-interview-pattern-unfamiliar-domain/question.md) (a different kind of "unfamiliar") · [Q55](../Q55-tests-first-share-failures/question.md) (a failing test as the check)
 
 ## Question
 
@@ -14,6 +12,13 @@ A critical bug is affecting production users. Error logs show exceptions in the 
 - **B.** Enter plan mode to explore the module's architecture and dependencies before attempting any fixes.
 - **C.** Use plan mode to analyze the error in context of the module's design, enumerate potential root causes, and prioritize fixes systematically.
 - **D.** Use direct execution to examine the stack trace, read the relevant code, and implement a fix once you identify the root cause.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Production bug, clear stack trace, unfamiliar module: still direct execution
+**Domain / lesson:** D3 › 3.4 Plan Mode vs Direct Execution
+**Follows:** [Q53](../Q53-direct-execution-for-clear-small-change/question.md) (clear change → direct execution) · [Q64](../Q64-interview-pattern-unfamiliar-domain/question.md) (a different kind of "unfamiliar") · [Q55](../Q55-tests-first-share-failures/question.md) (a failing test as the check)
 
 ## Answer: **D**
 
@@ -157,3 +162,5 @@ Guide 3.4: *"When complexity is already stated in the requirements (e.g., monoli
 | Skill | Why |
 |---|---|
 | **3. Apply Planning to Guide Code Changes** | ⭐ When planning pays off, and when it doesn't *(also in Q53)* |
+
+</details>

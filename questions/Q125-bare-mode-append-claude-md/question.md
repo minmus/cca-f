@@ -1,9 +1,6 @@
-# Q125 — 18 s CI startup from auto-discovery: `--bare` + `--append-system-prompt-file ./CLAUDE.md`
+# Q125
 
-**Domain / lesson:** D3 › 3.6 CI/CD Integration (`--bare` mode, system prompt flags)
-**Also touches:** D3 › 3.1 CLAUDE.md Hierarchy (what auto-discovery loads)
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md)–[Q124](../Q124-claude-md-testing-standards-fixtures/question.md))
-**Follows:** [Q117](../Q117-append-system-prompt-keeps-tool-guidance/question.md) (append keeps the default prompt; replace drops it) · [Q123](../Q123-claude-md-project-conventions-for-ci-review/question.md) (CI needs CLAUDE.md for standards)
 
 ## Question
 
@@ -17,6 +14,14 @@ What is the most effective approach?
 - **B.** Run with `--bare` mode and pass `--append-system-prompt-file ./CLAUDE.md` to explicitly load your project standards while skipping all auto-discovery.
 - **C.** Run with `--bare` mode and specify all review criteria directly in the `-p` prompt argument for each CI invocation, without referencing any external files.
 - **D.** Keep the default initialization and add `--exclude-dynamic-system-prompt-sections` to reduce per-machine prompt variability and improve prompt cache hit rates across runners.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 18 s CI startup from auto-discovery: `--bare` + `--append-system-prompt-file ./CLAUDE.md`
+**Domain / lesson:** D3 › 3.6 CI/CD Integration (`--bare` mode, system prompt flags)
+**Also touches:** D3 › 3.1 CLAUDE.md Hierarchy (what auto-discovery loads)
+**Follows:** [Q117](../Q117-append-system-prompt-keeps-tool-guidance/question.md) (append keeps the default prompt; replace drops it) · [Q123](../Q123-claude-md-project-conventions-for-ci-review/question.md) (CI needs CLAUDE.md for standards)
 
 ## Answer: **B**
 
@@ -165,3 +170,5 @@ gh pr diff "$PR" | claude --bare -p "Review against our standards" --append-syst
 |---|---|
 | **8. Apply Useful Hooks and Claude Code SDK Basics** | ⭐ Headless / SDK runs |
 | 1. Set Up Claude Code and Configure Projects | CLAUDE.md loading *(also in Q123, Q124)* |
+
+</details>

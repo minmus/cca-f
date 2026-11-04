@@ -1,9 +1,6 @@
-# Q114 — 12% semantic errors, reviewers for 20%: calibrated field-level confidence decides what they check
+# Q114
 
-**Domain / lesson:** D5 › 5.5 Human Review & Confidence Calibration (Field-Level Confidence Calibration; Reviewer Capacity Prioritisation)
-**Also touches:** D4 › 4.4 Validation, Retry & Feedback (semantic errors pass the schema)
 **Scenario:** Structured data extraction system (same as [Q95](../Q95-accuracy-by-segment-before-automating/question.md), [Q98](../Q98-few-shot-for-informal-measurements/question.md), [Q110](../Q110-resubmit-only-failures-chunked/question.md)–[Q113](../Q113-few-shot-varied-document-structures/question.md))
-**Follows:** [Q21](../Q21-review-flag-from-calibrated-thresholds/question.md) (per-field thresholds tested on known answers) · [Q95](../Q95-accuracy-by-segment-before-automating/question.md) (validate by segment before automating)
 
 ## Question
 
@@ -17,6 +14,14 @@ Which approach most effectively allocates reviewer attention?
 - **B.** Have the model output field-level confidence scores, then calibrate review thresholds using a labeled validation set.
 - **C.** Review all extractions from documents with formatting anomalies such as unusual layouts or mixed content types.
 - **D.** Randomly sample 20% of extractions for review, using corrections to track accuracy and identify error patterns.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 12% semantic errors, reviewers for 20%: calibrated field-level confidence decides what they check
+**Domain / lesson:** D5 › 5.5 Human Review & Confidence Calibration (Field-Level Confidence Calibration; Reviewer Capacity Prioritisation)
+**Also touches:** D4 › 4.4 Validation, Retry & Feedback (semantic errors pass the schema)
+**Follows:** [Q21](../Q21-review-flag-from-calibrated-thresholds/question.md) (per-field thresholds tested on known answers) · [Q95](../Q95-accuracy-by-segment-before-automating/question.md) (validate by segment before automating)
 
 ## Answer: **B**
 
@@ -153,3 +158,5 @@ flowchart TB
 | 16. Improve Graders with Model Feedback | Review quality and confidence (5.5) *(also in Q18, Q21, Q95)* |
 
 *CBT is thin on 5.5. Use the guide's 5.5 lesson and Udemy A #126–#129.*
+
+</details>

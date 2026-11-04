@@ -1,9 +1,6 @@
-# Q129 — Logic examples help logic recall but hurt API recall: split the review into focused prompts
+# Q129
 
-**Domain / lesson:** D4 › 4.6 Multi-Instance & Multi-Pass Review (focused passes per concern; attention dilution)
-**Also touches:** D4 › 4.2 Few-Shot Prompting (examples for one category in a shared prompt) · D1 › 1.6 Task Decomposition
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md)–[Q128](../Q128-review-md-skip-rules-evidence-bar/question.md))
-**Follows:** [Q121](../Q121-few-shot-acceptable-vs-genuine-findings/question.md) (few-shot for review judgment) · [Q118](../Q118-agentic-review-follows-cross-file-references/question.md) (review passes) · [Q119](../Q119-same-session-self-review-bias/question.md) (independent instances)
 
 ## Question
 
@@ -17,6 +14,14 @@ How should you address this trade-off to improve detection across both categorie
 - **B.** Split the review into separate focused prompts – one for security and API design, another for business logic – each with dedicated examples, then consolidate findings before posting.
 - **C.** Upgrade to a more capable model tier, since its stronger reasoning will handle both concern types in a single prompt and eliminate the recall tradeoff.
 - **D.** Replace the few-shot examples with a detailed checklist of specific logic edge cases to verify, such as division-by-zero in score calculations and boundary conditions in grading thresholds.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Logic examples help logic recall but hurt API recall: split the review into focused prompts
+**Domain / lesson:** D4 › 4.6 Multi-Instance & Multi-Pass Review (focused passes per concern; attention dilution)
+**Also touches:** D4 › 4.2 Few-Shot Prompting (examples for one category in a shared prompt) · D1 › 1.6 Task Decomposition
+**Follows:** [Q121](../Q121-few-shot-acceptable-vs-genuine-findings/question.md) (few-shot for review judgment) · [Q118](../Q118-agentic-review-follows-cross-file-references/question.md) (review passes) · [Q119](../Q119-same-session-self-review-bias/question.md) (independent instances)
 
 ## Answer: **B**
 
@@ -151,3 +156,5 @@ Bonus: each prompt can now be **evaluated and tuned independently** on its own p
 |---|---|
 | 15. Evaluate Prompts with Test Datasets | ⭐ Per-category recall from an eval suite *(also in Q119)* |
 | 17. Design Clear Prompts with Examples | Focused examples *(also in Q121, Q124)* |
+
+</details>

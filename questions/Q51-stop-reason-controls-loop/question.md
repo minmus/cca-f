@@ -1,8 +1,6 @@
-# Q51 — What tells the agentic loop to continue or stop? `stop_reason`
+# Q51
 
-**Domain / lesson:** D1 › 1.1 Agentic Loops
 **Scenario:** customer-support agent, warranty claim (`get_customer` → `lookup_order` → `process_refund` or `escalate_to_human`)
-**Follows:** [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (the model decides the next tool; code reads `stop_reason`) · [Q46](../Q46-stateless-api-pass-full-history/question.md) (append results, send the full history) · [Q36](../Q36-coordinator-missing-task-tool/question.md) (text that narrates an action isn't the action)
 
 ## Question
 
@@ -12,6 +10,13 @@ A customer contacts the agent about a warranty claim on a power drill. Resolving
 - **B.** You check whether Claude's response contains a text content block – if text is present, the agent has produced its final answer and the loop should exit.
 - **C.** You track the number of tool calls made and exit the loop once a preconfigured maximum is reached.
 - **D.** You check the stop_reason field in each API response – the loop continues while it equals "tool_use" and exits when it changes to "end_turn" or another terminal value.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** What tells the agentic loop to continue or stop? `stop_reason`
+**Domain / lesson:** D1 › 1.1 Agentic Loops
+**Follows:** [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (the model decides the next tool; code reads `stop_reason`) · [Q46](../Q46-stateless-api-pass-full-history/question.md) (append results, send the full history) · [Q36](../Q36-coordinator-missing-task-tool/question.md) (text that narrates an action isn't the action)
 
 ## Answer: **D**
 
@@ -157,3 +162,5 @@ while True:
 |---|---|
 | **21. Build Multi Turn Tool Conversations** | ⭐ The loop across several tool calls |
 | 20. Handle Tool Calls and Tool Results | Running tools and appending results |
+
+</details>

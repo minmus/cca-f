@@ -1,9 +1,6 @@
-# Q120 — 200 commits, needed tomorrow morning, same model: Message Batches API
+# Q120
 
-**Domain / lesson:** D4 › 4.5 Batch Processing
-**Also touches:** D3 › 3.6 CI/CD Integration
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md)–[Q119](../Q119-same-session-self-review-bias/question.md))
-**Follows:** [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md) (batch if the workflow tolerates the wait) · [Q111](../Q111-batch-standard-realtime-urgent/question.md) (SLA buffer) · [Q110](../Q110-resubmit-only-failures-chunked/question.md) (`custom_id`, resubmit failures)
 
 ## Question
 
@@ -17,6 +14,14 @@ Which approach satisfies all of these constraints?
 - **B.** Concatenate all 200 commit messages into a single Messages API request and have the model return all summaries in one response, since fewer requests always reduces total token cost.
 - **C.** Submit the 200 requests to the Message Batches API with unique `custom_id`s and retrieve results once the batch ends, which applies a 50% discount to all input and output tokens.
 - **D.** Switch the summarization calls from the Sonnet-tier model to a Haiku-tier model to take advantage of Haiku's lower per-token rates.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 200 commits, needed tomorrow morning, same model: Message Batches API
+**Domain / lesson:** D4 › 4.5 Batch Processing
+**Also touches:** D3 › 3.6 CI/CD Integration
+**Follows:** [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md) (batch if the workflow tolerates the wait) · [Q111](../Q111-batch-standard-realtime-urgent/question.md) (SLA buffer) · [Q110](../Q110-resubmit-only-failures-chunked/question.md) (`custom_id`, resubmit failures)
 
 ## Answer: **C**
 
@@ -137,3 +142,5 @@ Same shape as Q111 (budget the worst case, keep a buffer) and Q110 (`custom_id` 
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 4.5 (see the study map). Use the guide's Matching Rule section and Udemy B #33.*
+
+</details>

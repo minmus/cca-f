@@ -1,9 +1,6 @@
-# Q70 — Agent greps imports instead of calling `analyze_dependencies`: expand the MCP tool description
+# Q70
 
-**Domain / lesson:** D2 › 2.4 MCP Server Integration (sparse MCP descriptions lose to detailed built-ins)
-**Also touches:** D2 › 2.1 Tool Interface Design (descriptions drive selection; when splitting is right)
 **Scenario:** Developer productivity tools with the Claude Agent SDK (built-ins + MCP servers)
-**Follows:** [Q74](../Q74-mcp-descriptions-compete-with-built-ins/question.md) (same problem: refactoring tools vs Write/sed) · [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (expand minimal descriptions) · [Q17](../Q17-split-unified-tool/question.md) / [Q30](../Q30-split-generic-analyze-document/question.md) (when splitting *is* right)
 
 ## Question
 
@@ -19,6 +16,14 @@ What's the most effective approach to improve the agent's selection of MCP tools
 - **B.** Remove Grep from available tools when the MCP server is connected to eliminate functional overlap.
 - **C.** Split analyze_dependencies into granular tools (list_imports, resolve_transitive_deps, detect_circular_deps) so each has a focused purpose less likely to overlap with Grep.
 - **D.** Expand MCP tool descriptions to detail capabilities and outputs – e.g., "Builds dependency graph showing direct imports, transitive dependencies, and cycles."
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Agent greps imports instead of calling `analyze_dependencies`: expand the MCP tool description
+**Domain / lesson:** D2 › 2.4 MCP Server Integration (sparse MCP descriptions lose to detailed built-ins)
+**Also touches:** D2 › 2.1 Tool Interface Design (descriptions drive selection; when splitting is right)
+**Follows:** [Q74](../Q74-mcp-descriptions-compete-with-built-ins/question.md) (same problem: refactoring tools vs Write/sed) · [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (expand minimal descriptions) · [Q17](../Q17-split-unified-tool/question.md) / [Q30](../Q30-split-generic-analyze-document/question.md) (when splitting *is* right)
 
 ## Answer: **D**
 
@@ -144,3 +149,5 @@ Returns: {direct: [...], transitive: [...], cycles: [[a, b, a], ...]}
 |---|---|
 | **34. Build MCP Tools Resources and Prompts** | ⭐ Writing MCP tool descriptions *(also in Q74, Q133)* |
 | 22. Route Requests Across Multiple Tools | How the model chooses between tools *(also in Q74)* |
+
+</details>

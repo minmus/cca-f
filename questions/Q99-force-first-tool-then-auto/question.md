@@ -1,9 +1,6 @@
-# Q99 — `lookup_citations` runs before the DOI exists: force `extract_metadata` first, then enrich in later turns
+# Q99
 
-**Domain / lesson:** D2 › 2.3 Tool Distribution & Tool Choice (forced selection enforces a mandatory first step; later turns use `"auto"`)
-**Also touches:** D4 › 4.3 Structured Output with Tool Use · D1 › 1.1 Agentic Loops (pass the tool result into the next turn)
 **Scenario:** Structured data extraction from unstructured documents with JSON schemas
-**Follows:** [Q98](../Q98-few-shot-for-informal-measurements/question.md) (same extraction scenario) · [Q46](../Q46-stateless-api-pass-full-history/question.md) (each call carries the full history)
 
 ## Question
 
@@ -17,6 +14,14 @@ What's the most effective way to ensure structured metadata extraction happens f
 - **B.** Set `tool_choice` to `{"type": "tool", "name": "extract_metadata"}` and process the enrichment requests in subsequent turns after receiving the extracted metadata.
 - **C.** Set `tool_choice` to `"auto"` and reorder the tool definitions so `extract_metadata` appears first in the tools array, since Claude prioritizes earlier-listed tools.
 - **D.** Set `tool_choice` to `"any"` so Claude must use a tool, combined with system prompt instructions prioritizing `extract_metadata`.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** `lookup_citations` runs before the DOI exists: force `extract_metadata` first, then enrich in later turns
+**Domain / lesson:** D2 › 2.3 Tool Distribution & Tool Choice (forced selection enforces a mandatory first step; later turns use `"auto"`)
+**Also touches:** D4 › 4.3 Structured Output with Tool Use · D1 › 1.1 Agentic Loops (pass the tool result into the next turn)
+**Follows:** [Q98](../Q98-few-shot-for-informal-measurements/question.md) (same extraction scenario) · [Q46](../Q46-stateless-api-pass-full-history/question.md) (each call carries the full history)
 
 ## Answer: **B**
 
@@ -152,3 +157,5 @@ So the DOI reaches `lookup_citations` because **your code appends the assistant'
 | Skill | Why |
 |---|---|
 | **22. Route Requests Across Multiple Tools** | ⭐ Tool choice and routing *(also in Q70, Q74)* |
+
+</details>

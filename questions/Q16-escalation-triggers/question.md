@@ -1,7 +1,5 @@
-# Q16 — Which escalation triggers are reliable?
+# Q16
 
-**Domain / lesson:** D5 › 5.2 Escalation & Ambiguity Resolution
-**Also touches:** D1 › 1.4 Workflow Enforcement and Handoff · D1 › 1.1 Agentic Loops (model judgment)
 **Scenario:** customer-support agent (same as [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md)–[Q15](../Q15-mid-process-escalation-handoff/question.md))
 
 ## Question
@@ -12,6 +10,13 @@ You're implementing the escalation logic for when the agent should call `escalat
 - **B.** Configure the agent to escalate after three consecutive tool calls that fail to resolve the customer's stated issue, ensuring a reasonable attempt before involving a human.
 - **C.** Instruct the agent to escalate when the customer requests a human, when the issue requires policy exceptions, or when the agent cannot make meaningful progress.
 - **D.** Build a rules engine that maps specific issue types, customer segments, and product categories to escalation decisions, removing the need for model judgment calls.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Which escalation triggers are reliable?
+**Domain / lesson:** D5 › 5.2 Escalation & Ambiguity Resolution
+**Also touches:** D1 › 1.4 Workflow Enforcement and Handoff · D1 › 1.1 Agentic Loops (model judgment)
 
 ## Answer: **C**
 
@@ -160,3 +165,5 @@ def process_refund(order_id, amount):
 | 6. Implement Hooks for Safer Automation | Code-enforced limits (vs judgment triggers) |
 
 *CBT has no dedicated lesson on escalation triggers. Use Udemy A #114 or Udemy B #52.*
+
+</details>

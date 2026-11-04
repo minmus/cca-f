@@ -17,8 +17,8 @@ The questions in this repo were added in the order they were pasted. This file p
 1. **Read** the guide lesson(s) linked at the top of the stage.
 2. **Watch** the Udemy A lectures, then the Udemy B ones. CBT is optional. Each lecture is listed once, in the stage where it fits best.
 3. **Answer each question cold**, in the order given:
-   - Read only the Question section, pick A–D and write a one-line why.
-   - Then open the Answer and the "Why the others are wrong" table.
+   - Open the question in the Markdown preview (Ctrl+Shift+V in VS Code, or on GitHub). The answer and explanation are folded away.
+   - Pick A–D and write a one-line why, then click **Show answer and explanation** and read the "Why the others are wrong" table.
    - Answer the check question again before you read your recorded answer.
 4. **Write the stage's rule** in your own words (the prompt is given), then compare it with the cheat-sheet rows listed.
 5. **Do the quizzes** listed. Each quiz sits at the first stage where you've watched all the exam lectures of its part or section.
@@ -79,9 +79,18 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~18 min):**
 
-1. [Q46](../questions/Q46-stateless-api-pass-full-history/question.md) The API is stateless: your code sends the whole history on every request.
-2. [Q51](../questions/Q51-stop-reason-controls-loop/question.md) 🟡 `stop_reason` tells the loop whether to continue or stop.
-3. [Q13](../questions/Q13-agentic-loop-model-decides-next-tool/question.md) Inside the loop, the model chooses the next tool. Your code doesn't script the order.
+1. [Q46](../questions/Q46-stateless-api-pass-full-history/question.md)
+2. [Q51](../questions/Q51-stop-reason-controls-loop/question.md) 🟡
+3. [Q13](../questions/Q13-agentic-loop-model-decides-next-tool/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q46:** The API is stateless: your code sends the whole history on every request.
+2. **Q51:** `stop_reason` tells the loop whether to continue or stop.
+3. **Q13:** Inside the loop, the model chooses the next tool. Your code doesn't script the order.
+
+</details>
 
 **Write the rule yourself:** *What does the model see on each turn, and what decides whether the loop runs again?*
 
@@ -109,11 +118,22 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~30 min):**
 
-1. [Q122](../questions/Q122-explicit-report-vs-skip-criteria/question.md) 🟡 Vague "not worth addressing" → explicit report-vs-skip criteria.
-2. [Q126](../questions/Q126-report-all-tagged-filter-downstream/question.md) 🟡 "Ignore anything you're uncertain about" hides real bugs → report all, tagged, filter downstream.
-3. [Q121](../questions/Q121-few-shot-acceptable-vs-genuine-findings/question.md) A judgement that criteria can't capture → few-shot examples with their reasoning.
-4. [Q112](../questions/Q112-few-shot-standard-materials-format/question.md) 🟡 The same field written three ways → examples of the standard format.
-5. [Q98](../questions/Q98-few-shot-for-informal-measurements/question.md) 🟡 A recurring informal value ("a handful") → examples that copy it as written.
+1. [Q122](../questions/Q122-explicit-report-vs-skip-criteria/question.md) 🟡
+2. [Q126](../questions/Q126-report-all-tagged-filter-downstream/question.md) 🟡
+3. [Q121](../questions/Q121-few-shot-acceptable-vs-genuine-findings/question.md)
+4. [Q112](../questions/Q112-few-shot-standard-materials-format/question.md) 🟡
+5. [Q98](../questions/Q98-few-shot-for-informal-measurements/question.md) 🟡
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q122:** Vague "not worth addressing" → explicit report-vs-skip criteria.
+2. **Q126:** "Ignore anything you're uncertain about" hides real bugs → report all, tagged, filter downstream.
+3. **Q121:** A judgement that criteria can't capture → few-shot examples with their reasoning.
+4. **Q112:** The same field written three ways → examples of the standard format.
+5. **Q98:** A recurring informal value ("a handful") → examples that copy it as written.
+
+</details>
 
 **Write the rule yourself:** *When are written criteria enough, and when do you add examples?*
 
@@ -141,12 +161,24 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~36 min):**
 
-1. [Q99](../questions/Q99-force-first-tool-then-auto/question.md) A mandatory first step → forced `tool_choice`, then `"auto"`.
-2. [Q113](../questions/Q113-few-shot-varied-document-structures/question.md) 🟡 Valid JSON, but fields left empty although the document has them → examples of the varied structures.
-3. [Q120](../questions/Q120-batch-api-same-model-half-price/question.md) 🟡 Batch API: same model and prompts, half the price, up to 24 h.
-4. [Q111](../questions/Q111-batch-standard-realtime-urgent/question.md) The matching rule: batch what nobody waits for, send in real time what someone does.
-5. [Q116](../questions/Q116-batch-if-24h-feedback-still-actionable/question.md) The same rule in CI: batch only if feedback up to 24 h late is still useful.
-6. [Q110](../questions/Q110-resubmit-only-failures-chunked/question.md) Failed batch items → resubmit only those, by `custom_id`, with the fix their error needs.
+1. [Q99](../questions/Q99-force-first-tool-then-auto/question.md)
+2. [Q113](../questions/Q113-few-shot-varied-document-structures/question.md) 🟡
+3. [Q120](../questions/Q120-batch-api-same-model-half-price/question.md) 🟡
+4. [Q111](../questions/Q111-batch-standard-realtime-urgent/question.md)
+5. [Q116](../questions/Q116-batch-if-24h-feedback-still-actionable/question.md)
+6. [Q110](../questions/Q110-resubmit-only-failures-chunked/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q99:** A mandatory first step → forced `tool_choice`, then `"auto"`.
+2. **Q113:** Valid JSON, but fields left empty although the document has them → examples of the varied structures.
+3. **Q120:** Batch API: same model and prompts, half the price, up to 24 h.
+4. **Q111:** The matching rule: batch what nobody waits for, send in real time what someone does.
+5. **Q116:** The same rule in CI: batch only if feedback up to 24 h late is still useful.
+6. **Q110:** Failed batch items → resubmit only those, by `custom_id`, with the fix their error needs.
+
+</details>
 
 **Write the rule yourself:** *What does a schema guarantee and what doesn't it? What decides batch or real time?*
 
@@ -178,9 +210,18 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~18 min):**
 
-1. [Q21](../questions/Q21-review-flag-from-calibrated-thresholds/question.md) Per-field confidence plus thresholds tested on known answers. Code sets the review flag.
-2. [Q95](../questions/Q95-accuracy-by-segment-before-automating/question.md) High overall accuracy can hide weak segments → check by document type and field first.
-3. [Q114](../questions/Q114-calibrated-field-confidence-routes-review/question.md) ⏳ Reviewers for only 20% → calibrated field-level confidence decides what they check.
+1. [Q21](../questions/Q21-review-flag-from-calibrated-thresholds/question.md)
+2. [Q95](../questions/Q95-accuracy-by-segment-before-automating/question.md)
+3. [Q114](../questions/Q114-calibrated-field-confidence-routes-review/question.md) ⏳
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q21:** Per-field confidence plus thresholds tested on known answers. Code sets the review flag.
+2. **Q95:** High overall accuracy can hide weak segments → check by document type and field first.
+3. **Q114:** Reviewers for only 20% → calibrated field-level confidence decides what they check.
+
+</details>
 
 **Write the rule yourself:** *How do you decide which extractions a human checks, and when is it safe to stop checking?*
 
@@ -208,15 +249,30 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~54 min):**
 
-1. [Q20](../questions/Q20-parameter-descriptions/question.md) Parameter descriptions help Claude supply the right values.
-2. [Q23](../questions/Q23-expand-minimal-tool-descriptions/question.md) ❌ `delete_file` vs `archive_file` with minimal descriptions → expand the descriptions.
-3. [Q48](../questions/Q48-description-states-parameter-source/question.md) The agent invents an `order_id` → say where the value must come from.
-4. [Q19](../questions/Q19-tool-accepts-available-identifier/question.md) 🟡 Change the input so the tool accepts the identifier the agent already has.
-5. [Q17](../questions/Q17-split-unified-tool/question.md) One unified tool or three specific ones → split.
-6. [Q30](../questions/Q30-split-generic-analyze-document/question.md) A generic `analyze_document` → split it by purpose.
-7. [Q29](../questions/Q29-compose-mechanical-keep-judgment/question.md) 🟡 Combine the mechanical steps into one tool, keep the judgement with the model.
-8. [Q47](../questions/Q47-merge-overlapping-tools/question.md) Overlapping tools cut accuracy from 88% to 71% → merge the overlap.
-9. [Q35](../questions/Q35-structured-tool-output-fields/question.md) Return structured output fields, not a formatted text string.
+1. [Q20](../questions/Q20-parameter-descriptions/question.md)
+2. [Q23](../questions/Q23-expand-minimal-tool-descriptions/question.md) ❌
+3. [Q48](../questions/Q48-description-states-parameter-source/question.md)
+4. [Q19](../questions/Q19-tool-accepts-available-identifier/question.md) 🟡
+5. [Q17](../questions/Q17-split-unified-tool/question.md)
+6. [Q30](../questions/Q30-split-generic-analyze-document/question.md)
+7. [Q29](../questions/Q29-compose-mechanical-keep-judgment/question.md) 🟡
+8. [Q47](../questions/Q47-merge-overlapping-tools/question.md)
+9. [Q35](../questions/Q35-structured-tool-output-fields/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q20:** Parameter descriptions help Claude supply the right values.
+2. **Q23:** `delete_file` vs `archive_file` with minimal descriptions → expand the descriptions.
+3. **Q48:** The agent invents an `order_id` → say where the value must come from.
+4. **Q19:** Change the input so the tool accepts the identifier the agent already has.
+5. **Q17:** One unified tool or three specific ones → split.
+6. **Q30:** A generic `analyze_document` → split it by purpose.
+7. **Q29:** Combine the mechanical steps into one tool, keep the judgement with the model.
+8. **Q47:** Overlapping tools cut accuracy from 88% to 71% → merge the overlap.
+9. **Q35:** Return structured output fields, not a formatted text string.
+
+</details>
 
 **Write the rule yourself:** *When a tool is misused, when do you fix the description, split, merge or scope it?*
 
@@ -243,15 +299,30 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~54 min):**
 
-1. [Q22](../questions/Q22-empty-result-is-not-error/question.md) 🟡 "No matches found" is a valid empty result, not an error.
-2. [Q24](../questions/Q24-structured-errors-not-exceptions/question.md) Return structured error results instead of throwing exceptions.
-3. [Q27](../questions/Q27-actionable-error-context/question.md) A device timeout → give the agent something it can offer the user.
-4. [Q49](../questions/Q49-instructive-error-messages/question.md) 🟡 "Tool execution failed" → say what went wrong and what to try next.
-5. [Q34](../questions/Q34-business-errors-not-retryable/question.md) 🟡 Business errors aren't retryable. Say so, and the wasted retries stop.
-6. [Q32](../questions/Q32-uniform-errors-add-category/question.md) 🟡 Uniform "Operation failed" → add an error category.
-7. [Q25](../questions/Q25-mcp-protocol-vs-tool-errors/question.md) 🟡 MCP: protocol error or `isError` tool result?
-8. [Q33](../questions/Q33-mcp-iserror-result/question.md) 🟡 How an MCP tool reports its errors back to the agent.
-9. [Q26](../questions/Q26-timeout-unknown-status-no-retry/question.md) A timeout with unknown outcome on a side-effecting action → don't tell the agent to retry.
+1. [Q22](../questions/Q22-empty-result-is-not-error/question.md) 🟡
+2. [Q24](../questions/Q24-structured-errors-not-exceptions/question.md)
+3. [Q27](../questions/Q27-actionable-error-context/question.md)
+4. [Q49](../questions/Q49-instructive-error-messages/question.md) 🟡
+5. [Q34](../questions/Q34-business-errors-not-retryable/question.md) 🟡
+6. [Q32](../questions/Q32-uniform-errors-add-category/question.md) 🟡
+7. [Q25](../questions/Q25-mcp-protocol-vs-tool-errors/question.md) 🟡
+8. [Q33](../questions/Q33-mcp-iserror-result/question.md) 🟡
+9. [Q26](../questions/Q26-timeout-unknown-status-no-retry/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q22:** "No matches found" is a valid empty result, not an error.
+2. **Q24:** Return structured error results instead of throwing exceptions.
+3. **Q27:** A device timeout → give the agent something it can offer the user.
+4. **Q49:** "Tool execution failed" → say what went wrong and what to try next.
+5. **Q34:** Business errors aren't retryable. Say so, and the wasted retries stop.
+6. **Q32:** Uniform "Operation failed" → add an error category.
+7. **Q25:** MCP: protocol error or `isError` tool result?
+8. **Q33:** How an MCP tool reports its errors back to the agent.
+9. **Q26:** A timeout with unknown outcome on a side-effecting action → don't tell the agent to retry.
+
+</details>
 
 **Write the rule yourself:** *What must a tool result contain so the agent can choose the right recovery?*
 
@@ -278,10 +349,20 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~24 min):**
 
-1. [Q28](../questions/Q28-tamper-proof-threshold-in-tool/question.md) 🟡 A tamper-proof $500 approval threshold lives in the tool's code.
-2. [Q31](../questions/Q31-refund-threshold-hook/question.md) Refunds over $500 must always escalate → a hook.
-3. [Q50](../questions/Q50-post-loop-fallback-escalation/question.md) 🟡 `max_turns` hit mid-dispute → code after the loop guarantees resolution or handoff.
-4. [Q18](../questions/Q18-meaningful-confirmation/question.md) ❌ Users approve 98% in 2 seconds → show what the human needs to judge.
+1. [Q28](../questions/Q28-tamper-proof-threshold-in-tool/question.md) 🟡
+2. [Q31](../questions/Q31-refund-threshold-hook/question.md)
+3. [Q50](../questions/Q50-post-loop-fallback-escalation/question.md) 🟡
+4. [Q18](../questions/Q18-meaningful-confirmation/question.md) ❌
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q28:** A tamper-proof $500 approval threshold lives in the tool's code.
+2. **Q31:** Refunds over $500 must always escalate → a hook.
+3. **Q50:** `max_turns` hit mid-dispute → code after the loop guarantees resolution or handoff.
+4. **Q18:** Users approve 98% in 2 seconds → show what the human needs to judge.
+
+</details>
 
 **Write the rule yourself:** *Which rules can live in the prompt, and which must live in code? Where in the code?*
 
@@ -310,15 +391,30 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~54 min):**
 
-1. [Q44](../questions/Q44-explicit-human-request-escalate-now/question.md) "I want to talk to a real person NOW" → escalate in that reply.
-2. [Q43](../questions/Q43-frustration-offer-resolve-or-escalate/question.md) Frustrated customer, straightforward case → acknowledge, offer to resolve now or escalate.
-3. [Q16](../questions/Q16-escalation-triggers/question.md) Which escalation triggers are reliable, and why self-rated confidence isn't one.
-4. [Q37](../questions/Q37-state-assumptions-not-interrogate/question.md) ❌ Ambiguous request → assume, state the assumption, offer to adjust.
-5. [Q14](../questions/Q14-escalation-handoff-summary/question.md) What to pass to a human on escalation.
-6. [Q15](../questions/Q15-mid-process-escalation-handoff/question.md) 🟡 Mid-process escalation: what to hand over.
-7. [Q38](../questions/Q38-sliding-window-recent-turns/question.md) 🟡 Long conversations slow down → size the history from the usage data.
-8. [Q40](../questions/Q40-multi-issue-case-facts-layer/question.md) Three issues in one session → a persistent, structured case-facts layer.
-9. [Q42](../questions/Q42-trim-tool-outputs-relevant-fields/question.md) Tool outputs fill the context → trim them to the relevant fields.
+1. [Q44](../questions/Q44-explicit-human-request-escalate-now/question.md)
+2. [Q43](../questions/Q43-frustration-offer-resolve-or-escalate/question.md)
+3. [Q16](../questions/Q16-escalation-triggers/question.md)
+4. [Q37](../questions/Q37-state-assumptions-not-interrogate/question.md) ❌
+5. [Q14](../questions/Q14-escalation-handoff-summary/question.md)
+6. [Q15](../questions/Q15-mid-process-escalation-handoff/question.md) 🟡
+7. [Q38](../questions/Q38-sliding-window-recent-turns/question.md) 🟡
+8. [Q40](../questions/Q40-multi-issue-case-facts-layer/question.md)
+9. [Q42](../questions/Q42-trim-tool-outputs-relevant-fields/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q44:** "I want to talk to a real person NOW" → escalate in that reply.
+2. **Q43:** Frustrated customer, straightforward case → acknowledge, offer to resolve now or escalate.
+3. **Q16:** Which escalation triggers are reliable, and why self-rated confidence isn't one.
+4. **Q37:** Ambiguous request → assume, state the assumption, offer to adjust.
+5. **Q14:** What to pass to a human on escalation.
+6. **Q15:** Mid-process escalation: what to hand over.
+7. **Q38:** Long conversations slow down → size the history from the usage data.
+8. **Q40:** Three issues in one session → a persistent, structured case-facts layer.
+9. **Q42:** Tool outputs fill the context → trim them to the relevant fields.
+
+</details>
 
 **Write the rule yourself:** *When does the agent escalate, and what goes with it? What must survive a long conversation, and how?*
 
@@ -351,10 +447,20 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~24 min):**
 
-1. [Q73](../questions/Q73-same-steps-every-pr-prompt-chaining/question.md) 🟡 The same three review steps for every PR → prompt chaining, a fixed pipeline.
-2. [Q75](../questions/Q75-intermittent-500-dynamic-decomposition/question.md) 🟡 Intermittent 500s in unknown components → dynamic, adaptive decomposition.
-3. [Q06](../questions/Q06-coordinator-gap-loop/question.md) The coordinator ships reports with gaps → evaluate, re-delegate, re-synthesise, with a cap.
-4. [Q11](../questions/Q11-analysis-gap-feedback-loop/question.md) Analysis finds gaps the strict pipeline can't act on → an explicit gap signal and a loop.
+1. [Q73](../questions/Q73-same-steps-every-pr-prompt-chaining/question.md) 🟡
+2. [Q75](../questions/Q75-intermittent-500-dynamic-decomposition/question.md) 🟡
+3. [Q06](../questions/Q06-coordinator-gap-loop/question.md)
+4. [Q11](../questions/Q11-analysis-gap-feedback-loop/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q73:** The same three review steps for every PR → prompt chaining, a fixed pipeline.
+2. **Q75:** Intermittent 500s in unknown components → dynamic, adaptive decomposition.
+3. **Q06:** The coordinator ships reports with gaps → evaluate, re-delegate, re-synthesise, with a cap.
+4. **Q11:** Analysis finds gaps the strict pipeline can't act on → an explicit gap signal and a loop.
+
+</details>
 
 **Write the rule yourself:** *When is a fixed pipeline right, and when must the plan adapt to what comes back?*
 
@@ -383,13 +489,26 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~42 min):**
 
-1. [Q36](../questions/Q36-coordinator-missing-task-tool/question.md) The coordinator talks about delegating, but no subagent runs → `Task` missing from `allowedTools`.
-2. [Q07](../questions/Q07-context-flows-through-coordinator/question.md) Information flows through the coordinator, written into the next prompt.
-3. [Q10](../questions/Q10-missing-context-in-subagent-prompt/question.md) 🟡 "No research findings were provided" → the coordinator didn't pass them.
-4. [Q12](../questions/Q12-include-complete-findings-in-prompt/question.md) Give synthesis the complete findings, directly in its prompt.
-5. [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) 🟡 Over-specified instructions → delegate goals and quality criteria, not steps.
-6. [Q02](../questions/Q02-context-passing-source-index/question.md) Pass the findings plus a structured source index, not everything.
-7. [Q04](../questions/Q04-tool-scoping-per-subagent/question.md) Subagents call tools outside their role → 4–5 scoped tools per role.
+1. [Q36](../questions/Q36-coordinator-missing-task-tool/question.md)
+2. [Q07](../questions/Q07-context-flows-through-coordinator/question.md)
+3. [Q10](../questions/Q10-missing-context-in-subagent-prompt/question.md) 🟡
+4. [Q12](../questions/Q12-include-complete-findings-in-prompt/question.md)
+5. [Q05](../questions/Q05-goals-not-procedures-delegation/question.md) 🟡
+6. [Q02](../questions/Q02-context-passing-source-index/question.md)
+7. [Q04](../questions/Q04-tool-scoping-per-subagent/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q36:** The coordinator talks about delegating, but no subagent runs → `Task` missing from `allowedTools`.
+2. **Q07:** Information flows through the coordinator, written into the next prompt.
+3. **Q10:** "No research findings were provided" → the coordinator didn't pass them.
+4. **Q12:** Give synthesis the complete findings, directly in its prompt.
+5. **Q05:** Over-specified instructions → delegate goals and quality criteria, not steps.
+6. **Q02:** Pass the findings plus a structured source index, not everything.
+7. **Q04:** Subagents call tools outside their role → 4–5 scoped tools per role.
+
+</details>
 
 **Write the rule yourself:** *What does a subagent know when it starts, and what must the coordinator write into its prompt?*
 
@@ -419,12 +538,24 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~36 min):**
 
-1. [Q84](../questions/Q84-parallel-subagents-from-the-coordinator/question.md) 🟡 12 precedents analysed one by one → parallel subagents from the coordinator.
-2. [Q115](../questions/Q115-parallel-task-calls-one-response/question.md) 🟡 Parallel means both `Task` calls in one response.
-3. [Q83](../questions/Q83-coordinator-selects-subagents-per-query/question.md) ❌ Simple facts go through all four subagents → the coordinator selects per query.
-4. [Q39](../questions/Q39-coordinator-answers-simple-followups/question.md) A summary of findings it already has → the coordinator answers directly.
-5. [Q67](../questions/Q67-subagent-timeout-structured-error-context/question.md) 🟡 A subagent times out → structured error context back to the coordinator.
-6. [Q41](../questions/Q41-partial-success-honest-next-step/question.md) One step fails mid-resolution → deliver what worked, be honest, offer a next step.
+1. [Q84](../questions/Q84-parallel-subagents-from-the-coordinator/question.md) 🟡
+2. [Q115](../questions/Q115-parallel-task-calls-one-response/question.md) 🟡
+3. [Q83](../questions/Q83-coordinator-selects-subagents-per-query/question.md) ❌
+4. [Q39](../questions/Q39-coordinator-answers-simple-followups/question.md)
+5. [Q67](../questions/Q67-subagent-timeout-structured-error-context/question.md) 🟡
+6. [Q41](../questions/Q41-partial-success-honest-next-step/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q84:** 12 precedents analysed one by one → parallel subagents from the coordinator.
+2. **Q115:** Parallel means both `Task` calls in one response.
+3. **Q83:** Simple facts go through all four subagents → the coordinator selects per query.
+4. **Q39:** A summary of findings it already has → the coordinator answers directly.
+5. **Q67:** A subagent times out → structured error context back to the coordinator.
+6. **Q41:** One step fails mid-resolution → deliver what worked, be honest, offer a next step.
+
+</details>
 
 **Write the rule yourself:** *When does the coordinator spawn subagents, how many and how, and what comes back when one fails?*
 
@@ -454,12 +585,24 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~36 min):**
 
-1. [Q01](../questions/Q01-source-attribution-multi-agent/question.md) Citations lost after summarising → content kept separate from source metadata.
-2. [Q09](../questions/Q09-synthesis-preserve-merge-mappings/question.md) Synthesis must preserve and merge the claim-source mappings.
-3. [Q08](../questions/Q08-conflicting-findings-annotation/question.md) Conflicting findings → established vs contested, each source's value kept.
-4. [Q82](../questions/Q82-dates-turn-conflicts-into-trends/question.md) 🟡 18% vs 35% → dates in the outputs turn a conflict into a trend.
-5. [Q85](../questions/Q85-render-each-content-type-appropriately/question.md) 🟡 Everything becomes bullet points → render each content type in its own format.
-6. [Q80](../questions/Q80-delimit-sources-place-critical-at-edges/question.md) Many sources in a long context → delimit each one, put critical material at the start or end.
+1. [Q01](../questions/Q01-source-attribution-multi-agent/question.md)
+2. [Q09](../questions/Q09-synthesis-preserve-merge-mappings/question.md)
+3. [Q08](../questions/Q08-conflicting-findings-annotation/question.md)
+4. [Q82](../questions/Q82-dates-turn-conflicts-into-trends/question.md) 🟡
+5. [Q85](../questions/Q85-render-each-content-type-appropriately/question.md) 🟡
+6. [Q80](../questions/Q80-delimit-sources-place-critical-at-edges/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q01:** Citations lost after summarising → content kept separate from source metadata.
+2. **Q09:** Synthesis must preserve and merge the claim-source mappings.
+3. **Q08:** Conflicting findings → established vs contested, each source's value kept.
+4. **Q82:** 18% vs 35% → dates in the outputs turn a conflict into a trend.
+5. **Q85:** Everything becomes bullet points → render each content type in its own format.
+6. **Q80:** Many sources in a long context → delimit each one, put critical material at the start or end.
+
+</details>
 
 **Write the rule yourself:** *How does a claim keep its source from the subagent to the final report?*
 
@@ -490,12 +633,24 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~36 min):**
 
-1. [Q56](../questions/Q56-memory-check-loaded-files-first/question.md) 🟡 A convention followed only sometimes → first check which files are loaded (`/memory`).
-2. [Q54](../questions/Q54-path-scoped-rules-load-by-file-type/question.md) 🟡 Rules for Terraform files only → path-scoped `.claude/rules/`.
-3. [Q60](../questions/Q60-per-package-selective-imports/question.md) 🟡 Monorepo standards with no naming pattern → each package `@`-imports what applies.
-4. [Q58](../questions/Q58-at-reference-example-files/question.md) 🟡 A one-off task with known example files → `@`-reference them in the prompt.
-5. [Q65](../questions/Q65-review-checklist-as-slash-command/question.md) 🟡 A checklist pasted at every review → a `/review` slash command.
-6. [Q52](../questions/Q52-posttooluse-hook-runs-formatter/question.md) "Always run Prettier" still slips 15% → a PostToolUse hook (Stage 7's rule again).
+1. [Q56](../questions/Q56-memory-check-loaded-files-first/question.md) 🟡
+2. [Q54](../questions/Q54-path-scoped-rules-load-by-file-type/question.md) 🟡
+3. [Q60](../questions/Q60-per-package-selective-imports/question.md) 🟡
+4. [Q58](../questions/Q58-at-reference-example-files/question.md) 🟡
+5. [Q65](../questions/Q65-review-checklist-as-slash-command/question.md) 🟡
+6. [Q52](../questions/Q52-posttooluse-hook-runs-formatter/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q56:** A convention followed only sometimes → first check which files are loaded (`/memory`).
+2. **Q54:** Rules for Terraform files only → path-scoped `.claude/rules/`.
+3. **Q60:** Monorepo standards with no naming pattern → each package `@`-imports what applies.
+4. **Q58:** A one-off task with known example files → `@`-reference them in the prompt.
+5. **Q65:** A checklist pasted at every review → a `/review` slash command.
+6. **Q52:** "Always run Prettier" still slips 15% → a PostToolUse hook (Stage 7's rule again).
+
+</details>
 
 **Write the rule yourself:** *Where does each kind of instruction live, and when is an instruction not enough?*
 
@@ -525,12 +680,24 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~36 min):**
 
-1. [Q53](../questions/Q53-direct-execution-for-clear-small-change/question.md) One conditional in one function → direct execution, not plan mode.
-2. [Q66](../questions/Q66-clear-stack-trace-direct-execution/question.md) 🟡 A clear stack trace in an unfamiliar module → still direct execution.
-3. [Q55](../questions/Q55-tests-first-share-failures/question.md) ❌ A complex algorithm → write the tests first, share the failures.
-4. [Q63](../questions/Q63-test-case-with-null-example/question.md) Nulls mishandled → a test case with nulls and the expected output.
-5. [Q64](../questions/Q64-interview-pattern-unfamiliar-domain/question.md) 🟡 An unfamiliar domain → have Claude interview you before it implements.
-6. [Q86](../questions/Q86-interacting-issues-one-detailed-message/question.md) 🟡 Formatting issues that interact → one detailed message, not one fix at a time.
+1. [Q53](../questions/Q53-direct-execution-for-clear-small-change/question.md)
+2. [Q66](../questions/Q66-clear-stack-trace-direct-execution/question.md) 🟡
+3. [Q55](../questions/Q55-tests-first-share-failures/question.md) ❌
+4. [Q63](../questions/Q63-test-case-with-null-example/question.md)
+5. [Q64](../questions/Q64-interview-pattern-unfamiliar-domain/question.md) 🟡
+6. [Q86](../questions/Q86-interacting-issues-one-detailed-message/question.md) 🟡
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q53:** One conditional in one function → direct execution, not plan mode.
+2. **Q66:** A clear stack trace in an unfamiliar module → still direct execution.
+3. **Q55:** A complex algorithm → write the tests first, share the failures.
+4. **Q63:** Nulls mishandled → a test case with nulls and the expected output.
+5. **Q64:** An unfamiliar domain → have Claude interview you before it implements.
+6. **Q86:** Formatting issues that interact → one detailed message, not one fix at a time.
+
+</details>
 
 **Write the rule yourself:** *When do you plan first? Which refinement technique fits which problem?*
 
@@ -556,13 +723,26 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~42 min):**
 
-1. [Q134](../questions/Q134-grep-for-content-search/question.md) Find every `eval()` → Grep searches file contents (Glob matches file names).
-2. [Q69](../questions/Q69-grep-distinctive-error-text/question.md) 🟡 An unknown production error → Grep for its distinctive text.
-3. [Q81](../questions/Q81-grep-import-statements/question.md) ❌ Every file that imports `@company/auth` → Grep the import statement.
-4. [Q132](../questions/Q132-grep-entry-points-follow-imports/question.md) 🟡 Auth across 800+ files → Grep for entry points, then follow imports.
-5. [Q68](../questions/Q68-trace-from-base-class-incremental-reading/question.md) 🟡 15 caching files → find the base class, read its interface, then trace.
-6. [Q93](../questions/Q93-collect-every-exposed-name-then-grep-each/question.md) 🟡 Wrappers rename a function → collect every exposed name, Grep each one.
-7. [Q76](../questions/Q76-edit-no-unique-anchor-read-write/question.md) Edit can't find a unique anchor → Read the file, then Write it.
+1. [Q134](../questions/Q134-grep-for-content-search/question.md)
+2. [Q69](../questions/Q69-grep-distinctive-error-text/question.md) 🟡
+3. [Q81](../questions/Q81-grep-import-statements/question.md) ❌
+4. [Q132](../questions/Q132-grep-entry-points-follow-imports/question.md) 🟡
+5. [Q68](../questions/Q68-trace-from-base-class-incremental-reading/question.md) 🟡
+6. [Q93](../questions/Q93-collect-every-exposed-name-then-grep-each/question.md) 🟡
+7. [Q76](../questions/Q76-edit-no-unique-anchor-read-write/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q134:** Find every `eval()` → Grep searches file contents (Glob matches file names).
+2. **Q69:** An unknown production error → Grep for its distinctive text.
+3. **Q81:** Every file that imports `@company/auth` → Grep the import statement.
+4. **Q132:** Auth across 800+ files → Grep for entry points, then follow imports.
+5. **Q68:** 15 caching files → find the base class, read its interface, then trace.
+6. **Q93:** Wrappers rename a function → collect every exposed name, Grep each one.
+7. **Q76:** Edit can't find a unique anchor → Read the file, then Write it.
+
+</details>
 
 **Write the rule yourself:** *Which built-in tool answers which question, and why start narrow and read incrementally?*
 
@@ -590,12 +770,24 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~36 min):**
 
-1. [Q131](../questions/Q131-existing-jira-mcp-server/question.md) 🟡 Standard Jira ticket data → use an existing Jira MCP server.
-2. [Q133](../questions/Q133-mcp-resources-content-catalogs/question.md) 🟡 Exploratory calls across three servers → expose content catalogs as resources.
-3. [Q57](../questions/Q57-mcp-prompts-become-slash-commands/question.md) 🟡 MCP prompts in Claude Code → slash commands that you run.
-4. [Q59](../questions/Q59-mcp-scopes-project-vs-user/question.md) 🟡 Team server in `.mcp.json`, personal server in `~/.claude.json`.
-5. [Q74](../questions/Q74-mcp-descriptions-compete-with-built-ins/question.md) MCP refactoring tools ignored for Write and sed → descriptions that compete with the built-ins.
-6. [Q70](../questions/Q70-expand-mcp-description-vs-grep/question.md) The agent greps imports instead of calling `analyze_dependencies` → expand that description.
+1. [Q131](../questions/Q131-existing-jira-mcp-server/question.md) 🟡
+2. [Q133](../questions/Q133-mcp-resources-content-catalogs/question.md) 🟡
+3. [Q57](../questions/Q57-mcp-prompts-become-slash-commands/question.md) 🟡
+4. [Q59](../questions/Q59-mcp-scopes-project-vs-user/question.md) 🟡
+5. [Q74](../questions/Q74-mcp-descriptions-compete-with-built-ins/question.md)
+6. [Q70](../questions/Q70-expand-mcp-description-vs-grep/question.md)
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q131:** Standard Jira ticket data → use an existing Jira MCP server.
+2. **Q133:** Exploratory calls across three servers → expose content catalogs as resources.
+3. **Q57:** MCP prompts in Claude Code → slash commands that you run.
+4. **Q59:** Team server in `.mcp.json`, personal server in `~/.claude.json`.
+5. **Q74:** MCP refactoring tools ignored for Write and sed → descriptions that compete with the built-ins.
+6. **Q70:** The agent greps imports instead of calling `analyze_dependencies` → expand that description.
+
+</details>
 
 **Write the rule yourself:** *Build or reuse a server? Tool, resource or prompt? Where is it configured, and how do you get the agent to pick it?*
 
@@ -626,15 +818,30 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~54 min):**
 
-1. [Q78](../questions/Q78-degrading-exploration-focused-subagents/question.md) 8 of 45 files in, the agent is forgetting → focused subagents, the main agent coordinates.
-2. [Q71](../questions/Q71-degraded-context-summary-into-subagent/question.md) 🟡 "Typical rendering patterns" → summarise the findings, give them to a fresh subagent.
-3. [Q79](../questions/Q79-scratchpad-file-for-long-sessions/question.md) 🟡 Inconsistent answers after 30+ minutes → a scratchpad file of key findings.
-4. [Q03](../questions/Q03-crash-recovery-state-manifest/question.md) Pipeline crashed at 12 of 28 → a state manifest the coordinator loads.
-5. [Q45](../questions/Q45-fresh-session-structured-summary/question.md) Returning customer, stale tool results → start fresh with a structured summary.
-6. [Q72](../questions/Q72-resume-and-name-changed-files/question.md) 🟡 3 of 12 files changed overnight → resume and say which ones.
-7. [Q91](../questions/Q91-resume-subagent-and-name-the-renames/question.md) 🟡 Interrupted subagent, two functions renamed → resume it and tell it about the renames.
-8. [Q77](../questions/Q77-fork-session-compare-two-approaches/question.md) Two approaches from one analysis → fork the session.
-9. [Q92](../questions/Q92-resume-named-session-by-name/question.md) 🟡 Yesterday's investigation, three codebases later → resume the session by its name.
+1. [Q78](../questions/Q78-degrading-exploration-focused-subagents/question.md)
+2. [Q71](../questions/Q71-degraded-context-summary-into-subagent/question.md) 🟡
+3. [Q79](../questions/Q79-scratchpad-file-for-long-sessions/question.md) 🟡
+4. [Q03](../questions/Q03-crash-recovery-state-manifest/question.md)
+5. [Q45](../questions/Q45-fresh-session-structured-summary/question.md)
+6. [Q72](../questions/Q72-resume-and-name-changed-files/question.md) 🟡
+7. [Q91](../questions/Q91-resume-subagent-and-name-the-renames/question.md) 🟡
+8. [Q77](../questions/Q77-fork-session-compare-two-approaches/question.md)
+9. [Q92](../questions/Q92-resume-named-session-by-name/question.md) 🟡
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q78:** 8 of 45 files in, the agent is forgetting → focused subagents, the main agent coordinates.
+2. **Q71:** "Typical rendering patterns" → summarise the findings, give them to a fresh subagent.
+3. **Q79:** Inconsistent answers after 30+ minutes → a scratchpad file of key findings.
+4. **Q03:** Pipeline crashed at 12 of 28 → a state manifest the coordinator loads.
+5. **Q45:** Returning customer, stale tool results → start fresh with a structured summary.
+6. **Q72:** 3 of 12 files changed overnight → resume and say which ones.
+7. **Q91:** Interrupted subagent, two functions renamed → resume it and tell it about the renames.
+8. **Q77:** Two approaches from one analysis → fork the session.
+9. **Q92:** Yesterday's investigation, three codebases later → resume the session by its name.
+
+</details>
 
 **Write the rule yourself:** *What keeps a long exploration sharp? When do you resume, fork or start fresh?*
 
@@ -663,15 +870,30 @@ The questions in this repo were added in the order they were pasted. This file p
 
 **Questions, in this order (~54 min):**
 
-1. [Q117](../questions/Q117-append-system-prompt-keeps-tool-guidance/question.md) The CI review never reads the repo → `--system-prompt` replaced Claude Code's own instructions.
-2. [Q125](../questions/Q125-bare-mode-append-claude-md/question.md) 🟡 18 s startup from auto-discovery → `--bare` + `--append-system-prompt-file ./CLAUDE.md`.
-3. [Q123](../questions/Q123-claude-md-project-conventions-for-ci-review/question.md) 🟡 The review flags intentional patterns → put the conventions in CLAUDE.md.
-4. [Q124](../questions/Q124-claude-md-testing-standards-fixtures/question.md) 🟡 55% low-value generated tests → testing standards, fixtures and examples in CLAUDE.md.
-5. [Q128](../questions/Q128-review-md-skip-rules-evidence-bar/question.md) 🟡 Managed Code Review noise → REVIEW.md skip rules and an evidence requirement.
-6. [Q118](../questions/Q118-agentic-review-follows-cross-file-references/question.md) Reviews miss cross-file bugs → let the reviewer explore the codebase.
-7. [Q119](../questions/Q119-same-session-self-review-bias/question.md) Same-session review missed bugs → an independent reviewer without the author's reasoning.
-8. [Q129](../questions/Q129-split-review-by-concern-focused-prompts/question.md) Examples help one category and hurt another → focused prompts per concern.
-9. [Q130](../questions/Q130-max-tokens-truncation-split-by-files/question.md) 🟡 `report_findings` truncated at `max_tokens` → calls per file subset, merged.
+1. [Q117](../questions/Q117-append-system-prompt-keeps-tool-guidance/question.md)
+2. [Q125](../questions/Q125-bare-mode-append-claude-md/question.md) 🟡
+3. [Q123](../questions/Q123-claude-md-project-conventions-for-ci-review/question.md) 🟡
+4. [Q124](../questions/Q124-claude-md-testing-standards-fixtures/question.md) 🟡
+5. [Q128](../questions/Q128-review-md-skip-rules-evidence-bar/question.md) 🟡
+6. [Q118](../questions/Q118-agentic-review-follows-cross-file-references/question.md)
+7. [Q119](../questions/Q119-same-session-self-review-bias/question.md)
+8. [Q129](../questions/Q129-split-review-by-concern-focused-prompts/question.md)
+9. [Q130](../questions/Q130-max-tokens-truncation-split-by-files/question.md) 🟡
+
+<details>
+<summary>What each question is about (open after answering)</summary>
+
+1. **Q117:** The CI review never reads the repo → `--system-prompt` replaced Claude Code's own instructions.
+2. **Q125:** 18 s startup from auto-discovery → `--bare` + `--append-system-prompt-file ./CLAUDE.md`.
+3. **Q123:** The review flags intentional patterns → put the conventions in CLAUDE.md.
+4. **Q124:** 55% low-value generated tests → testing standards, fixtures and examples in CLAUDE.md.
+5. **Q128:** Managed Code Review noise → REVIEW.md skip rules and an evidence requirement.
+6. **Q118:** Reviews miss cross-file bugs → let the reviewer explore the codebase.
+7. **Q119:** Same-session review missed bugs → an independent reviewer without the author's reasoning.
+8. **Q129:** Examples help one category and hurt another → focused prompts per concern.
+9. **Q130:** `report_findings` truncated at `max_tokens` → calls per file subset, merged.
+
+</details>
 
 **Write the rule yourself:** *How does a CI run get its project context? How do you split a review so nothing is missed?*
 

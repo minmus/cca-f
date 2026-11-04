@@ -1,7 +1,4 @@
-# Q03 — Crash recovery: restoring multi-agent state
-
-**Domain / lesson:** D5 › 5.4 Codebase Exploration & Context Degradation (crash recovery with state manifests)
-**Also touches:** D1 › 1.7 Session State and Resumption · D1 › 1.3 Subagent Invocation and Context Passing
+# Q03
 
 ## Question
 
@@ -11,6 +8,13 @@ Your multi-agent research pipeline crashed after processing 12 of 28 documents. 
 - **B.** Index all agent outputs in a shared vector store. When resuming, each agent queries the store using semantic search to retrieve relevant prior findings.
 - **C.** Have each agent maintain its own persistent state file and reload it independently at the start of each session.
 - **D.** Persist the coordinator's conversation log containing all task delegations and responses, providing this to agents when resuming.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Crash recovery: restoring multi-agent state
+**Domain / lesson:** D5 › 5.4 Codebase Exploration & Context Degradation (crash recovery with state manifests)
+**Also touches:** D1 › 1.7 Session State and Resumption · D1 › 1.3 Subagent Invocation and Context Passing
 
 ## Answer: **A**
 
@@ -174,3 +178,5 @@ Two smaller details in A also matter:
 | 26. Explain RAG and Document Chunking | Background on why semantic retrieval is approximate (option B) |
 
 *CBT has no coverage of 1.7 or 5.4 (❌ in the mapping). Use Udemy A or B for this topic.*
+
+</details>

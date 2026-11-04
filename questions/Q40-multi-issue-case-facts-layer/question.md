@@ -1,9 +1,6 @@
-# Q40 — Three issues, one session: persist structured issue data
+# Q40
 
-**Domain / lesson:** D5 › 5.1 Context Window Management
-**Also touches:** D2 › 2.4 MCP Server Integration (why re-fetching alone fails)
 **Scenario:** customer-support agent, one long multi-issue session
-**Follows:** [Q38](../Q38-sliding-window-recent-turns/question.md) (its check question *is* this question) · [Q14](../Q14-escalation-handoff-summary/question.md) (structured fields, not narrative) · [Q03](../Q03-crash-recovery-state-manifest/question.md) (state kept outside the conversation)
 
 ## Question
 
@@ -13,6 +10,14 @@ A customer raises three separate issues during one session: a refund inquiry (tu
 - **B.** Summarize earlier turns into a narrative description, preserving full message history only for the active issue.
 - **C.** Rely on MCP tools to re-fetch relevant information on demand when the customer references earlier issues.
 - **D.** Implement sliding window context that retains the most recent 30 turns.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Three issues, one session: persist structured issue data
+**Domain / lesson:** D5 › 5.1 Context Window Management
+**Also touches:** D2 › 2.4 MCP Server Integration (why re-fetching alone fails)
+**Follows:** [Q38](../Q38-sliding-window-recent-turns/question.md) (its check question *is* this question) · [Q14](../Q14-escalation-handoff-summary/question.md) (structured fields, not narrative) · [Q03](../Q03-crash-recovery-state-manifest/question.md) (state kept outside the conversation)
 
 ## Answer: **A**
 
@@ -168,3 +173,5 @@ If Q38's list is fresh, rewatch #110 and go straight to Quiz 15 (~10 min).
 | 10. Send Structured Messages to Claude | What goes into each request (where the layer lives) |
 
 *CBT covers 5.1 only partially and doesn't teach the case facts block. Use the guide and the Udemy lectures for this one.*
+
+</details>

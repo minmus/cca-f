@@ -1,9 +1,6 @@
-# Q132 — Understanding auth across 800+ files: Grep for entry points, then follow imports incrementally
+# Q132
 
-**Domain / lesson:** D2 › 2.5 Built-in Tools (incremental discovery: Grep → Read → follow imports)
-**Also touches:** D5 › 5.4 Codebase Exploration & Context Degradation · D1 › 1.3 Subagent Invocation (why C is premature)
 **Scenario:** Developer productivity tools with the Claude Agent SDK (same as [Q131](../Q131-existing-jira-mcp-server/question.md))
-**Follows:** [Q131](../Q131-existing-jira-mcp-server/question.md)
 
 ## Question
 
@@ -17,6 +14,14 @@ What exploration strategy will most effectively build understanding, given Claud
 - **B.** Use Grep to find authentication entry points, read those files, then follow imports and function calls to map the auth flow incrementally.
 - **C.** Launch parallel subagents to explore different services simultaneously, then synthesize their findings into an architectural overview.
 - **D.** Read any CLAUDE.md and README files first, then ask the engineer to specify which 10-15 files are most important for understanding the auth system.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Understanding auth across 800+ files: Grep for entry points, then follow imports incrementally
+**Domain / lesson:** D2 › 2.5 Built-in Tools (incremental discovery: Grep → Read → follow imports)
+**Also touches:** D5 › 5.4 Codebase Exploration & Context Degradation · D1 › 1.3 Subagent Invocation (why C is premature)
+**Follows:** [Q131](../Q131-existing-jira-mcp-server/question.md)
 
 ## Answer: **B**
 
@@ -157,3 +162,5 @@ So even a **single** subagent, run sequentially, helps: the benefit is a **clean
 | **23. Apply Built In Tools Safely** | ⭐ Built-in tools |
 
 *CBT doesn't cover 5.4 (see the study map). Use the guide and Udemy B #80, #86.*
+
+</details>

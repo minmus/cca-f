@@ -1,9 +1,6 @@
-# Q24 — Exceptions vs structured error results
+# Q24
 
-**Domain / lesson:** D2 › 2.2 Structured Error Responses
-**Also touches:** D1 › 1.1 Agentic Loops (the model only sees what's in the tool result) · D5 › 5.3 Error Propagation
 **Scenario:** shipment tracking tool over an external logistics API
-**Follows:** [Q22](../Q22-empty-result-is-not-error/question.md) (empty ≠ error, the four error categories)
 
 ## Question
 
@@ -13,6 +10,14 @@ Your `track_shipment(tracking_id)` tool queries an external logistics API that s
 - **B.** Return structured error information as normal tool output including error type, recoverability status, and actionable context for the user.
 - **C.** Create dedicated error-recovery tools (`retry_tracking_lookup`, `search_by_order_number`) that the model can invoke after the primary tracking tool returns a failure indicator.
 - **D.** Implement retry logic with exponential backoff inside the tool implementation so transient errors are automatically handled and only return a result after all retry attempts are exhausted.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Exceptions vs structured error results
+**Domain / lesson:** D2 › 2.2 Structured Error Responses
+**Also touches:** D1 › 1.1 Agentic Loops (the model only sees what's in the tool result) · D5 › 5.3 Error Propagation
+**Follows:** [Q22](../Q22-empty-result-is-not-error/question.md) (empty ≠ error, the four error categories)
 
 ## Answer: **B**
 
@@ -121,3 +126,5 @@ The three failures in the question map to different categories and different nex
 |---|---|
 | **20. Handle Tool Calls and Tool Results** | ⭐ Returning errors as tool results |
 | 21. Build Multi Turn Tool Conversations | Recovery over the next turns |
+
+</details>

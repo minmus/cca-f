@@ -1,8 +1,6 @@
-# Q111 — Monthly reports can wait, exception alerts can't: batch the first, send the second in real time
+# Q111
 
-**Domain / lesson:** D4 › 4.5 Batch Processing (The Matching Rule)
 **Scenario:** Structured data extraction system (same as [Q95](../Q95-accuracy-by-segment-before-automating/question.md), [Q98](../Q98-few-shot-for-informal-measurements/question.md), [Q110](../Q110-resubmit-only-failures-chunked/question.md))
-**Follows:** [Q110](../Q110-resubmit-only-failures-chunked/question.md) (same lesson: what to do when batch requests fail)
 
 ## Question
 
@@ -16,6 +14,13 @@ How should you architect the processing pipeline?
 - **B.** Queue all documents and submit hourly batches, flagging urgent documents for expedited handling when batch results return.
 - **C.** Submit all documents to the real-time Messages API to ensure consistent processing latency across document types.
 - **D.** Route standard reports to the Batch API for 50% cost savings, and route urgent exception reports to the real-time Messages API.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Monthly reports can wait, exception alerts can't: batch the first, send the second in real time
+**Domain / lesson:** D4 › 4.5 Batch Processing (The Matching Rule)
+**Follows:** [Q110](../Q110-resubmit-only-failures-chunked/question.md) (same lesson: what to do when batch requests fail)
 
 ## Answer: **D**
 
@@ -167,3 +172,5 @@ Guide 4.5 makes the same point with a 30-hour promise: *"A document that arrives
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 4.5 (see the study map). Use the guide's Matching Rule section and Udemy B #33.*
+
+</details>

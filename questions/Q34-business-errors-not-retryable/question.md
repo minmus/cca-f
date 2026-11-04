@@ -1,9 +1,6 @@
-# Q34 — Wasted retries on business errors
+# Q34
 
-**Domain / lesson:** D2 › 2.2 Structured Error Responses
-**Also touches:** D5 › 5.3 Error Propagation (local retries for transient errors) · D2 › 2.1 Tool Interface Design (why an extra tool isn't the fix)
 **Scenario:** customer-support agent, `process_refund` tool
-**Follows:** [Q32](../Q32-uniform-errors-add-category/question.md) (same fix: error metadata) · [Q24](../Q24-structured-errors-not-exceptions/question.md) (actionable context) · [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (30-day window gate)
 
 ## Question
 
@@ -14,6 +11,14 @@ What's the most effective way to reduce wasted retries while improving customer-
 - **B.** Add few-shot examples showing how to distinguish retriable from non-retriable errors by parsing error message text.
 - **C.** Return structured error responses with `retriable: false` for business errors and a customer-friendly explanation for Claude to use.
 - **D.** Add a `check_refund_eligibility` tool that must be called before `process_refund` to prevent business rule violations.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Wasted retries on business errors
+**Domain / lesson:** D2 › 2.2 Structured Error Responses
+**Also touches:** D5 › 5.3 Error Propagation (local retries for transient errors) · D2 › 2.1 Tool Interface Design (why an extra tool isn't the fix)
+**Follows:** [Q32](../Q32-uniform-errors-add-category/question.md) (same fix: error metadata) · [Q24](../Q24-structured-errors-not-exceptions/question.md) (actionable context) · [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (30-day window gate)
 
 ## Answer: **C**
 
@@ -182,3 +187,5 @@ All four also appear in Q24/Q32's lists. If those are fresh, go straight to the 
 |---|---|
 | **20. Handle Tool Calls and Tool Results** | ⭐ Error results back to the model |
 | 21. Build Multi Turn Tool Conversations | How wasted retries pile up across turns |
+
+</details>

@@ -1,9 +1,6 @@
-# Q57 — MCP prompts in Claude Code: slash commands that *you* run
+# Q57
 
-**Domain / lesson (closest fit):** D2 › 2.4 MCP Server Integration (the guide covers MCP tools and resources, not prompts)
-**Also touches:** D3 › 3.2 Slash Commands & Skills
 **Scenario:** Claude Code for a development team, with a custom DevOps MCP server
-**Follows:** [Q33](../Q33-mcp-iserror-result/question.md) (MCP tools and their results) · [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (the model picks tools from their descriptions)
 
 ## Question
 
@@ -15,6 +12,14 @@ Your team has connected a custom MCP server that provides DevOps workflow templa
 - **B.** They are automatically prepended to every conversation as additional system-level context, influencing Claude's behavior throughout the session.
 - **C.** They are added to Claude Code's tool registry alongside the server's tools, invoked automatically by the model when relevant to the task.
 - **D.** They appear as slash commands (e.g., mcp_servername_deploy_checklist) that you can invoke, with arguments passed after the command name.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** MCP prompts in Claude Code: slash commands that *you* run
+**Domain / lesson (closest fit):** D2 › 2.4 MCP Server Integration (the guide covers MCP tools and resources, not prompts)
+**Also touches:** D3 › 3.2 Slash Commands & Skills
+**Follows:** [Q33](../Q33-mcp-iserror-result/question.md) (MCP tools and their results) · [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (the model picks tools from their descriptions)
 
 ## Answer: **D**
 
@@ -182,3 +187,5 @@ Udemy B's titles don't mention MCP prompts. CBT skill 34 is the most direct cove
 | **34. Build MCP Tools Resources and Prompts** | ⭐ All three primitives, built hands-on |
 | 5. Extend Claude Code with MCP Servers | Connecting a server to Claude Code |
 | 4. Create Custom Commands for Repeatable Workflows | Slash commands with arguments |
+
+</details>

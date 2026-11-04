@@ -1,8 +1,4 @@
-# Q06 — Coordinator skips gaps and ships incomplete reports
-
-**Domain / lesson:** D1 › 1.2 Multi-Agent Orchestration
-**Also touches:** D1 › 1.6 Task Decomposition · D2 › 2.3 Tool Distribution (why D fails) · D5 › 5.2 Escalation
-**Same system as:** [Q01](../Q01-source-attribution-multi-agent/question.md), [Q04](../Q04-tool-scoping-per-subagent/question.md), [Q05](../Q05-goals-not-procedures-delegation/question.md)
+# Q06
 
 ## Question
 
@@ -12,6 +8,14 @@ The synthesis agent completes its initial pass but flags that three key research
 - **B.** Increase the initial breadth of queries sent to web search and document analysis to reduce the probability of missing relevant information.
 - **C.** Have the coordinator evaluate synthesis output for gaps, then re-delegate to web search and document analysis with targeted queries before invoking synthesis again.
 - **D.** Give the synthesis agent direct access to web search tools so it can autonomously fill knowledge gaps without returning control to the coordinator.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Coordinator skips gaps and ships incomplete reports
+**Domain / lesson:** D1 › 1.2 Multi-Agent Orchestration
+**Also touches:** D1 › 1.6 Task Decomposition · D2 › 2.3 Tool Distribution (why D fails) · D5 › 5.2 Escalation
+**Same system as:** [Q01](../Q01-source-attribution-multi-agent/question.md), [Q04](../Q04-tool-scoping-per-subagent/question.md), [Q05](../Q05-goals-not-procedures-delegation/question.md)
 
 ## Answer: **C**
 
@@ -143,3 +147,5 @@ A loop needs a **stop condition**, e.g. max 2 re-delegation rounds. If gaps rema
 |---|---|
 | **36. Design Workflows and Agent Systems** | ⭐ Orchestrator patterns and feedback loops |
 | 39–40. Build an Agentic Multimedia Article System | Hands-on coordinator with multiple agents |
+
+</details>

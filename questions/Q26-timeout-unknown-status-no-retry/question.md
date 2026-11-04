@@ -1,8 +1,4 @@
-# Q26 — Timeout with unknown outcome: don't tell the agent to retry
-
-**Domain / lesson:** D2 › 2.2 Structured Error Responses
-**Also touches:** D5 › 5.3 Error Propagation · D1 › 1.4 Workflow Enforcement (side-effecting actions)
-**Follows:** [Q22](../Q22-empty-result-is-not-error/question.md), [Q24](../Q24-structured-errors-not-exceptions/question.md), [Q25](../Q25-mcp-protocol-vs-tool-errors/question.md)
+# Q26
 
 ## Question
 
@@ -12,6 +8,14 @@ Your `send_notification` tool calls third-party messaging APIs. When these servi
 - **B.** Return `is_error: true` with a message communicating uncertainty: "Timeout – status unknown. Message may have been sent. Avoid retry."
 - **C.** Return `is_error: true` with a message encouraging retry: "Delivery service temporarily unavailable. Please retry the notification."
 - **D.** Return `is_error: true` with the original message content echoed back.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Timeout with unknown outcome: don't tell the agent to retry
+**Domain / lesson:** D2 › 2.2 Structured Error Responses
+**Also touches:** D5 › 5.3 Error Propagation · D1 › 1.4 Workflow Enforcement (side-effecting actions)
+**Follows:** [Q22](../Q22-empty-result-is-not-error/question.md), [Q24](../Q24-structured-errors-not-exceptions/question.md), [Q25](../Q25-mcp-protocol-vs-tool-errors/question.md)
 
 ## Answer: **B**
 
@@ -141,3 +145,5 @@ Structure only matters once 1 and 2 pass. A structured field is **more** dangero
 |---|---|
 | **20. Handle Tool Calls and Tool Results** | ⭐ Error results back to the model |
 | 6. Implement Hooks for Safer Automation | Guarding side-effecting actions |
+
+</details>

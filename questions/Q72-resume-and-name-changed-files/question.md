@@ -1,8 +1,6 @@
-# Q72 — 3 of 12 files changed overnight: resume and tell the agent which ones
+# Q72
 
-**Domain / lesson:** D1 › 1.7 Session State and Resumption
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (same as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md), [Q69](../Q69-grep-distinctive-error-text/question.md), [Q71](../Q71-degraded-context-summary-into-subagent/question.md))
-**Follows:** [Q45](../Q45-fresh-session-structured-summary/question.md) (stale tool results → fresh session + summary: the other side of the same decision) · [Q71](../Q71-degraded-context-summary-into-subagent/question.md) (don't throw away accumulated knowledge)
 
 ## Question
 
@@ -14,6 +12,13 @@ Your codebase exploration tool stores session IDs to allow engineers to continue
 - **B.** Resume the session and inform the agent which specific files changed for targeted re-analysis
 - **C.** Resume the session and immediately have the agent re-read all 12 previously analyzed files
 - **D.** Resume the session without informing the agent about the changed files
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 3 of 12 files changed overnight: resume and tell the agent which ones
+**Domain / lesson:** D1 › 1.7 Session State and Resumption
+**Follows:** [Q45](../Q45-fresh-session-structured-summary/question.md) (stale tool results → fresh session + summary: the other side of the same decision) · [Q71](../Q71-degraded-context-summary-into-subagent/question.md) (don't throw away accumulated knowledge)
 
 ## Answer: **B**
 
@@ -186,3 +191,5 @@ The new session has no copy of yesterday's `token_service.py`, so 30 minutes can
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 1.7 (see the study map). Use the guide and the Udemy lectures for session resumption.*
+
+</details>

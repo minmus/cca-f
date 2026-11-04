@@ -1,8 +1,4 @@
-# Q27 — Device timeout: give the agent something to offer the user
-
-**Domain / lesson:** D2 › 2.2 Structured Error Responses
-**Also touches:** D2 › 2.3 Tool Distribution (why an extra tool, B, is worse)
-**Follows:** [Q24](../Q24-structured-errors-not-exceptions/question.md) (actionable context), [Q26](../Q26-timeout-unknown-status-no-retry/question.md) (truthful errors)
+# Q27
 
 ## Question
 
@@ -12,6 +8,14 @@ Your `control_device` tool manages smart home devices through external APIs. Whe
 - **B.** Set `is_error: true` with a brief "Device offline" message and provide a separate tool the agent can call to retrieve context-specific troubleshooting suggestions.
 - **C.** Set `is_error: false` with an optimistic message indicating the command was dispatched successfully but device acknowledgment is still pending.
 - **D.** Set `is_error: true` with a message explaining the likely cause and suggesting troubleshooting steps the agent can offer the user.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Device timeout: give the agent something to offer the user
+**Domain / lesson:** D2 › 2.2 Structured Error Responses
+**Also touches:** D2 › 2.3 Tool Distribution (why an extra tool, B, is worse)
+**Follows:** [Q24](../Q24-structured-errors-not-exceptions/question.md) (actionable context), [Q26](../Q26-timeout-unknown-status-no-retry/question.md) (truthful errors)
 
 ## Answer: **D**
 
@@ -123,3 +127,5 @@ And because the result says **success**, the agent won't retry, won't troublesho
 |---|---|
 | **20. Handle Tool Calls and Tool Results** | ⭐ Error results back to the model |
 | 21. Build Multi Turn Tool Conversations | Follow-up turns after an error |
+
+</details>

@@ -1,9 +1,6 @@
-# Q116 — Batch for non-blocking PR security reviews? Decide on the 24-hour window
+# Q116
 
-**Domain / lesson:** D4 › 4.5 Batch Processing (The Matching Rule)
-**Also touches:** D3 › 3.6 CI/CD Integration (blocking vs non-blocking checks)
 **Scenario:** Claude Code in CI/CD (automated reviews, tests, PR feedback)
-**Follows:** [Q111](../Q111-batch-standard-realtime-urgent/question.md) (route by latency need: batch for standard, real-time for urgent) · [Q110](../Q110-resubmit-only-failures-chunked/question.md) (`custom_id`)
 
 ## Question
 
@@ -17,6 +14,14 @@ What factor most determines whether batch processing is appropriate for this use
 - **B.** Whether your result processing can handle reviews arriving in a different order than submitted.
 - **C.** Whether you can structure each review as a single request without multi-turn refinement.
 - **D.** Whether reducing per-review latency from 30-60 seconds to near-instant matters for your workflow.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Batch for non-blocking PR security reviews? Decide on the 24-hour window
+**Domain / lesson:** D4 › 4.5 Batch Processing (The Matching Rule)
+**Also touches:** D3 › 3.6 CI/CD Integration (blocking vs non-blocking checks)
+**Follows:** [Q111](../Q111-batch-standard-realtime-urgent/question.md) (route by latency need: batch for standard, real-time for urgent) · [Q110](../Q110-resubmit-only-failures-chunked/question.md) (`custom_id`)
 
 ## Answer: **A**
 
@@ -135,3 +140,5 @@ Design for the **worst case**: *"Results often arrive faster than 24 hours, but 
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 4.5 (see the study map). Use the guide's Matching Rule section and Udemy B #33.*
+
+</details>

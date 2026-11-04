@@ -1,9 +1,6 @@
-# Q58 — One-off task, known example files: `@`-reference them in the prompt
+# Q58
 
-**Domain / lesson (closest fit):** D3 › 3.5 Iterative Refinement (concrete examples beat prose descriptions)
-**Also touches:** D3 › 3.1 CLAUDE.md Hierarchy (what belongs in CLAUDE.md) · D5 › 5.4 Codebase Exploration (exploring costs context)
 **Scenario:** Claude Code for a development team (same as [Q52](../Q52-posttooluse-hook-runs-formatter/question.md)–[Q57](../Q57-mcp-prompts-become-slash-commands/question.md))
-**Follows:** [Q55](../Q55-tests-first-share-failures/question.md) (give Claude something concrete) · [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (CLAUDE.md loads every session) · [Q53](../Q53-direct-execution-for-clear-small-change/question.md) (don't add steps a clear task doesn't need)
 
 ## Question
 
@@ -15,6 +12,14 @@ You're implementing a new payment processing module that must follow your projec
 - **B.** Describe the patterns from the three modules in natural language in your prompt, explaining the transaction handling approach, error format, and logging conventions Claude should follow.
 - **C.** Ask Claude to explore your codebase to find and understand the transaction, error handling, and logging patterns before generating the new module.
 - **D.** Use @ references to include the three modules directly in your prompt, giving Claude concrete code examples of the patterns to follow.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** One-off task, known example files: `@`-reference them in the prompt
+**Domain / lesson (closest fit):** D3 › 3.5 Iterative Refinement (concrete examples beat prose descriptions)
+**Also touches:** D3 › 3.1 CLAUDE.md Hierarchy (what belongs in CLAUDE.md) · D5 › 5.4 Codebase Exploration (exploring costs context)
+**Follows:** [Q55](../Q55-tests-first-share-failures/question.md) (give Claude something concrete) · [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (CLAUDE.md loads every session) · [Q53](../Q53-direct-execution-for-clear-small-change/question.md) (don't add steps a clear task doesn't need)
 
 ## Answer: **D**
 
@@ -170,3 +175,5 @@ Reuse their helpers; don't write new ones where these exist.
 | 1. Set Up Claude Code and Configure Projects | What CLAUDE.md is for (A) |
 
 CBT doesn't cover 3.5 or 5.4. Use the guide lessons and Udemy B #82.
+
+</details>

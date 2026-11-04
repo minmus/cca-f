@@ -1,8 +1,4 @@
-# Q10 — "No research findings were provided"
-
-**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
-**Also touches:** D1 › 1.2 Multi-Agent Orchestration (hub-and-spoke)
-**Close cousin of:** [Q07](../Q07-context-flows-through-coordinator/question.md) (its check question is this exact scenario)
+# Q10
 
 ## Question
 
@@ -12,6 +8,14 @@ After the web search agent and document analysis agent complete their tasks, the
 - **B.** The synthesis agent needs tools that can fetch results directly from the other agents' conversation histories.
 - **C.** The coordinator did not include the outputs from the previous agents in the synthesis agent's prompt.
 - **D.** The synthesis agent's context window is not large enough to hold the combined outputs from both previous agents.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** "No research findings were provided"
+**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
+**Also touches:** D1 › 1.2 Multi-Agent Orchestration (hub-and-spoke)
+**Close cousin of:** [Q07](../Q07-context-flows-through-coordinator/question.md) (its check question is this exact scenario)
 
 ## Answer: **C**
 
@@ -128,3 +132,5 @@ def invoke_synthesis(search_out, analysis_out):
 | **10. Send Structured Messages to Claude** | ⭐ How each request carries its own context (stateless) |
 | 21. Build Multi Turn Tool Conversations | Your code rebuilds history every turn |
 | 36. Design Workflows and Agent Systems | Coordinator → subagent handoffs |
+
+</details>

@@ -1,8 +1,6 @@
-# Q53 — One conditional in one function: direct execution, not plan mode
+# Q53
 
-**Domain / lesson:** D3 › 3.4 Plan Mode vs Direct Execution
 **Scenario:** Claude Code for a development team (same as [Q52](../Q52-posttooluse-hook-runs-formatter/question.md))
-**Follows:** [Q39](../Q39-coordinator-answers-simple-followups/question.md) (don't add machinery a simple task doesn't need) · [Q37](../Q37-state-assumptions-not-interrogate/question.md) (clarity decides, not effort)
 
 ## Question
 
@@ -14,6 +12,13 @@ You need to add a date validation check ensuring event dates are in the future. 
 - **B.** Enter plan mode to analyze how the validation might impact other parts of the reservation flow.
 - **C.** Use direct execution to make the change.
 - **D.** Start with extended thinking mode enabled to ensure thorough reasoning about the validation logic.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** One conditional in one function: direct execution, not plan mode
+**Domain / lesson:** D3 › 3.4 Plan Mode vs Direct Execution
+**Follows:** [Q39](../Q39-coordinator-answers-simple-followups/question.md) (don't add machinery a simple task doesn't need) · [Q37](../Q37-state-assumptions-not-interrogate/question.md) (clarity decides, not effort)
 
 ## Answer: **C**
 
@@ -132,3 +137,5 @@ When all three are known, there's no design decision left, so: *"Direct executio
 | Skill | Why |
 |---|---|
 | **3. Apply Planning to Guide Code Changes** | ⭐ When planning pays off, and when it doesn't |
+
+</details>

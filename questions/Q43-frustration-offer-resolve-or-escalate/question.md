@@ -1,9 +1,6 @@
-# Q43 — Frustrated customer, straightforward case: acknowledge, offer to resolve now, or escalate
+# Q43
 
-**Domain / lesson:** D5 › 5.2 Escalation & Ambiguity Resolution
-**Also touches:** D1 › 1.4 Workflow Enforcement and Handoff (the handoff if they choose a human)
 **Scenario:** customer-support agent, return request
-**Follows:** [Q16](../Q16-escalation-triggers/question.md) (the 3 escalation triggers; frustration isn't one) · [Q37](../Q37-state-assumptions-not-interrogate/question.md) (the customer stays in control) · [Q41](../Q41-partial-success-honest-next-step/question.md) (escalation as an offered option)
 
 ## Question
 
@@ -13,6 +10,14 @@ A customer writes: "I've been going back and forth on this return for days. I ju
 - **B.** Acknowledge frustration, inform them this is resolvable now, and offer to complete it or escalate
 - **C.** Call escalate_to_human immediately to honor the customer's request
 - **D.** Ask what specifically hasn't worked in previous attempts before deciding whether to escalate or resolve automatically
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Frustrated customer, straightforward case: acknowledge, offer to resolve now, or escalate
+**Domain / lesson:** D5 › 5.2 Escalation & Ambiguity Resolution
+**Also touches:** D1 › 1.4 Workflow Enforcement and Handoff (the handoff if they choose a human)
+**Follows:** [Q16](../Q16-escalation-triggers/question.md) (the 3 escalation triggers; frustration isn't one) · [Q37](../Q37-state-assumptions-not-interrogate/question.md) (the customer stays in control) · [Q41](../Q41-partial-success-honest-next-step/question.md) (escalation as an offered option)
 
 ## Answer: **B**
 
@@ -141,3 +146,5 @@ Two extras that matter here:
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 5.2 (see the study map). Use the guide and the Udemy lectures for escalation decisions.*
+
+</details>

@@ -1,9 +1,4 @@
-# Q30 — Split the generic analyze_document tool
-
-**Domain / lesson:** D2 › 2.1 Tool Interface Design
-**Also touches:** D1 › 1.2 Multi-Agent Orchestration (coordinator, synthesis agent) · D4 › 4.3 Structured Output (output contracts)
-**Note:** this is the **guide's own example** for 2.1, almost word for word.
-**Related:** [Q17](../Q17-split-unified-tool/question.md) (same lesson, same answer shape)
+# Q30
 
 ## Question
 
@@ -13,6 +8,15 @@ The document analysis agent has a single `analyze_document` tool that takes a do
 - **B.** Keep the single tool but add an `analyze_type` enum parameter requiring explicit selection between extraction, summarization, and verification modes.
 - **C.** Enhance the tool description with detailed examples showing how different instruction phrasings should map to different output formats.
 - **D.** Split the generic tool into purpose-specific tools – `extract_data_points`, `summarize_content`, `verify_claim_against_source` – each with defined input/output contracts.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Split the generic analyze_document tool
+**Domain / lesson:** D2 › 2.1 Tool Interface Design
+**Also touches:** D1 › 1.2 Multi-Agent Orchestration (coordinator, synthesis agent) · D4 › 4.3 Structured Output (output contracts)
+**Note:** this is the **guide's own example** for 2.1, almost word for word.
+**Related:** [Q17](../Q17-split-unified-tool/question.md) (same lesson, same answer shape)
 
 ## Answer: **D**
 
@@ -143,3 +147,5 @@ Guide (2.1), using this exact example: *"Generic tools with broad responsibiliti
 |---|---|
 | **19. Explain Tool Use and Tool Schemas** | ⭐ Defining tool contracts |
 | 22. Route Requests Across Multiple Tools | Selecting among purpose-specific tools |
+
+</details>

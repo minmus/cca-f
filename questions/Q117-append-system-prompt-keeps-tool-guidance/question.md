@@ -1,7 +1,5 @@
-# Q117 — CI review never reads the repo: `--system-prompt` replaced Claude Code's own instructions
+# Q117
 
-**Domain / lesson:** D3 › 3.6 CI/CD Integration (system prompt flags)
-**Also touches:** D2 › 2.5 Built-in Tools (Read, Glob, Grep) · D3 › 3.1 CLAUDE.md (how CI gets project context)
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md))
 
 ## Question
@@ -29,6 +27,13 @@ Which change to the invocation will cause Claude to read related files in the re
 - **B.** Stop piping the diff via stdin and instead embed the diff contents inside the prompt string, so Claude Code treats the invocation as an agentic session rather than a stream-processing one.
 - **C.** Remove `--system-prompt` entirely and place the review instructions in a `CLAUDE.md` file at the repo root, since `--system-prompt` is incompatible with tool use under `-p`.
 - **D.** Keep `--system-prompt` and add `--allowedTools "Read,Glob,Grep"` so that the non-interactive `-p` mode permits file system tools that it otherwise disables.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** CI review never reads the repo: `--system-prompt` replaced Claude Code's own instructions
+**Domain / lesson:** D3 › 3.6 CI/CD Integration (system prompt flags)
+**Also touches:** D2 › 2.5 Built-in Tools (Read, Glob, Grep) · D3 › 3.1 CLAUDE.md (how CI gets project context)
 
 ## Answer: **A**
 
@@ -169,3 +174,5 @@ With `--append-system-prompt`, Claude keeps its full default behaviour **and** g
 | Skill | Why |
 |---|---|
 | **8. Apply Useful Hooks and Claude Code SDK Basics** | ⭐ Headless / SDK runs (3.6) |
+
+</details>

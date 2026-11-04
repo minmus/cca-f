@@ -1,8 +1,4 @@
-# Q18 — Users approve 98% in 2 seconds: fixing a rubber-stamp confirmation
-
-**Domain / lesson (closest fit):** D5 › 5.5 Human Review & Confidence Calibration
-**Also touches:** D1 › 1.4 Workflow Enforcement and Handoff (the human only knows what you show them) · D1 › 1.5 Agent SDK Hooks (PreToolUse `ask` = where the confirmation lives)
-**Note:** the guide has no lesson specifically on confirmation prompts. I checked 1.4, 1.5 and 5.5 on 2026-10-30. 5.5 (*"Human review is a safety check"*) is the closest. The reasoning below combines it with the 1.4 handoff rule.
+# Q18
 
 ## Question
 
@@ -12,6 +8,14 @@ Your `post_content` tool requires user confirmation before publishing. The curre
 - **B.** Require users to type a confirmation phrase instead of clicking a button.
 - **C.** Add a mandatory waiting period before the confirm option becomes available.
 - **D.** Include the complete post text, target account, scheduled time, and platform in the confirmation request.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Users approve 98% in 2 seconds: fixing a rubber-stamp confirmation
+**Domain / lesson (closest fit):** D5 › 5.5 Human Review & Confidence Calibration
+**Also touches:** D1 › 1.4 Workflow Enforcement and Handoff (the human only knows what you show them) · D1 › 1.5 Agent SDK Hooks (PreToolUse `ask` = where the confirmation lives)
+**Note:** the guide has no lesson specifically on confirmation prompts. I checked 1.4, 1.5 and 5.5 on 2026-10-30. 5.5 (*"Human review is a safety check"*) is the closest. The reasoning below combines it with the 1.4 handoff rule.
 
 ## Answer: **D**
 
@@ -128,3 +132,5 @@ A human review step is only a **safety check** (5.5) if the human **has the info
 | 16. Improve Graders with Model Feedback | Human review quality (5.5) |
 
 *CBT has no dedicated lesson on confirmation design. Use Udemy A #31.*
+
+</details>

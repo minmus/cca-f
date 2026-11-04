@@ -1,8 +1,6 @@
-# Q76 — Edit can't find a unique anchor: Read the file, then Write it
+# Q76
 
-**Domain / lesson:** D2 › 2.5 Built-in Tools
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (same set as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md)–[Q75](../Q75-intermittent-500-dynamic-decomposition/question.md))
-**Follows:** [Q69](../Q69-grep-distinctive-error-text/question.md) and [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (same lesson: finding code; this one is changing it) · [Q74](../Q74-mcp-descriptions-compete-with-built-ins/question.md) (the agent editing code with Write and `sed`)
 
 ## Question
 
@@ -14,6 +12,13 @@ Your agent needs to insert a new helper function into the middle of a 150-line u
 - **B.** Use Bash to append the function definition to the end of the file using heredoc syntax
 - **C.** Use Edit's replace_all parameter to target a common pattern and embed the new function in the replacement text
 - **D.** Use Read to load the file, add the function at the appropriate location, then Write the updated file
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Edit can't find a unique anchor: Read the file, then Write it
+**Domain / lesson:** D2 › 2.5 Built-in Tools
+**Follows:** [Q69](../Q69-grep-distinctive-error-text/question.md) and [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (same lesson: finding code; this one is changing it) · [Q74](../Q74-mcp-descriptions-compete-with-built-ins/question.md) (the agent editing code with Write and `sed`)
 
 ## Answer: **D**
 
@@ -173,3 +178,5 @@ The guide's own example does the same: *"adding the enclosing function's first l
 | Skill | Why |
 |---|---|
 | **23. Apply Built In Tools Safely** | ⭐ Choosing the file tool that changes only what you mean to change *(also in Q68, Q69, Q75)* |
+
+</details>

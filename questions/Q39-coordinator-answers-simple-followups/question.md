@@ -1,9 +1,6 @@
-# Q39 — Slow follow-up summaries: don't spawn a subagent you don't need
+# Q39
 
-**Domain / lesson:** D1 › 1.2 Multi-Agent Orchestration
-**Also touches:** D1 › 1.3 Subagent Invocation and Context Passing (the cost of re-passing findings) · D5 › 5.1 Context Window Management (caching is a cost lever)
 **Scenario:** multi-agent research system (coordinator + web search, document analysis, synthesis subagents)
-**Follows:** [Q36](../Q36-coordinator-missing-task-tool/question.md) (latency: parallel spawning) · [Q38](../Q38-sliding-window-recent-turns/question.md) (caching doesn't remove unneeded work) · [Q12](../Q12-include-complete-findings-in-prompt/question.md) (what a synthesis handoff costs when it *is* needed)
 
 ## Question
 
@@ -13,6 +10,14 @@ Production monitoring shows that follow-up queries like "summarize what we learn
 - **B.** Have the coordinator handle straightforward summarization requests directly using its existing context, reserving subagent spawning for complex analysis.
 - **C.** Pre-generate and cache summaries at multiple granularities whenever new findings accumulate.
 - **D.** Spawn the synthesis subagent with reduced context and have it request specific findings from the coordinator on-demand.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Slow follow-up summaries: don't spawn a subagent you don't need
+**Domain / lesson:** D1 › 1.2 Multi-Agent Orchestration
+**Also touches:** D1 › 1.3 Subagent Invocation and Context Passing (the cost of re-passing findings) · D5 › 5.1 Context Window Management (caching is a cost lever)
+**Follows:** [Q36](../Q36-coordinator-missing-task-tool/question.md) (latency: parallel spawning) · [Q38](../Q38-sliding-window-recent-turns/question.md) (caching doesn't remove unneeded work) · [Q12](../Q12-include-complete-findings-in-prompt/question.md) (what a synthesis handoff costs when it *is* needed)
 
 ## Answer: **B**
 
@@ -168,3 +173,5 @@ Note that a tool call isn't a subagent spawn. It's fast and cheap, so it fits Q3
 | **36. Design Workflows and Agent Systems** | ⭐ When to use (and not use) extra agents |
 | 39. Build an Agentic Multimedia Article System: Part 1 | A coordinator + subagents build: see where each call is spent |
 | 40. Build an Agentic Multimedia Article System: Part 2 | Same system, continued |
+
+</details>

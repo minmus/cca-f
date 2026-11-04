@@ -1,9 +1,6 @@
-# Q54 — Load Terraform rules only for Terraform files: path-scoped `.claude/rules/`
+# Q54
 
-**Domain / lesson:** D3 › 3.3 Path-Specific Rules
-**Also touches:** D3 › 3.1 CLAUDE.md Hierarchy (subdirectory CLAUDE.md, `@path` imports)
 **Scenario:** infrastructure-as-code repo with Terraform (`/terraform/`), Kubernetes (`/kubernetes/`) and CI/CD pipelines (`/pipelines/`)
-**Follows:** [Q52](../Q52-posttooluse-hook-runs-formatter/question.md) (path rules change *when* guidance loads, not *whether* it's followed) · [Q42](../Q42-trim-tool-outputs-relevant-fields/question.md) (keep only what's relevant in context)
 
 ## Question
 
@@ -15,6 +12,14 @@ What is the best approach to reorganize so only relevant guidance loads when edi
 - **B.** Keep the root CLAUDE.md and use @path/to/import syntax to modularly include tool-specific guidance files from separate documents.
 - **C.** Restructure the root CLAUDE.md into clearly labeled sections with headers (e.g, "## Terraform Conventions"), improving organization and readability.
 - **D.** Create files in .claude/rules/ with YAML frontmatter path-scoping (e.g., paths: ["terraform/**/*"]), loading rules only when editing matching files.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Load Terraform rules only for Terraform files: path-scoped `.claude/rules/`
+**Domain / lesson:** D3 › 3.3 Path-Specific Rules
+**Also touches:** D3 › 3.1 CLAUDE.md Hierarchy (subdirectory CLAUDE.md, `@path` imports)
+**Follows:** [Q52](../Q52-posttooluse-hook-runs-formatter/question.md) (path rules change *when* guidance loads, not *whether* it's followed) · [Q42](../Q42-trim-tool-outputs-relevant-fields/question.md) (keep only what's relevant in context)
 
 ## Answer: **D**
 
@@ -191,3 +196,5 @@ paths:
 | 1. Set Up Claude Code and Configure Projects | CLAUDE.md levels (3.1) |
 
 CBT has no lesson on path-specific rules (3.3). Use the guide lesson and the Udemy lectures above.
+
+</details>

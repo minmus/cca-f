@@ -1,9 +1,6 @@
-# Q82 — 18% vs 35% flagged as a contradiction: require dates in the subagents' outputs
+# Q82
 
-**Domain / lesson:** D5 › 5.6 Information Provenance & Multi-Source Synthesis
-**Also touches:** D4 › 4.3 Structured Output (the date is a field in the subagents' output schema)
 **Scenario:** Multi-agent research system (same system as [Q01](../Q01-source-attribution-multi-agent/question.md)–[Q09](../Q09-synthesis-preserve-merge-mappings/question.md))
-**Follows:** [Q08](../Q08-conflicting-findings-annotation/question.md) (a real conflict: annotate both values) · [Q09](../Q09-synthesis-preserve-merge-mappings/question.md) (synthesis must keep the claim-source mappings)
 
 ## Question
 
@@ -15,6 +12,14 @@ When researching "renewable energy adoption," the web search agent returns recen
 - **B.** Add a conflict resolution agent that automatically discards older data when newer data exists for the same metric.
 - **C.** Require subagents to include publication or data collection dates in their structured outputs.
 - **D.** Configure the web search agent to only return results from the past 6 months.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 18% vs 35% flagged as a contradiction: require dates in the subagents' outputs
+**Domain / lesson:** D5 › 5.6 Information Provenance & Multi-Source Synthesis
+**Also touches:** D4 › 4.3 Structured Output (the date is a field in the subagents' output schema)
+**Follows:** [Q08](../Q08-conflicting-findings-annotation/question.md) (a real conflict: annotate both values) · [Q09](../Q09-synthesis-preserve-merge-mappings/question.md) (synthesis must keep the claim-source mappings)
 
 ## Answer: **C**
 
@@ -172,3 +177,5 @@ Now the synthesis agent can order the values: 2021 → 18%, 2024 → 35%. That's
 | 26. Explain RAG and Document Chunking | Keeping source context (including dates) with each chunk *(also in Q01, Q02, Q03, Q08, Q38, Q80)* |
 
 *CBT has no dedicated lesson on temporal context in synthesis. Use Udemy A #131–132 or Udemy B #68.*
+
+</details>

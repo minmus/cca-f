@@ -1,10 +1,6 @@
-# Q64 — New to production caching: have Claude interview you before it implements
+# Q64
 
-**Domain / lesson:** D3 › 3.5 Iterative Refinement (the interview pattern)
 **Scenario:** Claude Code for a development team (same as [Q52](../Q52-posttooluse-hook-runs-formatter/question.md)–[Q60](../Q60-per-package-selective-imports/question.md))
-**Follows:** [Q55](../Q55-tests-first-share-failures/question.md) (the other 3.5 techniques: tests, examples) · [Q37](../Q37-state-assumptions-not-interrogate/question.md) (when asking is worth it) · [Q53](../Q53-direct-execution-for-clear-small-change/question.md) (plan mode is for ambiguity in the code)
-
-*Q61–Q63 are a gap: question text not available.*
 
 ## Question
 
@@ -16,6 +12,14 @@ You're implementing a caching layer for API responses to speed up the /products 
 - **B.** Write a specification with your known requirements and "TBD" markers for uncertain areas, having Claude propose solutions for each TBD as it implements.
 - **C.** Ask Claude to interview you about the caching requirements before implementing, surfacing considerations like invalidation strategies, cache layers, consistency guarantees, and failure modes.
 - **D.** Use plan mode to analyze the current/products endpoint implementation, then provide your caching requirements once Claude explains how the existing code is structured.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** New to production caching: have Claude interview you before it implements
+**Domain / lesson:** D3 › 3.5 Iterative Refinement (the interview pattern)
+**Follows:** [Q55](../Q55-tests-first-share-failures/question.md) (the other 3.5 techniques: tests, examples) · [Q37](../Q37-state-assumptions-not-interrogate/question.md) (when asking is worth it) · [Q53](../Q53-direct-execution-for-clear-small-change/question.md) (plan mode is for ambiguity in the code)
+*Q61–Q63 are a gap: question text not available.*
 
 ## Answer: **C**
 
@@ -162,3 +166,5 @@ Udemy A only partly covers 3.5. Udemy B #83 is the key lecture for this question
 
 ### CBT Nuggets: CCA-F course
 CBT has no lesson on iterative refinement (3.5). Use the guide lesson and Udemy B #83.
+
+</details>

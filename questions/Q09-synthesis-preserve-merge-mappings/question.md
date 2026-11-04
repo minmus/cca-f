@@ -1,8 +1,4 @@
-# Q09 — Synthesis loses which sources support which conclusions
-
-**Domain / lesson:** D5 › 5.6 Information Provenance & Multi-Source Synthesis
-**Also touches:** D1 › 1.3 Subagent Invocation and Context Passing · D4 › 4.3 Structured Output
-**Close cousin of:** [Q01](../Q01-source-attribution-multi-agent/question.md) (same fix, different point of loss)
+# Q09
 
 ## Question
 
@@ -12,6 +8,14 @@ In production, final reports frequently contain claims without proper source att
 - **B.** Maintain complete transcripts of all subagent interactions and add a citation-resolution agent to analyze logs and determine attributions before report generation.
 - **C.** Add a verification step where the report generator uses semantic similarity matching against original sources to reconstruct which claims came from which documents.
 - **D.** Have the coordinator inject source identifier prefixes into text before each handoff, then parse these prefixes at report generation to reconstruct citations.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Synthesis loses which sources support which conclusions
+**Domain / lesson:** D5 › 5.6 Information Provenance & Multi-Source Synthesis
+**Also touches:** D1 › 1.3 Subagent Invocation and Context Passing · D4 › 4.3 Structured Output
+**Close cousin of:** [Q01](../Q01-source-attribution-multi-agent/question.md) (same fix, different point of loss)
 
 ## Answer: **A**
 
@@ -134,3 +138,5 @@ Because the mapping is **data**, you can also **validate** it in code: every con
 | **19. Explain Tool Use and Tool Schemas** | ⭐ Schemas for structured mappings |
 | 36. Design Workflows and Agent Systems | Multi-agent pipeline |
 | 39–40. Build an Agentic Multimedia Article System | Hands-on content passed between agents |
+
+</details>

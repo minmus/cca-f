@@ -1,7 +1,5 @@
-# Q14 — What to pass to a human on escalation
+# Q14
 
-**Domain / lesson:** D1 › 1.4 Workflow Enforcement and Handoff
-**Also touches:** D5 › 5.2 Escalation & Ambiguity · D5 › 5.1 Context Window (case facts)
 **Scenario:** customer-support agent (same as [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md))
 
 ## Question
@@ -12,6 +10,13 @@ After investigating a billing dispute over 25+ turns, you've identified that dup
 - **B.** Your diagnosis and the refund amount only.
 - **C.** The customer's original complaint verbatim plus the tool result excerpts showing duplicate transactions.
 - **D.** The complete conversation transcript with all tool results.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** What to pass to a human on escalation
+**Domain / lesson:** D1 › 1.4 Workflow Enforcement and Handoff
+**Also touches:** D5 › 5.2 Escalation & Ambiguity · D5 › 5.1 Context Window (case facts)
 
 ## Answer: **A**
 
@@ -132,3 +137,5 @@ The human gets the agent's **25 turns of work in seconds**: the conclusions, not
 | 6. Implement Hooks for Safer Automation | Enforcing the authorization limit |
 
 *CBT has no dedicated lesson on handoff payloads. Use Udemy A #115 or Udemy B #51.*
+
+</details>

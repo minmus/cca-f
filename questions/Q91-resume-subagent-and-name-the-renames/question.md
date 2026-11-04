@@ -1,9 +1,6 @@
-# Q91 — Interrupted exploration subagent, two functions renamed: resume it and tell it about the renames
+# Q91
 
-**Domain / lesson:** D1 › 1.7 Session State and Resumption
-**Also touches:** D1 › 1.3 Subagent Invocation (resuming a subagent in the Agent SDK)
 **Scenario:** Developer productivity tools (like [Q72](../Q72-resume-and-name-changed-files/question.md); this question has no scenario preamble)
-**Follows:** [Q72](../Q72-resume-and-name-changed-files/question.md) (3 of 12 files changed → resume and name them) · [Q45](../Q45-fresh-session-structured-summary/question.md) (stale tool results → fresh session + summary) · [Q77](../Q77-fork-session-compare-two-approaches/question.md) (fork is for alternatives; continuing = resume)
 
 ## Question
 
@@ -15,6 +12,14 @@ What's the most effective approach?
 - **B.** Launch a fresh subagent and include the prior transcript in the initial prompt for context.
 - **C.** Launch a fresh subagent with a summary of prior findings.
 - **D.** Resume the subagent from its previous transcript and inform it about the renamed functions.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Interrupted exploration subagent, two functions renamed: resume it and tell it about the renames
+**Domain / lesson:** D1 › 1.7 Session State and Resumption
+**Also touches:** D1 › 1.3 Subagent Invocation (resuming a subagent in the Agent SDK)
+**Follows:** [Q72](../Q72-resume-and-name-changed-files/question.md) (3 of 12 files changed → resume and name them) · [Q45](../Q45-fresh-session-structured-summary/question.md) (stale tool results → fresh session + summary) · [Q77](../Q77-fork-session-compare-two-approaches/question.md) (fork is for alternatives; continuing = resume)
 
 ## Answer: **D**
 
@@ -174,3 +179,5 @@ The refund flow: RefundService and its callers
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 1.7 (see the study map). Use the guide and the Udemy lectures for session resumption.*
+
+</details>

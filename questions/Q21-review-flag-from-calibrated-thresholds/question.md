@@ -1,7 +1,5 @@
-# Q21 — Confidence scores: let code decide when to request review
+# Q21
 
-**Domain / lesson:** D5 › 5.5 Human Review & Confidence Calibration
-**Also touches:** D2 › 2.1 Tool Interface Design (tool output contract) · D1 › 1.4 Workflow Enforcement (deterministic over probabilistic)
 **Scenario:** invoice extraction with per-field confidence scores
 
 ## Question
@@ -12,6 +10,13 @@ Your document extraction tool uses ML models to extract invoice fields (vendor, 
 - **B.** Return fields with confidence scores, plus a `request_review` boolean computed using your tested confidence thresholds, along with a `review_reasons` array explaining which fields triggered review.
 - **C.** Compute an aggregate `extraction_quality` score across all fields and return it alongside the extracted values. Include a text summary describing the overall extraction reliability.
 - **D.** Return fields organized into `verified` and `needs_verification` objects based on confidence thresholds.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Confidence scores: let code decide when to request review
+**Domain / lesson:** D5 › 5.5 Human Review & Confidence Calibration
+**Also touches:** D2 › 2.1 Tool Interface Design (tool output contract) · D1 › 1.4 Workflow Enforcement (deterministic over probabilistic)
 
 ## Answer: **B**
 
@@ -137,3 +142,5 @@ So tested thresholds are usually **different per field**, e.g. amount 0.92, date
 | 19. Explain Tool Use and Tool Schemas | Designing the tool's output fields |
 
 *CBT is thin on calibration. Use Udemy A #126–#129.*
+
+</details>

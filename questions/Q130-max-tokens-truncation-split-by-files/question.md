@@ -1,9 +1,6 @@
-# Q130 — 30-file PR truncates the `report_findings` JSON at `max_tokens`: split into calls per file subset, merge
+# Q130
 
-**Domain / lesson:** D4 › 4.6 Multi-Instance & Multi-Pass Review (per-file passes instead of one pass over a large PR)
-**Also touches:** D4 › 4.3 Structured Output with Tool Use (tool_use guarantees the schema, not completeness) · D1 › 1.6 Task Decomposition
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md)–[Q129](../Q129-split-review-by-concern-focused-prompts/question.md))
-**Follows:** [Q129](../Q129-split-review-by-concern-focused-prompts/question.md) (split by concern) · [Q118](../Q118-agentic-review-follows-cross-file-references/question.md) (cross-file issues)
 
 ## Question
 
@@ -17,6 +14,14 @@ What is the most effective way to handle this?
 - **B.** Add retry logic that detects truncated JSON and re-sends the request with instructions to report only critical and high severity findings.
 - **C.** Switch from tool_use to prompting Claude to return findings as a markdown list.
 - **D.** Increase `max_tokens` to the model's maximum and instruct Claude to keep finding descriptions under 50 words each.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 30-file PR truncates the `report_findings` JSON at `max_tokens`: split into calls per file subset, merge
+**Domain / lesson:** D4 › 4.6 Multi-Instance & Multi-Pass Review (per-file passes instead of one pass over a large PR)
+**Also touches:** D4 › 4.3 Structured Output with Tool Use (tool_use guarantees the schema, not completeness) · D1 › 1.6 Task Decomposition
+**Follows:** [Q129](../Q129-split-review-by-concern-focused-prompts/question.md) (split by concern) · [Q118](../Q118-agentic-review-follows-cross-file-references/question.md) (cross-file issues)
 
 ## Answer: **A**
 
@@ -177,3 +182,5 @@ So the per-file findings are **empty** for this bug. An integration pass that on
 | Skill | Why |
 |---|---|
 | 13. Control Outputs with Prompts and Stops | ⭐ Stop reasons and output limits *(also in Q122, Q126)* |
+
+</details>

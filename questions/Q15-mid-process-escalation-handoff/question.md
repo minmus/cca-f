@@ -1,7 +1,5 @@
-# Q15 — Mid-process escalation: what to hand over
+# Q15
 
-**Domain / lesson:** D1 › 1.4 Workflow Enforcement and Handoff
-**Also touches:** D5 › 5.2 Escalation & Ambiguity · D1 › 1.1 Agentic Loops (the model decides to escalate)
 **Scenario:** customer-support agent (same as [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) and [Q14](../Q14-escalation-handoff-summary/question.md))
 
 ## Question
@@ -12,6 +10,13 @@ Your agent is handling a billing dispute. After calling `get_customer` and `look
 - **B.** Persist the complete conversation and tool response history to a database, then call `escalate_to_human` with a reference ID.
 - **C.** Call `escalate_to_human` passing only the customer's original message.
 - **D.** Attempt the refund with `process_refund` anyway, escalating only if the system rejects the transaction.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Mid-process escalation: what to hand over
+**Domain / lesson:** D1 › 1.4 Workflow Enforcement and Handoff
+**Also touches:** D5 › 5.2 Escalation & Ambiguity · D1 › 1.1 Agentic Loops (the model decides to escalate)
 
 ## Answer: **A**
 
@@ -132,3 +137,5 @@ The manager *might* say no. With D, though, the refund may already have happened
 | 6. Implement Hooks for Safer Automation | Blocking unauthorized actions (vs D) |
 
 *CBT has no dedicated lesson on handoff payloads. Use Udemy A #115 or Udemy B #51.*
+
+</details>

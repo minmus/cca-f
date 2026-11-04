@@ -1,9 +1,6 @@
-# Q36 — Coordinator talks about delegating, but no subagent ever runs
+# Q36
 
-**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
-**Also touches:** D1 › 1.1 Agentic Loops (only a `tool_use` acts; text is just text) · D2 › 2.3 Tool Distribution (allowed tools)
 **Scenario:** the multi-agent research system (coordinator + four subagents)
-**Follows:** [Q04](../Q04-tool-scoping-per-subagent/question.md) (tool scoping) · [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (agentic loop) · [Q10](../Q10-missing-context-in-subagent-prompt/question.md) (match the symptom exactly)
 
 ## Question
 
@@ -13,6 +10,14 @@ The coordinator agent has AgentDefinitions configured for all four specialized s
 - **B.** The coordinator's allowedTools configuration doesn't include "Task", so while it can reason about delegation, it cannot invoke the tool required to spawn subagents.
 - **C.** The AgentDefinitions are configured correctly, but the coordinator's system prompt doesn't explicitly list the available subagent types, preventing the model from knowing they can be invoked.
 - **D.** Subagent context isolation means task descriptions from the coordinator don't automatically reach subagents; you need to configure explicit context forwarding in ClaudeAgentOptions.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Coordinator talks about delegating, but no subagent ever runs
+**Domain / lesson:** D1 › 1.3 Subagent Invocation and Context Passing
+**Also touches:** D1 › 1.1 Agentic Loops (only a `tool_use` acts; text is just text) · D2 › 2.3 Tool Distribution (allowed tools)
+**Follows:** [Q04](../Q04-tool-scoping-per-subagent/question.md) (tool scoping) · [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (agentic loop) · [Q10](../Q10-missing-context-in-subagent-prompt/question.md) (match the symptom exactly)
 
 ## Answer: **B**
 
@@ -248,3 +253,5 @@ That's **2 rounds instead of 3**: run what's independent in parallel, and only w
 | 39–40. Build an Agentic Multimedia Article System | Hands-on multi-agent build |
 
 *CBT is only partial on 1.3 (🟡). Use Udemy B #62 and #65 first.*
+
+</details>

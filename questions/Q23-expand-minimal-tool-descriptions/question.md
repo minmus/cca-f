@@ -1,7 +1,5 @@
-# Q23 — delete_file vs archive_file: fix minimal descriptions
+# Q23
 
-**Domain / lesson:** D2 › 2.1 Tool Interface Design
-**Also touches:** D2 › 2.4 MCP Server Integration (MCP tool definitions) · D1 › 1.4 Workflow Enforcement (C as the guarantee layer)
 **Scenario:** MCP file-management server
 
 ## Question
@@ -12,6 +10,13 @@ Your MCP server includes `archive_file(file_id)` and `delete_file(file_id)` tool
 - **B.** Add a confirmation step that requires users to type "CONFIRM DELETE" before `delete_file` executes.
 - **C.** Implement server-side validation that rejects `delete_file` calls for files tagged as backups, returning an error message suggesting `archive_file`.
 - **D.** Add few-shot examples to the system prompt demonstrating that requests involving "backup" or "old" should use `archive_file`.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** delete_file vs archive_file: fix minimal descriptions
+**Domain / lesson:** D2 › 2.1 Tool Interface Design
+**Also touches:** D2 › 2.4 MCP Server Integration (MCP tool definitions) · D1 › 1.4 Workflow Enforcement (C as the guarantee layer)
 
 ## Answer: **A**
 
@@ -136,3 +141,5 @@ In production you'd do **both**: A makes the right choice likely; C makes the wr
 | **22. Route Requests Across Multiple Tools** | ⭐ Tool selection between similar tools |
 | 34. Build MCP Tools Resources and Prompts | Writing MCP tool descriptions |
 | 6. Implement Hooks for Safer Automation | Guarantee layer (C) |
+
+</details>

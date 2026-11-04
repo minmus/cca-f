@@ -1,8 +1,6 @@
-# Q38 — Long conversations slow down: size the context from the usage data
+# Q38
 
-**Domain / lesson:** D5 › 5.1 Context Window Management
 **Scenario:** general conversational assistant (same as [Q37](../Q37-state-assumptions-not-interrogate/question.md))
-**Follows:** [Q37](../Q37-state-assumptions-not-interrogate/question.md) (be open about limits) · [Q02](../Q02-context-passing-source-index/question.md) (complete ≠ everything) · [Q03](../Q03-crash-recovery-state-manifest/question.md) (semantic search ≠ exact state)
 
 ## Question
 
@@ -12,6 +10,13 @@ After 30+ turns, your conversational assistant shows noticeably slower responses
 - **B.** Build a retrieval system that stores all conversation turns and uses semantic search to pull in relevant historical context only when the current query appears to reference past information.
 - **C.** Implement a summarization layer that progressively compresses older conversation turns into a running summary while keeping the most recent 5-6 turns verbatim, maintaining full historical context in condensed form.
 - **D.** Implement a sliding window keeping only the system prompt and last 8-10 turns. When users reference earlier context, acknowledge the limitation and ask them to re-state the relevant information.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Long conversations slow down: size the context from the usage data
+**Domain / lesson:** D5 › 5.1 Context Window Management
+**Follows:** [Q37](../Q37-state-assumptions-not-interrogate/question.md) (be open about limits) · [Q02](../Q02-context-passing-source-index/question.md) (complete ≠ everything) · [Q03](../Q03-crash-recovery-state-manifest/question.md) (semantic search ≠ exact state)
 
 ## Answer: **D**
 
@@ -190,3 +195,5 @@ The block goes **near the top**, because models attend reliably to the start of 
 | **31. Optimize Prompts with Caching** | ⭐ What caching does (cost of the unchanged prefix), which is why A doesn't fix quality |
 | 10. Send Structured Messages to Claude | The full message history goes in every request |
 | 26. Explain RAG and Document Chunking | The retrieval machinery behind option B |
+
+</details>

@@ -1,9 +1,6 @@
-# Q122 — Half the findings dismissed as "not worth addressing": explicit report-vs-skip criteria
+# Q122
 
-**Domain / lesson:** D4 › 4.1 System Prompts with Explicit Criteria
-**Also touches:** D5 › 5.5 Human Review & Confidence Calibration (why self-rated confidence fails)
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md)–[Q121](../Q121-few-shot-acceptable-vs-genuine-findings/question.md))
-**Follows:** [Q121](../Q121-few-shot-acceptable-vs-genuine-findings/question.md) (few-shot when judgment must generalise)
 
 ## Question
 
@@ -17,6 +14,14 @@ Before adding infrastructure complexity, what prompt design change would most ef
 - **B.** Add instructions asking Claude to rate each finding's confidence (1-10) and only include findings rated 8 or higher
 - **C.** Append instructions to "only report findings you are highly confident are genuine problems"
 - **D.** Implement a secondary classification model that filters Claude's findings based on predicted developer acceptance
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Half the findings dismissed as "not worth addressing": explicit report-vs-skip criteria
+**Domain / lesson:** D4 › 4.1 System Prompts with Explicit Criteria
+**Also touches:** D5 › 5.5 Human Review & Confidence Calibration (why self-rated confidence fails)
+**Follows:** [Q121](../Q121-few-shot-acceptable-vs-genuine-findings/question.md) (few-shot when judgment must generalise)
 
 ## Answer: **A**
 
@@ -142,3 +147,5 @@ Finding → criteria (report? skip?) → score → ≥ calibrated threshold → 
 |---|---|
 | **14. Apply System Prompts and Temperature** | ⭐ Criteria in the system prompt |
 | 13. Control Outputs with Prompts and Stops | Controlling what gets output |
+
+</details>

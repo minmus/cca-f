@@ -1,9 +1,6 @@
-# Q50 — Agent hits `max_turns` mid-dispute: code after the loop guarantees resolution or handoff
+# Q50
 
-**Domain / lesson:** D1 › 1.4 Workflow Enforcement & Handoff (deterministic guarantees in code; self-contained handoff)
-**Also touches:** D1 › 1.1 Agentic Loops (caps are safety limits, not control) · D1 › 1.5 Agent SDK Hooks (why D isn't a guarantee)
 **Scenario:** customer-support agent, billing disputes (`get_customer` → `lookup_order` → `process_refund` or `escalate_to_human`)
-**Follows:** [Q51](../Q51-stop-reason-controls-loop/question.md) (`stop_reason` controls the loop) · [Q15](../Q15-mid-process-escalation-handoff/question.md) (self-contained mid-process handoff) · [Q28](../Q28-tamper-proof-threshold-in-tool/question.md) (enforce in code, not prompts)
 
 ## Question
 
@@ -13,6 +10,14 @@ Production logs show that when the agent handles complex billing disputes requir
 - **B.** Split the workflow into two sequential agent invocations – a first agent gathers information via get_customer and lookup_order, then a second agent receives that data and handles process_refund or escalate_to_human, each with separate turn budgets.
 - **C.** Add orchestration-layer code that checks the agent's outcome after each loop termination – if the loop ended without a completed resolution or escalation, programmatically call escalate_to_human with the accumulated conversation context and tool results.
 - **D.** Implement a pre-tool-use hook that counts tool invocations and terminates the loop with an automatic escalation once the agent reaches 80% of its max_turns limit.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Agent hits `max_turns` mid-dispute: code after the loop guarantees resolution or handoff
+**Domain / lesson:** D1 › 1.4 Workflow Enforcement & Handoff (deterministic guarantees in code; self-contained handoff)
+**Also touches:** D1 › 1.1 Agentic Loops (caps are safety limits, not control) · D1 › 1.5 Agent SDK Hooks (why D isn't a guarantee)
+**Follows:** [Q51](../Q51-stop-reason-controls-loop/question.md) (`stop_reason` controls the loop) · [Q15](../Q15-mid-process-escalation-handoff/question.md) (self-contained mid-process handoff) · [Q28](../Q28-tamper-proof-threshold-in-tool/question.md) (enforce in code, not prompts)
 
 ## Answer: **C**
 
@@ -152,3 +157,5 @@ Note the code has an advantage here: it builds the handoff from **structured dat
 |---|---|
 | **6. Implement Hooks for Safer Automation** | ⭐ Enforcement in code (and what hooks cover, vs D) |
 | 21. Build Multi Turn Tool Conversations | The loop and how it ends |
+
+</details>

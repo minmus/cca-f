@@ -1,8 +1,4 @@
-# Q31 — Guaranteed compliance: refunds over $500 must escalate
-
-**Domain / lesson:** D1 › 1.5 Agent SDK Hooks
-**Also touches:** D1 › 1.4 Workflow Enforcement and Handoff · D5 › 5.2 Escalation & Ambiguity Resolution
-**Follows:** [Q28](../Q28-tamper-proof-threshold-in-tool/question.md) (same $500 rule, in-tool answer) · [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (gate in `process_refund`) · [Q16](../Q16-escalation-triggers/question.md) ("gate the numbers") · [Q14](../Q14-escalation-handoff-summary/question.md) (handoff summary)
+# Q31
 
 ## Question
 
@@ -12,6 +8,14 @@ Compliance requires that refunds exceeding $500 must automatically escalate to a
 - **B.** Add few-shot examples to the prompt showing correct escalation behavior at various refund amounts ($400, $500, $600).
 - **C.** Implement a hook to intercept tool calls; when the refund process amount exceeds $500, block it and invoke human escalation.
 - **D.** Strengthen the system prompt with emphatic language: "CRITICAL POLICY: Refunds over $500 MUST trigger human escalation. NEVER process these directly."
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Guaranteed compliance: refunds over $500 must escalate
+**Domain / lesson:** D1 › 1.5 Agent SDK Hooks
+**Also touches:** D1 › 1.4 Workflow Enforcement and Handoff · D5 › 5.2 Escalation & Ambiguity Resolution
+**Follows:** [Q28](../Q28-tamper-proof-threshold-in-tool/question.md) (same $500 rule, in-tool answer) · [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) (gate in `process_refund`) · [Q16](../Q16-escalation-triggers/question.md) ("gate the numbers") · [Q14](../Q14-escalation-handoff-summary/question.md) (handoff summary)
 
 ## Answer: **C**
 
@@ -203,3 +207,5 @@ The wording tells you which half matters:
 | 17. Design Clear Prompts with Examples | Few-shot examples: useful for format, but not enforcement (why B fails) |
 
 *CBT is strong on hooks (✅ for 1.5). It's a good hands-on complement here.*
+
+</details>

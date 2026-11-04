@@ -1,10 +1,6 @@
-# Q52 — CLAUDE.md says "always run Prettier", 15% still slips: run it with a hook
+# Q52
 
-**Domain / lesson (closest fit):** D1 › 1.5 Agent SDK Hooks (the same hook events exist in Claude Code)
-**Also touches:** D3 › 3.1 CLAUDE.md Hierarchy (instructions are guidance) · D3 › 3.3 Path-Specific Rules · D3 › 3.2 Slash Commands and Skills
-**Note:** the guide's D3 lessons don't cover hooks; the Prettier hook below is from the **Claude Code hooks guide** (code.claude.com, checked 2026-10-31).
 **Scenario:** Claude Code for a development team (code generation, refactoring, CLAUDE.md, slash commands)
-**Follows:** [Q31](../Q31-refund-threshold-hook/question.md) (a clear prompt still fails 3% → hook) · [Q42](../Q42-trim-tool-outputs-relevant-fields/question.md) (PostToolUse transforms; PreToolUse blocks) · [Q39](../Q39-coordinator-answers-simple-followups/question.md) check (deterministic work → code)
 
 ## Question
 
@@ -16,6 +12,15 @@ Your team's CLAUDE.md includes a rule: "Use 4-space indentation and always run P
 - **B.** Split the formatting rules into path-scoped .claude/rules/files that load when Claude works on matching file types.
 - **C.** Extract the formatting rules into a dedicated skill that Claude loads automatically when generating code, with more detailed examples of correct formatting.
 - **D.** Add a Stop hook with a prompt-based check that evaluates whether generated code follows formatting standards and prompts Claude to fix violations.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** CLAUDE.md says "always run Prettier", 15% still slips: run it with a hook
+**Domain / lesson (closest fit):** D1 › 1.5 Agent SDK Hooks (the same hook events exist in Claude Code)
+**Also touches:** D3 › 3.1 CLAUDE.md Hierarchy (instructions are guidance) · D3 › 3.3 Path-Specific Rules · D3 › 3.2 Slash Commands and Skills
+**Note:** the guide's D3 lessons don't cover hooks; the Prettier hook below is from the **Claude Code hooks guide** (code.claude.com, checked 2026-10-31).
+**Follows:** [Q31](../Q31-refund-threshold-hook/question.md) (a clear prompt still fails 3% → hook) · [Q42](../Q42-trim-tool-outputs-relevant-fields/question.md) (PostToolUse transforms; PreToolUse blocks) · [Q39](../Q39-coordinator-answers-simple-followups/question.md) check (deterministic work → code)
 
 ## Answer: **A**
 
@@ -161,3 +166,5 @@ The hook, as given in the Claude Code hooks guide (`.claude/settings.json`):
 |---|---|
 | **8. Apply Useful Hooks and Claude Code SDK Basics** | ⭐ Practical Claude Code hooks |
 | 6. Implement Hooks for Safer Automation | Hook events and where each fits |
+
+</details>

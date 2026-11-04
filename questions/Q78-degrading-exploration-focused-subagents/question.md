@@ -1,9 +1,6 @@
-# Q78 — 8 of 45 files in, the agent is forgetting: focused subagents, the main agent coordinates
+# Q78
 
-**Domain / lesson:** D5 › 5.4 Codebase Exploration & Context Degradation
-**Also touches:** D1 › 1.3 Subagent Invocation & Context Passing (what each subagent gets, what it returns)
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (same set as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md)–[Q77](../Q77-fork-session-compare-two-approaches/question.md))
-**Follows:** [Q71](../Q71-degraded-context-summary-into-subagent/question.md) (the same symptom; there the next phase was new work, here it's the rest of the same investigation) · [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (exploration fills the context)
 
 ## Question
 
@@ -15,6 +12,14 @@ An engineer asks your agent to identify untested code paths in a legacy payment 
 - **B.** Spawn subagents to investigate specific questions (e.g., "find all test files for payment processing," "trace refund flow dependencies") while the main agent coordinates findings and preserves high-level understanding.
 - **C.** Document all current findings in a summary report, clear context completely, then use that report as the sole reference for continuing the investigation.
 - **D.** Clear context with /clear, then selectively re-read only the most critical files discovered so far, writing key findings to a scratchpad file that persists between context resets.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** 8 of 45 files in, the agent is forgetting: focused subagents, the main agent coordinates
+**Domain / lesson:** D5 › 5.4 Codebase Exploration & Context Degradation
+**Also touches:** D1 › 1.3 Subagent Invocation & Context Passing (what each subagent gets, what it returns)
+**Follows:** [Q71](../Q71-degraded-context-summary-into-subagent/question.md) (the same symptom; there the next phase was new work, here it's the rest of the same investigation) · [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (exploration fills the context)
 
 ## Answer: **B**
 
@@ -155,3 +160,5 @@ Parallel only changes the last row. Isolation is what changes the first two.
 | Skill | Why |
 |---|---|
 | 39. Build an Agentic Multimedia Article System: Part 1 | A coordinator handing focused tasks to subagents and combining what comes back *(also in Q01, Q02, Q03, Q05, Q06, Q07, Q09, Q11, Q36, Q39)* |
+
+</details>

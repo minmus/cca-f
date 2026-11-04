@@ -1,8 +1,6 @@
-# Q81 — Every file that imports @company/auth: Grep the import statement
+# Q81
 
-**Domain / lesson:** D2 › 2.5 Built-in Tools
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (same set as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md)–[Q79](../Q79-scratchpad-file-for-long-sessions/question.md))
-**Follows:** [Q69](../Q69-grep-distinctive-error-text/question.md) (Grep for text you know is in the file) · [Q76](../Q76-edit-no-unique-anchor-read-write/question.md) (same lesson: the tool for changing code)
 
 ## Question
 
@@ -14,6 +12,13 @@ An engineer asks the agent to find all files in the monorepo that import the @co
 - **B.** Glob, to find files with "auth" in their filename or path
 - **C.** Grep, to search for the import statement pattern across file contents
 - **D.** Bash, to execute `find . -type d -name "*auth*"` and explore matching directories
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Every file that imports @company/auth: Grep the import statement
+**Domain / lesson:** D2 › 2.5 Built-in Tools
+**Follows:** [Q69](../Q69-grep-distinctive-error-text/question.md) (Grep for text you know is in the file) · [Q76](../Q76-edit-no-unique-anchor-read-write/question.md) (same lesson: the tool for changing code)
 
 ## Answer: **C**
 
@@ -166,3 +171,5 @@ Guide: *"The correct sequence is Grep, then Glob, then Grep again. Starting with
 | Skill | Why |
 |---|---|
 | **23. Apply Built In Tools Safely** | ⭐ Choosing Grep, Glob and Read deliberately *(also in Q68, Q69, Q75, Q76)* |
+
+</details>

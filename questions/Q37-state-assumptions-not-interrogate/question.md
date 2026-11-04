@@ -1,10 +1,6 @@
-# Q37 — Too many clarifying questions: assume, state it, offer to adjust
+# Q37
 
-**Domain / lesson (closest fit):** D5 › 5.2 Escalation & Ambiguity Resolution
-**Also touches:** D4 › 4.1 System Prompts with Explicit Criteria (the fix lives in the system prompt)
-**Note:** the guide's 5.2 covers ambiguity only for **high-stakes** cases (several matching customer records → *"Asking for clarification is the only safe response"*). It doesn't cover the low-stakes case asked here. I checked 5.2 and 4.1 on 2026-10-31. The "assume and proceed" behaviour comes from **Anthropic's prompting best practices** (Tool use section, `default_to_action` prompt).
 **Scenario:** general conversational assistant
-**Follows:** [Q16](../Q16-escalation-triggers/question.md) (instruct the judgment) · [Q31](../Q31-refund-threshold-hook/question.md) (when a prompt is *not* enough) · [Q18](../Q18-meaningful-confirmation/question.md) (people can only correct what they can see)
 
 ## Question
 
@@ -15,6 +11,15 @@ User analytics show a 40% conversation abandonment rate after these multi-questi
 - **B.** Add a preprocessing step using a smaller model to classify request ambiguity on a 1-5 scale, routing high-ambiguity requests to a clarification dialog and low-ambiguity requests directly to the assistant.
 - **C.** Modify the system prompt to instruct the assistant to make reasonable assumptions from available context, state those assumptions explicitly, and offer to adjust if the interpretation is wrong.
 - **D.** Create a lookup table of common request patterns with predefined default interpretations, having the assistant respond with those defaults without stating the assumptions made.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Too many clarifying questions: assume, state it, offer to adjust
+**Domain / lesson (closest fit):** D5 › 5.2 Escalation & Ambiguity Resolution
+**Also touches:** D4 › 4.1 System Prompts with Explicit Criteria (the fix lives in the system prompt)
+**Note:** the guide's 5.2 covers ambiguity only for **high-stakes** cases (several matching customer records → *"Asking for clarification is the only safe response"*). It doesn't cover the low-stakes case asked here. I checked 5.2 and 4.1 on 2026-10-31. The "assume and proceed" behaviour comes from **Anthropic's prompting best practices** (Tool use section, `default_to_action` prompt).
+**Follows:** [Q16](../Q16-escalation-triggers/question.md) (instruct the judgment) · [Q31](../Q31-refund-threshold-hook/question.md) (when a prompt is *not* enough) · [Q18](../Q18-meaningful-confirmation/question.md) (people can only correct what they can see)
 
 ## Answer: **C**
 
@@ -200,3 +205,5 @@ That's one question, not an interrogation. A's "one question" idea is fine **whe
 | 17. Design Clear Prompts with Examples | Writing the assume/ask criteria clearly |
 
 *CBT doesn't cover 5.2 (see the study map), so use the guide and the Udemy lectures for the ask-vs-assume boundary.*
+
+</details>

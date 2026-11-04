@@ -1,9 +1,6 @@
-# Q69 — Unknown error in production: Grep for its distinctive text
+# Q69
 
-**Domain / lesson:** D2 › 2.5 Built-in Tools (Grep vs Glob, incremental discovery)
-**Also touches:** D5 › 5.4 Codebase Exploration (don't read what you don't need)
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (same as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md))
-**Follows:** [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (incremental reading; Grep again for new names) · [Q66](../Q66-clear-stack-trace-direct-execution/question.md) (start from the evidence you have)
 
 ## Question
 
@@ -15,6 +12,14 @@ An engineer sees an unfamiliar error message "SYNC_CONFLICT: entity version mism
 - **B.** Read the project's README and service configuration files to understand the architecture, then systematically Read source files in each service directory.
 - **C.** Use Grep to search for distinctive text from the error message (like "SYNC_CONFLICT" or "entity version mismatch"), then Read the matching files to understand context.
 - **D.** Use Grep to find all files that import the project's error handling module, then Read those files to locate custom error definitions.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Unknown error in production: Grep for its distinctive text
+**Domain / lesson:** D2 › 2.5 Built-in Tools (Grep vs Glob, incremental discovery)
+**Also touches:** D5 › 5.4 Codebase Exploration (don't read what you don't need)
+**Follows:** [Q68](../Q68-trace-from-base-class-incremental-reading/question.md) (incremental reading; Grep again for new names) · [Q66](../Q66-clear-stack-trace-direct-execution/question.md) (start from the evidence you have)
 
 ## Answer: **C**
 
@@ -158,3 +163,5 @@ This is Q68's wrapper case again: the first name leads to a second name, and the
 | Skill | Why |
 |---|---|
 | **23. Apply Built In Tools Safely** | ⭐ Choosing Grep, Glob and Read deliberately *(also in Q68)* |
+
+</details>

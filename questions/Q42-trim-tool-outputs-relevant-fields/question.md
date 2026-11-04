@@ -1,9 +1,6 @@
-# Q42 — Tool outputs fill the context: trim to the relevant fields
+# Q42
 
-**Domain / lesson:** D5 › 5.1 Context Window Management
-**Also touches:** D1 › 1.5 Agent SDK Hooks (PostToolUse is where trimming belongs from now on)
 **Scenario:** customer-support agent, several `lookup_order` calls for return requests
-**Follows:** [Q40](../Q40-multi-issue-case-facts-layer/question.md) (keep the facts, drop the rest) · [Q35](../Q35-structured-tool-output-fields/question.md) (structured fields beat prose) · [Q31](../Q31-refund-threshold-hook/question.md) (PreToolUse blocks; PostToolUse transforms)
 
 ## Question
 
@@ -13,6 +10,14 @@ Your agent has called lookup_order multiple times while investigating a customer
 - **B.** Proceed with additional lookups without modifying the existing tool output context
 - **C.** Have the model generate a natural language summary of each order's key details, replacing structured responses with prose descriptions
 - **D.** Extract only the return-relevant fields (items, purchase date, return window, status) from each existing order response, removing verbose details
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Tool outputs fill the context: trim to the relevant fields
+**Domain / lesson:** D5 › 5.1 Context Window Management
+**Also touches:** D1 › 1.5 Agent SDK Hooks (PostToolUse is where trimming belongs from now on)
+**Follows:** [Q40](../Q40-multi-issue-case-facts-layer/question.md) (keep the facts, drop the rest) · [Q35](../Q35-structured-tool-output-fields/question.md) (structured fields beat prose) · [Q31](../Q31-refund-threshold-hook/question.md) (PreToolUse blocks; PostToolUse transforms)
 
 ## Answer: **D**
 
@@ -155,3 +160,5 @@ flowchart LR
 | 10. Send Structured Messages to Claude | The message list your code sends every turn |
 
 *CBT covers 5.1 only partially. Use the guide and the Udemy lectures for tool-output trimming.*
+
+</details>

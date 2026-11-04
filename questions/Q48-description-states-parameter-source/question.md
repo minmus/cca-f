@@ -1,10 +1,6 @@
-# Q48 — The agent invents an order_id: say where the value must come from
+# Q48
 
-**Domain / lesson:** D2 › 2.1 Tool Interface Design
-**Also touches:** D2 › 2.3 Tool Distribution & Tool Choice (`tool_choice`) · D1 › 1.4 Workflow Enforcement (a code gate as the safety net, see the check question)
-**Note:** the guide's 2.1 covers parameter descriptions (types, formats, which identifiers a tool accepts) but not fabricated values. The "say what each parameter means" rule below is from Anthropic's **Define tools** docs (checked 2026-10-31).
 **Scenario:** customer-support agent, `lookup_order` → `process_refund`
-**Follows:** [Q20](../Q20-parameter-descriptions/question.md) (descriptions give meaning) · [Q19](../Q19-tool-accepts-available-identifier/question.md) (where a tool's input comes from) · [Q16](../Q16-escalation-triggers/question.md) (instruct the judgment, gate the numbers)
 
 ## Question
 
@@ -14,6 +10,15 @@ During testing, you find that when a customer says "I need a refund for my recen
 - **B.** Update the process_refund tool description to explicitly state that order_id must be obtained from a prior lookup_order call and must never be assumed or invented.
 - **C.** Pre-parse incoming customer messages to extract any order IDs mentioned, and inject them into the conversation context before passing to Claude.
 - **D.** Add server-side validation that checks whether the order_id exists in your database before executing the refund, returning an error to the agent if not found.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** The agent invents an order_id: say where the value must come from
+**Domain / lesson:** D2 › 2.1 Tool Interface Design
+**Also touches:** D2 › 2.3 Tool Distribution & Tool Choice (`tool_choice`) · D1 › 1.4 Workflow Enforcement (a code gate as the safety net, see the check question)
+**Note:** the guide's 2.1 covers parameter descriptions (types, formats, which identifiers a tool accepts) but not fabricated values. The "say what each parameter means" rule below is from Anthropic's **Define tools** docs (checked 2026-10-31).
+**Follows:** [Q20](../Q20-parameter-descriptions/question.md) (descriptions give meaning) · [Q19](../Q19-tool-accepts-available-identifier/question.md) (where a tool's input comes from) · [Q16](../Q16-escalation-triggers/question.md) (instruct the judgment, gate the numbers)
 
 ## Answer: **B**
 
@@ -154,3 +159,5 @@ If a check fails → **block**, and return a structured error: *"order_id not fr
 |---|---|
 | **19. Explain Tool Use and Tool Schemas** | ⭐ Tool and parameter descriptions |
 | 22. Route Requests Across Multiple Tools | `tool_choice` and tool sequencing |
+
+</details>

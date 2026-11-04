@@ -1,9 +1,6 @@
-# Q63 — Migration script mishandles nulls: give a test case (input with nulls + expected output)
+# Q63
 
-**Domain / lesson:** D3 › 3.5 Iterative Refinement (concrete input/output examples and tests beat prose)
-**Also touches:** D4 › 4.2 Few-Shot (examples generalise better than descriptions)
 **Scenario:** Claude Code for software development (code generation, refactoring, debugging, docs)
-**Follows:** [Q64](../Q64-interview-pattern-unfamiliar-domain/question.md) (interview pattern for unfamiliar domains) · [Q58](../Q58-at-reference-example-files/question.md) (point at example files)
 
 ## Question
 
@@ -15,6 +12,14 @@ You've asked Claude to write a data migration script, but the initial output doe
 - **B.** Add "think harder about edge cases" to your prompt and request a complete rewrite of the migration logic.
 - **C.** Describe the null value problem in detail and ask Claude to regenerate the entire script with improved edge case handling.
 - **D.** Provide a test case with example input containing null values and the expected output, then ask Claude to fix it.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Migration script mishandles nulls: give a test case (input with nulls + expected output)
+**Domain / lesson:** D3 › 3.5 Iterative Refinement (concrete input/output examples and tests beat prose)
+**Also touches:** D4 › 4.2 Few-Shot (examples generalise better than descriptions)
+**Follows:** [Q64](../Q64-interview-pattern-unfamiliar-domain/question.md) (interview pattern for unfamiliar domains) · [Q58](../Q58-at-reference-example-files/question.md) (point at example files)
 
 ## Answer: **D**
 
@@ -140,3 +145,5 @@ Trap: interviewing when you **already know** the exact transformation: *"here th
 ### CBT Nuggets: CCA-F course
 
 *CBT doesn't cover 3.5 (see the study map). Use the guide and Udemy B #82.*
+
+</details>

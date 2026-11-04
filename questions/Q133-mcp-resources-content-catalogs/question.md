@@ -1,9 +1,6 @@
-# Q133 — Exploratory calls across three MCP servers: expose content catalogs as MCP resources
+# Q133
 
-**Domain / lesson:** D2 › 2.4 MCP Server Integration (MCP resources = content catalogs that remove exploratory tool calls)
-**Also touches:** D5 › 5.1 Context Window Management (fewer calls → less context used) · D2 › 2.1 Tool Interface Design (why D's generic tool is weak)
 **Scenario:** Developer productivity tools with the Claude Agent SDK (same as [Q131](../Q131-existing-jira-mcp-server/question.md)–[Q132](../Q132-grep-entry-points-follow-imports/question.md))
-**Follows:** [Q131](../Q131-existing-jira-mcp-server/question.md) (existing MCP servers) · [Q57](../Q57-mcp-prompts-become-slash-commands/question.md) (MCP prompts, another primitive)
 
 ## Question
 
@@ -17,6 +14,14 @@ What architectural change best leverages MCP capabilities to address these issue
 - **B.** Expose each server's content catalog as MCP resources – issue summaries, documentation hierarchy, database schemas
 - **C.** Consolidate all three servers into a unified MCP server with cross-referencing capabilities
 - **D.** Add a prepare_investigation tool to each server that accepts a natural language question and returns relevant content summaries
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Exploratory calls across three MCP servers: expose content catalogs as MCP resources
+**Domain / lesson:** D2 › 2.4 MCP Server Integration (MCP resources = content catalogs that remove exploratory tool calls)
+**Also touches:** D5 › 5.1 Context Window Management (fewer calls → less context used) · D2 › 2.1 Tool Interface Design (why D's generic tool is weak)
+**Follows:** [Q131](../Q131-existing-jira-mcp-server/question.md) (existing MCP servers) · [Q57](../Q57-mcp-prompts-become-slash-commands/question.md) (MCP prompts, another primitive)
 
 ## Answer: **B**
 
@@ -152,3 +157,5 @@ What to expose (the guide's own list, matching option B word for word):
 |---|---|
 | **34. Build MCP Tools Resources and Prompts** | ⭐ The three primitives, hands-on |
 | 33. Explain MCP Clients and Servers | How clients attach resources *(also in Q131)* |
+
+</details>

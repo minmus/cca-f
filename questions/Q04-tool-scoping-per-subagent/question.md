@@ -1,8 +1,4 @@
-# Q04 — Subagents call tools outside their specialization
-
-**Domain / lesson:** D2 › 2.3 Tool Distribution & Tool Choice
-**Also touches:** D1 › 1.3 Subagent Invocation and Context Passing · D2 › 2.1 Tool Interface Design
-**Same system as:** [Q01](../Q01-source-attribution-multi-agent/question.md) (web search → document analysis → synthesis → report generator)
+# Q04
 
 ## Question
 
@@ -12,6 +8,14 @@ You've configured the system so that all four subagents have access to the compl
 - **B.** The tool definitions consume too much context window space, leaving insufficient room for task content.
 - **C.** The agents' role descriptions in their system prompts conflict with having access to tools outside that role.
 - **D.** The coordinator cannot track which capabilities each subagent has, leading to misrouted tasks.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Subagents call tools outside their specialization
+**Domain / lesson:** D2 › 2.3 Tool Distribution & Tool Choice
+**Also touches:** D1 › 1.3 Subagent Invocation and Context Passing · D2 › 2.1 Tool Interface Design
+**Same system as:** [Q01](../Q01-source-attribution-multi-agent/question.md) (web search → document analysis → synthesis → report generator)
 
 ## Answer: **A**
 
@@ -144,3 +148,5 @@ Three principles in one answer:
 | **22. Route Requests Across Multiple Tools** | ⭐ Tool selection across a toolset |
 | 19. Explain Tool Use and Tool Schemas | How tool definitions drive selection |
 | 36. Design Workflows and Agent Systems | Splitting roles across agents |
+
+</details>

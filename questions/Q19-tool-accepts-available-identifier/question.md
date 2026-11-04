@@ -1,7 +1,5 @@
-# Q19 — A tool that forces a lookup first: change its input
+# Q19
 
-**Domain / lesson:** D2 › 2.1 Tool Interface Design
-**Also touches:** D2 › 2.2 Structured Error Responses (fewer failure points) · D1 › 1.1 Agentic Loops (fewer round-trips)
 **Scenario:** real-estate agent with property tools
 
 ## Question
@@ -12,6 +10,13 @@ Your agent uses three tools: `get_property_details(property_id)` returns data in
 - **B.** Add retry logic and timeout handling to `get_property_details`.
 - **C.** Change `get_neighborhood_info` to accept `property_id`, resolving the address internally.
 - **D.** Consolidate into a single `get_property_with_neighborhood(property_id)` tool returning both datasets.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** A tool that forces a lookup first: change its input
+**Domain / lesson:** D2 › 2.1 Tool Interface Design
+**Also touches:** D2 › 2.2 Structured Error Responses (fewer failure points) · D1 › 1.1 Agentic Loops (fewer round-trips)
 
 ## Answer: **C**
 
@@ -133,3 +138,5 @@ That's **two model round-trips**, an **extra failure point**, and an extra reaso
 | **19. Explain Tool Use and Tool Schemas** | ⭐ Designing tool parameters |
 | 34. Build MCP Tools Resources and Prompts | Tools with clear input contracts |
 | 21. Build Multi Turn Tool Conversations | The cost of chained tool calls |
+
+</details>

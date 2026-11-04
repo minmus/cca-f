@@ -1,8 +1,4 @@
-# Q13 — Who decides the next tool in an agentic loop?
-
-**Domain / lesson:** D1 › 1.1 Agentic Loops
-**Also touches:** D1 › 1.4 Workflow Enforcement (refund gates) · D5 › 5.2 Escalation
-**New scenario:** customer-support agent (lookup_order → process_refund / escalate_to_human)
+# Q13
 
 ## Question
 
@@ -12,6 +8,14 @@ When the agent calls `lookup_order` and receives order details showing the item 
 - **B.** The order details are added to the conversation and the model reasons about which action to take.
 - **C.** The agent executes the remaining steps in a tool sequence planned at the start of the request.
 - **D.** The agent follows a pre-configured decision tree mapping order attributes to specific tool calls.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Who decides the next tool in an agentic loop?
+**Domain / lesson:** D1 › 1.1 Agentic Loops
+**Also touches:** D1 › 1.4 Workflow Enforcement (refund gates) · D5 › 5.2 Escalation
+**New scenario:** customer-support agent (lookup_order → process_refund / escalate_to_human)
 
 ## Answer: **B**
 
@@ -156,3 +160,5 @@ def process_refund(order_id, amount):
 | **20. Handle Tool Calls and Tool Results** | ⭐ Appending tool_result to the conversation |
 | **21. Build Multi Turn Tool Conversations** | ⭐ The loop over multiple tool calls |
 | 36. Design Workflows and Agent Systems | Workflow (C/D) vs agent (B) |
+
+</details>

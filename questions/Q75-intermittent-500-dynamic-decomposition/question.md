@@ -1,9 +1,6 @@
-# Q75 — Intermittent 500s, components unknown: dynamic adaptive decomposition
+# Q75
 
-**Domain / lesson:** D1 › 1.6 Task Decomposition Strategies
-**Also touches:** D2 › 2.5 Built-in Tools (incremental discovery: each step justified by the last)
 **Scenario:** Developer productivity tools built with the Claude Agent SDK (the pasted text leaves out the scenario intro; same set as [Q68](../Q68-trace-from-base-class-incremental-reading/question.md)–[Q74](../Q74-mcp-descriptions-compete-with-built-ins/question.md))
-**Follows:** [Q73](../Q73-same-steps-every-pr-prompt-chaining/question.md) (the mirror image: known steps → fixed pipeline) · [Q69](../Q69-grep-distinctive-error-text/question.md) (start from the evidence you have)
 
 ## Question
 
@@ -13,6 +10,14 @@ A developer asks the agent to investigate why a specific API endpoint intermitte
 - **B.** Have the agent first create a comprehensive plan mapping all code paths through the endpoint before beginning any file exploration or code reading.
 - **C.** Run parallel worker agents that simultaneously investigate all four layers, then synthesize their findings to identify where the error originates.
 - **D.** Define a fixed sequence of investigation steps upfront – grep for error patterns, then read error handlers, then check database queries, then examine middleware – executing each step regardless of intermediate findings.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Intermittent 500s, components unknown: dynamic adaptive decomposition
+**Domain / lesson:** D1 › 1.6 Task Decomposition Strategies
+**Also touches:** D2 › 2.5 Built-in Tools (incremental discovery: each step justified by the last)
+**Follows:** [Q73](../Q73-same-steps-every-pr-prompt-chaining/question.md) (the mirror image: known steps → fixed pipeline) · [Q69](../Q69-grep-distinctive-error-text/question.md) (start from the evidence you have)
 
 ## Answer: **A**
 
@@ -174,3 +179,5 @@ released_on_every_path (yes / no / unsure), shared helper used (if any).
 |---|---|
 | **36. Design Workflows and Agent Systems** | ⭐ Adaptive agents vs fixed workflows *(also in Q01–Q07, Q09–Q13, Q29, Q36, Q39, Q73)* |
 | 23. Apply Built In Tools Safely | Grep → Read → follow: the tool side of an adaptive investigation *(also in Q68, Q69)* |
+
+</details>

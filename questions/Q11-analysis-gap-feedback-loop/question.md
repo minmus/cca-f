@@ -1,8 +1,4 @@
-# Q11 — Analysis finds gaps, but the strict pipeline can't act on them
-
-**Domain / lesson:** D1 › 1.2 Multi-Agent Orchestration (iterative refinement loops)
-**Also touches:** D1 › 1.6 Task Decomposition (why A isn't enough) · D1 › 1.3 Context Passing
-**Close cousin of:** [Q06](../Q06-coordinator-gap-loop/question.md) (same loop, earlier in the pipeline, and B vs C is subtler)
+# Q11
 
 ## Question
 
@@ -12,6 +8,14 @@ Users report that final reports sometimes lack depth on specific subtopics. Inve
 - **B.** Have the analysis agent report specific gaps to the coordinator, which triggers targeted searches and re-invokes analysis until sufficient.
 - **C.** Have the coordinator review analysis output for gap indicators and re-invoke search with gap-informed queries when gaps are detected.
 - **D.** Have the synthesis agent attach confidence scores to each section and flag areas with insufficient coverage for manual review.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Analysis finds gaps, but the strict pipeline can't act on them
+**Domain / lesson:** D1 › 1.2 Multi-Agent Orchestration (iterative refinement loops)
+**Also touches:** D1 › 1.6 Task Decomposition (why A isn't enough) · D1 › 1.3 Context Passing
+**Close cousin of:** [Q06](../Q06-coordinator-gap-loop/question.md) (same loop, earlier in the pipeline, and B vs C is subtler)
 
 ## Answer: **B**
 
@@ -151,3 +155,5 @@ When the cap is reached and gaps remain → **structured unresolved gaps** in th
 |---|---|
 | **36. Design Workflows and Agent Systems** | ⭐ Fixed workflows vs adaptive agent loops |
 | 39–40. Build an Agentic Multimedia Article System | Hands-on multi-agent loop |
+
+</details>

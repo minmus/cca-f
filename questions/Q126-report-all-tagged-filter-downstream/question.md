@@ -1,9 +1,6 @@
-# Q126 — "Ignore anything you're uncertain about" hides real bugs: report all, tagged, filter downstream
+# Q126
 
-**Domain / lesson:** D4 › 4.1 System Prompts with Explicit Criteria (vague confidence instructions suppress real findings)
-**Also touches:** D4 › 4.6 Multi-Instance & Multi-Pass Review (confidence scores for routing) · D5 › 5.5 Human Review & Confidence Calibration
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md)–[Q125](../Q125-bare-mode-append-claude-md/question.md))
-**Follows:** [Q122](../Q122-explicit-report-vs-skip-criteria/question.md) (criteria first, confidence routing second) · [Q121](../Q121-few-shot-acceptable-vs-genuine-findings/question.md) D ("be conservative" suppresses real bugs)
 
 ## Question
 
@@ -17,6 +14,14 @@ Which prompt change both removes the cause of the suppressed findings and preser
 - **B.** Enable extended thinking and instruct the model to reason step-by-step about each code change before producing its review.
 - **C.** Remove all severity-related instructions from the prompt and let the model use its default judgment about what to report.
 - **D.** Instruct the model to report all findings with a confidence level and severity tag, deferring filtering to a downstream step.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** "Ignore anything you're uncertain about" hides real bugs: report all, tagged, filter downstream
+**Domain / lesson:** D4 › 4.1 System Prompts with Explicit Criteria (vague confidence instructions suppress real findings)
+**Also touches:** D4 › 4.6 Multi-Instance & Multi-Pass Review (confidence scores for routing) · D5 › 5.5 Human Review & Confidence Calibration
+**Follows:** [Q122](../Q122-explicit-report-vs-skip-criteria/question.md) (criteria first, confidence routing second) · [Q121](../Q121-few-shot-acceptable-vs-genuine-findings/question.md) D ("be conservative" suppresses real bugs)
 
 ## Answer: **D**
 
@@ -174,3 +179,5 @@ So both questions can be true at once: a good review prompt says *"report bugs a
 |---|---|
 | **14. Apply System Prompts and Temperature** | ⭐ Prompt instructions that shape output *(also in Q122)* |
 | 13. Control Outputs with Prompts and Stops | Structured, tagged output *(also in Q122)* |
+
+</details>

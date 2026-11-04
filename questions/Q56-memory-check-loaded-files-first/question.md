@@ -1,8 +1,6 @@
-# Q56 — Convention followed only sometimes: first check which files are loaded (`/memory`)
+# Q56
 
-**Domain / lesson:** D3 › 3.1 CLAUDE.md Hierarchy (diagnostic commands)
 **Scenario:** Claude Code for a development team (same as [Q52](../Q52-posttooluse-hook-runs-formatter/question.md)–[Q55](../Q55-tests-first-share-failures/question.md))
-**Follows:** [Q46](../Q46-stateless-api-pass-full-history/question.md) (agent "forgets" → first check it's actually in context) · [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (path rules fix *what* loads, not this) · [Q52](../Q52-posttooluse-hook-runs-formatter/question.md) (CLAUDE.md is guidance)
 
 ## Question
 
@@ -14,6 +12,13 @@ You've documented API error handling conventions in a CLAUDE.md file at your pro
 - **B.** Run /memory to check which memory files are loaded and verify your CLAUDE.md is included.
 - **C.** Search for conflicting instructions in ~/.claude/CLAUDE.md or ~/.claude/rules/ that might override your project conventions.
 - **D.** Create path-specific rules in .claude/rules/handlers.md with YAML frontmatter scoping the error handling instructions to your API handler files.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Convention followed only sometimes: first check which files are loaded (`/memory`)
+**Domain / lesson:** D3 › 3.1 CLAUDE.md Hierarchy (diagnostic commands)
+**Follows:** [Q46](../Q46-stateless-api-pass-full-history/question.md) (agent "forgets" → first check it's actually in context) · [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (path rules fix *what* loads, not this) · [Q52](../Q52-posttooluse-hook-runs-formatter/question.md) (CLAUDE.md is guidance)
 
 ## Answer: **B**
 
@@ -153,3 +158,5 @@ Moving it into a path-scoped rule for `src/api/handlers/**` (option D) can also 
 | Skill | Why |
 |---|---|
 | **1. Set Up Claude Code and Configure Projects** | ⭐ CLAUDE.md levels and project setup (3.1) |
+
+</details>

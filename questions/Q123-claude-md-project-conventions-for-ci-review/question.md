@@ -1,9 +1,6 @@
-# Q123 — Review flags the team's intentional patterns: put the conventions in CLAUDE.md
+# Q123
 
-**Domain / lesson:** D3 › 3.6 CI/CD Integration (CLAUDE.md gives a CI run its project context)
-**Also touches:** D3 › 3.1 CLAUDE.md Hierarchy (project-level = shared, version-controlled team conventions) · D4 › 4.1 (review criteria)
 **Scenario:** Claude Code in CI/CD (same as [Q116](../Q116-batch-if-24h-feedback-still-actionable/question.md)–[Q122](../Q122-explicit-report-vs-skip-criteria/question.md))
-**Follows:** [Q121](../Q121-few-shot-acceptable-vs-genuine-findings/question.md), [Q122](../Q122-explicit-report-vs-skip-criteria/question.md) (reducing review false positives) · [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (path-scoped rules)
 
 ## Question
 
@@ -17,6 +14,14 @@ Which approach prevents the model from generating these findings in the first pl
 - **B.** Build post-processing keyword filters that suppress findings containing terms like "force unwrap," "large class," or "deprecated import" before results reach developers.
 - **C.** Document the team's accepted patterns and intentional conventions in the project's CLAUDE.md file so the model receives this context during every review.
 - **D.** Configure the review to analyze only the changed lines in the diff without surrounding file context, reducing the amount of code the model evaluates per review.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Review flags the team's intentional patterns: put the conventions in CLAUDE.md
+**Domain / lesson:** D3 › 3.6 CI/CD Integration (CLAUDE.md gives a CI run its project context)
+**Also touches:** D3 › 3.1 CLAUDE.md Hierarchy (project-level = shared, version-controlled team conventions) · D4 › 4.1 (review criteria)
+**Follows:** [Q121](../Q121-few-shot-acceptable-vs-genuine-findings/question.md), [Q122](../Q122-explicit-report-vs-skip-criteria/question.md) (reducing review false positives) · [Q54](../Q54-path-scoped-rules-load-by-file-type/question.md) (path-scoped rules)
 
 ## Answer: **C**
 
@@ -175,3 +180,5 @@ Force-unwrapping optionals is accepted in test files (a crash = a failing test).
 |---|---|
 | **1. Set Up Claude Code and Configure Projects** | ⭐ CLAUDE.md setup |
 | 8. Apply Useful Hooks and Claude Code SDK Basics | Headless / CI runs |
+
+</details>

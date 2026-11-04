@@ -1,10 +1,6 @@
-# Q47 — Tool accuracy drops from 88% to 71% after adding overlapping tools: merge the overlap
+# Q47
 
-**Domain / lesson:** D2 › 2.3 Tool Distribution & Tool Choice
-**Also touches:** D2 › 2.1 Tool Interface Design (the "consolidation as a first step" trap, and when it doesn't apply)
 **Scenario:** customer-support agent (Agent SDK): returns, billing disputes, account issues
-**Follows:** [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (first step: better descriptions) · [Q17](../Q17-split-unified-tool/question.md), [Q30](../Q30-split-generic-analyze-document/question.md) (the opposite case: split) · [Q04](../Q04-tool-scoping-per-subagent/question.md) (tool scoping)
-**Source:** ExamTopics, CCA-F Topic 1, Question 47 (exact wording supplied by the user).
 
 ## Question
 
@@ -16,6 +12,15 @@ After expanding the agent's MCP tools with delivery-specific capabilities ( chec
 - **B.** Split the tools across two sub-agents – a "financial resolution" agent with process_refund , issue_credit ,and apply_promo_code , and a "delivery operations" agent with the remaining delivery tools – with a coordinator routing between them.
 - **C.** Add few-shot examples to the system prompt demonstrating correct selection for each ambiguous tool pair, such as showing when issue_credit applies versus when process_refund is appropriate.
 - **D.** Consolidate semantically overlapping tools – merge issue_credit and process_refund into a single resolve_compensation tool with an action parameter, and fold check_delivery_status into lookup_order with an optional include_tracking flag.
+
+<details>
+<summary><b>Show answer and explanation</b></summary>
+
+**Topic:** Tool accuracy drops from 88% to 71% after adding overlapping tools: merge the overlap
+**Domain / lesson:** D2 › 2.3 Tool Distribution & Tool Choice
+**Also touches:** D2 › 2.1 Tool Interface Design (the "consolidation as a first step" trap, and when it doesn't apply)
+**Follows:** [Q23](../Q23-expand-minimal-tool-descriptions/question.md) (first step: better descriptions) · [Q17](../Q17-split-unified-tool/question.md), [Q30](../Q30-split-generic-analyze-document/question.md) (the opposite case: split) · [Q04](../Q04-tool-scoping-per-subagent/question.md) (tool scoping)
+**Source:** ExamTopics, CCA-F Topic 1, Question 47 (exact wording supplied by the user).
 
 ## Answer: **D**
 
@@ -158,3 +163,5 @@ Merging them would recreate **Q17's problem**: one tool doing two jobs, with a m
 |---|---|
 | **22. Route Requests Across Multiple Tools** | ⭐ Tool selection across a growing tool set |
 | 19. Explain Tool Use and Tool Schemas | Parameters and enums (how the merged tool carries the variant) |
+
+</details>
