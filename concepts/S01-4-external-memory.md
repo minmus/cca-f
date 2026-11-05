@@ -141,6 +141,19 @@ The usual measure is **cosine similarity**, which asks how closely two arrows po
 
   > **A threshold decides in code. Return "nothing relevant," not weak matches.** (This is the same idea as [Q21](../questions/Q21-review-flag-from-calibrated-thresholds/question.md): thresholds live in code, not in model judgment.)
 
+- *Check: why is `"no_relevant_results"` better for the agent than an empty list `[]`?*
+  *My answer:* "Because it tells the agent the reason." ✅ Yes, and here's why the reason matters. An empty list `[]` is **ambiguous**:
+
+  | `[]` could mean | The agent should… |
+  |---|---|
+  | The search **failed** (timeout, wrong index) | Retry, or report an error |
+  | The index is **empty** | Tell the user there's no data yet |
+  | It searched and found **nothing relevant** | Rephrase, or say "I don't know" |
+
+  Each case needs a **different next action**. A clear status tells the agent which one applies, so it doesn't have to guess.
+
+  > **Make the tool say *why* it returned nothing. Different reasons lead to different next steps** (guide 2.2).
+
 ## Idea 3: who decides what gets saved to memory, and when?
 
 | | **The agent decides** | **Your code decides** |
