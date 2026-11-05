@@ -125,6 +125,9 @@ It's the same test as above: **who decides the next step?** Here the model decid
 
 See also [S01-3-routing-vs-orchestrator-workers](S01-3-routing-vs-orchestrator-workers.md).
 
+- *Check: change one thing: Claude picks one of the three APIs, the code calls it, and the result goes straight to the customer. Routing or agentic, and why?*
+  *My answer:* "Workflow, as the agent does the categorization part and then, based on the category, the request goes down one of the predefined paths." ✅ Correct. It's a **routing workflow**. The model makes **one** choice, the category, and after that the path is fixed: your code calls the API and returns the result. **Nothing loops back to the model.** So the model making one decision isn't enough to make a system agentic. The question is whether the model **controls the flow**, meaning it reads results and decides what happens next.
+
 ## Related course lessons
 
 ### Udemy A (primary): Claude Certified Architect (CCAR-F) - 2026 Exam Prep
