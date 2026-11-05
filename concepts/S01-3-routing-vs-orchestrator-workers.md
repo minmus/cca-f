@@ -45,6 +45,17 @@ Guide 1.6 calls this a tradeoff:
 
   > **Evaluator-optimizer needs a clear pass/fail test.** Without one, the loop can't converge reliably. That's why the glossary example worked.
 
+- *Check: how could you turn "make it sound natural" into a criterion the evaluator can actually pass or fail? Give one example.*
+  *My answer:* "Something like 'Improve on parts X, justify claim Y, use live, natural everyday language when doing that'." 🟡 You're halfway there. "Improve part X" and "justify claim Y" are concrete, so the evaluator can check them. But "natural everyday language" is still vague. It's the same problem in different words.
+  To make it **checkable**, name tests the evaluator can answer with yes or no:
+  - Every sentence is 25 words or fewer.
+  - There are no literal word-for-word idioms (for example, "it's raining cats and dogs" is translated by meaning, not word for word).
+  - It uses the glossary's everyday terms, not technical synonyms.
+
+  Or **show it**: give two or three example sentences labelled natural and not natural (few-shot, guide 4.2).
+
+  > **A criterion is checkable when two evaluators would give the same pass/fail answer.**
+
 ## Pick the pattern
 
 | Situation | Pattern |
