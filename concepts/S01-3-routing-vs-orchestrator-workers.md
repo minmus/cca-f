@@ -34,6 +34,9 @@ Guide 1.6 calls this a tradeoff:
 - *Check: for "Compare Q3 sales in Germany, France and Spain and suggest actions," are the subtasks known in advance, and which pattern fits?*
   *My answer:* "Yes, they are. A good candidate for parallelization?" ✅ The three countries are **known in advance** and **independent**, so they can run at the same time and code can combine the results. "Suggest actions" then becomes **one final step** over the combined results (a short chain after the parallel step).
 
+- *Check: "Translate this document, then check the translation against a glossary and fix any mismatches until it passes." Which pattern is the "check and fix until it passes" part?*
+  *My answer:* "Evaluator-optimizer?" ✅ One step **produces** the translation, and a second step **evaluates** it against a clear standard, the glossary. Any mismatches go back as feedback, and the loop repeats until the translation passes. It works well here because the **pass/fail criteria are explicit**. This is the same idea as validation/retry loops (guide 4.4).
+
 ## Pick the pattern
 
 | Situation | Pattern |
