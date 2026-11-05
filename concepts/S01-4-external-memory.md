@@ -76,6 +76,27 @@ In both cases the agent reaches the data through a **tool** (idea 1), and only t
 
   > **Index and query must use the same embedding model. Change the model, and you must rebuild the index.**
 
+## Idea 2c: where the numbers come from (the embedding model learned them from examples)
+
+An embedding model is a neural network **trained on huge numbers of text pairs**:
+- Pairs that **mean the same thing**, like "app is slow" and "takes forever to load," are pushed **closer together**.
+- Pairs that **don't**, like "app is slow" and "refund my order," are pushed **further apart**.
+
+After enough training, the model has learned **where on the map to put any text**, including text it has never seen.
+
+```text
+"app is slow"  → model → [0.81, 0.12, -0.40, …]   ← typically hundreds to thousands of numbers
+```
+
+No single number means anything on its own, the way "number 7 = speed" would. **Together** they place the text on the map. Nobody hand-picks them, because the training sets them.
+
+> **Embedding = a trained model's answer to "where does this text belong on the map of meaning?"**
+
+*Exam relevance: low. The CCA-F exam doesn't test how embeddings work inside. This is background only.*
+
+- *Check: two tickets use completely different words but describe the same problem. Why do they still end up close on the map?*
+  *My answer:* "Close, because the embedding model is supposed to place them close together." 🟡 That's the right outcome, but "is supposed to" doesn't say **why** it can. The reason is training: the model saw huge numbers of pairs with **different words and the same meaning**, and it was pushed to place each pair close together. So it learned to place text by **meaning, not by the words used**. That's exactly why a vector index finds "laggy" when you search for "slow," and a SQL word match doesn't.
+
 ## Idea 3: who decides what gets saved to memory, and when?
 
 | | **The agent decides** | **Your code decides** |
