@@ -75,3 +75,22 @@ In both cases the agent reaches the data through a **tool** (idea 1), and only t
   *My answer:* "So that common calibrated values are compared when searching?" ✅ Yes, that's the idea. Each embedding model draws **its own map of meaning**. If you embed the question with a different model, its coordinates belong to **another map**. The "nearest" chunks are then just random results, because the numbers aren't measured the same way. It's like looking up GPS coordinates on a city map that uses its own grid: the numbers exist, but they point to the wrong place.
 
   > **Index and query must use the same embedding model. Change the model, and you must rebuild the index.**
+
+## Idea 3: who decides what gets saved to memory, and when?
+
+| | **The agent decides** | **Your code decides** |
+|---|---|---|
+| How | The agent calls a tool such as `save_note("customer prefers email")` whenever it thinks something is worth keeping | Code saves at fixed points: after every tool result, at the end of each session, or when a field is extracted |
+| Good for | Flexible notes and insights you can't predict | Facts that **must** be kept: IDs, amounts, decisions |
+| Risk | It may **forget** to save something important | Less flexible |
+
+> **If it's nice to remember, the agent can decide. If it must be remembered, code saves it.**
+
+It's the same rule as before: guarantees come from **code**, not from the model's judgment (Q50, Q28).
+
+- *Check: a support agent learns that the customer's refund was approved for €120. Who should save that fact, and why?*
+  *My answer:* "Code. To be sure." ✅ Correct, with a why. To sharpen "to be sure," here are the two failure modes code prevents:
+  - **The agent might skip the save**, because saving is only a probability when the agent decides.
+  - **The agent might change the value** while restating it, for example writing "about €120," or €210.
+
+  Code takes the amount **straight from the tool result** (`refund_approved: 120.00`) and saves it unchanged.
