@@ -46,3 +46,7 @@ In both cases the agent reaches the data through a **tool** (idea 1), and only t
 
 - *Check: the agent needs "the refund amount on order #1234." Which store fits, and why?*
   *My answer:* "Relational database" ✅ Right store, but the *why* was missing. You have an **exact key**, order #1234, and you need an **exact number**. A relational query returns exactly that row. A vector search could return a **similar** order instead, like #1243, or a note that only talks about refunds. "Close enough" is wrong for an amount.
+
+- *Check: the agent needs "past tickets where customers complained the app was slow." Which store fits, and why?*
+  *My answer:* "Vector index" ✅ Right store, but the *why* was missing again. There's **no exact key**, and customers describe slowness in **different words**, like "laggy," "takes forever" or "freezes." A SQL `WHERE text = 'slow'` would miss most of those. A vector index matches on **meaning**, so it finds them all.
+  *Exam tip:* always add "because…". The answer options are often traps where the store is right but the reason is wrong.
