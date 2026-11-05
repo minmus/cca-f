@@ -31,6 +31,18 @@ Agent: "I need the customer's past orders"
 
   > **Retrieve only what this request needs.**
 
-## Next idea (to do)
+## Idea 2: a relational database finds exact matches, and a vector index finds similar meaning
 
-Relational database vs index (vector search), and when each fits.
+| | Relational database (SQL) | Vector index (semantic search) |
+|---|---|---|
+| Stores | Rows with fields: `customer_id`, `order_date`, `status` | Text turned into **embeddings**, which are lists of numbers that capture its meaning |
+| Agent asks | "Orders where `customer_id = 42` and `status = 'open'`" | "Notes **about** refund problems" |
+| Finds | **Exact** matches only | **Similar** text, even with different words ("money back" matches "refund") |
+| Good for | Facts with known keys: IDs, dates, amounts, statuses | Fuzzy questions over documents, tickets, past conversations |
+
+> **You know the exact key → relational. You only know roughly what it's about → vector index.**
+
+In both cases the agent reaches the data through a **tool** (idea 1), and only the results enter the context window.
+
+- *Check: the agent needs "the refund amount on order #1234." Which store fits, and why?*
+  *My answer:* "Relational database" ✅ Right store, but the *why* was missing. You have an **exact key**, order #1234, and you need an **exact number**. A relational query returns exactly that row. A vector search could return a **similar** order instead, like #1243, or a note that only talks about refunds. "Close enough" is wrong for an amount.
