@@ -127,6 +127,20 @@ The usual measure is **cosine similarity**, which asks how closely two arrows po
 
   > **"Top results" doesn't mean "good results." Check the score before trusting a match.**
 
+- *Check: the agent's search tool returns 5 results that all score below 0.7, your minimum. What should the tool send back to the agent, and why?*
+  *My answer:* "The scores and values, so that the agent could decide if this is remotely related or not." 🟡 It's reasonable to send the scores back, but that undoes the point of the threshold. You set 0.7 so that **code** makes this decision. If weak results go back anyway, you're relying on the agent to resist using text that sits right in front of it, which is the probabilistic part again.
+  Better: the tool returns a **clear, structured "nothing found"**:
+
+  ```json
+  {"status": "no_relevant_results", "best_score": 0.3, "threshold": 0.7}
+  ```
+
+  - The agent **knows** the search worked and found nothing relevant. That's different from a failed search (guide 2.2: an empty result is not an error).
+  - It can **rephrase and search again**, or tell the user it doesn't know.
+  - It never sees the weak text, so it can't build an answer on it.
+
+  > **A threshold decides in code. Return "nothing relevant," not weak matches.** (This is the same idea as [Q21](../questions/Q21-review-flag-from-calibrated-thresholds/question.md): thresholds live in code, not in model judgment.)
+
 ## Idea 3: who decides what gets saved to memory, and when?
 
 | | **The agent decides** | **Your code decides** |
