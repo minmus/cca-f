@@ -50,3 +50,28 @@ In both cases the agent reaches the data through a **tool** (idea 1), and only t
 - *Check: the agent needs "past tickets where customers complained the app was slow." Which store fits, and why?*
   *My answer:* "Vector index" ✅ Right store, but the *why* was missing again. There's **no exact key**, and customers describe slowness in **different words**, like "laggy," "takes forever" or "freezes." A SQL `WHERE text = 'slow'` would miss most of those. A vector index matches on **meaning**, so it finds them all.
   *Exam tip:* always add "because…". The answer options are often traps where the store is right but the reason is wrong.
+
+## Idea 2b: how a vector index is built (a map where similar meanings sit close together)
+
+**Building it (done once, ahead of time):**
+1. **Split** the documents into small chunks, for example one ticket or one paragraph each.
+2. An **embedding model** turns each chunk into a list of numbers, the *embedding*. Treat that list as **coordinates on a map of meaning**.
+3. **Store** each chunk's coordinates together with its original text.
+
+```text
+"App is laggy"          → [0.81, 0.12, …]  ┐  close together on the map
+"Takes forever to load" → [0.79, 0.15, …]  ┘  (similar meaning)
+"Refund my order"       → [0.05, 0.93, …]     far away (different topic)
+```
+
+**Searching it (every query):**
+1. Turn the **question** into coordinates with the **same** embedding model.
+2. Find the chunks whose coordinates are **nearest**.
+3. Return **their original text**, which is what goes into the context window.
+
+> **Same meaning → nearby numbers. Search means "find the nearest neighbours to my question."**
+
+- *Check: why must the question be embedded with the same model that built the index?*
+  *My answer:* "So that common calibrated values are compared when searching?" ✅ Yes, that's the idea. Each embedding model draws **its own map of meaning**. If you embed the question with a different model, its coordinates belong to **another map**. The "nearest" chunks are then just random results, because the numbers aren't measured the same way. It's like looking up GPS coordinates on a city map that uses its own grid: the numbers exist, but they point to the wrong place.
+
+  > **Index and query must use the same embedding model. Change the model, and you must rebuild the index.**
