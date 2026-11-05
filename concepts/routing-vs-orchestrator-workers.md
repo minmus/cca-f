@@ -1,0 +1,52 @@
+# Routing vs orchestrator-workers (and when to parallelize)
+
+**Stage 1** of the [learning path](../study-map/learning-path.md) · **D1 › 1.2 Multi-Agent Orchestration** · **D1 › 1.6 Task Decomposition**
+**Source of the "five core workflow patterns":** Anthropic, *Building effective agents* (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer). The guide doesn't list the five by name. It teaches orchestrator-workers as **hub-and-spoke** (1.2) and **dynamic decomposition** (1.6).
+
+## The question
+
+> What is the actual difference between routing (a classifier sends input to a specialized downstream prompt) and orchestrator-workers (an orchestrator delegates to workers)?
+
+## Short answer
+
+**Routing picks one path. Orchestrator-workers splits the work into many parts.**
+
+| | Routing | Orchestrator-workers |
+|---|---|---|
+| What the first step does | **Classifies** the input | **Breaks the task into** subtasks |
+| How many handlers run | **One** (the chosen specialist) | **Several** workers |
+| Who combines results | No one, because the one handler's answer is the answer | The orchestrator **merges** the workers' results |
+| Are the subtasks known in advance? | Yes, a fixed set of routes | No, they're decided **at runtime** from the input |
+
+- **Routing:** "Refund request?" goes to the refund prompt. "Tech issue?" goes to the support prompt. Only one runs.
+- **Orchestrator-workers:** "Research X" becomes three searches plus one analysis, and then they're combined into one report.
+
+## Follow-up: is orchestrator-workers less predictable? (2026-11-05)
+
+**Yes. Of the five patterns, it's the least predictable.** The orchestrator decides the subtasks at runtime, so the number of workers, which workers run and how long it all takes can change for each input. In the other patterns, **your code** fixes the steps or routes in advance.
+
+Guide 1.6 calls this a tradeoff:
+- Dynamic decomposition *"generates subtasks from what each step discovers"*, and execution time *"varies with discoveries."*
+- A fixed pipeline (prompt chaining) is the opposite. It's predictable, but it *"cannot adapt to unexpected findings."*
+
+> **Use orchestrator-workers only when the subtasks can't be known in advance.** If you can list the steps beforehand, a fixed pattern (chaining, routing or parallelization) is the safer choice.
+
+- *Check: for "Compare Q3 sales in Germany, France and Spain and suggest actions," are the subtasks known in advance, and which pattern fits?*
+  *My answer:* "Yes, they are. A good candidate for parallelization?" ✅ The three countries are **known in advance** and **independent**, so they can run at the same time and code can combine the results. "Suggest actions" then becomes **one final step** over the combined results (a short chain after the parallel step).
+
+## Pick the pattern
+
+| Situation | Pattern |
+|---|---|
+| Fixed steps, each needs the previous one's output | **Prompt chaining** |
+| One input, pick **one** specialist | **Routing** |
+| Known, **independent** subtasks, run at the same time | **Parallelization** |
+| Subtasks **unknown until runtime** | **Orchestrator-workers** (hub-and-spoke, 1.2) |
+| Output must be checked and improved in a loop | **Evaluator-optimizer** |
+
+> **Known steps → fixed pattern (predictable). Unknown steps → orchestrator-workers (adaptive, less predictable).**
+
+## Sources
+
+- Guide D1 › 1.2 Multi-Agent Orchestration (checked 2026-11-05): *"The exam tests one orchestration pattern: hub-and-spoke, with a coordinator at the centre."* *"The coordinator analyses what a query requires and selects only the subagents it needs."*
+- Guide D1 › 1.6 Task Decomposition (checked 2026-11-05): *"A fixed sequential pipeline, also called prompt chaining, runs predetermined steps in order."* *"Prompt chaining suits predictable, structured tasks."* *"Dynamic adaptive decomposition generates subtasks from what each step discovers."*
