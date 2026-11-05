@@ -97,6 +97,36 @@ No single number means anything on its own, the way "number 7 = speed" would. **
 - *Check: two tickets use completely different words but describe the same problem. Why do they still end up close on the map?*
   *My answer:* "Close, because the embedding model is supposed to place them close together." 🟡 That's the right outcome, but "is supposed to" doesn't say **why** it can. The reason is training: the model saw huge numbers of pairs with **different words and the same meaning**, and it was pushed to place each pair close together. So it learned to place text by **meaning, not by the words used**. That's exactly why a vector index finds "laggy" when you search for "slow," and a SQL word match doesn't.
 
+## Idea 2d: how "nearest" is measured (compare the direction of the arrows)
+
+Picture each embedding as an **arrow** starting from the centre of the map. Texts with similar meaning have arrows pointing in **almost the same direction**.
+
+The usual measure is **cosine similarity**, which asks how closely two arrows point the same way:
+
+| Arrows | Score | Meaning |
+|---|---|---|
+| Same direction | **≈ 1** | Very similar meaning |
+| At a right angle | **≈ 0** | Unrelated |
+| Opposite directions | **≈ −1** | Opposite (rare in practice) |
+
+```text
+"app is slow"           → [0.8, 0.2]  ┐ almost the same direction → score ≈ 0.99
+"takes forever to load" → [0.7, 0.3]  ┘
+"refund my order"       → [0.1, 0.9]    different direction       → score ≈ 0.4
+```
+
+**Search** compares your question's arrow with every stored arrow and returns the **top few scores**, for example the top 5.
+
+> **Nearest = the highest similarity score = arrows pointing the most alike.**
+
+*Exam relevance: low. This is background only.*
+
+- *Check: the search returns the top 5 results, but even the best score is only 0.3. What does that tell you?*
+  *My answer:* "That means their vectors are pointing in different directions, and thus the meanings are not too similar." ✅ Correct. Even the "best" matches aren't really about your question.
+  One practical trap follows from this: **top-5 always returns 5 results, even when nothing relevant exists.** If you pass them along unchecked, the agent may treat weak matches as an answer and build a confident reply on unrelated text. The fix: set a **minimum score**, for example "ignore anything below 0.7." If nothing passes, the tool returns "no relevant results," and the agent says so or searches differently.
+
+  > **"Top results" doesn't mean "good results." Check the score before trusting a match.**
+
 ## Idea 3: who decides what gets saved to memory, and when?
 
 | | **The agent decides** | **Your code decides** |
