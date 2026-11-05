@@ -49,6 +49,37 @@ From the Claude Code docs, *"What a resumed session restores"*:
 
 CLAUDE.md isn't part of the transcript. It's **re-read from disk** at the start of every session, new or resumed, so you always get its **current** version.
 
+## How long does Claude Code keep a session?
+
+*(Follow-up question: "So how long does Claude Code save the context window?")*
+
+It doesn't save a context window. It saves the **transcript**, and that is deleted automatically after **30 days** by default.
+
+Docs ([.claude directory → Cleaned up automatically](https://code.claude.com/docs/en/claude-directory)): *"Claude Code deletes the files in the paths below once they're older than `cleanupPeriodDays`… The default is 30 days and the minimum is 1; setting `0` fails with a validation error."*
+
+| What | Kept for | Notes |
+|---|---|---|
+| **Session transcripts** `projects/<project>/<session>.jsonl` (+ subagent transcripts, spilled tool results) | **30 days** (default) | After that, `--resume` / `--continue` can't find the session |
+| Checkpoint snapshots (`file-history/`), plan files (`plans/`) | 30 days | Same sweep |
+| **Auto memory** `projects/<project>/memory/` | **Until you delete it** | *"the sweep doesn't delete the memory files"* |
+| **CLAUDE.md** | Forever | It's your own file, in your repo or `~/.claude` |
+| Typed-prompt history `history.jsonl` | Until you delete it | Only the up-arrow recall, not the conversation |
+
+**Change it** in `settings.json`, e.g. `"cleanupPeriodDays": 90` (longer) or `7` (shorter, for privacy: transcripts are **plaintext** and can contain file contents and secrets). **Delete now:** `claude purge <project-path>` (shows a plan, asks to confirm).
+
+**This machine (checked 2026-11-05):** no `cleanupPeriodDays` in `~/.claude/settings.json`, and no project `.claude/settings*.json`, so the **30-day default** applies (unless an organisation's managed settings set it, which this check doesn't cover).
+
+```text
+$ grep -n "cleanupPeriodDays" ~/.claude/settings.json ~/.claude/settings.local.json .claude/settings.json .claude/settings.local.json
+grep: ~/.claude/settings.local.json: No such file or directory
+grep: .claude/settings.json: No such file or directory
+grep: .claude/settings.local.json: No such file or directory
+```
+
+*(No match in `~/.claude/settings.json`; the other three files don't exist.)*
+
+**Exam relevance:** low. The exam tests the **idea** (stateless model; history re-sent; resume vs fresh, Q45/Q72/Q92), not retention numbers.
+
 ## Two things that look like memory, but aren't the context window
 
 - **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
