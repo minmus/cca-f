@@ -37,6 +37,14 @@ Guide 1.6 calls this a tradeoff:
 - *Check: "Translate this document, then check the translation against a glossary and fix any mismatches until it passes." Which pattern is the "check and fix until it passes" part?*
   *My answer:* "Evaluator-optimizer?" ✅ One step **produces** the translation, and a second step **evaluates** it against a clear standard, the glossary. Any mismatches go back as feedback, and the loop repeats until the translation passes. It works well here because the **pass/fail criteria are explicit**. This is the same idea as validation/retry loops (guide 4.4).
 
+- *Check: if the evaluator had only a vague standard, like "make it sound natural," what could go wrong with the loop?*
+  *My answer:* "It might not pay attention to the content itself, like whether it's relevant to the question." 🟡 That's a real risk: the evaluator only checks what the criteria name, so content can slip through. The bigger problem, though, is with **the loop itself**:
+  - **It may never stop.** "Natural" has no clear pass line, so the evaluator can always find something to tweak.
+  - **Or it stops at random.** It might pass one version and fail an almost identical one.
+  - **The feedback is vague.** "Sounds a bit stiff" doesn't tell the generator what to change.
+
+  > **Evaluator-optimizer needs a clear pass/fail test.** Without one, the loop can't converge reliably. That's why the glossary example worked.
+
 ## Pick the pattern
 
 | Situation | Pattern |
