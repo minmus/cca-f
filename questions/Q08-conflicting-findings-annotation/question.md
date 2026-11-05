@@ -103,7 +103,7 @@ Good catch. The rule from Q01/Q04/Q05 is about **guarantees**. Here the problem 
 | Can be **cited** | 🟡 Partly (both numbers exist in sources) | ❌ **No source says $42B** |
 | Looks precise | No, obviously uncertain | **Yes**, falsely |
 
-1. **It breaks provenance (Q01).** $42B is a made-up number with no `source_id`. A claim-source check ([claim-source-mapping](../../concepts/claim-source-mapping.md), check 1) would flag it as unsupported.
+1. **It breaks provenance (Q01).** $42B is a made-up number with no `source_id`. A claim-source check ([S12-1-claim-source-mapping](../../concepts/S12-1-claim-source-mapping.md), check 1) would flag it as unsupported.
 2. **Precise-looking numbers get trusted more.** Readers treat "$42B" as a measurement, while a vague range at least warns them. So D actively misleads.
 
 > **Rule:** an honest vague answer beats a precise wrong one. A properly annotated answer (C) beats both.

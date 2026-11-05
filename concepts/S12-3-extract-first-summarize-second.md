@@ -1,7 +1,7 @@
 # Concept: Extract first, summarize second (+ verbatim fact store)
 
 **Domain / lessons:** D5 › 5.1 Context Window Management · D5 › 5.6 Information Provenance · D1 › 1.7 Session State & Resumption · D4 › 4.4 Validation
-**Related:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [claim-source-mapping](claim-source-mapping.md)
+**Related:** [Q01](../questions/Q01-source-attribution-multi-agent/question.md) · [S12-1-claim-source-mapping](S12-1-claim-source-mapping.md)
 
 ## The principle
 

@@ -2,7 +2,7 @@
 
 **Domain / lessons:** D5 › 5.6 Information Provenance · D4 › 4.4 Validation/Retry · D4 › 4.6 Multi-Pass Review
 **Related question:** [Q02: Context passing to the report generator](../questions/Q02-context-passing-source-index/question.md)
-**Builds on:** [claim-source-mapping.md](claim-source-mapping.md) (checks 3–4)
+**Builds on:** [S12-1-claim-source-mapping.md](S12-1-claim-source-mapping.md) (checks 3–4)
 
 ## Check question
 
@@ -11,7 +11,7 @@
 
 ## What a URL proves vs. what an excerpt proves
 
-| Field | Proves | Check it enables (from [claim-source-mapping.md](claim-source-mapping.md)) |
+| Field | Proves | Check it enables (from [S12-1-claim-source-mapping.md](S12-1-claim-source-mapping.md)) |
 |---|---|---|
 | **URL** | The source **exists** and was retrieved | Check 1: is it in the retrieval log? (code) |
 | **Excerpt** | The source **says this** | Check 3: does the quote appear in the source? (code) · Check 4: does the quote support the claim? (model) |
@@ -142,7 +142,7 @@ The structure that matters is the **link**, not just the list.
 
 ## Related course lessons
 
-*All of these also appear in [claim-source-mapping.md](claim-source-mapping.md)'s lists. If you've already watched those, skip this. Watch times are estimates from each course's average lecture length.*
+*All of these also appear in [S12-1-claim-source-mapping.md](S12-1-claim-source-mapping.md)'s lists. If you've already watched those, skip this. Watch times are estimates from each course's average lecture length.*
 
 ### Udemy A (primary): Claude Certified Architect (CCAR-F) - 2026 Exam Prep
 | # | Lecture | Part | Why |

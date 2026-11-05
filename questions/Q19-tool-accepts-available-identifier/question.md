@@ -81,7 +81,7 @@ That's **two model round-trips**, an **extra failure point**, and an extra reaso
 | [Q17](../Q17-split-unified-tool/question.md) | Also tool **interface** design. Q17: split a tool doing too much. Q19: fix a tool asking for the wrong input. Both reject "merge everything" |
 | [Q04](../Q04-tool-scoping-per-subagent/question.md) | Adding helper tools (A) grows the tool list, which makes selection less reliable |
 | [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) | Each extra tool call = another loop iteration (round-trip + model reasoning) |
-| [extract-first concept](../../concepts/extract-first-summarize-second.md) | Moving deterministic steps (id → address) from the model into code |
+| [extract-first concept](../../concepts/S12-3-extract-first-summarize-second.md) | Moving deterministic steps (id → address) from the model into code |
 
 ## Check question
 

@@ -109,7 +109,7 @@ Example layer, using the guide's field names (the subscription and payment entri
 | [Q39](../Q39-coordinator-answers-simple-followups/question.md) | Same principle: structured records, written by code, are what make facts reliable (counts there, IDs here) |
 | [Q14](../Q14-escalation-handoff-summary/question.md) | Handoffs need structured fields (customer ID, amount, root cause), not a narrative. Same reason B fails |
 | [Q03](../Q03-crash-recovery-state-manifest/question.md) | State kept in a structured store outside the conversation, so it survives what happens to the conversation |
-| [extract-first-summarize-second](../../concepts/extract-first-summarize-second.md) | The principle behind A: extract exact facts into a schema first, summarise second |
+| [S12-3-extract-first-summarize-second](../../concepts/S12-3-extract-first-summarize-second.md) | The principle behind A: extract exact facts into a schema first, summarise second |
 
 ## Check question
 

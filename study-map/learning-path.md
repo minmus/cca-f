@@ -99,7 +99,7 @@ The questions in this repo were added in the order they were pasted. This file p
 - Agent **forgets** earlier turns? (Q46)
 - Must **adapt** to the unexpected
 
-*Note: Concept notes for this stage: [agentic-system-vs-autonomous-agent](../concepts/agentic-system-vs-autonomous-agent.md) (workflow vs agent: who decides the next step) · [context-window-across-sessions](../concepts/context-window-across-sessions.md) (is the context window saved between sessions?).*
+*Note: Concept notes for this stage: [S01-1-agentic-system-vs-autonomous-agent](../concepts/S01-1-agentic-system-vs-autonomous-agent.md) (workflow vs agent: who decides the next step) · [S01-2-context-window-across-sessions](../concepts/S01-2-context-window-across-sessions.md) (is the context window saved between sessions?) · [S01-3-routing-vs-orchestrator-workers](../concepts/S01-3-routing-vs-orchestrator-workers.md) (routing vs orchestrator-workers vs parallelization).*
 
 ---
 
@@ -614,7 +614,7 @@ The questions in this repo were added in the order they were pasted. This file p
 - Synthesis output format? (Q85, 5.6)
 - Lay out a long context with many sources? (Q80, 5.1/5.6)
 
-*Note: Concept notes for this stage: [claim-source-mapping](../concepts/claim-source-mapping.md), [url-vs-excerpt](../concepts/url-vs-excerpt.md), [extract-first-summarize-second](../concepts/extract-first-summarize-second.md).*
+*Note: Concept notes for this stage: [S12-1-claim-source-mapping](../concepts/S12-1-claim-source-mapping.md), [S12-2-url-vs-excerpt](../concepts/S12-2-url-vs-excerpt.md), [S12-3-extract-first-summarize-second](../concepts/S12-3-extract-first-summarize-second.md).*
 
 ---
 

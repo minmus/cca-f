@@ -118,7 +118,7 @@ There's also a subtle trap: a tool is deterministic **once it runs**, but the **
 | The model **choosing** to call a tool, and its arguments | ❌ Probabilistic | May skip `check_refund_eligibility` (Q34 D) |
 | **Tool code**, once it runs | ✅ | `process_refund` rejects a 45-day-old order (Q13, Q28) |
 | A **hook** around every tool call | ✅ | PreToolUse blocks > $500 and escalates (Q31) |
-| **Validation / orchestration code** | ✅ | Schema check, handoff gate (Q10), retrieval-log check (concept: claim-source-mapping) |
+| **Validation / orchestration code** | ✅ | Schema check, handoff gate (Q10), retrieval-log check (concept: [S12-1-claim-source-mapping](../../concepts/S12-1-claim-source-mapping.md)) |
 
 > **Determinism lives in code that runs no matter what the model decides: inside the tool, or in a hook around every call. A tool the model has to *remember* to call is only as reliable as the model.**
 

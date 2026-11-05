@@ -59,7 +59,7 @@ These don't conflict:
 - **Complete findings** = every **output** the earlier agents produced: claims, sources, gaps, conflicts.
 - **Not** = every raw token they read (Q02's 120K raw content) or their whole conversation.
 
-> **Complete = all findings with their metadata. It doesn't mean everything anyone saw.** (Q02, [url-vs-excerpt](../../concepts/url-vs-excerpt.md))
+> **Complete = all findings with their metadata. It doesn't mean everything anyone saw.** (Q02, [S12-2-url-vs-excerpt](../../concepts/S12-2-url-vs-excerpt.md))
 
 ### Where this comes from in the guide
 
@@ -80,7 +80,7 @@ These don't conflict:
 
 **Analogy:** a consultant hands you their **report**, not their browser history. You want all of the report and none of the browsing.
 
-**Nuance:** findings carry **excerpts**, small pieces of context that prove each claim ([url-vs-excerpt](../../concepts/url-vs-excerpt.md)). So a little context travels inside the findings, but only as evidence.
+**Nuance:** findings carry **excerpts**, small pieces of context that prove each claim ([S12-2-url-vs-excerpt](../../concepts/S12-2-url-vs-excerpt.md)). So a little context travels inside the findings, but only as evidence.
 
 ## Glossary
 

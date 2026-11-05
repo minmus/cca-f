@@ -47,7 +47,7 @@ Synthesis does something new: it **combines** several findings into one conclusi
    - **Preserve:** every input source ID survives into the output.
    - **Merge:** when several findings support one conclusion, the conclusion gets the **union** of their sources (`[S1, S3]`). When they conflict, annotate both (Q08).
 
-Because the mapping is **data**, you can also **validate** it in code: every conclusion has at least one source, and every cited ID exists in the inputs (see [claim-source-mapping](../../concepts/claim-source-mapping.md), Layer 2).
+Because the mapping is **data**, you can also **validate** it in code: every conclusion has at least one source, and every cited ID exists in the inputs (see [S12-1-claim-source-mapping](../../concepts/S12-1-claim-source-mapping.md), Layer 2).
 
 ## Why the others are wrong
 

@@ -80,7 +80,7 @@ The human gets the agent's **25 turns of work in seconds**: the conclusions, not
 | [Q02](../Q02-context-passing-source-index/question.md) / [Q12](../Q12-include-complete-findings-in-prompt/question.md) | **Findings, not context.** Pass conclusions + key evidence, not the raw transcript. Same rule for humans as for agents |
 | [Q10](../Q10-missing-context-in-subagent-prompt/question.md) | The human, like a subagent, knows **only what's in the handoff** |
 | [Q13](../Q13-agentic-loop-model-decides-next-tool/question.md) | The $500 limit should be a **gate** in the refund tool: >$500 → structured error → the model calls `escalate_to_human` |
-| [extract-first concept](../../concepts/extract-first-summarize-second.md) | Customer ID, amounts, transaction IDs should come from the **verbatim fact block**, not be re-typed from memory after 25 turns |
+| [extract-first concept](../../concepts/S12-3-extract-first-summarize-second.md) | Customer ID, amounts, transaction IDs should come from the **verbatim fact block**, not be re-typed from memory after 25 turns |
 
 ## Check question
 

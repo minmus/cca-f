@@ -104,7 +104,7 @@ Together they point to the simplest fix: **send only what's actually used**, wit
 | [Q02](../Q02-context-passing-source-index/question.md) | *Complete ≠ everything*: pass what's needed, not the whole history |
 | [Q03](../Q03-crash-recovery-state-manifest/question.md) | B's family: semantic search returns *similar* content, not the exact thing you need |
 | [Q33](../Q33-mcp-iserror-result/question.md) | C's silent summary loss vs D's honest "please re-state": a visible gap beats a hidden one |
-| [extract-first-summarize-second](../../concepts/extract-first-summarize-second.md) | Why summaries drop exact facts, and the fact-block fix |
+| [S12-3-extract-first-summarize-second](../../concepts/S12-3-extract-first-summarize-second.md) | Why summaries drop exact facts, and the fact-block fix |
 
 ## Check question
 
@@ -151,7 +151,7 @@ The block goes **near the top**, because models attend reliably to the start of 
 | A **tool result** (`lookup_order` returns `order_id`, `amount`) | Code copies the fields straight into the block. Structured tool output makes this reliable (Q35) |
 | **Typed by the user** ("my order is 8891") | The model **extracts** it into a schema (structured output, 4.3) → code **validates** it (e.g. a lookup confirms the order exists and belongs to this customer, Q20: valid ≠ correct) → code **writes** it |
 
-> **The model may *find* facts. Code *keeps* them.** (Same as [extract-first-summarize-second](../../concepts/extract-first-summarize-second.md): extract into a schema, save as a persistent fact block.)
+> **The model may *find* facts. Code *keeps* them.** (Same as [S12-3-extract-first-summarize-second](../../concepts/S12-3-extract-first-summarize-second.md): extract into a schema, save as a persistent fact block.)
 
 ## Glossary
 

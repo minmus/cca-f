@@ -118,7 +118,7 @@ sequenceDiagram
 
 ## Follow-up: are MCP prompts slash commands "just like skills"?
 
-Same `/` menu, but a different source and different rules. The biggest difference: **only you** can start an MCP prompt, while a skill can be started by you **or by Claude** (when a request matches its `description`). Full comparison: [concepts/mcp-prompts-vs-skills.md](../../concepts/mcp-prompts-vs-skills.md).
+Same `/` menu, but a different source and different rules. The biggest difference: **only you** can start an MCP prompt, while a skill can be started by you **or by Claude** (when a request matches its `description`). Full comparison: [concepts/S16-1-mcp-prompts-vs-skills.md](../../concepts/S16-1-mcp-prompts-vs-skills.md).
 
 ## Check question
 
