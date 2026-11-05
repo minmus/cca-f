@@ -80,6 +80,21 @@ grep: .claude/settings.local.json: No such file or directory
 
 **Exam relevance:** low. The exam tests the **idea** (stateless model; history re-sent; resume vs fresh, Q45/Q72/Q92), not retention numbers.
 
+## Follow-up, one idea at a time (2026-11-05)
+
+**"So now you have a context window, do you?"** Yes: everything Claude Code sent for this one reply (instructions incl. CLAUDE.md, a summary of the earlier, compacted conversation, the recent messages). After the reply, I keep none of it.
+
+- *Check: if Claude Code stopped sending the earlier messages, would I still know we discussed Q50?*
+  *My answer:* "You would not know." ✅
+
+**"So is your context window created from scratch with every question?"** Yes, rebuilt for **every request**, but not from nothing: the **same saved history** is re-sent, plus the newest message. It looks continuous; it's re-read fresh each time.
+
+- *Check: what happens when the history gets bigger than the context window?*
+  *My answer:* "It gets summarized. I'm not sure whether it's the history file itself or just the amount of text you're fed every time." ✅ **Compaction.** The **file isn't shortened**: it keeps everything and grows (13.6 MB here). What changes is what's **sent**: the summary + newer messages instead of the old ones.
+
+- *Check: after compaction, can I still quote your very first message today exactly?*
+  *My answer:* "No, you most likely won't be able to quote it, but you might have a summarized version." ✅ And that's the catch: **summaries lose exact details** (numbers, IDs, wording). That's why facts that must survive go into a **case-facts block or scratchpad file**, outside the summary (Q40, Q79, guide 5.1).
+
 ## Two things that look like memory, but aren't the context window
 
 - **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
