@@ -128,6 +128,21 @@ See also [S01-3-routing-vs-orchestrator-workers](S01-3-routing-vs-orchestrator-w
 - *Check: change one thing: Claude picks one of the three APIs, the code calls it, and the result goes straight to the customer. Routing or agentic, and why?*
   *My answer:* "Workflow, as the agent does the categorization part and then, based on the category, the request goes down one of the predefined paths." ✅ Correct. It's a **routing workflow**. The model makes **one** choice, the category, and after that the path is fixed: your code calls the API and returns the result. **Nothing loops back to the model.** So the model making one decision isn't enough to make a system agentic. The question is whether the model **controls the flow**, meaning it reads results and decides what happens next.
 
+**Follow-up question:** "But isn't 'decides which of three internal APIs to call based on the request' the same as categorization? Except it executes the call."
+
+Yes. **That first part is the same as categorization.** Taken alone, "decides which of three APIs" is routing. **Executing the call isn't what makes it agentic either.** In routing, your code can execute the call too. What makes it agentic is the last part of the sentence: *"reads the result, and then decides whether a follow-up call is needed."*
+
+```text
+Routing:  request → model picks API → call → result to customer   (one pass, then done)
+Agentic:  request → model picks API → call → model reads result → another call? → …
+                                                  ↑______________________________|
+```
+
+> **The first choice is the same in both. Only the agentic system loops back to the model after the result.**
+
+- *Check: which part of the quiz sentence would you delete to turn it back into routing?*
+  *My answer:* "'reads the result, and then decides whether a follow-up call is needed'" ✅ Exactly. Delete that part and there's no loop: one choice, one call, done. That's routing.
+
 ## Related course lessons
 
 ### Udemy A (primary): Claude Certified Architect (CCAR-F) - 2026 Exam Prep
