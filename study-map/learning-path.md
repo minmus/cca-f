@@ -99,7 +99,7 @@ The questions in this repo were added in the order they were pasted. This file p
 - Agent **forgets** earlier turns? (Q46)
 - Must **adapt** to the unexpected
 
-*Note: Concept notes for this stage: [S01-1-agentic-system-vs-autonomous-agent](../concepts/S01-1-agentic-system-vs-autonomous-agent.md) (workflow vs agent: who decides the next step) · [S01-2-context-window-across-sessions](../concepts/S01-2-context-window-across-sessions.md) (is the context window saved between sessions?) · [S01-3-routing-vs-orchestrator-workers](../concepts/S01-3-routing-vs-orchestrator-workers.md) (routing vs orchestrator-workers vs parallelization).*
+*Note: Concept notes for this stage: [S01-1-agentic-system-vs-autonomous-agent](../concepts/S01-1-agentic-system-vs-autonomous-agent.md) (workflow vs agent: who decides the next step) · [S01-2-context-window-across-sessions](../concepts/S01-2-context-window-across-sessions.md) (is the context window saved between sessions?) · [S01-3-routing-vs-orchestrator-workers](../concepts/S01-3-routing-vs-orchestrator-workers.md) (routing vs orchestrator-workers vs parallelization) · [S01-4-external-memory](../concepts/S01-4-external-memory.md) (how agents use databases outside the context window).*
 
 ---
 
