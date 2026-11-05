@@ -107,6 +107,24 @@ The slide says: *"Autonomy exists on a spectrum, from fully supervised to fully 
 - **Workflow (deterministic):** *"A fixed, developer-authored sequence of steps that executes predictably. Control flow is set at design time, not at inference time."* (Part of "developer-authored" is hidden behind the play button in the screenshot.)
 - **Autonomous agent:** *"An agent that operates without step-by-step human direction, making its own planning decisions to hit a high-level goal."*
 
+## Udemy A Quiz 1, Question 1: why "agentic," not routing? (2026-11-05)
+
+> *"Claude receives a customer request, decides which of three internal APIs to call based on the request, executes the call, reads the result, and then decides whether a follow-up call is needed. Which term best describes this system?"*
+> Options: deterministic workflow · **agentic system** ✅ · conversational chatbot · prompt chain
+
+**My question:** "Why is this the right answer, and not routing?"
+
+The "decides which of three APIs" part does look like routing. **The difference is what happens after the call.**
+
+- **Routing:** classify once, send the request to one handler, done. Your code fixed the routes in advance, and **nothing loops back**.
+- **This system:** Claude calls an API, **reads the result**, and then **decides whether another call is needed**. That's a loop, and **the model** controls when it ends.
+
+> **Routing makes one choice up front. An agentic system keeps choosing, based on what it just learned.**
+
+It's the same test as above: **who decides the next step?** Here the model decides at runtime, so it's agentic. The other options fail the same test. A deterministic workflow and a prompt chain fix the flow at design time, and a chatbot can't call APIs at all.
+
+See also [S01-3-routing-vs-orchestrator-workers](S01-3-routing-vs-orchestrator-workers.md).
+
 ## Related course lessons
 
 ### Udemy A (primary): Claude Certified Architect (CCAR-F) - 2026 Exam Prep
