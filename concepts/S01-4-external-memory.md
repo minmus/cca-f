@@ -112,7 +112,7 @@ The usual measure is **cosine similarity**, which asks how closely two arrows po
 ```text
 "app is slow"           → [0.8, 0.2]  ┐ almost the same direction → score ≈ 0.99
 "takes forever to load" → [0.7, 0.3]  ┘
-"refund my order"       → [0.1, 0.9]    different direction       → score ≈ 0.4
+"refund my order"       → [0.1, 0.9]    different direction       → score ≈ 0.35
 ```
 
 **Search** compares your question's arrow with every stored arrow and returns the **top few scores**, for example the top 5.
