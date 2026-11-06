@@ -53,3 +53,42 @@ This is only **setup**. Nothing is sent to Claude yet.
   *(The token counts are made-up examples.)*
 
   > **Every past question and answer is paid for again on every later request.** That's the cost of a stateless API (5.1), and it's why long chats get compacted.
+
+## Part 2 of the lab: `ask()` (very slowly, one line at a time)
+
+```python
+def ask(messages):
+    response = client.messages.create(
+        model=MODEL,
+        max_tokens=200,
+        output_config={"effort": "low"},
+        system=...,     # the SYSTEM constant         → SYSTEM
+        messages=...,   # the messages list received  → messages
+    )
+    reply = None
+    for block in response.content:
+        if block.type == ...:   # → "text"
+            reply = block.text
+    print(reply)
+    print("input tokens:", response.usage.input_tokens)
+    TOKEN_LOG.append(response.usage.input_tokens)
+    return reply
+
+first_reply = ask([{"role": "user", "content": "I bought a jacket 20 days ago."}])
+second_reply = ask([{"role": "user", "content": "Can I still return it?"}])
+check("stateless", first_reply=first_reply, second_reply=second_reply)
+```
+
+### Line 1: `response = client.messages.create(...)`
+
+**It sends one request to Claude and waits for the answer.**
+
+1. `client` is the connection object created in setup, and it holds the API key.
+2. `.messages.create(...)` **sends** everything inside the brackets (model, rules, messages) over the internet to Anthropic's servers: the `POST /v1/messages` endpoint.
+3. Claude reads it and writes an answer.
+4. The answer comes back, and Python stores it in the variable **`response`**.
+
+> **One call = one request = one answer.** Nothing else happens, and nothing is remembered afterwards.
+
+- *Check: if you called `client.messages.create(...)` twice, how many separate requests would go to Claude?*
+  *My answer:* "Two separate messages." ✅ Two separate requests. They're **independent**: the second knows nothing about the first unless **your code** puts it into the second one.
