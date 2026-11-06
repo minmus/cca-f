@@ -95,6 +95,31 @@ grep: .claude/settings.local.json: No such file or directory
 - *Check: after compaction, can I still quote your very first message today exactly?*
   *My answer:* "No, you most likely won't be able to quote it, but you might have a summarized version." ✅ And that's the catch: **summaries lose exact details** (numbers, IDs, wording). That's why facts that must survive go into a **case-facts block or scratchpad file**, outside the summary (Q40, Q79, guide 5.1).
 
+## Does resuming use a special endpoint? (2026-11-06)
+
+**No. Resuming a session uses no special endpoint. Claude Code reloads a local file and sends it to the same normal API.**
+
+```text
+1. Claude Code reads the transcript from YOUR disk
+   ~/.claude/projects/<project>/<session>.jsonl
+2. It rebuilds the message list from it
+   (or, if the session was compacted: the summary + the messages after it)
+3. With your next message, it sends that whole list to the usual Messages API
+   (POST /v1/messages) — the same endpoint as every other request
+```
+
+There's **no "resume" endpoint**, because the API is stateless (guide 5.1). The server keeps no session that it could restore. The **memory lives in the local file**, and the server simply receives a long message list.
+
+> **Resume = read the local transcript, then re-send it. The server doesn't know this is a "resumed" session.**
+
+*(Not to be confused with **checkpoints**: local file snapshots used to rewind code changes.)*
+
+- *Check: if you copy the `.jsonl` file to another computer (same project path) and run `claude --resume` there, could the session continue? Why or why not?*
+  *My answer:* "If that jsonl contains all the conversation history, it should be good to carry on. On the other hand, you don't have the product itself, like code or artefacts produced in the previous session, on that other computer." ✅ Excellent. Both sides covered: (1) **the conversation continues**, because the `.jsonl` is the whole "paper" and Claude Code re-sends it; (2) **the world doesn't come with it**, because code and files live in the project folder, not in the transcript.
+  What makes this tricky is that the transcript still **contains old tool results**, like "I read `auth.py`, it says…". On the new computer those files may be missing or different, but Claude **believes its old reads**. It acts confidently on stale information. The fix is the same as in Q45/Q72: **tell Claude what's different**, or start fresh with a short summary.
+
+  > **The transcript carries the conversation, not the world. Old tool results can be stale.**
+
 ## Two things that look like memory, but aren't the context window
 
 - **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
