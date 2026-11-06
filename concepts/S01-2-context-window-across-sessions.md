@@ -272,7 +272,7 @@ To view them: VS Code **File → Open Folder** → `C:\Users\mindaugas.musnikas_
 
 ## Two things that look like memory, but aren't the context window
 
-- **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
+- **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation. Who writes them (`/init`, `/memory`): [S13-1](S13-1-init-and-memory-commands.md).
 - **Prompt caching:** the API can cache a repeated prompt prefix for a few minutes so re-sending it is cheaper and faster. It saves **cost**, not **memory**: you still send the full history.
 
 > **The model forgets everything after each request. "Memory" is always a program re-sending saved text: your code (API), a transcript file (Claude Code), or files loaded at startup (CLAUDE.md, auto memory).**

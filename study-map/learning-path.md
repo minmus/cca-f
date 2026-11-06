@@ -663,6 +663,8 @@ The questions in this repo were added in the order they were pasted. This file p
 - Same instructions pasted for one kind of task? (Q65, 3.2)
 - Which hook? (Q31, Q42, Q52)
 
+*Note: Concept notes for this stage: [S13-1-init-and-memory-commands](../concepts/S13-1-init-and-memory-commands.md) (`/init` drafts CLAUDE.md, `/memory` opens memory files; what loads at startup and what doesn't).*
+
 ---
 
 ## Stage 14
