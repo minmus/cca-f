@@ -209,3 +209,15 @@ input tokens: 46
 Prediction confirmed: **7 → 46**. Most of the jump comes from **Claude's own first reply** (about 34 tokens) being sent back as input. The new question added only about 5.
 
 > **Claude's answers become your next input. You pay for them again on every later turn.**
+
+- *Check: if this chat went on for 200 turns, what two problems would this growing list cause, and what's one fix?*
+  *My answer:* "It would cause filling of the context window. Summarization would fix it, but with the risk of losing exact details." ✅ One problem, the fix and its risk, all correct; but only one of two problems. The second starts much earlier: **cost and speed**. Every turn re-sends everything, so turn 200 pays for all 199 earlier turns again, and answers get slower. Quality can also drop before the window is full (facts lost in the middle).
+  Fix for the risk named: keep the **exact facts in a separate "case facts" block** that's never summarized; summarize only the chatter (Q40, Q79).
+
+  ```text
+  SYSTEM + CASE FACTS {item: jacket, bought: 20 days ago, order: #1234}   ← kept exact
+         + summary of old turns                                           ← compressed
+         + last few turns                                                 ← verbatim
+  ```
+
+  > **Summarize the conversation, but never the facts.**
