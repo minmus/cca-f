@@ -170,6 +170,31 @@ Checkpoints are **local**, saved with the session, so `/rewind` still works afte
 
   > **Rewind restores the snapshot of the whole file. Anything done to it afterwards is lost, by anyone. Commit to Git first if your own edits matter.**
 
+## What Claude Code treats as a session (2026-11-06)
+
+**A session is one saved conversation, which means one transcript file with one session ID, tied to one project folder.** Docs: *"A session is a saved conversation tied to a project directory. Claude Code stores it locally as you work."*
+
+```text
+~/.claude/projects/<project folder>/
+   29debd0b-…-ae52.jsonl   ← one session = one file = one ID
+   7f3c…-91ab.jsonl        ← another session
+```
+
+| You do | Result |
+|---|---|
+| `claude` | **New** session: new ID, new file |
+| `/clear` | **New** session. The old one stays on disk and can be resumed |
+| `claude --continue` | **Same** session: the most recent one in this folder |
+| `claude --resume` | **Same** session: the one you pick from a list |
+| `/branch` or `--fork-session` | **New** session that starts as a copy of the old one, which stays unchanged |
+
+> **Session = conversation, not window or process.** Closing the terminal doesn't end it. It sits on disk, ready to resume, for about 30 days.
+
+- *Check: you run `claude` in project folder A, then later run `claude --continue` in project folder B. Do you get the session from A? Why or why not?*
+  *My answer:* "If the session is associated with folder A, you should work in folder A." ✅ Right. You **don't** get A's session. `--continue` looks only in the **current folder's** sessions, so in B you get B's most recent session, or nothing if B has none. That's because sessions are filed **by project folder**, in `~/.claude/projects/<folder>/`.
+
+  > **To resume a session, `cd` into its project folder first.**
+
 ## Two things that look like memory, but aren't the context window
 
 - **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
