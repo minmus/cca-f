@@ -141,3 +141,18 @@ input tokens: 5
 > *"Claude did not forget the jacket - it was never told."* (the lab's checker)
 
 *Note:* `input tokens: 7` / `5` are the **mock's** simplified counts (roughly the message's words). A real call would also count the `SYSTEM` text, so the numbers would be bigger.
+
+- *Check: to make the second call answer "Yes, you have about 10 days left," what exactly must its `messages` list contain? Name the items in order.*
+  *My answer:* "It must contain history." 🟡 Right idea, but abstract: the question asked for the **items in order**. Concretely:
+
+  ```python
+  messages=[
+      {"role": "user",      "content": "I bought a jacket 20 days ago."},   # 1. first question
+      {"role": "assistant", "content": first_reply},                        # 2. Claude's first answer
+      {"role": "user",      "content": "Can I still return it?"},           # 3. the new question, LAST
+  ]
+  ```
+
+  Three details an exam option could get wrong: **Claude's own reply is included** (`role: "assistant"`); **the order alternates** user, assistant, user; **the new question goes last**.
+
+  > **"History" means: every earlier user turn and every earlier assistant reply, in order, then the new question.**
