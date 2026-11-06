@@ -120,6 +120,42 @@ There's **no "resume" endpoint**, because the API is stateless (guide 5.1). The 
 
   > **The transcript carries the conversation, not the world. Old tool results can be stale.**
 
+## Checkpoints: automatic undo points for your files (2026-11-06)
+
+**Checkpoints are automatic "undo points" for your files. Claude Code saves a snapshot before each prompt you send.**
+
+```text
+You: "refactor auth"     ← checkpoint 1 (files saved as they were)
+  Claude edits 3 files
+You: "now add logging"   ← checkpoint 2
+  Claude breaks something 😬
+→ /rewind  (or Esc Esc) → pick checkpoint 2 → files go back
+```
+
+When you rewind, you choose **what** goes back:
+- **Restore code**: the files go back, and the conversation stays.
+- **Restore conversation**: the chat goes back, and the files stay.
+- **Restore both.**
+
+The rewind menu also has **Summarize from here / up to here**: a targeted compaction.
+
+Checkpoints are **local**, saved with the session, so `/rewind` still works after a resume. They're deleted after about 30 days, in the same sweep as transcripts.
+
+**The catch: checkpoints only track edits made by Claude's file-editing tools.** These aren't tracked:
+- Files changed **only by Bash commands**, like `rm` or `mv`
+- **Your own** edits outside Claude Code
+- Most **subagent** edits
+
+> Docs: *"Not a replacement for version control."* Checkpoints give you quick undo within a session. Git is for real history.
+
+- *Check: Claude runs `rm config.yaml` through Bash, and you then `/rewind`. Does `config.yaml` come back? Why or why not?*
+  *My answer:* "It should, as it is Claude's creation and it should be stored in the checkpoint." ❌ Not in the usual case, and that's the catch. Checkpoints don't track **who** made a change. They track **which tool** made it.
+  - Claude's **file-editing tools** (Edit, Write) save a snapshot first, so rewinding can undo those edits.
+  - **Bash** just runs the command. No snapshot is taken, so `rm config.yaml` can't be undone by `/rewind`. Your only way back is **Git**.
+  - Exception (docs): if Claude had **already edited `config.yaml` with its file tools** earlier in the conversation, the file is tracked, and `/rewind` also undoes later Bash changes to it.
+
+  > **Checkpoints watch Claude's file tools, not Claude's shell. Commit to Git before risky Bash work.**
+
 ## Two things that look like memory, but aren't the context window
 
 - **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
@@ -137,3 +173,4 @@ There's **no "resume" endpoint**, because the API is stateless (guide 5.1). The 
 
 - Guide D5 › 5.1 Context Window Management (checked 2026-11-05): *"The context window is everything Claude reads on one request"*; *"The Claude API is stateless."*; *"There is no server-side session state, so each request must include the complete conversation history."*
 - Claude Code docs, [Manage sessions](https://code.claude.com/docs/en/sessions) (checked 2026-11-05): *"A session is a saved conversation tied to a project directory. Claude Code stores it locally as you work"*; *"What a resumed session restores"*; transcripts at `~/.claude/projects/<project>/<session-id>.jsonl`; 30-day default retention (`cleanupPeriodDays`).
+- Claude Code docs, [Checkpointing](https://code.claude.com/docs/en/checkpointing) (checked 2026-11-06): *"Every prompt you send that starts a turn creates a new checkpoint"*; *"A file that only Bash commands changed isn't tracked and stays as it is. To revert it, use version control, such as Git."*; *"Not a replacement for version control."*
