@@ -1,0 +1,55 @@
+# The conversation lives in your code (Udemy B #12 lab)
+
+**Stage 1** of the [learning path](../study-map/learning-path.md) (Udemy B #12 Practice: The Conversation Lives in Your Code) · **D5 › 5.1 Context Window Management** · **D1 › 1.1 Agentic Loops**
+**Builds on:** [S01-2-context-window-across-sessions](S01-2-context-window-across-sessions.md) (the API is stateless) · [Q46](../questions/Q46-stateless-api-pass-full-history/question.md)
+
+## The lab setup code
+
+```python
+# --- Lab setup (provided - just run it) ---
+import shopassist_lab
+from shopassist_lab import check
+
+# Everything below this line is ordinary Claude API code.
+from dotenv import load_dotenv
+from anthropic import Anthropic
+
+load_dotenv()
+client = Anthropic()
+
+MODEL = "claude-sonnet-5-5"
+
+SYSTEM = (
+    "You are ShopAssist, an online store's support assistant. "
+    "Returns are accepted within 30 days of delivery. "
+    "Answer in one or two sentences."
+)
+
+TOKEN_LOG = []
+```
+
+## What it does, step by step
+
+This is only **setup**. Nothing is sent to Claude yet.
+
+1. **Lab helpers** (`shopassist_lab`, `check`): from the course. `check` probably tests your answers to the lab tasks; its code isn't visible, so that's a guess. **Not part of the Claude API.**
+2. **`load_dotenv()`**: reads a `.env` file, for example `ANTHROPIC_API_KEY=sk-ant-...`, into environment variables. The key stays **out of the code** (the same idea as Q131: secrets in env vars).
+3. **`client = Anthropic()`**: the object you'll call later with `client.messages.create(...)`. It finds the API key in the environment automatically. **It doesn't open a session or store any history.**
+4. **`MODEL`**: one constant, so switching models means changing one line.
+5. **`SYSTEM`**: who Claude is (a role), one business rule (30 days) and the answer length. It's sent with **every** request, because the API remembers nothing (5.1).
+6. **`TOKEN_LOG = []`**: later each request's **input**-token count is added to it, so you can watch the input grow as the history gets longer.
+
+> **So far: key, client, model, rules. There's no conversation yet. Your code will have to keep that itself, in a list.**
+
+- *Check: why will the numbers in `TOKEN_LOG` probably grow with each new question?*
+  *My answer:* "Because it will count input and output tokens and messages will add up." 🟡 "Messages add up" is the key. One correction: `TOKEN_LOG` notes only **input** tokens. The input grows because your code **re-sends the whole history on every request**, and Claude's **earlier replies become part of the next input**:
+
+  ```text
+  Request 1 input: SYSTEM + Q1                          → ~60 tokens
+  Request 2 input: SYSTEM + Q1 + A1 + Q2                → ~110
+  Request 3 input: SYSTEM + Q1 + A1 + Q2 + A2 + Q3      → ~160
+  ```
+
+  *(The token counts are made-up examples.)*
+
+  > **Every past question and answer is paid for again on every later request.** That's the cost of a stateless API (5.1), and it's why long chats get compacted.
