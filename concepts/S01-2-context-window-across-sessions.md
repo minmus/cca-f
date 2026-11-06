@@ -195,6 +195,11 @@ Checkpoints are **local**, saved with the session, so `/rewind` still works afte
 
   > **To resume a session, `cd` into its project folder first.**
 
+- *Check: halfway through a session you want to try a risky alternative approach without losing the current one. `/clear`, `--continue` or `/branch`, and why?*
+  *My answer:* "`/branch`, as it would copy the old one without changing the original one." ✅ Correct. `/branch` gives you a **new session that starts as a copy**, and the original stays unchanged, so you can return to it with `--resume`. `/clear` throws the context away, so you'd start from zero. `--continue` keeps going in the **same** session, so the risky attempt would mix into the original.
+  *Note:* typing `/branch` in the VS Code extension returned *"/branch isn't available in this environment."* The terminal alternative (docs): `claude --continue --fork-session`.
+  *Catch:* the **files** aren't copied. Both sessions share the same project folder, so commit to Git (or use a worktree) before the risky try.
+
 ## Two things that look like memory, but aren't the context window
 
 - **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
