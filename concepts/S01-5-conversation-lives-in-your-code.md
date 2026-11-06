@@ -114,3 +114,30 @@ In the lab's experiment, each call gets a list with **one message only**, so the
 
 - *Check: in the lab's second call, `messages` holds only "Can I still return it?". What does Claude not know when it answers?*
   *My answer:* "The first call and its output are not known." ✅ Right. Concretely, Claude doesn't know **what "it" is** (the jacket was only in call 1) or **when it was bought** (the 20 days), so it can't apply the 30-day rule from `SYSTEM`. It will probably answer something like *"Returns are accepted within 30 days of delivery. When did you receive the item?"*: it has the rule but not the facts. The fix (presumably the lab's next step): put the first message **and** Claude's first reply into the second call's `messages`.
+
+### Running it (2026-11-06)
+
+**Can it run in this repo?** Not as is. A check here found Python 3.12.10, but no `anthropic`, no `python-dotenv`, no `shopassist_lab` and no API key. The work email gets *"You aren't a member of any organization under your email domain"* in the Claude Console, so no key that way. **But the course's own environment doesn't need one:** the traceback showed `MockMessages.create` in `~/code/shopassist_lab.py`. The lab uses a **mock client** that simulates Claude: no key, no cost.
+
+**First run:** `BadRequestError: You still have ... in this request (messages, system).` The blanks were unfilled. Fix: `system=SYSTEM`, `messages=messages`, `block.type == "text"`.
+
+**Second run:**
+
+```text
+Thanks for letting me know. Since you bought the jacket 20 days ago, you still have about 10 days left in our 30-day return window.
+input tokens: 7
+
+Which item would you like to return, and when was it delivered? Then I can check it against our 30-day return window.
+input tokens: 5
+[PASS] Task stateless - Two questions sent on their own
+  The second answer asks which item you mean. Claude did not forget the jacket - it was never told. Every request stands alone, and Claude sees only what that request contains.
+```
+
+| Call | Claude saw | Answer |
+|---|---|---|
+| 1 | "I bought a jacket 20 days ago." | Uses the facts and applies the 30-day rule: *"about 10 days left"* |
+| 2 | "Can I still return it?" **only** | Has the rule, **not the facts**: *"Which item… when was it delivered?"* |
+
+> *"Claude did not forget the jacket - it was never told."* (the lab's checker)
+
+*Note:* `input tokens: 7` / `5` are the **mock's** simplified counts (roughly the message's words). A real call would also count the `SYSTEM` text, so the numbers would be bigger.
