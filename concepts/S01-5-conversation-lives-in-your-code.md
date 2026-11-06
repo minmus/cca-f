@@ -188,3 +188,24 @@ Turn 2 sends: [user: jacket, assistant: "10 days left…", user: return it?]   �
 
 - *Check (before running): will turn 2's `input tokens` be bigger or smaller than turn 1's, and why?*
   *My answer:* "Bigger, as now history keeps accumulating and is fed as input." ✅ Exactly. Turn 2 re-sends turn 1's question **and** Claude's reply, plus the new question. Its input contains everything turn 1 had, plus more.
+
+**Run result (2026-11-06):**
+
+```text
+Thanks for letting me know. Since you bought the jacket 20 days ago, you still have about 10 days left in our 30-day return window.
+input tokens: 7
+
+Yes, you can still return the jacket: it was bought 20 days ago, so about 10 days are left in our 30-day return window.
+input tokens: 46
+[PASS] Task history - Keep the conversation in a list
+  Now the second answer knows the jacket and the days left. The memory of the conversation lives in your code: a list you send in full, every turn.
+```
+
+| Turn | Sent | Input tokens |
+|---|---|---|
+| 1 | user: jacket | **7** |
+| 2 | user: jacket + **assistant: Claude's reply** + user: return it? | **46** |
+
+Prediction confirmed: **7 → 46**. Most of the jump comes from **Claude's own first reply** (about 34 tokens) being sent back as input. The new question added only about 5.
+
+> **Claude's answers become your next input. You pay for them again on every later turn.**
