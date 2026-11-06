@@ -234,6 +234,11 @@ A crash loses **almost nothing**, at most the step that was running (docs: a too
 
   > **Whatever already happened is already on disk. A crash loses only the step in progress.**
 
+- *Check: why is it safer to save line by line than to save once at the end of each phase?*
+  *My answer:* "Because you need to repeat far fewer steps upon a crash this way." ✅ Right. You lose and redo very little. There's a second reason that matters even more: **some steps aren't safe to repeat.** With phase saving, a crash mid-phase loses the record of steps that **really happened**, so on resume they get repeated: an email is sent twice, a refund is issued twice, a file is deleted and the next step that expects it fails. Line by line, the record shows exactly which actions **already ran**, so nothing is done twice.
+
+  > **Saving each step as it happens means you lose little and repeat nothing that has side effects.**
+
 ## Two things that look like memory, but aren't the context window
 
 - **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
