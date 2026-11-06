@@ -156,3 +156,35 @@ input tokens: 5
   Three details an exam option could get wrong: **Claude's own reply is included** (`role: "assistant"`); **the order alternates** user, assistant, user; **the new question goes last**.
 
   > **"History" means: every earlier user turn and every earlier assistant reply, in order, then the new question.**
+
+## Task 2: keep the conversation in a list
+
+```python
+history = []
+TOKEN_LOG.clear()   # provided: count only this conversation's turns
+
+def say(text):
+    history.append({"role": "user", "content": text})          # the customer
+    reply = ask(history)                                       # the whole conversation
+    history.append({"role": "assistant", "content": reply})    # ShopAssist
+
+say("I bought a jacket 20 days ago.")
+print()
+say("Can I still return it?")
+check("history", history=history)
+```
+
+`history` is the conversation's memory: a list kept in **your** code. `say()` does the bookkeeping:
+1. Add the customer's message (`user`).
+2. Send the **whole** list.
+3. Add Claude's reply (`assistant`).
+
+```text
+Turn 1 sends: [user: jacket]
+Turn 2 sends: [user: jacket, assistant: "10 days left…", user: return it?]   ← all 3
+```
+
+> **`history` is the memory. `say()` does the bookkeeping: add the question, send everything, add the answer.**
+
+- *Check (before running): will turn 2's `input tokens` be bigger or smaller than turn 1's, and why?*
+  *My answer:* "Bigger, as now history keeps accumulating and is fed as input." ✅ Exactly. Turn 2 re-sends turn 1's question **and** Claude's reply, plus the new question. Its input contains everything turn 1 had, plus more.
