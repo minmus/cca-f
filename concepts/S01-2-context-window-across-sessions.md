@@ -156,6 +156,20 @@ Checkpoints are **local**, saved with the session, so `/rewind` still works afte
 
   > **Checkpoints watch Claude's file tools, not Claude's shell. Commit to Git before risky Bash work.**
 
+- *Check: Claude used Edit to change `app.py`, then you changed `app.py` by hand in VS Code. You `/rewind` to before Claude's edit. What happens to your manual change?*
+  *My answer:* "You rewind it to Claude's version before your edit." 🟡 Right that **your manual change is lost**, but the file goes back further: to the snapshot taken **before Claude's edit**. Claude's edit and your change are both gone.
+
+  ```text
+  checkpoint (you rewind HERE) → app.py as it was originally
+    Claude: Edit app.py
+    You:    edit app.py in VS Code
+  /rewind → app.py = original version   (Claude's edit ❌, your edit ❌)
+  ```
+
+  `app.py` is tracked because Claude edited it, so a restore **overwrites the whole file** with the snapshot. Checkpoints don't keep your manual edit separately. Docs: external changes are *"normally not captured, unless they happen to modify the same files."*
+
+  > **Rewind restores the snapshot of the whole file. Anything done to it afterwards is lost, by anyone. Commit to Git first if your own edits matter.**
+
 ## Two things that look like memory, but aren't the context window
 
 - **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
