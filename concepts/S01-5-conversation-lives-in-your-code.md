@@ -92,3 +92,25 @@ check("stateless", first_reply=first_reply, second_reply=second_reply)
 
 - *Check: if you called `client.messages.create(...)` twice, how many separate requests would go to Claude?*
   *My answer:* "Two separate messages." ✅ Two separate requests. They're **independent**: the second knows nothing about the first unless **your code** puts it into the second one.
+
+### `messages=...`: are older conversation turns supposed to go there?
+
+**Yes. `messages=` is where the conversation so far goes.** It's the **only** place Claude can learn what was said earlier. It's a list of turns that alternate between `user` and `assistant`, and the **new question comes last**:
+
+```python
+messages=[
+    {"role": "user",      "content": "I bought a jacket 20 days ago."},   # earlier turn
+    {"role": "assistant", "content": "Thanks! How can I help?"},          # Claude's earlier reply
+    {"role": "user",      "content": "Can I still return it?"},           # NEW question
+]
+```
+
+- It holds earlier turns of **this** conversation, not unrelated old chats. You add only what's relevant.
+- **Claude's own replies go in too**, with `role: "assistant"`. Your code has to save them and put them back.
+
+In the lab's experiment, each call gets a list with **one message only**, so the earlier turn is missing **on purpose**. That's what `check("stateless")` is about.
+
+> **`messages` = the conversation history your code sends. If you leave something out, Claude never saw it.**
+
+- *Check: in the lab's second call, `messages` holds only "Can I still return it?". What does Claude not know when it answers?*
+  *My answer:* "The first call and its output are not known." ✅ Right. Concretely, Claude doesn't know **what "it" is** (the jacket was only in call 1) or **when it was bought** (the 20 days), so it can't apply the 30-day rule from `SYSTEM`. It will probably answer something like *"Returns are accepted within 30 days of delivery. When did you receive the item?"*: it has the rule but not the facts. The fix (presumably the lab's next step): put the first message **and** Claude's first reply into the second call's `messages`.
