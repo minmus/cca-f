@@ -200,6 +200,40 @@ Checkpoints are **local**, saved with the session, so `/rewind` still works afte
   *Note:* typing `/branch` in the VS Code extension returned *"/branch isn't available in this environment."* The terminal alternative (docs): `claude --continue --fork-session`.
   *Catch:* the **files** aren't copied. Both sessions share the same project folder, so commit to Git (or use a worktree) before the risky try.
 
+## Does Claude Code save in phases? (2026-11-06)
+
+**No. There are no phases. Claude Code writes to the transcript continuously, as things happen.** Each new event is **appended** to the `.jsonl` right away: your message, Claude's reply, each tool call, each tool result (docs: stored *"as you work"*).
+
+```text
+.jsonl  (one line per event, added immediately)
+  {"user": "refactor auth"}
+  {"assistant": tool_use Read auth.py}
+  {"tool_result": "...file contents..."}
+  {"assistant": tool_use Edit auth.py}     ← crash here?
+```
+
+A crash loses **almost nothing**, at most the step that was running (docs: a tool call running during a crash *"doesn't get rerun"*). Separately, **checkpoints** (file snapshots) are taken **once per prompt**, before each turn starts.
+
+> **The transcript is saved line by line, as you go. File snapshots are saved per prompt.**
+
+- *Check: Claude Code crashes right after an `Edit` tool call finished but before Claude replied. After `--resume`, does Claude know the edit happened?*
+  *My answer:* "It does know the edit was called, but not its results." 🟡 That fits a crash **during** the edit. Here the edit had **finished**, so its result was already appended:
+
+  ```text
+  {"assistant": tool_use Edit auth.py}     ← written when Claude called it
+  {"tool_result": "edit applied"}          ← written when the edit finished ✅
+    💥 crash before Claude's reply
+  ```
+
+  After `--resume`, Claude sees **both lines**: it knows the edit happened **and** succeeded. The change is also on disk in `auth.py`. Only Claude's **reply** was lost.
+
+  | Crash timing | In the transcript after resume |
+  |---|---|
+  | **During** the tool call | `tool_use` only, no result. Docs: the call *"doesn't get rerun"* |
+  | **After** the tool finished (this case) | `tool_use` **and** `tool_result`. Only the reply is missing |
+
+  > **Whatever already happened is already on disk. A crash loses only the step in progress.**
+
 ## Two things that look like memory, but aren't the context window
 
 - **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
