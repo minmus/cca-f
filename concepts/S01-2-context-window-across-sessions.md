@@ -239,6 +239,37 @@ A crash loses **almost nothing**, at most the step that was running (docs: a too
 
   > **Saving each step as it happens means you lose little and repeat nothing that has side effects.**
 
+## Can I see these files in my VS Code project folder? (2026-11-06)
+
+**No. They're in your home folder under `~/.claude`, not in the project.** Checked on this machine:
+
+```text
+$ ls -la ~/.claude/projects/c--Users-mindaugas-musnikas-d-Documents-CODE-CLAUDE-CCA-F/
+drwxr-xr-x  Nov  3 10:19  29debd0b-b6d4-4000-b31a-fdfadda5ae52
+-rw-r--r--  17510721  Nov  6 14:36  29debd0b-b6d4-4000-b31a-fdfadda5ae52.jsonl
+drwxr-xr-x  Nov  3 17:32  memory
+$ ls ~/.claude/file-history | head -5
+29debd0b-b6d4-4000-b31a-fdfadda5ae52
+2cf809af-…  5283b23a-…  58e10700-…  5e015bb5-…
+```
+
+| What | Where |
+|---|---|
+| **Session transcript** (line-by-line log) | `~/.claude/projects/<project>/<session-id>.jsonl`, here **17.5 MB** (13.6 MB the day before: it keeps growing) |
+| Subagent transcripts and large tool results | The folder with the **same ID**, next to the transcript |
+| Auto memory | `~/.claude/projects/<project>/memory/` |
+| **Checkpoints** (file snapshots) | `~/.claude/file-history/<session-id>/` |
+
+To view them: VS Code **File → Open Folder** → `C:\Users\mindaugas.musnikas_d\.claude\projects\c--Users-mindaugas-musnikas-d-Documents-CODE-CLAUDE-CCA-F`.
+
+- *Check: why is it a good thing that transcripts are stored outside the project folder?*
+  *My answer:* "So that changes to the project folder do not affect conversation history." 🟡 Valid: `git clean` or deleting the repo doesn't wipe your history. The **bigger** reason is the opposite direction. The history must not get **into the project**:
+  - **Secrets stay out of Git.** Transcripts are **plaintext** and can contain file contents, tokens and passwords that Claude read. Inside the repo, one `git add .` would push them to GitHub.
+  - **No clutter.** A 17.5 MB log doesn't belong next to your code.
+  - **Each person's sessions stay private.** Teammates clone the code, not your conversations.
+
+  > **Code is shared through Git. Conversations stay private on your machine.**
+
 ## Two things that look like memory, but aren't the context window
 
 - **CLAUDE.md and auto memory:** files Claude Code **loads into every new session**. That's persistent *instructions/notes*, not the old conversation.
