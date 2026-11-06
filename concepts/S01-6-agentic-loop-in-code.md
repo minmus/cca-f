@@ -311,3 +311,99 @@ A log line for **you**; it doesn't run anything. An **f-string** replaces each `
 `{'order_id': ...}` is the input dictionary printed the Python way, with single quotes.
 
 > **One reply can ask for several tools. Your code loops over the blocks, runs each `tool_use` by name, and answers each one by its `id`.**
+
+## Task 3: loop until Claude stops asking for tools
+
+```python
+messages = [{"role": "user", "content":
+             "I want to return the jacket from order ORD-12345678."}]
+
+turn = 0
+while True:
+    turn += 1
+    response = client.messages.create(
+        model=MODEL,
+        max_tokens=500,
+        output_config={"effort": "low"},
+        system=SYSTEM,
+        tools=TOOLS,
+        messages=messages,
+    )
+    print(f"turn {turn}: stop_reason = {response.stop_reason}")
+    if response.stop_reason != ...:   # "tool_use" - anything else: Claude is done
+        break
+    messages.append({"role": "assistant", "content": ...})   # response.content
+    messages.append({"role": "user", "content": run_tools(...)})   # response
+    if turn == 10:   # provided: a safety net for this lab
+        raise RuntimeError("Ten turns and Claude is still asking for tools. "
+                           "Check what goes back into messages each turn.")
+
+for block in response.content:
+    if block.type == "text":
+        print(block.text)
+
+check("loop", response=response, messages=messages, turn=turn)
+```
+
+*(The lab's `try`/`except` around the loop is left out, as in Tasks 1 and 2.)*
+
+### How it differs from Task 2
+
+Both handle several tools, but in different directions:
+
+| | Task 2: `for` loop | Task 3: `while` loop |
+|---|---|---|
+| Loops over | the blocks inside **one** reply | **replies**, one request after another |
+| Several tools means | side by side, asked for at once | one after another, each **depending on the previous result** |
+| Sends results back to Claude? | No, it only builds the list | **Yes**, and that's what keeps it going |
+
+For the jacket, it should go roughly like this:
+
+```
+turn 1: Claude asks for lookup_order                  → "tool_use"  → run it, send the result back
+turn 2: Claude sees "20 days", asks for start_return  → "tool_use"  → run it, send the result back
+turn 3: Claude writes the final answer                → "end_turn"  → leave the loop
+```
+
+Claude can't ask for `start_return` in turn 1: it doesn't know the delivery date until the lookup result comes back. Task 2's `run_tools()` is reused **inside** the loop, to handle whatever each reply asked for.
+
+### How it works: five steps per round
+
+| Step | What happens | Code |
+|---|---|---|
+| 1. send | the whole conversation + tools go to Claude | `response = client.messages.create(..., tools=TOOLS, messages=messages)` |
+| 2. print | show the `stop_reason` | `print(f"turn {turn}: stop_reason = ...")` |
+| 3. stop? | Claude isn't asking for a tool → leave | `if response.stop_reason != "tool_use": break` |
+| 4. save | Claude's reply, exactly as it came (role `assistant`) | `messages.append({"role": "assistant", "content": response.content})` |
+| 5. answer | run the tools, add their results (role `user`) | `messages.append({"role": "user", "content": run_tools(response)})` |
+
+- **`while True` + `turn`:** `while True` would go round forever, so `break` is the only normal way out. `turn` counts rounds. `if turn == 10` is a safety net in case Claude never stops asking.
+- **After the loop:** `response` holds Claude's last reply, the final answer. The `for` loop prints its text blocks.
+- **`messages` grows every round:** each round adds Claude's tool request and your tool results, so the next request carries everything so far. It's the #12 lab's history list, now with tool turns in it.
+
+### `break` leaves the whole loop
+
+`break` ends the `while` loop **completely**, skipping steps 4 and 5, and Python continues at the first line after the loop (`for block in response.content:`). The keyword that skips **just one cycle** is `continue`; this lab doesn't use it.
+
+**Quotes matter:** compare with `"tool_use"`, the text. Without quotes, Python looks for a **variable** called `tool_use` and fails with `NameError`.
+
+### The final reply is never saved
+
+*My observation:* "If the response to the first message happens to be text-only, the while loop breaks and the history is not amended with that text?" ✅ Right, and it's true of **every** run, not only the first reply: the `break` comes **before** step 4, so Claude's final answer never reaches `messages`.
+
+```
+turn 1: tool_use  → saved ✓, results saved ✓
+turn 2: tool_use  → saved ✓, results saved ✓
+turn 3: end_turn  → break → final answer NOT saved ✗
+```
+
+- **In this lab it doesn't matter:** there's one customer question, and the final answer is still in `response`.
+- **In a real chat it would:** on a follow-up, Claude wouldn't see its own last answer (the #12 lesson). Fix, one line after the loop:
+
+  ```python
+  messages.append({"role": "assistant", "content": response.content})
+  ```
+
+  *(Left out of the lab code on purpose: `check("loop", ...)` inspects `messages` and may expect the list without it.)*
+
+> **The `while` loop runs rounds until `stop_reason` isn't `"tool_use"`. Each round: send everything, save Claude's reply, run its tools, send the results back. Claude picks the tools and their order; your loop decides when to stop.**
