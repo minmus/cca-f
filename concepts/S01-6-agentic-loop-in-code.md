@@ -262,6 +262,8 @@ check("every_result", run_tools=run_tools, results=results)
 
 > **Claude doesn't run anything.** It writes a request ("run this tool with this input") and stops. Your code runs the function and sends the result back in the next request. That back-and-forth is the agentic loop.
 
+*In Claude Code, the app plays "your code": it runs Read, Edit and Bash for Claude. See [S13-2](S13-2-claude-code-vs-claude.md).*
+
 ### What the blocks look like in Claude's response
 
 Roughly what the API sends back for the jacket question (raw JSON, trimmed; the `id` is illustrative):
