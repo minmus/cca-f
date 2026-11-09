@@ -244,3 +244,5 @@ Prediction confirmed: **7 → 46**. Most of the jump comes from **Claude's own f
   3. **It's applied every turn**, across the whole conversation.
 
   > **Rules go in the system prompt, because there the user can't change them and trimming can't remove them.**
+
+  *Caveat:* the system prompt makes a rule **harder** for the user to override, not impossible: a clever user can still try to talk the model out of it. If a rule must **never** be broken (e.g. "no refund after 30 days"), enforce it in **code**, inside the refund tool ([Q28](../questions/Q28-tamper-proof-threshold-in-tool/question.md)).
