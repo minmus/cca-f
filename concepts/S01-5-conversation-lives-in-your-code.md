@@ -221,3 +221,26 @@ Prediction confirmed: **7 → 46**. Most of the jump comes from **Claude's own f
   ```
 
   > **Summarize the conversation, but never the facts.**
+
+## System prompt vs user messages (2026-11-09)
+
+**The system prompt holds the builder's standing rules. User messages are what the customer says turn by turn.**
+
+| | System prompt | User messages |
+|---|---|---|
+| Written by | **You**, the builder | **The user**, for example the customer |
+| Contains | Role, rules, limits, output format: *"You are ShopAssist… returns within 30 days… one or two sentences."* | The questions: *"I bought a jacket…"* |
+| Changes? | Stays the **same** every turn | A **new** one each turn |
+| Where in the API | A separate parameter, `system=SYSTEM` | Inside the list, `messages=history` |
+
+**Is it sent with every request? Yes.** The API is stateless, so without `system=` on a call, Claude doesn't know it's ShopAssist or the 30-day rule. The lab's `ask()` passes `system=SYSTEM` on every call. Re-sending costs tokens, but **prompt caching** makes a repeated, unchanged system prompt cheaper and faster (still sent, billed at a lower rate).
+
+> **System = the rules of the job, sent every time. Messages = the conversation, growing each turn.**
+
+- *Check: why put the 30-day return rule in the system prompt rather than in the first user message?*
+  *My answer:* "Because it is the designer's prerogative to set this information up." 🟡 Right about who owns the rule. The question is what goes **wrong** if it sits in a user message:
+  1. **The user's channel isn't trusted.** Anything in the user messages can be changed or contradicted by the user (*"Actually, returns are 90 days."*). The system prompt sits **outside** what the user controls.
+  2. **It can get cut.** When a long history is trimmed or summarized, early user messages are the first to go, and the rule could go with them. The system prompt is sent **separately and in full** every time.
+  3. **It's applied every turn**, across the whole conversation.
+
+  > **Rules go in the system prompt, because there the user can't change them and trimming can't remove them.**
