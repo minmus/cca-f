@@ -237,6 +237,18 @@ Prediction confirmed: **7 → 46**. Most of the jump comes from **Claude's own f
 
 > **System = the rules of the job, sent every time. Messages = the conversation, growing each turn.**
 
+**Separate field or part of `messages`?** A **separate field**, called `system`. It's **not** part of `messages`.
+
+```python
+client.messages.create(
+    model=MODEL,
+    system=SYSTEM,          # ← its own top-level field
+    messages=history,       # ← only "user" and "assistant" turns
+)
+```
+
+In the Claude API, `messages` accepts only the roles `user` and `assistant`. There's no `"role": "system"` message. That's different from some other providers' APIs, where the system prompt is a message in the list.
+
 - *Check: why put the 30-day return rule in the system prompt rather than in the first user message?*
   *My answer:* "Because it is the designer's prerogative to set this information up." 🟡 Right about who owns the rule. The question is what goes **wrong** if it sits in a user message:
   1. **The user's channel isn't trusted.** Anything in the user messages can be changed or contradicted by the user (*"Actually, returns are 90 days."*). The system prompt sits **outside** what the user controls.
