@@ -521,6 +521,8 @@ The questions in this repo were added in the order they were pasted. This file p
 
 *Note: The cheat sheet's "3 master rules" (rule 2) and "Handoff prompt template" go with this stage.*
 
+*Note: Concept notes for this stage: [S10-1-spawning-subagents-in-claude-code](../concepts/S10-1-spawning-subagents-in-claude-code.md) (three ways to spawn a subagent in Claude Code; why: context isolation).*
+
 ---
 
 ## Stage 11
