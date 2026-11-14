@@ -22,13 +22,15 @@ Your content curation agent discovers articles, analyzes each for relevance, the
 ## Diagram
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph NOW["❌ Now: 18+ round-trips"]
-      direction LR
       D1["discover"] --> A1["analyze #1"] --> A2["analyze #2"] --> AN["… analyze #10"] --> ADD["add, add, add…"]
     end
+```
+
+```mermaid
+flowchart LR
     subgraph FIX["✅ C"]
-      direction LR
       DA["discover_and_analyze(topic)<br/>code: discover + analyze all<br/>→ ALL candidates + scores"] --> M{"Model sees all at once<br/>→ editorial judgment:<br/>cohesive set"}
       M --> AC["add_to_collection × chosen"]
     end
