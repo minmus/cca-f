@@ -55,6 +55,42 @@ Today the model **babysits the mechanical part**: one call to discover, one per 
 
 > **Combine what's mechanical. Keep separate what needs the model's judgment.**
 
+### In code: what `discover_and_analyze` does
+
+It's one ordinary function that calls the old functions itself. The loop over the articles runs **in Python, not through Claude**:
+
+```python
+def discover_and_analyze(topic):
+    articles = discover_articles(topic)             # the old tool, now called by code
+    results = []
+    for a in articles:                              # this loop runs in YOUR code
+        score = analyze_article(a["id"])            # no trip to Claude between articles
+        results.append({"id": a["id"], "title": a["title"], "score": score})
+    return results                                  # one tool_result with everything
+```
+
+Trips through the agentic loop ([S01-6](../../concepts/S01-6-agentic-loop-in-code.md) `while` loop):
+
+```text
+Before:  Claude → discover → Claude → analyze #1 → Claude → analyze #2 → … (one trip per article)
+After:   Claude → discover_and_analyze → Claude   (one trip)
+```
+
+What Claude gets back in that one result, with all candidates side by side:
+
+```json
+[{"id": "a1", "title": "Solar storage basics", "score": 0.92},
+ {"id": "a2", "title": "Battery costs 2026",   "score": 0.88},
+ {"id": "a3", "title": "Solar storage 101",    "score": 0.91}]
+```
+
+Claude then makes the editorial choice (e.g. a1 and a3 say the same thing, so keep a1 and add a2) and calls `add_to_collection` for each one it picks.
+
+**Follow-ups (2026-11-14):**
+
+- *"Doesn't `analyze_article` use Claude by itself?"* **It might**: Q29 doesn't say how scoring works. If it does, that's a **different kind of call**: one article plus one short instruction, with no conversation history and no "what next?" decision, and code can run all 10 **in parallel**. "Mechanical" doesn't mean "no AI". It means **the same fixed step for every item**, so the main agent doesn't need to supervise each one.
+- *"Is the problem that each call's result is dumped into the agent's context before the judgment?"* **No.** In both designs all the scores end up in context, and they must: judgment needs *"seeing all candidates… simultaneously."* The problem is the **number of trips**. Each is a full send → wait for Claude → run tool, so ~11 trips one after another are **slow** (*"causing latency issues"*). Side cost, not in the stem: each trip re-sends the whole growing conversation.
+
 ## Why the others are wrong
 
 | Option | Why not |
